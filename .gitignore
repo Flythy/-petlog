@@ -1,0 +1,9 @@
+# 打包 / 分发产物
+*.zip
+*.bundle
+.trae-html-share-packages/
+package/
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db

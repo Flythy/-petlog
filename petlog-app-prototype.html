@@ -111,7 +111,16 @@
 
   .fab{position:absolute;right:20px;bottom:80px;width:56px;height:56px;border-radius:18px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(0,181,120,.30);cursor:pointer;z-index:5;transition:transform .12s ease}
   .fab:active{transform:scale(.94)}
-  
+  .ai-fab{position:absolute;right:20px;bottom:88px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#00b578,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,181,120,.25);cursor:pointer;z-index:8;transition:transform .15s ease;font-size:14px;font-weight:800;letter-spacing:.5px}
+  .ai-fab:active{transform:scale(.9)}
+  .tab-screen[data-screen="mine"].active ~ .ai-fab{display:none}
+
+  /* Tab 栏中间 AI 按钮 */
+  .tab-ai{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative}
+  .tab-ai .ai-ring{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#00b578,#10b981);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,181,120,.28);margin-top:-28px;transition:transform .12s ease}
+  .tab-ai .ai-ring:active{transform:scale(.92)}
+  .tab-ai .ai-ring .ico{color:#fff;width:22px;height:22px}
+  .tab-ai span{font-size:9px;color:var(--primary);font-weight:700;margin-top:3px}
 
   /* 语音录入 */
   .voice-ring{width:120px;height:120px;border-radius:50%;border:3px solid var(--primary);display:flex;align-items:center;justify-content:center;position:relative}
@@ -499,7 +508,6 @@
                       <text x="42" y="46" text-anchor="middle" font-size="24" font-weight="800" fill="#1f2a26">88</text>
                       <text x="42" y="60" text-anchor="middle" font-size="9" fill="#9aa7a0">养护指数</text>
                     </svg>
-                    <span class="phc-ai">AI 解读</span>
                   </div>
                 </div>
                 <div class="phc-vitals">
@@ -530,7 +538,7 @@
                 <div class="cell" data-open="pg-new-reminder"><span class="ic" style="background:var(--warning-soft);color:var(--warning)"><svg class="ico"><use href="#i-bell"></use></svg></span>提醒</div>
                 <div class="cell" data-open="pg-photo-bcs"><span class="ic" style="background:var(--success-soft);color:var(--success)"><svg class="ico"><use href="#i-camera-ai"></use></svg></span>估体况</div>
                 <div class="cell" data-open="pg-vet"><span class="ic" style="background:var(--danger-soft);color:var(--danger)"><svg class="ico"><use href="#i-location"></use></svg></span>找医院</div>
-                <div class="cell" data-open="pg-food-scan"><span class="ic" style="background:var(--violet-soft);color:var(--violet)"><svg class="ico"><use href="#i-food"></use></svg></span>扫粮食</div>
+                <div class="cell" data-open="pg-food-scan"><span class="ic" style="background:var(--violet-soft);color:var(--violet)"><svg class="ico"><use href="#i-food"></use></svg></span>能吃啥</div>
               </div>
 
               <div class="section-head"><b>体重记录</b><a data-open="pg-weight">9 月 ›</a></div>
@@ -574,18 +582,18 @@
           <!-- 事项记录视图 -->
           <div class="scroll" id="records-events">
             <div class="filter">
-              <span class="chip on" data-chip="">全部</span><span class="chip" data-chip="">疫苗</span><span class="chip" data-chip="">驱虫</span><span class="chip" data-chip="">体重</span><span class="chip" data-chip="">体检</span><span class="chip" data-chip="">用药</span><span class="chip" data-chip="">其他</span>
+              <span class="chip on" data-chip="">全部</span><span class="chip" data-chip="">疫苗</span><span class="chip" data-chip="">驱虫</span><span class="chip" data-chip="">体重</span><span class="chip" data-chip="">体检</span><span class="chip" data-chip="">用药</span>
             </div>
 
             <div class="t-date">8 月 31 日 · 今天</div>
             <div class="card" style="padding:4px 16px">
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico amber"><svg class="ico"><use href="#i-droplet"></use></svg></div><div class="t-body"><b>体内驱虫</b><span>海乐妙 · 下次 11-30</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico amber"><svg class="ico"><use href="#i-droplet"></use></svg></div><div class="t-body"><b>体内驱虫</b><span>海乐妙 · 下次 11-30</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico blue"><svg class="ico"><use href="#i-scale"></use></svg></div><div class="t-body"><b>体重记录</b><span>4.2 kg · 较上月 +0.1</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico blue"><svg class="ico"><use href="#i-scale"></use></svg></div><div class="t-body"><b>体重记录</b><span>4.2 kg · 较上月 +0.1</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
             </div>
 
@@ -593,7 +601,7 @@
             <div class="card" style="padding:4px 16px">
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico teal"><svg class="ico"><use href="#i-medical"></use></svg></div><div class="t-body"><b>狂犬疫苗</b><span>已接种 · 次年 6 月</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico teal"><svg class="ico"><use href="#i-medical"></use></svg></div><div class="t-body"><b>狂犬疫苗</b><span>已接种 · 次年 6 月</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
             </div>
 
@@ -601,7 +609,7 @@
             <div class="card" style="padding:4px 16px">
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico teal"><svg class="ico"><use href="#i-clipcheck"></use></svg></div><div class="t-body"><b>年度体检</b><span>报告已归档 · 无异常</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico teal"><svg class="ico"><use href="#i-clipcheck"></use></svg></div><div class="t-body"><b>年度体检</b><span>报告已归档 · 无异常</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
             </div>
 
@@ -609,11 +617,11 @@
             <div class="card" style="padding:4px 16px">
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico amber"><svg class="ico"><use href="#i-droplet"></use></svg></div><div class="t-body"><b>外用驱虫</b><span>拜宠清 · 下次 9-1</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico amber"><svg class="ico"><use href="#i-droplet"></use></svg></div><div class="t-body"><b>外用驱虫</b><span>拜宠清 · 下次 9-1</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
               <div class="t-entry-wrap">
                 <div class="t-entry-actions"><div class="act act-pin">置顶</div><div class="act act-del">删除</div></div>
-              <div class="t-entry" data-open="pg-record-detail"><div class="t-ico slate"><svg class="ico"><use href="#i-capsule"></use></svg></div><div class="t-body"><b>用药记录</b><span>益生菌 · 已停药</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
+              <div class="t-entry" data-open="pg-new-record"><div class="t-ico slate"><svg class="ico"><use href="#i-capsule"></use></svg></div><div class="t-body"><b>用药记录</b><span>益生菌 · 已停药</span></div><svg class="ico sm chev"><use href="#i-chev-r"></use></svg></div>
               </div>
             </div>
           </div>
@@ -664,10 +672,7 @@
           <div class="statusbar"><span>9:41</span><span class="s-ico">▮▮ ▮▮▮ ▮▯</span></div>
           <div class="header">
             <div style="font-size:13px;color:var(--muted)">还有 <b style="color:var(--warning);font-weight:700">3</b> 项待办，请查收</div>
-            <div style="display:flex;gap:6px;margin-left:auto">
-              <div class="iconbtn" data-open="pg-calendar"><svg class="ico"><use href="#i-calendar-star"></use></svg></div>
-              <div class="iconbtn" data-open="pg-new-reminder"><svg class="ico"><use href="#i-plus"></use></svg></div>
-            </div>
+            <div class="iconbtn" data-open="pg-new-reminder"><svg class="ico"><use href="#i-plus"></use></svg></div>
           </div>
           <div class="seg">
             <div class="on" data-seg="">待处理 · 3</div><div data-seg="">已完成</div><div data-seg="">全部</div>
@@ -715,7 +720,6 @@
                 <div class="gcell" data-open="pg-health-ai"><span class="g-ico blue"><svg class="ico"><use href="#i-sparkle"></use></svg></span><span>AI 健康档案</span></div>
                 <div class="gcell" data-open="pg-vet"><span class="g-ico danger"><svg class="ico"><use href="#i-location"></use></svg></span><span>附近医院</span></div>
                 <div class="gcell" data-open="pg-growth"><span class="g-ico amber"><svg class="ico"><use href="#i-camera"></use></svg></span><span>成长记录</span></div>
-                <div class="gcell" data-open="pg-pet-photo"><span class="g-ico violet"><svg class="ico"><use href="#i-image"></use></svg></span><span>宠物照相馆</span></div>
                 <div class="gcell" data-open="pg-insurance"><span class="g-ico violet"><svg class="ico"><use href="#i-shield"></use></svg></span><span>宠物保险</span></div>
               </div>
 
@@ -786,7 +790,7 @@
             </div>
             <div class="ai-entry" data-open="pg-food-scan" style="margin-top:10px">
               <div class="ai-ic"><svg class="ico"><use href="#i-food"></use></svg></div>
-              <div style="flex:1"><b>粮食成分分析</b><span>扫描配料表或输入品牌名，AI 为你解读</span></div>
+              <div style="flex:1"><b>能吃啥</b><span>输入食物或品牌名，AI 为你解答</span></div>
               <svg class="ico sm" style="color:#a5b4fc"><use href="#i-chev-r"></use></svg>
             </div>
             <div class="section-head"><b>生命体征</b></div>
@@ -1059,48 +1063,6 @@
             </div>
           </div>
           <div class="pfoot"><button class="btn btn-primary" data-open="pg-handle">标记完成</button></div>
-        </div>
-
-        <!-- ============ 提醒日历 ============ -->
-        <div class="page" id="pg-calendar">
-          <div class="pheader"><div class="backbtn" data-back=""><svg class="ico"><use href="#i-chev-l"></use></svg></div><div class="ptitle">提醒日历</div><div class="pact" data-open="pg-new-reminder">新建</div></div>
-          <div class="pbody">
-            <div class="card" style="margin-bottom:16px">
-              <div class="wc-nav">
-                <div class="wc-arrow"><svg class="ico sm"><use href="#i-chev-l"></use></svg></div>
-                <div class="wc-month">2026 年 9 月</div>
-                <div class="wc-arrow"><svg class="ico sm"><use href="#i-chev-r"></use></svg></div>
-              </div>
-              <div class="wc-grid">
-                <div class="wc-head">一</div><div class="wc-head">二</div><div class="wc-head">三</div><div class="wc-head">四</div><div class="wc-head">五</div><div class="wc-head">六</div><div class="wc-head">日</div>
-                <div class="wc-day empty"></div>
-                <div class="wc-day">1</div><div class="wc-day">2</div><div class="wc-day">3</div><div class="wc-day">4</div>
-                <div class="wc-day has today">5<span class="wc-val">体内</span></div>
-                <div class="wc-day">6</div>
-                <div class="wc-day">7</div><div class="wc-day">8</div>
-                <div class="wc-day has">9<span class="wc-val">疫苗</span></div>
-                <div class="wc-day">10</div><div class="wc-day">11</div><div class="wc-day">12</div><div class="wc-day">13</div>
-                <div class="wc-day">14</div><div class="wc-day">15</div><div class="wc-day">16</div><div class="wc-day">17</div><div class="wc-day">18</div>
-                <div class="wc-day has">19<span class="wc-val">体检</span></div>
-                <div class="wc-day">20</div>
-                <div class="wc-day">21</div><div class="wc-day">22</div><div class="wc-day">23</div><div class="wc-day">24</div><div class="wc-day">25</div><div class="wc-day">26</div><div class="wc-day">27</div>
-                <div class="wc-day">28</div><div class="wc-day">29</div><div class="wc-day">30</div>
-                <div class="wc-day empty"></div><div class="wc-day empty"></div><div class="wc-day empty"></div><div class="wc-day empty"></div>
-              </div>
-              <div class="wc-summary">
-                <span>本月待办 <b>3</b> 项</span>
-                <span>已逾期 <b>1</b> 项</span>
-                <span>即将到期 <b>2</b> 项</span>
-              </div>
-            </div>
-
-            <div class="section-head"><b>近期提醒</b><a data-open="pg-new-reminder">新建 ›</a></div>
-            <div class="card" style="padding:4px 16px">
-              <div class="rem-item" data-open="pg-reminder-detail"><div class="rem-ico danger"><svg class="ico"><use href="#i-droplet"></use></svg></div><div class="rem-body"><b>体内驱虫</b><span>9 月 5 日 · 已逾期 7 天</span></div><span class="rem-tag red">逾期</span></div>
-              <div class="rem-item" data-open="pg-reminder-detail"><div class="rem-ico warn"><svg class="ico"><use href="#i-medical"></use></svg></div><div class="rem-body"><b>狂犬疫苗</b><span>9 月 9 日 · 3 天后</span></div><span class="rem-tag amber">3 天</span></div>
-              <div class="rem-item" data-open="pg-reminder-detail"><div class="rem-ico warn"><svg class="ico"><use href="#i-clipcheck"></use></svg></div><div class="rem-body"><b>年度体检</b><span>9 月 19 日 · 2 周后</span></div><span class="rem-tag slate">14 天</span></div>
-            </div>
-          </div>
         </div>
 
         <div class="page" id="pg-settings">
@@ -1873,98 +1835,135 @@
 
         <!-- ============ 猫粮成分扫描 ============ -->
         <div class="page" id="pg-food-scan">
-          <div class="pheader"><div class="backbtn" data-back=""><svg class="ico"><use href="#i-chev-l"></use></svg></div><div class="ptitle">粮食成分分析</div><div class="pact"></div></div>
+          <div class="pheader"><div class="backbtn" data-back=""><svg class="ico"><use href="#i-chev-l"></use></svg></div><div class="ptitle">能吃啥</div><div class="pact"></div></div>
           <div class="pbody">
-            <div style="background:linear-gradient(165deg,#dcf6ea 0%,#e9faf1 56%,#f6fbf8 100%);border:1px solid #b7e8d2;border-radius:22px;padding:22px 20px;margin-bottom:16px">
-              <div style="display:flex;align-items:center;gap:14px">
-                <div style="width:44px;height:44px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg class="ico lg"><use href="#i-food"></use></svg></div>
-                <div><div style="font-size:16px;font-weight:800;color:var(--ink)">AI 粮食成分分析</div><div style="font-size:12px;color:var(--muted);margin-top:3px">扫描配料表或输入品牌名，AI 为你解读</div></div>
-              </div>
+
+            <!-- 搜索 -->
+            <div style="position:relative;margin-bottom:16px">
+              <input id="food-main-input" type="text" placeholder="输入食物或品牌名..." style="width:100%;border:1.5px solid var(--line);border-radius:14px;padding:14px 14px 14px 40px;font-size:14px;outline:none;background:var(--card);box-sizing:border-box">
+              <svg class="ico" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px"><use href="#i-search"></use></svg>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+              <span class="chip" onclick="document.getElementById('food-main-input').value='葡萄';document.getElementById('food-main-btn').click()">🍇 葡萄</span>
+              <span class="chip" onclick="document.getElementById('food-main-input').value='鸡胸肉';document.getElementById('food-main-btn').click()">🍗 鸡胸肉</span>
+              <span class="chip" onclick="document.getElementById('food-main-input').value='牛奶';document.getElementById('food-main-btn').click()">🥛 牛奶</span>
+              <span class="chip" onclick="document.getElementById('food-main-input').value='皇家 K36';document.getElementById('food-main-btn').click()">🐱 皇家 K36</span>
+              <span class="chip" data-open="pg-photo-picker" style="background:var(--primary-soft);color:var(--primary);border-color:transparent">📷 拍配料表</span>
+              <button id="food-main-btn" style="display:none"></button>
             </div>
 
-            <!-- 双入口 -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
-              <div class="card" style="text-align:center;padding:18px 12px;cursor:pointer" data-open="pg-photo-picker">
-                <div style="width:44px;height:44px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px"><svg class="ico"><use href="#i-camera"></use></svg></div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink)">拍照扫描</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:3px">对准配料表拍一张</div>
-              </div>
-              <div class="card" id="food-input-card" style="text-align:center;padding:18px 12px;cursor:pointer">
-                <div style="width:44px;height:44px;border-radius:14px;background:var(--violet-soft);color:var(--violet);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px"><svg class="ico"><use href="#i-clip"></use></svg></div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink)">输入品牌</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:3px">直接搜品牌和产品名</div>
-              </div>
-            </div>
-
-            <!-- 搜索输入框（默认隐藏，点击「输入品牌」后显示） -->
-            <div id="food-search-box" style="display:none;margin-bottom:14px">
-              <div style="display:flex;gap:8px">
-                <input id="food-search-input" type="text" placeholder="输入品牌或产品名，如：皇家 K36" style="flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;outline:none;background:var(--card)">
-                <button class="btn btn-primary" style="width:auto;padding:12px 18px" onclick="document.getElementById('food-search-result').style.display='';document.getElementById('food-search-box').style.display='none'">搜索</button>
-              </div>
-              <div style="font-size:11px;color:var(--muted);margin-top:8px">💡 输入品牌名即可查看成分分析，如「渴望 六种鱼」「GO! 九种肉」「网易严选」</div>
-            </div>
-
-            <!-- 搜索结果（默认隐藏） -->
-            <div id="food-search-result" style="display:none">
+            <!-- 结果区（默认隐藏） -->
+            <div id="food-result" style="display:none">
               <div class="ai-loading" data-ai-load>
                 <div class="dots"><span></span><span></span><span></span></div>
-                <div style="font-size:12.5px;color:var(--muted)">AI 正在分析产品成分...</div>
+                <div style="font-size:12.5px;color:var(--muted)">正在分析...</div>
               </div>
               <div class="ai-content" data-ai-content>
 
-              <div class="card" style="padding:16px;margin-bottom:14px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                  <div><div style="font-size:15px;font-weight:700;color:var(--ink)">皇家 K36 英短成猫粮</div><div style="font-size:11px;color:var(--muted);margin-top:3px">1.5kg · 约 ¥85</div></div>
-                  <div style="background:var(--success-soft);color:var(--success);padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700">B+ 推荐</div>
+                <!-- 能不能吃结果 -->
+                <div id="food-result-safe" style="display:none;margin-bottom:18px">
+                  <div class="card" style="padding:0;overflow:hidden">
+                    <div style="background:var(--danger-soft);padding:16px 18px;display:flex;align-items:center;gap:12px">
+                      <div style="font-size:32px">🚫</div>
+                      <div><div style="font-size:18px;font-weight:800;color:var(--danger)">不能吃</div><div style="font-size:12px;color:var(--muted);margin-top:2px">葡萄 · 对猫有急性肾毒性</div></div>
+                    </div>
+                    <div style="padding:16px 18px;font-size:13px;color:var(--ink);line-height:1.8">
+                      <p>葡萄和葡萄干对猫有<b>急性肾毒性</b>，即使少量也可能导致肾衰竭。症状包括呕吐、腹泻、嗜睡，严重时 24-72 小时内可致命。</p>
+                      <p style="margin-top:10px;padding:10px 12px;background:var(--warning-soft);border-radius:10px;font-size:12px"><b>⚠️ 误食怎么办：</b>立即联系兽医，不要催吐，记录误食时间和数量。</p>
+                      <p style="font-size:11px;color:var(--muted);margin-top:10px">📎 来源：ASPCA 毒物控制中心</p>
+                    </div>
+                  </div>
                 </div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
-                  <span class="food-tag good">蛋白质 36%</span>
-                  <span class="food-tag good">脂肪 16%</span>
-                  <span class="food-tag good">牛磺酸 ✓</span>
-                  <span class="food-tag warn">含谷物</span>
-                  <span class="food-tag good">无诱食剂</span>
-                  <span class="food-tag">粗灰分 8%</span>
-                </div>
-              </div>
 
-              <div class="section-head"><b>AI 解读</b><span class="ai-gen-tag"><svg class="ico xs" style="width:10px;height:10px"><use href="#i-sparkle"/></svg>AI 生成</span></div>
-              <div class="card" style="padding:14px 16px;font-size:13px;color:var(--ink);line-height:1.7">
-                <p style="margin-bottom:8px">这款猫粮蛋白质含量 <b>36%</b>，属于中等偏上水平，适合成年英短。脂肪 16% 在合理范围内。含有牛磺酸（猫必需氨基酸），加分项。</p>
-                <p style="margin-bottom:8px">⚠️ <b>含谷物成分</b>（玉米、大米），部分猫咪可能过敏。如果小白没有软便/皮肤问题，可以继续使用。</p>
-                <p>综合评价：<b style="color:var(--success)">B+ 级</b>，性价比不错，适合日常喂养。</p>
-              </div>
+                <!-- 粮食分析结果 -->
+                <div id="food-result-brand" style="display:none;margin-bottom:18px">
+                  <div class="card" style="padding:18px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                      <div><div style="font-size:16px;font-weight:800;color:var(--ink)">皇家 K36 英短成猫粮</div><div style="font-size:12px;color:var(--muted);margin-top:3px">小白正在吃这款</div></div>
+                      <div style="background:var(--success-soft);color:var(--success);padding:5px 14px;border-radius:10px;font-size:13px;font-weight:700">B+</div>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <span class="food-tag good">蛋白质 36%</span>
+                      <span class="food-tag good">脂肪 16%</span>
+                      <span class="food-tag good">牛磺酸 ✓</span>
+                      <span class="food-tag warn">含谷物</span>
+                    </div>
+                  </div>
 
-              <div class="section-head"><b>推荐替代</b></div>
-              <div class="card" style="padding:14px 16px">
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2)">
-                  <div><div style="font-size:13px;font-weight:600;color:var(--ink)">渴望 六种鱼</div><div style="font-size:11px;color:var(--muted)">蛋白质 40% · 无谷</div></div>
-                  <span class="food-tag good">A 级</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
-                  <div><div style="font-size:13px;font-weight:600;color:var(--ink)">GO! 九种肉</div><div style="font-size:11px;color:var(--muted)">蛋白质 46% · 无谷</div></div>
-                  <span class="food-tag good">A 级</span>
-                </div>
-              </div>
+                  <div class="section-head"><b>营养覆盖度</b><span class="ai-gen-tag"><svg class="ico xs" style="width:10px;height:10px"><use href="#i-sparkle"/></svg>AI</span></div>
+                  <div class="card" style="padding:16px 18px">
+                    <div style="font-size:11px;color:var(--muted);margin-bottom:14px">基于小白（英短·2岁·已绝育）评估</div>
+                    <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>蛋白质</span><span style="color:var(--success);font-weight:600">充足</span></div><div style="height:6px;border-radius:3px;background:var(--line)"><div style="width:90%;height:100%;border-radius:3px;background:var(--success)"></div></div></div>
+                    <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>脂肪</span><span style="color:var(--success);font-weight:600">充足</span></div><div style="height:6px;border-radius:3px;background:var(--line)"><div style="width:80%;height:100%;border-radius:3px;background:var(--success)"></div></div></div>
+                    <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>Omega-3</span><span style="color:var(--warning);font-weight:600">偏低</span></div><div style="height:6px;border-radius:3px;background:var(--line)"><div style="width:45%;height:100%;border-radius:3px;background:var(--warning)"></div></div></div>
+                    <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>膳食纤维</span><span style="color:var(--danger);font-weight:600">不足</span></div><div style="height:6px;border-radius:3px;background:var(--line)"><div style="width:30%;height:100%;border-radius:3px;background:var(--danger)"></div></div></div>
+                    <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>维生素E</span><span style="color:var(--warning);font-weight:600">偏低</span></div><div style="height:6px;border-radius:3px;background:var(--line)"><div style="width:50%;height:100%;border-radius:3px;background:var(--warning)"></div></div></div>
+                  </div>
 
-              <div class="ai-note" style="margin-top:14px">
-                <svg class="ico"><use href="#i-info"></use></svg>
-                <span>成分分析基于公开数据，评分标准参考 AAFCO 和 NRC 指南，仅供参考。实际成分以包装标注为准。</span>
-              </div>
+                  <div class="section-head"><b>怎么补</b></div>
+                  <div class="card" style="padding:16px 18px">
+                    <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line2)">
+                      <div style="width:32px;height:32px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">1</div>
+                      <div style="font-size:13px;color:var(--ink);line-height:1.6">每周加2-3次<b>湿粮</b>，补充纤维，帮助排毛球</div>
+                    </div>
+                    <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line2)">
+                      <div style="width:32px;height:32px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">2</div>
+                      <div style="font-size:13px;color:var(--ink);line-height:1.6">每周喂1-2次<b>三文鱼</b>或拌鱼油，补 Omega-3</div>
+                    </div>
+                    <div style="display:flex;gap:12px;padding:10px 0">
+                      <div style="width:32px;height:32px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">3</div>
+                      <div style="font-size:13px;color:var(--ink);line-height:1.6">每周2-3个<b>蛋黄</b>，天然维生素E来源</div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            <!-- 热门品牌快捷入口 -->
-            <div id="food-hot-brands">
-              <div class="section-head"><b>🔥 热门品牌</b><span style="font-size:11.5px;color:var(--muted)">点击直接查看</span></div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">皇家</span>
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">渴望</span>
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">GO!</span>
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">网易严选</span>
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">巅峰</span>
-                <span class="chip" onclick="document.getElementById('food-hot-brands').style.display='none';document.getElementById('food-search-result').style.display='';triggerAiLoad(this.closest('.page'))">百利</span>
+            <!-- 速查（始终可见） -->
+            <div class="section-head"><b>速查</b></div>
+            <div class="card" style="padding:16px 18px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--success)"></div>
+                <div style="font-size:12px;font-weight:700;color:var(--ink)">可以吃</div>
               </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+                <span class="food-tag good">鸡胸肉</span>
+                <span class="food-tag good">三文鱼</span>
+                <span class="food-tag good">南瓜</span>
+                <span class="food-tag good">鸡蛋</span>
+                <span class="food-tag good">牛肉</span>
+                <span class="food-tag good">虾</span>
+                <span class="food-tag good">胡萝卜</span>
+                <span class="food-tag good">蓝莓</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--warning)"></div>
+                <div style="font-size:12px;font-weight:700;color:var(--ink)">少量注意</div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+                <span class="food-tag warn">牛奶</span>
+                <span class="food-tag warn">生鱼</span>
+                <span class="food-tag warn">肝脏</span>
+                <span class="food-tag warn">芝士</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--danger)"></div>
+                <div style="font-size:12px;font-weight:700;color:var(--ink)">不能吃</div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span class="food-tag bad">葡萄</span>
+                <span class="food-tag bad">洋葱</span>
+                <span class="food-tag bad">巧克力</span>
+                <span class="food-tag bad">木糖醇</span>
+                <span class="food-tag bad">大蒜</span>
+                <span class="food-tag bad">咖啡因</span>
+              </div>
+            </div>
+
+            <div class="ai-note" style="margin-top:16px">
+              <svg class="ico"><use href="#i-info"></use></svg>
+              <span>数据参考 AAFCO/NRC 指南和 ASPCA 毒物控制中心，仅供参考。</span>
             </div>
           </div>
         </div>
@@ -2096,15 +2095,23 @@
     if(sw){ sw.classList.toggle('on'); return; }
     if(chk){ chk.classList.toggle('on'); return; }
 
-    /* 粮食分析 - 输入品牌卡片点击 */
-    var foodCard = e.target.closest('#food-input-card');
-    if(foodCard){
-      var searchBox = document.getElementById('food-search-box');
-      var hotBrands = document.getElementById('food-hot-brands');
-      if(searchBox) searchBox.style.display = '';
-      if(hotBrands) hotBrands.style.display = 'none';
-      var inp = document.getElementById('food-search-input');
-      if(inp) setTimeout(function(){ inp.focus(); }, 300);
+    /* 粮食助手 - 统一搜索 */
+    var foodBtn = e.target.closest('#food-main-btn');
+    if(foodBtn){
+      var result = document.getElementById('food-result');
+      var inp = document.getElementById('food-main-input');
+      if(result && inp && inp.value.trim()){
+        var val = inp.value.trim();
+        result.style.display = '';
+        /* 根据输入判断显示品牌分析还是安全查询 */
+        var brandResult = document.getElementById('food-result-brand');
+        var safeResult = document.getElementById('food-result-safe');
+        var safeKeywords = ['葡萄','洋葱','大蒜','巧克力','咖啡','木糖醇','酒精','牛奶','生鱼','鸡胸肉','三文鱼','南瓜','鸡蛋','牛肉','虾','胡萝卜','西瓜','蓝莓','芝士','肝脏'];
+        var isSafe = safeKeywords.some(function(k){ return val.indexOf(k) >= 0; });
+        if(brandResult) brandResult.style.display = isSafe ? 'none' : '';
+        if(safeResult) safeResult.style.display = isSafe ? '' : 'none';
+        triggerAiLoad(foodBtn.closest('.page'));
+      }
       return;
     }
 
