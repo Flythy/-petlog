@@ -191,6 +191,26 @@
   .ql.has-count .ql-count{display:block}
   @keyframes qlPop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
   .ql.pop{animation:qlPop .38s ease}
+  /* 一键记录：首次引导气泡（讲清四个按键怎么用） */
+  .ql-coach{position:relative;background:linear-gradient(135deg,#FFF7EF,#FFEEDD);border:1.5px solid #FFD9BE;border-radius:16px;padding:12px 13px 11px;margin-bottom:9px;box-shadow:0 8px 20px rgba(240,138,60,.16)}
+  .ql-coach .qlc-title{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;color:#B45A1F;margin-bottom:5px}
+  .ql-coach .qlc-title .ico{width:15px;height:15px}
+  .ql-coach p{margin:0;font-size:11.5px;line-height:1.7;color:#8A5632;font-weight:650}
+  .ql-coach p b{color:#E8702A}
+  .ql-coach .qlc-ok{margin-top:9px;width:100%;border:none;border-radius:11px;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;font-size:12.5px;font-weight:800;padding:9px 0;cursor:pointer;box-shadow:0 5px 12px rgba(255,116,72,.28)}
+  .ql-coach .qlc-x{position:absolute;top:7px;right:9px;width:22px;height:22px;border:none;background:transparent;color:#C99A78;font-size:15px;font-weight:800;cursor:pointer;line-height:22px;padding:0}
+  /* 一键记录：关闭后的轻量找回入口 */
+  .hl-off{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);border:1px dashed rgba(255,255,255,.45);border-radius:15px;padding:11px 13px;margin-top:12px}
+  .hl-off .hlo-ic{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+  .hl-off .hlo-ic .ico{width:16px;height:16px}
+  .hl-off .hlo-tx{flex:1;font-size:11.5px;color:rgba(255,255,255,.92);font-weight:700;line-height:1.5}
+  .hl-off .hlo-tx span{display:block;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.7);margin-top:2px}
+  .hl-off .hlo-btn{flex-shrink:0;font-size:11.5px;font-weight:800;color:#8A4B12;background:#fff;border-radius:99px;padding:6px 14px;cursor:pointer;border:none}
+  /* 管理面板：总开关行 */
+  .qlm-master{display:flex;align-items:center;gap:10px;background:#FFF7F0;border:1.5px solid #FFE2CC;border-radius:14px;padding:11px 13px;margin-bottom:11px;cursor:pointer}
+  .qlm-master .qm-body{flex:1}
+  .qlm-master .qm-body b{display:block;font-size:13px;font-weight:800;color:var(--ink)}
+  .qlm-master .qm-body span{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;line-height:1.5}
 
   /* ===== 今日吃饭饭 · 手绘萌系饮食卡 ===== */
   .meal-card{position:relative;background:linear-gradient(180deg,#FFFDFB 0%,#FFF6EC 100%);border:2px solid #F6E3D0;border-radius:24px;padding:15px 15px 13px;margin:12px 2px 4px;box-shadow:0 8px 22px rgba(255,138,92,.10);overflow:hidden}
@@ -285,6 +305,11 @@
   .fd-name-custom{display:none;margin:6px 4px 2px;border-radius:13px;background:var(--primary-tint,#F4F0FF);padding:2px 13px}
   .fd-name-custom.show{display:block;animation:fdFade .16s ease}
   .fd-name-custom .rem-input{font-size:14px;padding:9px 0}
+  .fd-brand .fd-sec{margin:12px 4px 0}
+  .fd-brand .fd-sec-t em{font-style:normal;font-weight:700;color:var(--muted);font-size:10.5px}
+  .fd-name-preview{display:none;margin:9px 6px 0;font-size:11.5px;color:var(--muted);font-weight:700;line-height:1.5}
+  .fd-name-preview.show{display:block;animation:fdFade .16s ease}
+  .fd-name-preview b{color:var(--primary-600);font-weight:800}
   /* 喂食面板里的分区小标题：不用带边框的输入框样式，避免被误看成一个空输入框 */
   .fd-sec{margin:14px 4px 2px}
   .fd-sec-t{display:block;font-size:12px;font-weight:850;color:#9B8BB8;letter-spacing:.4px;margin-bottom:8px}
@@ -732,6 +757,22 @@
   .quick-food{display:flex;gap:8px;flex-wrap:wrap;margin:13px 2px 4px}
   .quick-food .cf{background:#fff;border:2px solid var(--line);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:800;color:var(--text);cursor:pointer;touch-action:manipulation;transition:.15s;box-shadow:var(--shadow-sm)}
   .quick-food .cf:active{transform:scale(.94)}
+  /* 记录页搜索：只在我的记录里定位 */
+  .rec-search-bar{display:flex;align-items:center;gap:9px;background:#fff;border:2px solid var(--line);border-radius:15px;padding:10px 12px;margin-top:6px;box-shadow:var(--shadow-sm)}
+  .rec-search-bar svg{color:var(--muted);flex-shrink:0}
+  .rec-search-bar input{flex:1;border:none;outline:none;background:transparent;font-size:14px;font-weight:600;color:var(--text);min-width:0}
+  .rec-search-bar .rs-clear{width:20px;height:20px;border-radius:50%;background:var(--line2);color:#fff;display:none;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:13px;line-height:1}
+  .rec-search-bar.has-val .rs-clear{display:flex}
+  .rec-search-bar .rs-btn{border:none;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;font-size:13px;font-weight:800;padding:7px 14px;border-radius:11px;cursor:pointer;flex-shrink:0}
+  .rs-empty{text-align:center;padding:46px 24px;color:var(--muted)}
+  .rs-empty .rs-e-ic{width:60px;height:60px;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:var(--shadow-sm)}
+  .rs-empty .rs-e-ic svg{width:28px;height:28px;color:var(--lav)}
+  .rs-empty b{display:block;font-size:14px;color:var(--text);margin-bottom:6px}
+  .rs-empty span{font-size:12.5px;line-height:1.7;display:block}
+  .rs-history-head{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 2px}
+  .rs-history-head b{font-size:13.5px}
+  .rs-history-head .rs-clear-his{font-size:12px;color:var(--muted);font-weight:600;cursor:pointer}
+  .rs-result-head{font-size:12px;color:var(--muted);font-weight:700;margin:16px 2px 8px}
   .food-row{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:2px dashed var(--line2);cursor:pointer;touch-action:manipulation}
   .food-row:last-child{border-bottom:none}
   .food-row:active .food-name{color:var(--primary-600)}
@@ -751,6 +792,13 @@
   .mascot-hero img{width:120px;height:120px;border-radius:30px;object-fit:cover;box-shadow:0 14px 30px rgba(255,138,92,.22)}
   .mascot-hero b{font-size:18px;font-weight:800;margin-top:12px}
   .mascot-hero span{font-size:12px;color:var(--muted);margin-top:4px}
+  /* 创建档案：头像可点选本地上传 */
+  .ob-avatar-box{position:relative;width:120px;height:120px;cursor:pointer}
+  .ob-avatar-box img{width:120px;height:120px;border-radius:30px;object-fit:cover;box-shadow:0 14px 30px rgba(255,138,92,.22);display:block}
+  .ob-avatar-cam{position:absolute;right:-6px;bottom:-6px;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(255,116,72,.32);border:3px solid #fff;box-sizing:content-box}
+  .ob-avatar-cam .ico{width:18px;height:18px}
+  .ob-avatar-tip{font-size:11px;color:var(--lav);font-weight:700;margin-top:8px}
+  .ob-avatar-tip .ob-avatar-reset{color:var(--muted);font-weight:600;margin-left:6px;text-decoration:underline}
 
   /* 首页宠物切换胶囊 */
   .home-pet-switch{display:flex;gap:8px;margin-top:14px;position:relative;z-index:2}
@@ -1166,7 +1214,17 @@
   .food-result.ok .fr-level{color:var(--mint)}.food-result.warn .fr-level{color:#D98E04}.food-result.no .fr-level{color:var(--danger)}
   .fr-desc{font-size:12.5px;color:var(--text);line-height:1.65;margin-top:10px}
   .fr-desc b{color:var(--ink)}
+  .fr-ask{margin-top:12px;border:none;border-radius:99px;padding:10px 16px;font-family:inherit;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#9B8AFB,#7B6BF6);box-shadow:0 8px 16px rgba(123,107,246,.28);cursor:pointer}
+  .fr-ask:active{transform:scale(.96)}
   .food-list-hide{display:none!important}
+  .food-ai{position:relative;z-index:1;display:flex;align-items:center;gap:11px;width:100%;border:none;border-radius:18px;padding:13px 15px;margin-top:12px;cursor:pointer;text-align:left;font-family:inherit;background:linear-gradient(135deg,#9B8AFB,#7B6BF6);color:#fff;box-shadow:0 10px 22px rgba(123,107,246,.30);transition:transform .15s}
+  .food-ai:active{transform:scale(.97)}
+  .food-ai .fa-ic{width:38px;height:38px;border-radius:13px;background:rgba(255,252,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .food-ai .fa-ic .ico{width:21px;height:21px}
+  .food-ai .fa-body{flex:1;min-width:0}
+  .food-ai .fa-body b{display:block;font-size:13.5px;font-weight:800}
+  .food-ai .fa-body span{display:block;font-size:11px;font-weight:650;opacity:.88;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .food-ai .fa-go{flex-shrink:0;font-size:12px;font-weight:800;background:rgba(255,255,255,.2);border-radius:99px;padding:6px 12px}
 </style>
 </head>
 <body>
@@ -1304,7 +1362,18 @@
                     <span class="hl-edit" id="hl-edit">编辑</span>
                   </span>
                 </div>
+                <div class="ql-coach" id="ql-coach" style="display:none">
+                  <button type="button" class="qlc-x" id="ql-coach-x" aria-label="关闭">×</button>
+                  <div class="qlc-title"><svg class="ico"><use href="#i-sparkle"/></svg>这四个按键是干嘛的？</div>
+                  <p>这是 <b>每天最常用的几件小事</b>（喂食、喝水、铲屎…）。<br>做完随手<b>点一下对应按钮</b>，就自动记好一笔，不用打开表单填写。<br>长按按钮可进入「记一笔」补充详情；不想要的点「编辑」取消就行。</p>
+                  <button type="button" class="qlc-ok" id="ql-coach-ok">我知道了，开始用</button>
+                </div>
                 <div class="hl-row" id="hl-row"></div>
+                <div class="hl-off" id="hl-off" style="display:none">
+                  <span class="hlo-ic"><svg class="ico"><use href="#i-paw"/></svg></span>
+                  <div class="hlo-tx">一键记录已关闭<span>喂食、喝水、铲屎等可在「记一笔」里记录</span></div>
+                  <button type="button" class="hlo-btn" id="hl-off-on">开启</button>
+                </div>
               </div>
             </div>
 
@@ -1709,6 +1778,17 @@
                 </div>
               </div>
               <div class="type-group">
+                <div class="tg-label">日常<span class="n">喂食 · 喝水 · 铲屎 · 玩耍 · 遛弯 · 便便</span></div>
+                <div class="type-grid">
+                  <div class="cell"><span class="ic coral"><svg class="ico"><use href="#i-food"/></svg></span>喂食</div>
+                  <div class="cell"><span class="ic blue"><svg class="ico"><use href="#i-droplet"/></svg></span>喝水</div>
+                  <div class="cell litter-only"><span class="ic slate"><svg class="ico"><use href="#i-litter"/></svg></span>铲屎</div>
+                  <div class="cell"><span class="ic pink"><svg class="ico"><use href="#i-paw"/></svg></span>玩耍</div>
+                  <div class="cell walk-only"><span class="ic teal"><svg class="ico"><use href="#i-walk"/></svg></span>遛狗</div>
+                  <div class="cell"><span class="ic amber"><svg class="ico"><use href="#i-poop"/></svg></span>便便</div>
+                </div>
+              </div>
+              <div class="type-group">
                 <div class="tg-label">清洁洗护<span class="n">根据宠物种类变化</span></div>
                 <div class="type-grid" id="groom-grid">
                   <div class="cell"><span class="ic blue"><svg class="ico"><use href="#i-bath"/></svg></span>洗澡</div>
@@ -1877,6 +1957,11 @@
                 <svg class="ico sm" style="color:#FF8A5C"><use href="#i-search"/></svg>
                 <input id="food-query" type="text" placeholder="搜食物名，如：葡萄、洋葱、酸奶…">
               </div>
+              <button class="food-ai" id="food-ask-ai" type="button">
+                <span class="fa-ic"><svg class="ico"><use href="#i-sparkle"/></svg></span>
+                <span class="fa-body"><b>拿不准？直接问 AI 管家</b><span>结合它的品种、体重和健康档案，告诉你能不能喂、怎么喂</span></span>
+                <span class="fa-go">去问问</span>
+              </button>
             </div>
             <div id="food-result-box"></div>
             <div class="quick-food" id="quick-food">
@@ -2104,17 +2189,24 @@
 
         <!-- ============ 覆盖层：搜索 ============ -->
         <div class="page" id="pg-search">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">搜索</div><div class="pact"></div></div>
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">找我的记录</div><div class="pact"></div></div>
           <div class="scroll">
-            <div class="food-search" style="margin-top:4px"><svg class="ico sm"><use href="#i-search"/></svg> 搜索记录、药品、笔记…</div>
-            <div class="section-head"><b>最近搜索</b></div>
-            <div class="quick-food">
-              <div class="cf">驱虫</div><div class="cf">疫苗</div><div class="cf">体重</div><div class="cf">海乐妙</div><div class="cf">体检</div>
+            <div class="rec-search-bar" id="rs-bar">
+              <svg class="ico sm"><use href="#i-search"/></svg>
+              <input id="rs-input" type="text" placeholder="搜我记过的事，如 驱虫、体重、海乐妙" enterkeyhint="search" autocomplete="off">
+              <span class="rs-clear" id="rs-clear"><svg class="ico sm"><use href="#i-x"/></svg></span>
+              <button type="button" class="rs-btn" id="rs-btn">搜索</button>
             </div>
-            <div class="section-head"><b>热门搜索</b></div>
-            <div class="quick-food">
-              <div class="cf">狂犬疫苗</div><div class="cf">耳螨</div><div class="cf">猫三联</div><div class="cf">益生菌</div>
+            <div id="rs-default">
+              <div class="rs-history-head" id="rs-his-head" style="display:none"><b>最近搜过</b><span class="rs-clear-his" id="rs-clear-his">清空</span></div>
+              <div class="quick-food" id="rs-history"></div>
+              <div class="rs-empty" id="rs-hint">
+                <div class="rs-e-ic"><svg class="ico"><use href="#i-search"/></svg></div>
+                <b>在你记过的事情里快速定位</b>
+                <span>这里只搜你自己的记录标题和备注，<br>比如要找上次驱虫、某天的体重。</span>
+              </div>
             </div>
+            <div id="rs-result" style="display:none"></div>
           </div>
         </div>
 
@@ -2454,10 +2546,16 @@
         <!-- 一键记录：管理首页常用快捷项（勾选即显示，取消即隐藏，每只宠物独立） -->
         <div class="sheet-mask" id="quicklog-manage-sheet">
           <div class="sheet">
-            <div class="stitle">管理常用一键项</div>
-            <div class="qlm-hint">勾选的事项会出现在首页「一键记录」，方便每天快速点一下记录。</div>
-            <div class="qlm-grid" id="qlm-grid"></div>
-            <div class="btn btn-primary" id="qlm-done" style="margin:10px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> 完成</div>
+            <div class="stitle">一键记录设置</div>
+            <div class="qlm-master" id="qlm-master">
+              <div class="qm-body"><b>在首页显示一键记录</b><span>开启后，做完日常小事点一下就能记一笔，不用填表</span></div>
+              <div class="switch on" id="qlm-master-sw"></div>
+            </div>
+            <div id="qlm-pick-wrap">
+              <div class="qlm-hint">勾选的事项会出现在首页「一键记录」，方便每天快速点一下记录。</div>
+              <div class="qlm-grid" id="qlm-grid"></div>
+              <div class="btn btn-primary" id="qlm-done" style="margin:10px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> 完成</div>
+            </div>
             <div class="sheet-row cancel" id="qlm-cancel">取消</div>
           </div>
         </div>
@@ -2487,6 +2585,22 @@
               <div class="fd-name-custom" id="fd-food-name-wrap">
                 <input class="rem-input" id="fd-food-name" type="text" placeholder="输入食物名称，比如：生骨肉、猫条…">
               </div>
+              <div class="fd-brand" id="fd-food-brand-box">
+                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-pick" id="fd-food-brand-pick">
+                  <span class="fp" data-brand="皇家">皇家</span>
+                  <span class="fp" data-brand="渴望">渴望</span>
+                  <span class="fp" data-brand="爱肯拿">爱肯拿</span>
+                  <span class="fp" data-brand="巅峰">巅峰</span>
+                  <span class="fp" data-brand="纽翠斯">纽翠斯</span>
+                  <span class="fp" data-brand="网易严选">网易严选</span>
+                  <span class="fp fp-custom" data-brand-custom="1">＋自己输</span>
+                </div>
+                <div class="fd-name-custom" id="fd-food-brand-wrap">
+                  <input class="rem-input" id="fd-food-brand-input" type="text" placeholder="输入品牌名，比如：皇家、渴望…">
+                </div>
+              </div>
+              <div class="fd-name-preview" id="fd-food-preview"></div>
               <div class="fd-sec"><span class="fd-sec-t">本次克数</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-gram-minus">−</button>
@@ -2522,6 +2636,21 @@
               <div class="fd-name-custom" id="fd-supp-name-wrap">
                 <input class="rem-input" id="fd-supp-name" type="text" placeholder="输入保健品名称，比如：鱼油、猫草片…">
               </div>
+              <div class="fd-brand" id="fd-supp-brand-box">
+                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-pick" id="fd-supp-brand-pick">
+                  <span class="fp" data-brand="红狗">红狗</span>
+                  <span class="fp" data-brand="卫仕">卫仕</span>
+                  <span class="fp" data-brand="麦德氏">麦德氏</span>
+                  <span class="fp" data-brand="俊宝">俊宝</span>
+                  <span class="fp" data-brand="谷登">谷登</span>
+                  <span class="fp fp-custom" data-brand-custom="1">＋自己输</span>
+                </div>
+                <div class="fd-name-custom" id="fd-supp-brand-wrap">
+                  <input class="rem-input" id="fd-supp-brand-input" type="text" placeholder="输入品牌名，比如：红狗、卫仕…">
+                </div>
+              </div>
+              <div class="fd-name-preview" id="fd-supp-preview"></div>
               <div class="fd-sec"><span class="fd-sec-t">本次剂量</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-supp-minus">−</button>
@@ -2557,6 +2686,21 @@
               <div class="fd-name-custom" id="fd-liq-name-wrap">
                 <input class="rem-input" id="fd-liq-name" type="text" placeholder="输入营养液名称，比如：液体钙、奶昔…">
               </div>
+              <div class="fd-brand" id="fd-liq-brand-box">
+                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-pick" id="fd-liq-brand-pick">
+                  <span class="fp" data-brand="麦德氏">麦德氏</span>
+                  <span class="fp" data-brand="红狗">红狗</span>
+                  <span class="fp" data-brand="卫仕">卫仕</span>
+                  <span class="fp" data-brand="谷登">谷登</span>
+                  <span class="fp" data-brand="MAG">MAG</span>
+                  <span class="fp fp-custom" data-brand-custom="1">＋自己输</span>
+                </div>
+                <div class="fd-name-custom" id="fd-liq-brand-wrap">
+                  <input class="rem-input" id="fd-liq-brand-input" type="text" placeholder="输入品牌名，比如：麦德氏、红狗…">
+                </div>
+              </div>
+              <div class="fd-name-preview" id="fd-liq-preview"></div>
               <div class="fd-sec"><span class="fd-sec-t">本次喂了多少</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-liq-minus">−</button>
@@ -2667,6 +2811,7 @@
       if(id === 'pg-care-ai' && typeof renderCareAi === 'function') renderCareAi(activeHomePet);
       if(id === 'pg-family' && typeof renderFamily === 'function') renderFamily();
       if(id === 'pg-todo' && typeof renderTodoPage === 'function') renderTodoPage();
+      if(id === 'pg-search' && typeof resetRecSearch === 'function') resetRecSearch();
     }
     document.querySelectorAll('[data-open]').forEach(function(el){
       el.addEventListener('click', function(e){
@@ -3147,6 +3292,110 @@
       openRecordForm({petKey:rdState.pet, editId:rdState.id, fromDay:!!rdState.fromDay});
     });
 
+    // ===== 记录搜索：只在「我记过的事情」里定位，无热门/全局内容 =====
+    (function(){
+      var input = document.getElementById('rs-input');
+      var bar = document.getElementById('rs-bar');
+      var btn = document.getElementById('rs-btn');
+      var clearBtn = document.getElementById('rs-clear');
+      var defWrap = document.getElementById('rs-default');
+      var resWrap = document.getElementById('rs-result');
+      var hisWrap = document.getElementById('rs-history');
+      var hisHead = document.getElementById('rs-his-head');
+      var hisClear = document.getElementById('rs-clear-his');
+      if(!input) return;
+      var HIS_KEY = 'petlog_set_recSearchHistory';
+      function getHistory(){
+        try{ var v = JSON.parse(localStorage.getItem(HIS_KEY)||'[]'); return Array.isArray(v)?v:[]; }catch(e){ return []; }
+      }
+      function saveHistory(q){
+        var list = getHistory().filter(function(x){ return x !== q; });
+        list.unshift(q);
+        list = list.slice(0, 10);
+        try{ localStorage.setItem(HIS_KEY, JSON.stringify(list)); }catch(e){}
+      }
+      function clearHistory(){ try{ localStorage.removeItem(HIS_KEY); }catch(e){} renderHistory(); }
+      function renderHistory(){
+        var list = getHistory();
+        hisHead.style.display = list.length ? 'flex' : 'none';
+        hisWrap.innerHTML = list.map(function(q){
+          return '<div class="cf">'+escHtml(q)+'</div>';
+        }).join('');
+        hisWrap.querySelectorAll('.cf').forEach(function(c){
+          c.addEventListener('click', function(){ input.value = c.textContent; doSearch(); });
+        });
+      }
+      function allMyRecords(){
+        var out = [];
+        Object.keys(HOME_PETS).forEach(function(k){
+          RecordStore.list(k).forEach(function(r){ out.push(r); });
+        });
+        return out.sort(function(a,b){ return b.ts - a.ts; });
+      }
+      function matchRec(r, kw){
+        if((r.title||'').indexOf(kw) >= 0) return true;
+        if((r.note||'').indexOf(kw) >= 0) return true;
+        if(r.fields){
+          var hit = false;
+          Object.keys(r.fields).forEach(function(fk){
+            if(String(r.fields[fk]).indexOf(kw) >= 0) hit = true;
+          });
+          if(hit) return true;
+        }
+        return false;
+      }
+      function showDefault(){
+        resWrap.style.display = 'none';
+        resWrap.innerHTML = '';
+        defWrap.style.display = 'block';
+        renderHistory();
+      }
+      function resetRecSearch(){
+        input.value = '';
+        bar.classList.remove('has-val');
+        showDefault();
+      }
+      window.resetRecSearch = resetRecSearch;
+      function doSearch(){
+        var kw = input.value.trim();
+        bar.classList.toggle('has-val', !!kw);
+        if(!kw){ showDefault(); return; }
+        saveHistory(kw);
+        var hits = allMyRecords().filter(function(r){ return matchRec(r, kw); });
+        defWrap.style.display = 'none';
+        resWrap.style.display = 'block';
+        if(!hits.length){
+          resWrap.innerHTML =
+            '<div class="rs-empty"><div class="rs-e-ic"><svg class="ico"><use href="#i-search"/></svg></div>'
+            + '<b>没找到含「'+escHtml(kw)+'」的记录</b>'
+            + '<span>换个词试试，比如药品名、品类或备注里的字。</span></div>';
+          return;
+        }
+        var html = '<div class="rs-result-head">在我的记录里找到 '+hits.length+' 条</div>';
+        var lastDay = null;
+        hits.forEach(function(r){
+          var dl = fmtMD(r.ts);
+          if(dl !== lastDay){ html += '<div class="my-rec-group">'+dl+'</div>'; lastDay = dl; }
+          html += recEntryHtml(r);
+        });
+        resWrap.innerHTML = html;
+        resWrap.querySelectorAll('.my-rec').forEach(function(el){
+          el.addEventListener('click', function(){
+            openRecordDetail(el.getAttribute('data-pet'), el.getAttribute('data-id'));
+          });
+        });
+      }
+      input.addEventListener('input', function(){
+        bar.classList.toggle('has-val', !!input.value.trim());
+        if(!input.value.trim()) showDefault();
+      });
+      input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); doSearch(); } });
+      btn.addEventListener('click', doSearch);
+      clearBtn.addEventListener('click', function(){ input.value=''; bar.classList.remove('has-val'); showDefault(); input.focus(); });
+      if(hisClear) hisClear.addEventListener('click', clearHistory);
+      renderHistory();
+    })();
+
     // 分段 / 类型格子 / 勾选
     document.querySelectorAll('.type-grid .cell, .seg div, .plan-chk').forEach(function(c){
       c.addEventListener('click', function(){
@@ -3172,6 +3421,10 @@
       page.querySelectorAll('.litter-only').forEach(function(el){
         el.style.display = isDog ? 'none' : 'flex';
         if(isDog) el.classList.remove('on');
+      });
+      page.querySelectorAll('.walk-only').forEach(function(el){
+        el.style.display = isDog ? 'flex' : 'none';
+        if(!isDog) el.classList.remove('on');
       });
     }
     var petSwitch = document.getElementById('rec-pet-switch');
@@ -3364,7 +3617,7 @@
       var title = recTitle ? recTitle.textContent.trim() : '';
       var note = (recNote && recNote.classList.contains('filled')) ? recNote.textContent.trim() : '';
       var group = cell ? (cell.closest('.type-group') ? cell.closest('.type-group').querySelector('.tg-label').textContent.trim() : '') : '';
-      var groupCatMap = {'基础健康':'health','清洁洗护':'groom','打理清扫':'clean','其他':'other'};
+      var groupCatMap = {'基础健康':'health','日常':'daily','清洁洗护':'groom','打理清扫':'clean','其他':'other'};
       var cat = 'health';
       Object.keys(groupCatMap).forEach(function(g){ if(group.indexOf(g) === 0) cat = groupCatMap[g]; });
       var icEl = cell ? cell.querySelector('.ic') : null;
@@ -3518,10 +3771,29 @@
       if(streak) streak.textContent = p.streak;
       if(todo) todo.textContent = pendingTodoCount(key);
     }
+    function quickLogEnabled(){
+      try{ var v = localStorage.getItem('petlog_set_quicklogEnabled'); return v===null ? true : JSON.parse(v); }catch(e){ return true; }
+    }
+    function quickLogCoachSeen(){
+      try{ var v = localStorage.getItem('petlog_set_quicklogCoachSeen'); return v===null ? false : JSON.parse(v); }catch(e){ return false; }
+    }
     function renderHeroQuickLogs(key){
       var row = document.getElementById('hl-row');
       if(!row) return;
       var p = HOME_PETS[key];
+      var coach = document.getElementById('ql-coach');
+      var offBox = document.getElementById('hl-off');
+      var enabled = quickLogEnabled();
+      // 关闭态：隐藏快捷按钮与引导，显示轻量找回条
+      if(!enabled){
+        row.style.display = 'none';
+        if(coach) coach.style.display = 'none';
+        if(offBox) offBox.style.display = 'flex';
+        return;
+      }
+      if(offBox) offBox.style.display = 'none';
+      row.style.display = 'flex';
+      if(coach) coach.style.display = quickLogCoachSeen() ? 'none' : 'block';
       var init = p.quickInit || {};
       row.innerHTML = p.quickLogs.map(function(q){
         var base = (init[q.key] && init[q.key].count) || 0;
@@ -3881,9 +4153,9 @@
     function fdEl(id){ return document.getElementById(id); }
     var feedForm = {
       ftype:'food',
-      food:{name:'主粮', gram:20, meal:'breakfast'},
-      supp:{name:'化毛膏', amount:1, unit:'粒', cycle:'none'},
-      liq:{name:'综合营养液', amount:10, unit:'ml', cycle:'none'}
+      food:{name:'主粮', brand:'', brandCustom:false, gram:20, meal:'breakfast'},
+      supp:{name:'化毛膏', brand:'', brandCustom:false, amount:1, unit:'粒', cycle:'none'},
+      liq:{name:'综合营养液', brand:'', brandCustom:false, amount:10, unit:'ml', cycle:'none'}
     };
     function num(v, d){ var n = parseFloat(v); return isNaN(n) ? d : n; }
     function setPickOn(containerId, value, attr){
@@ -3933,6 +4205,7 @@
       if(wrap) wrap.classList.toggle('show', isCustom);
       var input = document.getElementById(inputId);
       if(input) input.value = isCustom ? (name||'') : name;
+      if(typeof refreshNamePreview === 'function') refreshNamePreview(kind);
     }
     function enterCustomName(kind){
       feedForm[kind].custom = true;
@@ -3951,9 +4224,73 @@
       }
       if(input){ setTimeout(function(){ input.focus(); }, 160); }
     }
+    // ===== 品牌：选填。记录时拼成「品牌 + 种类」，如「皇家 主粮」；克数建议仍按种类计算 =====
+    function brandIds(kind){
+      return {box:'fd-'+kind+'-brand-box', pick:'fd-'+kind+'-brand-pick',
+        wrap:'fd-'+kind+'-brand-wrap', input:'fd-'+kind+'-brand-input', preview:'fd-'+kind+'-preview'};
+    }
+    // 从组合名（如「皇家 主粮」）里反解品牌与种类：品牌是「第一段、且第二段属于预设种类」
+    function splitBrandName(kind, full){
+      full = (full || '').trim();
+      var presets = FD_PRESETS[kind] || [];
+      var m = full.match(/^(\S+)\s+(.+)$/);
+      if(m && presets.indexOf(m[2]) > -1) return {brand:m[1], name:m[2]};
+      return {brand:'', name:full};
+    }
+    function composeName(kind){
+      var st = feedForm[kind];
+      var name = (st.name || '').trim();
+      var brand = (st.brand || '').trim();
+      return brand ? (brand + ' ' + name) : name;
+    }
+    function syncBrandField(kind, brand){
+      var st = feedForm[kind];
+      st.brand = brand || '';
+      var ids = brandIds(kind);
+      var presets = Array.prototype.map.call(document.querySelectorAll('#'+ids.pick+' .fp[data-brand]'), function(p){ return p.getAttribute('data-brand'); });
+      var isCustom = st.brand && presets.indexOf(st.brand) === -1;
+      st.brandCustom = !!isCustom;
+      document.querySelectorAll('#'+ids.pick+' .fp').forEach(function(p){
+        if(p.hasAttribute('data-brand-custom')){ p.classList.toggle('on', isCustom); return; }
+        p.classList.toggle('on', p.getAttribute('data-brand') === st.brand);
+      });
+      var wrap = document.getElementById(ids.wrap);
+      if(wrap) wrap.classList.toggle('show', isCustom);
+      var input = document.getElementById(ids.input);
+      if(input) input.value = isCustom ? st.brand : '';
+      refreshNamePreview(kind);
+    }
+    function enterCustomBrand(kind){
+      var st = feedForm[kind], ids = brandIds(kind);
+      st.brandCustom = true;
+      document.querySelectorAll('#'+ids.pick+' .fp').forEach(function(p){
+        if(p.hasAttribute('data-brand-custom')) return;
+        p.classList.remove('on');
+      });
+      document.querySelector('#'+ids.pick+' .fp[data-brand-custom]').classList.add('on');
+      var wrap = document.getElementById(ids.wrap); if(wrap) wrap.classList.add('show');
+      var input = document.getElementById(ids.input);
+      if(input){ input.value = st.brand || ''; setTimeout(function(){ input.focus(); }, 160); }
+      refreshNamePreview(kind);
+    }
+    function clearBrand(kind){ syncBrandField(kind, ''); }
+    function refreshNamePreview(kind){
+      var ids = brandIds(kind);
+      var pv = document.getElementById(ids.preview);
+      if(!pv) return;
+      var name = (feedForm[kind].name || '').trim();
+      var brand = (feedForm[kind].brand || '').trim();
+      if(brand && name){
+        pv.classList.add('show');
+        pv.innerHTML = '将记录为：<b>'+escHtml(brand)+' '+escHtml(name)+'</b>';
+      }else{
+        pv.classList.remove('show'); pv.innerHTML = '';
+      }
+    }
     function syncFoodPane(key){
       fdEl('fd-food-gram').value = feedForm.food.gram;
       syncNameField('food', feedForm.food.name);
+      syncBrandField('food', feedForm.food.brand || '');
       document.querySelectorAll('#fd-meal-seg .fc-opt').forEach(function(o){
         o.classList.toggle('on', o.getAttribute('data-meal') === feedForm.food.meal);
       });
@@ -3964,6 +4301,7 @@
       fdEl('fd-supp-amount').value = feedForm.supp.amount;
       fdEl('fd-supp-unit-lab').textContent = feedForm.supp.unit;
       syncNameField('supp', feedForm.supp.name);
+      syncBrandField('supp', feedForm.supp.brand || '');
       setPickOn('fd-supp-unit', feedForm.supp.unit, 'data-unit');
       setCycleOn('fd-cycle-seg-supp', feedForm.supp.cycle);
     }
@@ -3971,6 +4309,7 @@
       fdEl('fd-liq-amount').value = feedForm.liq.amount;
       fdEl('fd-liq-unit-lab').textContent = feedForm.liq.unit;
       syncNameField('liq', feedForm.liq.name);
+      syncBrandField('liq', feedForm.liq.brand || '');
       setPickOn('fd-liq-unit', feedForm.liq.unit, 'data-unit');
       setCycleOn('fd-cycle-seg-liq', feedForm.liq.cycle);
     }
@@ -3990,11 +4329,20 @@
       var t = mode || 'food';
       var key = activeHomePet;
       var def = feedDefault(key);
-      // 食物：带入该宠物的默认食物与克重，餐次按当前时段（或传入）
+      // 食物：带入该宠物的默认食物与克重，餐次按当前时段（或传入）；默认名可能是「品牌 种类」
       if(!presetMeal){ presetMeal = expectedMealByHour(new Date().getHours()) || 'breakfast'; }
       feedForm.food.meal = presetMeal;
-      feedForm.food.name = def.food || '主粮';
+      var fullName = def.food || '主粮';
+      var parsed = splitBrandName('food', fullName);
+      feedForm.food.name = parsed.name || '主粮';
+      feedForm.food.brand = parsed.brand || '';
+      feedForm.food.brandCustom = false;
       feedForm.food.gram = (def.gram != null) ? def.gram : (defaultMealGram(key) || 20);
+      // 保健品 / 营养液每次打开重置为预设、清空品牌，避免残留上次选择
+      feedForm.supp.brand = ''; feedForm.supp.brandCustom = false;
+      feedForm.liq.brand = ''; feedForm.liq.brandCustom = false;
+      var si = document.getElementById('fd-supp-brand-input'); if(si) si.value = '';
+      var li = document.getElementById('fd-liq-brand-input'); if(li) li.value = '';
       syncFoodPane(key);
       syncSuppPane();
       syncLiqPane();
@@ -4022,6 +4370,23 @@
       // 顶部分类切换
       document.querySelectorAll('#fd-type-seg .ft-opt').forEach(function(o){
         o.addEventListener('click', function(){ showFeedPane(o.getAttribute('data-ftype')); });
+      });
+      // —— 三类通用：品牌快选 / 自己输 ——
+      ['food','supp','liq'].forEach(function(kind){
+        var ids = brandIds(kind);
+        document.querySelectorAll('#'+ids.pick+' .fp').forEach(function(p){
+          p.addEventListener('click', function(){
+            if(p.hasAttribute('data-brand-custom')){ enterCustomBrand(kind); return; }
+            feedForm[kind].brand = p.getAttribute('data-brand');
+            feedForm[kind].brandCustom = false;
+            syncBrandField(kind, feedForm[kind].brand);
+          });
+        });
+        var bi = document.getElementById(ids.input);
+        if(bi) bi.addEventListener('input', function(){
+          feedForm[kind].brand = this.value.trim();
+          refreshNamePreview(kind);
+        });
       });
       // —— 食物 ——
       document.querySelectorAll('#fd-food-pick .fp').forEach(function(p){
@@ -4107,7 +4472,9 @@
         if(t === 'food'){
           var f = feedForm.food;
           var gram = Math.round(num(fdEl('fd-food-gram').value, 0));
-          var foodName = (fdEl('fd-food-name').value || '').trim() || '主粮';
+          var baseName = (fdEl('fd-food-name').value || '').trim() || '主粮';
+          f.name = baseName;
+          var foodName = composeName('food');
           if(!gram || gram <= 0){ showToast('先选一下本次克数哦'); return; }
           if(fdEl('fd-make-default').checked){
             HOME_PETS[key].feedDefault = {food:foodName, gram:gram, unit:'g'};
@@ -4115,17 +4482,21 @@
           addMealRec(key, f.meal, {ftype:'food', food:foodName, gram:gram, unit:'g', source:'manual'});
         } else if(t === 'supp'){
           var s = feedForm.supp;
-          var sName = (fdEl('fd-supp-name').value || '').trim();
+          s.name = (fdEl('fd-supp-name').value || '').trim();
+          s.brand = (fdEl('fd-supp-brand-input').value || '').trim() || s.brand || '';
+          var sName = composeName('supp');
           var sAmt = num(fdEl('fd-supp-amount').value, 0);
-          if(!sName){ showToast('先选/填一下保健品名称哦'); return; }
+          if(!s.name){ showToast('先选/填一下保健品名称哦'); return; }
           if(sAmt <= 0){ showToast('剂量要大于 0 哦'); return; }
           addSupplementRec(key, 'supp', sName, sAmt, s.unit, s.cycle);
           if(typeof renderHomeTodos === 'function') renderHomeTodos(key);
         } else {
           var l = feedForm.liq;
-          var lName = (fdEl('fd-liq-name').value || '').trim();
+          l.name = (fdEl('fd-liq-name').value || '').trim();
+          l.brand = (fdEl('fd-liq-brand-input').value || '').trim() || l.brand || '';
+          var lName = composeName('liq');
           var lAmt = num(fdEl('fd-liq-amount').value, 0);
-          if(!lName){ showToast('先选/填一下营养液名称哦'); return; }
+          if(!l.name){ showToast('先选/填一下营养液名称哦'); return; }
           if(lAmt <= 0){ showToast('容量要大于 0 哦'); return; }
           addSupplementRec(key, 'liq', lName, lAmt, l.unit, l.cycle);
           if(typeof renderHomeTodos === 'function') renderHomeTodos(key);
@@ -4167,12 +4538,26 @@
       var p = HOME_PETS[key];
       return QUICK_CANDIDATES[(p && p.speciesKey) || 'cat'] || QUICK_CANDIDATES.cat;
     }
+    function setQuickLogEnabled(on){
+      try{ localStorage.setItem('petlog_set_quicklogEnabled', JSON.stringify(!!on)); }catch(e){}
+    }
+    function setQuickLogCoachSeen(){
+      try{ localStorage.setItem('petlog_set_quicklogCoachSeen', 'true'); }catch(e){}
+    }
     function openQuickLogManage(){
       var p = HOME_PETS[activeHomePet];
       if(!p) return;
       qlmDraft = (p.quickLogs || []).map(function(q){ return q.key; });
       renderQuickLogManage();
+      syncQuickLogMasterUI();
       document.getElementById('quicklog-manage-sheet').classList.add('show');
+    }
+    function syncQuickLogMasterUI(){
+      var on = quickLogEnabled();
+      var sw = document.getElementById('qlm-master-sw');
+      var wrap = document.getElementById('qlm-pick-wrap');
+      if(sw) sw.classList.toggle('on', on);
+      if(wrap) wrap.style.display = on ? 'block' : 'none';
     }
     function renderQuickLogManage(){
       var grid = document.getElementById('qlm-grid');
@@ -4210,6 +4595,39 @@
         openQuickLogManage();
       });
     }
+    // 总开关：即时生效并同步首页
+    (function(){
+      var master = document.getElementById('qlm-master');
+      if(!master) return;
+      master.addEventListener('click', function(){
+        var on = !quickLogEnabled();
+        setQuickLogEnabled(on);
+        syncQuickLogMasterUI();
+        renderHeroQuickLogs(activeHomePet);
+        showToast(on ? '已开启一键记录' : '已关闭一键记录，可用「记一笔」记录');
+      });
+    })();
+    // 首次引导：讲清四个按键用途，确认或关闭后不再弹出
+    (function(){
+      var coach = document.getElementById('ql-coach');
+      function dismiss(){
+        setQuickLogCoachSeen();
+        if(coach) coach.style.display = 'none';
+      }
+      var ok = document.getElementById('ql-coach-ok');
+      if(ok) ok.addEventListener('click', dismiss);
+      var x = document.getElementById('ql-coach-x');
+      if(x) x.addEventListener('click', dismiss);
+    })();
+    // 关闭态：一键重新开启
+    (function(){
+      var btn = document.getElementById('hl-off-on');
+      if(btn) btn.addEventListener('click', function(){
+        setQuickLogEnabled(true);
+        renderHeroQuickLogs(activeHomePet);
+        showToast('已开启一键记录');
+      });
+    })();
     (function(){
       var mask = document.getElementById('quicklog-manage-sheet');
       if(!mask) return;
@@ -4962,8 +5380,8 @@
       var news = [];
       // 护理 → 寄生虫/疫苗防护风险
       if(d.danger.length){
-        news.push({cat:'护理', dot:'bad', flag:'防护空档', flagCls:'bad', to:'todo',
-          text:'<b>'+(d.danger[0].type||d.danger[0].title)+'</b>防护已空档，感染寄生虫风险升高'});
+        news.push({cat:'护理', dot:'bad', flag:'该补做了', flagCls:'bad', to:'todo',
+          text:'<b>'+(d.danger[0].type||d.danger[0].title)+'</b>已经超过该做的时间，拖得越久越容易感染寄生虫'});
       }else if(d.pending.length){
         news.push({cat:'护理', dot:'warn', flag:'临期', flagCls:'warn', to:'todo',
           text:'整体防护到位，仅 <b>'+(d.pending[0].type||d.pending[0].title)+'</b>临近到期'});
@@ -5012,12 +5430,12 @@
       if(d.danger.length){
         var dt = d.danger[0];
         head = {level:'danger', icon:'i-heart', tag:'风险预警',
-          title:p.name+' 的<b>「'+(dt.type||dt.title)+'」防护已空档</b>，是今天最需要先补上的健康短板',
+          title:p.name+' 的<b>「'+(dt.type||dt.title)+'」已经超过该做的时间</b>，建议今天就补上，拖久了感染寄生虫的风险会变高',
           mode:'ask', label:'问管家怎么处理'};
       }else if(d.pending.length){
         var wt = d.pending[0];
         head = {level:'warn', icon:'i-shield', tag:'护理节律',
-          title:'整体状态稳定，只有 <b>'+(wt.type||wt.title)+' 临近到期</b>，提前安排可避免防护断档',
+          title:'整体状态稳定，只有 <b>'+(wt.type||wt.title)+' 快到该做的时间</b>，提前安排上就不会逾期',
           mode:'ask', label:'问管家怎么处理'};
       }else if(d.exp && !d.mealDone[d.exp]){
         head = {level:'warn', icon:'i-bowl', tag:'进食观察',
@@ -5191,7 +5609,7 @@
         gender:d.gender, birthISO:d.birthISO, birthApprox:!!d.birthApprox,
         neutered:d.neutered || 'unknown', weight:(d.weight==null?null:d.weight),
         adoptISO:d.adoptISO || '',
-        avatar:sp.avatar, mascot:sp.mascot,
+        avatar:d.avatar || sp.avatar, mascot:d.mascot || sp.mascot,
         line:'先从记一笔开始，慢慢攒齐 TA 的健康档案吧',
         logsToday:0, streak:0, weekCaption:'刚开始记录 · 今天先记一笔吧',
         quickLogs:sp.quickLogs, quickInit:{}, growth:[],
@@ -5938,6 +6356,37 @@
       }
       window.openAssistant = openAssistant;
 
+      // 从「能吃啥」页带着具体食物名来问：先把用户问题放进对话，再给针对性回答
+      var FOOD_BAD = ['葡萄','葡萄干','洋葱','大蒜','韭菜','葱','巧克力','可可','木糖醇','酒精','咖啡','浓茶','夏威夷果','澳洲坚果'];
+      function askFoodAI(food){
+        var name = (food || '').trim();
+        openPage('pg-ai-center');
+        syncAssistantPet(activeHomePet);
+        if(scroll) scroll.scrollTop = 0;
+        if(!name){ setTimeout(function(){ runIntent('food'); }, 240); return; }
+        setTimeout(function(){
+          msg('「'+name+'」'+pName(asKey)+'能不能吃？', 'me');
+          var node = typing();
+          setTimeout(function(){
+            var isBad = FOOD_BAD.some(function(w){ return name.indexOf(w) > -1; });
+            var html;
+            if(isBad){
+              html = '关于「<b>'+name+'</b>」——<b style="color:#FF6B6B">不建议喂，能不喂就不喂</b>。这类食物对猫狗有毒性或高风险，即使少量也可能出问题，误食后留意有没有呕吐、精神差，异常请立刻就医。<br>我可以继续帮你：结合'+pName(asKey)+'的体重估算危险摄入量，或告诉你误食后怎么应急处理。';
+            }else{
+              html = '关于「<b>'+name+'</b>」：建议<b>先少量、单一地试</b>，确保无盐无调料、不带骨/核，并观察 24 小时有没有软便、呕吐或瘙痒。<br>如果你告诉我它的<b>品种、体重、年龄和有没有过敏史</b>，我能判断得更准。也可以点下面「这能吃吗」让我打开速查表核对。'
+                + actionCardHTML({icon:'i-food', title:'这能吃吗', meta:'结合品种与禁忌，给出可吃/慎吃/禁食',
+                  go:{label:'打开速查表', run:function(){ closePage(); openPage('pg-food-scan'); }}});
+            }
+            node.querySelector('.a-bubble').innerHTML = html;
+            var goBtn = node.querySelector('[data-go]');
+            if(goBtn) goBtn.addEventListener('click', function(){ closePage(); openPage('pg-food-scan'); });
+            scrollBottom();
+          }, 520);
+        }, 260);
+      }
+      function pName(k){ return HOME_PETS[k].name; }
+      window.askFoodAI = askFoodAI;
+
       chat.addEventListener('click', function(e){
         var go = e.target.closest('[data-act="todo"]');
         var dis = e.target.closest('[data-act="dismiss"]');
@@ -6046,13 +6495,17 @@
       if(w) w.classList.add('hide');
     };
     // 开始体验：进入「创建宠物档案」引导
-    var obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown'};
+    var obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
     function resetOnboarding(){
-      obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown'};
+      obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
       ['ob-name','ob-breed','ob-weight'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
       var bd=document.getElementById('ob-birth-date'); if(bd){ bd.value=''; bd.classList.add('empty'); }
       var ad=document.getElementById('ob-adopt'); if(ad){ ad.value=''; ad.classList.add('empty'); }
-      if(obAvatar) obAvatar.src='data:image/jpeg;base64,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';
+      if(obAvatar){
+        obAvatar.src = SPECIES_DEFAULTS.cat.avatar;
+        var _obTip=document.getElementById('ob-avatar-tip');
+        if(_obTip){ _obTip.style.display='none'; _obTip.querySelector('.ob-avatar-reset').style.display='none'; }
+      }
       if(obBreed) obBreed.placeholder='如：英国短毛猫（不清楚可以先不填）';
       switchObBirthMode('date');
       // 重置各选择格子
@@ -6071,12 +6524,78 @@
     var obSpeciesGrid = document.getElementById('ob-species-grid');
     var obAvatar = document.getElementById('ob-avatar');
     var obBreed = document.getElementById('ob-breed');
+    // 创建档案头像：点击头像可从本地上传照片（中心方形裁切 + 压缩，默认仍用物种生成图）
+    if(obAvatar && !obAvatar.dataset.wrapped){
+      obAvatar.dataset.wrapped = '1';
+      var obBox = document.createElement('div');
+      obBox.className = 'ob-avatar-box';
+      obAvatar.parentNode.insertBefore(obBox, obAvatar);
+      obBox.appendChild(obAvatar);
+      var obCam = document.createElement('div');
+      obCam.className = 'ob-avatar-cam';
+      obCam.innerHTML = '<svg class="ico"><use href="#i-camera"/></svg>';
+      obBox.appendChild(obCam);
+      var obTip = document.createElement('div');
+      obTip.className = 'ob-avatar-tip';
+      obTip.id = 'ob-avatar-tip';
+      obTip.style.display = 'none';
+      obTip.innerHTML = '已使用上传照片<span class="ob-avatar-reset">恢复默认</span>';
+      obBox.parentNode.insertBefore(obTip, obBox.nextSibling);
+      var obFile = document.createElement('input');
+      obFile.type = 'file';
+      obFile.accept = 'image/*';
+      obFile.style.display = 'none';
+      document.body.appendChild(obFile);
+      function obApplyAvatar(dataUrl){
+        obAvatar.src = dataUrl;
+        obState.customAvatar = dataUrl;
+        obTip.style.display = 'block';
+        obTip.querySelector('.ob-avatar-reset').style.display = 'inline';
+      }
+      // 本地压缩：居中裁成正方形，最长边 320，JPEG 0.85，避免 localStorage 超限
+      function obReadFile(file){
+        var reader = new FileReader();
+        reader.onload = function(ev){
+          var img = new Image();
+          img.onload = function(){
+            try{
+              var size = 320;
+              var cv = document.createElement('canvas');
+              cv.width = size; cv.height = size;
+              var ctx = cv.getContext('2d');
+              var s = Math.min(img.width, img.height);
+              var sx = (img.width - s) / 2, sy = (img.height - s) / 2;
+              ctx.drawImage(img, sx, sy, s, s, 0, 0, size, size);
+              obApplyAvatar(cv.toDataURL('image/jpeg', 0.85));
+            }catch(e){
+              obApplyAvatar(ev.target.result);
+            }
+            showToast('头像已更新，也可以继续用默认图');
+          };
+          img.onerror = function(){ showToast('图片读取失败，换一张试试'); };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+      obBox.addEventListener('click', function(){ obFile.click(); });
+      obFile.addEventListener('change', function(){
+        var f = obFile.files && obFile.files[0];
+        if(f) obReadFile(f);
+        obFile.value = '';
+      });
+      obTip.querySelector('.ob-avatar-reset').addEventListener('click', function(e){
+        e.stopPropagation();
+        obState.customAvatar = null;
+        obAvatar.src = SPECIES_DEFAULTS[obState.species].avatar;
+        obTip.style.display = 'none';
+      });
+    }
     if(obSpeciesGrid){
       obSpeciesGrid.querySelectorAll('.cell').forEach(function(cell){
         cell.addEventListener('click', function(){
           var sp = cell.getAttribute('data-ob-species');
           obState.species = sp;
-          if(obAvatar) obAvatar.src = sp === 'dog' ? 'data:image/jpeg;base64,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' : 'data:image/jpeg;base64,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';
+          if(obAvatar && !obState.customAvatar) obAvatar.src = SPECIES_DEFAULTS[sp].avatar;
           if(obBreed && !obBreed.value) obBreed.placeholder = sp === 'dog' ? '如：威尔士柯基犬（不清楚可以先不填）' : '如：英国短毛猫（不清楚可以先不填）';
         });
       });
@@ -6145,7 +6664,8 @@
         breed:(obBreed.value||'').trim(),
         neutered:neuterCell?neuterCell.getAttribute('data-val'):'unknown',
         weight:isNaN(weight)?null:weight,
-        adoptISO:obAdoptDate.value||''
+        adoptISO:obAdoptDate.value||'',
+        avatar:obState.customAvatar||null
       };
     }
     var createPetBtn = document.getElementById('create-pet-btn');
@@ -7183,7 +7703,9 @@
       }
       if(!f && FOOD_ALIAS[key]){ matchedName = FOOD_ALIAS[key]; f = FOOD_DB[matchedName]; }
       if(!f){
-        box.innerHTML = '<div class="food-result warn"><div class="fr-head"><div class="fr-badge">❓</div><div><div class="fr-name">' + escHtml(key) + '</div><div class="fr-level">暂未收录</div></div></div><div class="fr-desc">食物库暂未收录「<b>' + escHtml(key) + '</b>」，喂食前建议咨询兽医或查阅权威资料，<b>不确定时先不要喂</b>。</div></div>';
+        box.innerHTML = '<div class="food-result warn"><div class="fr-head"><div class="fr-badge">❓</div><div><div class="fr-name">' + escHtml(key) + '</div><div class="fr-level">暂未收录</div></div></div><div class="fr-desc">食物库暂未收录「<b>' + escHtml(key) + '</b>」，喂食前建议咨询兽医或查阅权威资料，<b>不确定时先不要喂</b>。</div><button class="fr-ask" type="button">拿不准？问 AI 管家 →</button></div>';
+        var ask = box.querySelector('.fr-ask');
+        if(ask) ask.addEventListener('click', function(){ askFoodAI(key); });
       } else {
         box.innerHTML = '<div class="food-result ' + f.level + '"><div class="fr-head"><div class="fr-badge">' + f.emoji + '</div><div><div class="fr-name">' + f.name + '</div><div class="fr-level">' + FOOD_LEVEL_TEXT[f.level] + '</div></div></div><div class="fr-desc">' + f.desc + '</div></div>';
       }
@@ -7204,6 +7726,18 @@
         queryFood(name);
       });
     });
+    // 拿不准 → 直接唤起 AI 管家；输入框里有食物名就把问题带过去
+    var foodAskAi = document.getElementById('food-ask-ai');
+    if(foodAskAi){
+      foodAskAi.addEventListener('click', function(){
+        var kw = foodInput ? foodInput.value.trim() : '';
+        if(typeof window.askFoodAI === 'function'){
+          window.askFoodAI(kw);
+        }else{
+          window.openAssistant('food');
+        }
+      });
+    }
 
     // ===== 全站兜底：让尚无真实接线的动作按钮也有闭环反馈（带 id / data-* 的真实按钮自动排除）=====
     (function(){
