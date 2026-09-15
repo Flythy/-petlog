@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宠记 PetLog · 用户调研问卷与访谈提纲</title>
+<meta name="description" content="宠记 PetLog 用户调研：定量问卷 + 1v1 深度访谈提纲（可分享母版）">
+<style>
+  :root{
+    --bg:#FFF6EF; --bg2:#FFEEDF; --card:#FFFFFF; --ink:#3B2E28; --ink2:#8A7A70;
+    --orange:#FF8A5C; --orange2:#FFB066; --deep:#E8703F; --line:#F4E3D3;
+    --green:#4CAF7D; --blue:#5B8DEF; --purple:#9B7BE8;
+    --shadow:0 8px 24px rgba(232,112,63,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.75;font-size:15px;padding-bottom:72px}
+  .hero{background:linear-gradient(150deg,#FFD9B8 0%,#FFB98A 55%,#FF9E6E 100%);
+    padding:46px 20px 64px;border-radius:0 0 32px 32px;position:relative;overflow:hidden}
+  .hero::after{content:"🐾";position:absolute;right:-10px;bottom:-26px;font-size:150px;opacity:.13;transform:rotate(-18deg)}
+  .hero .kicker{display:inline-block;background:rgba(255,255,255,.55);color:var(--deep);font-weight:800;
+    font-size:12px;padding:4px 12px;border-radius:99px;margin-bottom:14px}
+  .hero h1{font-size:26px;line-height:1.35;font-weight:900;color:#5A3420;margin-bottom:10px}
+  .hero p{color:#7A4A2E;font-size:14px;max-width:640px}
+  .hero .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .hero .meta span{background:rgba(255,255,255,.6);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:700;color:#8A5028}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px}
+  .toc{margin:-36px auto 26px;background:var(--card);border-radius:20px;box-shadow:var(--shadow);
+    padding:18px 20px;position:relative;z-index:2}
+  .toc h3{font-size:13px;color:var(--ink2);margin-bottom:10px;letter-spacing:.5px}
+  .toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .toc a{display:block;text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;
+    background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px 12px;transition:.2s}
+  .toc a:hover{border-color:var(--orange2);color:var(--deep);transform:translateY(-1px)}
+  section{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:24px 20px;margin:18px 0}
+  h2{font-size:20px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  h2 .no{background:linear-gradient(135deg,var(--orange2),var(--orange));color:#fff;width:30px;height:30px;
+    border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  h3{font-size:16.5px;font-weight:800;margin:22px 0 10px;padding-left:11px;border-left:4px solid var(--orange)}
+  h4{font-size:14.5px;font-weight:800;margin:16px 0 8px;color:var(--deep)}
+  p{margin:8px 0;color:#4A3B33}
+  ul,ol.body{margin:8px 0 8px 4px;list-style:none}
+  ul li,ol.body li{padding:4px 0 4px 22px;position:relative}
+  ul li::before{content:"";position:absolute;left:4px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--orange2)}
+  .lead{color:var(--ink2);font-size:13.5px;margin-bottom:6px}
+  .callout{background:linear-gradient(135deg,#FFF3E6,#FFEAD7);border:1.5px solid #FFD9B8;border-radius:14px;
+    padding:13px 15px;margin:14px 0;font-size:13.5px}
+  .callout.green{background:#EDF8F1;border-color:#BFE6CE}
+  .callout b{color:var(--deep)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;min-width:60px}
+  th{background:var(--bg2);font-weight:800;white-space:nowrap}
+  tbody tr:nth-child(even){background:#FFFBF6}
+  .tag{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:4px;vertical-align:middle}
+  .t-single{background:#E7F0FF;color:#3E6FCE}
+  .t-multi{background:#EFE7FF;color:#7A52D8}
+  .t-scale{background:#E6F7EE;color:#2E9E63}
+  .t-nps{background:#FFEDE4;color:#E0632F}
+  .t-sort{background:#FFF3CD;color:#B58900}
+  .t-open{background:#F3EDE7;color:#7C6658}
+  .t-proto{background:#FDE2EC;color:#D6336C}
+  .star{color:var(--orange);font-weight:900}
+  .q{padding:11px 0;border-bottom:1px dashed var(--line)}
+  .q:last-child{border-bottom:none}
+  .q .id{font-weight:900;color:var(--deep);margin-right:6px}
+  .q .opts{color:var(--ink2);font-size:13px;margin-top:3px}
+  .qblock{background:#FFFCF8;border:1px solid var(--line);border-radius:16px;padding:6px 16px;margin:12px 0}
+  .qblock h4{display:flex;align-items:center;gap:8px}
+  .qblock h4 .chip{font-size:11px;background:var(--orange);color:#fff;border-radius:99px;padding:2px 9px;font-weight:700}
+  .scene{background:#F4F8FF;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:10px 14px;margin:10px 0;font-size:13.5px}
+  .task{background:#FFF6F9;border-left:4px solid var(--purple);border-radius:0 12px 12px 0;padding:10px 14px;margin:10px 0;font-size:13.5px}
+  .act-table td:first-child{font-weight:700;white-space:nowrap;color:var(--deep)}
+  .footer{text-align:center;color:var(--ink2);font-size:12.5px;padding:30px 16px 0}
+  .floatbar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:10px;justify-content:center;z-index:50}
+  .btn{border:none;border-radius:99px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:linear-gradient(135deg,var(--orange2),var(--orange));color:#fff;box-shadow:0 6px 16px rgba(255,138,92,.32)}
+  .btn-ghost{background:var(--bg);color:var(--deep);border:1.5px solid var(--line)}
+  .legend{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+  .legend span{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px}
+  @media(min-width:720px){body{font-size:15.5px}.hero h1{font-size:32px}section{padding:30px 32px}}
+  @media print{
+    body{background:#fff;font-size:12px;padding-bottom:0}
+    .hero{border-radius:0;padding:24px 20px 30px}
+    .toc,.floatbar{display:none}
+    section{box-shadow:none;border:1px solid #eee;break-inside:avoid-page;padding:18px 20px}
+    .q,.qblock,.callout,table{break-inside:avoid}
+    a{color:inherit}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="padding:0">
+    <span class="kicker">PetLog Research · 可分享母版 v1.0</span>
+    <h1>宠记 PetLog 用户调研<br>问卷 &amp; 1v1 访谈提纲</h1>
+    <p>围绕「AI 养宠健康管家」定位，验证真实痛点、记录负担、AI 信任前提、家人协作与付费意愿，并专项验证本期喂养卡改版（正餐/补给分层、统一入口、只记一次）。</p>
+    <div class="meta">
+      <span>🗓 2026-09-15</span>
+      <span>📝 定量问卷 5–8 min</span>
+      <span>🎙 深访 60 min</span>
+      <span>👥 A/B/C/D 四组画像</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h3>目录</h3>
+  <ol>
+    <li><a href="#bg">① 调研背景与目的</a></li>
+    <li><a href="#target">② 对象、甄别与配额</a></li>
+    <li><a href="#survey">③ 定量问卷 A–H</a></li>
+    <li><a href="#interview">④ 1v1 深访 6 幕</a></li>
+    <li><a href="#score">⑤ 附录A 功能评分卡</a></li>
+    <li><a href="#record">⑥ 附录B 记录模板</a></li>
+    <li><a href="#tips">⑦ 附录C 注意事项</a></li>
+    <li><a href="#hypo">⑧ 附录D 假设对照表</a></li>
+  </ol>
+</nav>
+
+<!-- ① 背景 -->
+<section id="bg">
+  <h2><span class="no">①</span>调研背景与目的</h2>
+  <p class="lead">宠记 PetLog 定位为 <b>AI 养宠健康管家</b>，核心链路：<b>随手记录 → AI 健康解读 → 行动建议/提醒 → 家人协作</b>。</p>
+
+  <h3>本期已上线 / 迭代的关键能力</h3>
+  <table>
+    <thead><tr><th>模块</th><th>能力</th></tr></thead>
+    <tbody>
+      <tr><td>一键快捷记录</td><td>首页点一下记刷牙/铲屎/玩耍等，长按补详情，入口可自定义开关</td></tr>
+      <tr><td>喂养管理<br><b>（本期改版重点）</b></td><td>正餐按「品牌 × 品类代谢能」折算 kcal 与建议区间；保健品/营养液独立成「今日补给」并支持周期提醒；统一「记一笔喂养」入口；同一餐次重复记录自动覆盖（upsert），只保留一条</td></tr>
+      <tr><td>护理待办</td><td>驱虫/疫苗到期与逾期提醒、一键处理、预约</td></tr>
+      <tr><td>AI 简报/管家</td><td>今日要闻分级（紧急/注意/正常）、点要闻直达处理、对话式办事</td></tr>
+      <tr><td>AI 输入与识别</td><td>「能吃啥」直出结论、拍照 BCS 体况评分、疫苗本/病历 OCR、语音转写结构化</td></tr>
+      <tr><td>记录沉淀</td><td>体重曲线、日历、全记录搜索、纪念日、成长瞬间、养护指数、铲屎官等级</td></tr>
+      <tr><td>家人共享</td><td>同住直接加入 / 异地邀请后协作记录；会员体系（无限 AI、多人共享）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>本期改版解决的两个真实问题：</b><br>
+    1️⃣ <b>展示割裂</b>：旧版「热量是数值、保健品/营养液是按钮」三种形态拼接 → 改为「正餐热量区在上 + 结构化今日补给清单在下」，录入入口收敛为一个主按钮。<br>
+    2️⃣ <b>重复疑虑</b>：数据只落库一次，简报与 AI 只读取解读；修复多入口造成的同餐重复记录，卡片底部明示「共用同一份记录，只记一次」。
+  </div>
+
+  <h3>四个核心问题</h3>
+  <ol class="body">
+    <li>养宠人群最高频、最焦虑的健康/喂养场景是什么？功能是否打在痛点上？</li>
+    <li>「记录」的真实负担有多大？快捷记录 vs 精细表单的边界在哪？</li>
+    <li>用户是否信任并愿意采纳 AI 结论（喂食量、能不能吃、体况判断）？信任前提是什么？</li>
+    <li>家人协作与付费意愿是否成立，卡点在哪？</li>
+  </ol>
+
+  <h3>待验证假设</h3>
+  <table>
+    <thead><tr><th>编号</th><th>假设</th></tr></thead>
+    <tbody>
+      <tr><td><b>H1</b></td><td>多数人记不住驱虫/疫苗周期，逾期提醒是刚需且高频被感知</td></tr>
+      <tr><td><b>H2</b></td><td>用户愿意为「1 秒快捷记录」持续使用，但不愿天天填精细表单（克数/品牌）</td></tr>
+      <tr><td><b>H3</b></td><td>热量/克数建议只有在「有据可依（品牌代谢能、体重）」时才被信任</td></tr>
+      <tr><td><b>H4</b></td><td>AI 结论需要「理由 + 可纠错」，否则用户不敢据此行动</td></tr>
+      <tr><td><b>H5</b></td><td>多人共同照顾一只宠物的家庭，协作是强需求且愿付费</td></tr>
+      <tr><td><b>H6</b> 🆕</td><td>「正餐/补给」分层与统一入口能消除认知割裂；「只记一次」说明能消除数据重复疑虑</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ② 对象 -->
+<section id="target">
+  <h2><span class="no">②</span>调研对象、甄别与配额</h2>
+  <h3>甄别条件（Screener）</h3>
+  <ul>
+    <li>目前在养猫和/或狗；</li>
+    <li>本人是主要喂养与健康决策者，或共同决策者；</li>
+    <li>近 3 个月未参加过养宠 App 类调研；</li>
+    <li>本人/直系亲属不在宠物医疗、宠物食品、App 研发行业（深访建议加）。</li>
+  </ul>
+  <h3>用户画像分层（建议每组 6–8 人）</h3>
+  <table>
+    <thead><tr><th>组别</th><th>特征</th></tr></thead>
+    <tbody>
+      <tr><td>A · 精致养宠型</td><td>主动学习养宠知识、定期体检、买保险、记录细致</td></tr>
+      <tr><td>B · 实用工具型</td><td>记驱虫疫苗、看症状查资料、追求高效少操作</td></tr>
+      <tr><td>C · 情感陪伴型</td><td>爱晒宠、记录成长瞬间、对萌系设计敏感</td></tr>
+      <tr><td>D · 新手焦虑型</td><td>养宠 &lt; 2 年、频繁搜索、对 AI 问诊有强需求</td></tr>
+    </tbody>
+  </table>
+  <h3>方法与样本量</h3>
+  <table>
+    <thead><tr><th>方法</th><th>对象</th><th>样本量</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td>定量问卷</td><td>问卷星/腾讯问卷，猫犬主</td><td>≥ 200 份有效</td><td>5–8 分钟</td></tr>
+      <tr><td>1v1 深访</td><td>A/B/C/D 分层</td><td>8–12 人</td><td>60 分钟</td></tr>
+      <tr><td>可用性任务</td><td>内嵌于深访，边操作边出声思考</td><td>同上</td><td>含在 60 分钟内</td></tr>
+    </tbody>
+  </table>
+  <p class="lead">配额建议：猫/狗 ≈ 6:4；幼/成/老年均覆盖；独居养宠与多人照顾 ≈ 5:5。</p>
+</section>
+
+<!-- ③ 问卷 -->
+<section id="survey">
+  <h2><span class="no">③</span>第一部分 · 用户问卷（定量）</h2>
+  <div class="legend">
+    <span class="t-single">单 单选</span>
+    <span class="t-multi">多 多选</span>
+    <span class="t-scale">量 李克特5级</span>
+    <span class="t-nps">NPS 0–10</span>
+    <span class="t-sort">排 排序</span>
+    <span class="t-open">开 开放题</span>
+    <span class="t-proto">原型 仅体验者作答</span>
+  </div>
+  <p class="lead"><span class="star">★</span> 为必答。带「原型」的题目建议生成「带原型链接版」与「纯概念版」两个问卷版本。</p>
+
+  <div class="qblock"><h4>A. 甄别与背景 <span class="chip">入门</span></h4>
+    <div class="q"><span class="id">A1★</span><span class="tag t-single">单</span>你目前是否在养猫/狗？<div class="opts">养猫 / 养狗 / 都养 / 都没有（→ 结束致谢）</div></div>
+    <div class="q"><span class="id">A2★</span><span class="tag t-single">单</span>你是它的主要喂养和健康决策者吗？<div class="opts">是 / 共同决策 / 不是（→ 结束）</div></div>
+    <div class="q"><span class="id">A3★</span><span class="tag t-single">单</span>养宠年限？<div class="opts">&lt; 半年 / 半年–1 年 / 1–2 年 / 2–5 年 / 5 年以上</div></div>
+    <div class="q"><span class="id">A4</span><span class="tag t-single">单</span>宠物目前年龄段？<div class="opts">幼年（&lt;1岁）/ 成年 / 老年 / 不清楚</div></div>
+    <div class="q"><span class="id">A5</span><span class="tag t-single">单</span>养宠只数？<div class="opts">1 只 / 2 只 / 3 只及以上</div></div>
+    <div class="q"><span class="id">A6</span><span class="tag t-single">单</span>月均养宠花费（粮+用品+医疗）？<div class="opts">&lt;300 / 300–500 / 500–1000 / 1000–2000 / &gt;2000 元</div></div>
+    <div class="q"><span class="id">A7</span><span class="tag t-multi">多</span>平时一起照顾它的人？<div class="opts">独自 / 伴侣 / 父母 / 室友 / 孩子 / 其他</div></div>
+  </div>
+
+  <div class="qblock"><h4>B. 现状与健康焦虑 <span class="chip">对应 H1</span></h4>
+    <div class="q"><span class="id">B1★</span><span class="tag t-multi">多·≤3</span>照顾宠物时你最担心/最容易出问题的是？<div class="opts">喂多喂少 / 忘记驱虫疫苗 / 喝水太少 / 体重异常 / 生病不会判断 / 不知道什么能吃 / 洗澡清洁 / 保健品不会选 / 花钱没规划 / 其他</div></div>
+    <div class="q"><span class="id">B2★</span><span class="tag t-scale">量</span>我经常担心它吃的量或营养不合适。</div>
+    <div class="q"><span class="id">B3★</span><span class="tag t-scale">量</span>我经常忘记或搞不清下次驱虫/疫苗的时间。</div>
+    <div class="q"><span class="id">B4</span><span class="tag t-single">单</span>过去半年它是否出现过健康异常（呕吐拉稀、泌尿、超重、皮肤等）？<div class="opts">出现过，自行判断处理 / 出现过，靠搜索或问人 / 出现过，直接去医院 / 没出现过</div></div>
+    <div class="q"><span class="id">B5</span><span class="tag t-single">单</span>你判断「今天喂得合不合适」主要靠？<div class="opts">凭感觉 / 包装喂食说明 / 网上搜攻略 / 问医生 / 用 App 记录计算</div></div>
+    <div class="q"><span class="id">B6</span><span class="tag t-open">开</span>最近一次让你为它健康焦虑的事是什么？</div>
+  </div>
+
+  <div class="qblock"><h4>C. 记录行为与负担 <span class="chip">对应 H2</span></h4>
+    <div class="q"><span class="id">C1★</span><span class="tag t-single">单</span>你现在会记录喂养/健康信息吗？<div class="opts">坚持记 / 偶尔记 / 想记但坚持不下来 / 完全不记</div></div>
+    <div class="q"><span class="id">C2</span><span class="tag t-multi">多</span>目前用什么方式记？<div class="opts">脑子记 / 相册 / 备忘录 / Excel / 养宠小程序或 App / 智能硬件 / 微信收藏或聊天记录</div></div>
+    <div class="q"><span class="id">C3</span><span class="tag t-single">单</span>每次「记一笔」愿意花的最长时间？<div class="opts">点一下即可（&lt;3秒）/ 3–10 秒 / 愿意认真填表单 / 看情况</div></div>
+    <div class="q"><span class="id">C4★</span><span class="tag t-multi">多</span>什么情况下愿意认真填详细信息（克数、品牌、剂量）？<div class="opts">关心体重 / 减肥期 / 换粮期 / 生病恢复期 / 体检前后 / 喂保健品或药期间 / 永远不想填</div></div>
+    <div class="q"><span class="id">C5★</span><span class="tag t-scale">量</span>如果点一下就能记完，我会更愿意长期记录。</div>
+    <div class="q"><span class="id">C6★</span><span class="tag t-scale">量</span>如果每次都要输入克数/品牌，我很快就会放弃。</div>
+    <div class="q"><span class="id">C7</span><span class="tag t-open">开</span>你最希望被「自动记录/自动提醒」的一件事是？</div>
+  </div>
+
+  <div class="qblock" style="border-color:#FFD9B8;background:#FFFBF5"><h4 style="color:var(--deep)">D. 喂养体系专项 <span class="chip">本期改版重点 · 对应 H3/H6</span></h4>
+    <div class="q"><span class="id">D1</span><span class="tag t-proto">原型</span><span class="tag t-single">单</span>刚才体验中你最先上手使用的功能是？</div>
+    <div class="q"><span class="id">D2</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>首页一键记录（点一下记刷牙/铲屎/喂食）对我很实用。</div>
+    <div class="q"><span class="id">D3</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>「正餐热量 + 建议区间」我看得懂，并且会参考。</div>
+    <div class="q"><span class="id">D4</span><span class="tag t-proto">原型</span><span class="tag t-single">单</span>看到「今日合计 kcal + 克数 + 建议区间」的第一反应？<div class="opts">可信会照做 / 会看但仅供参考 / 看不懂 / 不关心数字只关心吃没吃</div></div>
+    <div class="q"><span class="id">D5</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>保健品/营养液单独放在「今日补给」、不和热量混在一起，这样更清楚。</div>
+    <div class="q"><span class="id">D6</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>我清楚喂养记录只保存一次，健康简报和 AI 只是在解读同一份数据，不会重复记录。</div>
+    <div class="q"><span class="id">D7</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>「同一餐重复记会自动覆盖、加餐每次新增」的规则符合我的直觉。</div>
+    <div class="q"><span class="id">D8</span><span class="tag t-proto">原型</span><span class="tag t-single">单</span>喂养录入你更偏好？<div class="opts">一个统一入口（进去再选类型）/ 食物、保健品、营养液各一个独立按钮 / 无所谓</div></div>
+    <div class="q"><span class="id">D9</span><span class="tag t-proto">原型</span><span class="tag t-multi">多</span>最希望周期提醒支持？<div class="opts">体内驱虫 / 体外驱虫 / 疫苗 / 洗澡洗护 / 保健品 / 营养液 / 体检 / 自定义</div></div>
+    <div class="q"><span class="id">D10</span><span class="tag t-single">单</span>保健品/营养液你认为应怎么统计？<div class="opts">按次数/剂量统计，不算热量 / 也算成每天摄入的一部分 / 我从来不喂</div></div>
+    <div class="q"><span class="id">D11</span><span class="tag t-proto">原型</span><span class="tag t-open">开</span>喂养这块还有哪里让你觉得别扭、看不懂或不放心？</div>
+  </div>
+
+  <div class="qblock"><h4>E. AI 能力与信任 <span class="chip">对应 H3/H4</span></h4>
+    <div class="q"><span class="id">E1</span><span class="tag t-scale">量</span>如果 App 根据体重和品牌代谢能告诉我该喂多少克，我愿意照做。</div>
+    <div class="q"><span class="id">E2</span><span class="tag t-scale">量</span>AI 说某种食物能吃/不能吃，我会直接相信。</div>
+    <div class="q"><span class="id">E3</span><span class="tag t-multi">多</span>什么情况下你才敢信 AI 的健康建议？<div class="opts">给出来源/理由 / 结合我家宠物档案 / 能一键追问或转人工医生 / 识别后可手动修改 / 有其他用户验证 / 有执业兽医背书</div></div>
+    <div class="q"><span class="id">E4</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>「能吃啥」直接给结论 + 怎么喂，比我自己查攻略更好。</div>
+    <div class="q"><span class="id">E5</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>拍照测体况（BCS）、拍疫苗本自动识别录入，我愿意用。</div>
+    <div class="q"><span class="id">E6</span><span class="tag t-single">单</span>如果 AI 识别错了（如 OCR 录错疫苗日期），你期望？<div class="opts">必须能手动修改 / 录入时二次确认 / 错一次就不再相信 / 无所谓</div></div>
+    <div class="q"><span class="id">E7</span><span class="tag t-scale">量</span>我更信任能说清「为什么这么建议」的 AI，而不是只甩给我一个结论。</div>
+    <div class="q"><span class="id">E8</span><span class="tag t-nps">NPS</span>你有多大可能把「会给健康建议的养宠 AI 管家」推荐给养宠朋友？（0–10）</div>
+    <div class="q"><span class="id">E9</span><span class="tag t-open">开</span>你最希望 AI 替你做的一个决定/一件事是什么？</div>
+  </div>
+
+  <div class="qblock"><h4>F. 家人协作 <span class="chip">对应 H5</span></h4>
+    <div class="q"><span class="id">F1</span><span class="tag t-single">单</span>你家是否多人轮流照顾/喂食？<div class="opts">是，每天多人参与 / 偶尔有人帮忙 / 基本我一人全包</div></div>
+    <div class="q"><span class="id">F2</span><span class="tag t-scale">量</span>多人各记各的、信息不同步，确实让我困扰。</div>
+    <div class="q"><span class="id">F3</span><span class="tag t-proto">原型</span><span class="tag t-scale">量</span>家人共用一份记录、谁喂了都能看到，对我很有价值。</div>
+    <div class="q"><span class="id">F4</span><span class="tag t-proto">原型</span><span class="tag t-single">单</span>两种加入方式哪种更符合你的情况？<div class="opts">同住家人填昵称直接加入 / 异地家人发邀请、对方接受后加入</div></div>
+    <div class="q"><span class="id">F5</span><span class="tag t-multi">多</span>协作中你最怕出现？<div class="opts">重复喂食 / 重复给药 / 看不到对方记录 / 权限不清 / 被消息打扰 / 其他</div></div>
+  </div>
+
+  <div class="qblock"><h4>G. 付费意愿</h4>
+    <div class="q"><span class="id">G1</span><span class="tag t-scale">量</span>如果它真能帮我少跑医院、不遗漏驱虫疫苗，我愿意付费。</div>
+    <div class="q"><span class="id">G2</span><span class="tag t-single">单</span>可接受的付费模式？<div class="opts">免费+广告 / 一次性买断 / 按月订阅 / 按年订阅 / 只愿用免费版</div></div>
+    <div class="q"><span class="id">G3</span><span class="tag t-single">单</span>可接受的会员价格（每年）？<div class="opts">&lt;30 / 30–68 / 68–128 / 128–198 / &gt;198 元</div></div>
+    <div class="q"><span class="id">G4</span><span class="tag t-multi">多</span>最愿意为之付费的能力？<div class="opts">无限 AI 问答 / 多人共享 / 拍照体况与 OCR / 深度健康周报 / 疫苗提醒与预约 / 执业兽医在线问诊 / 成长纪念相册</div></div>
+  </div>
+
+  <div class="qblock"><h4>H. 优先级与开放</h4>
+    <div class="q"><span class="id">H1★</span><span class="tag t-sort">排</span>选出最希望优先做好的 3 项并排序：① 快捷记录　② 喂食量与热量　③ 驱虫疫苗提醒　④ AI 健康简报　⑤ 能吃啥查询　⑥ 拍照/语音智能录入　⑦ 体重与体况　⑧ 家人共享　⑨ 成长纪念/日记</div>
+    <div class="q"><span class="id">H2</span><span class="tag t-open">开</span>整体体验最满意的一点？</div>
+    <div class="q"><span class="id">H3</span><span class="tag t-open">开</span>最想吐槽、或最影响你继续使用的一点？</div>
+    <div class="q"><span class="id">H4</span><span class="tag t-open">开</span>如果它只能保留一个功能，你希望是？</div>
+    <div class="q"><span class="id">H5</span><span class="tag t-open">开</span>（选填）愿意参加后续 30 分钟视频访谈（有酬），请留微信/手机号。</div>
+  </div>
+</section>
+
+<!-- ④ 访谈 -->
+<section id="interview">
+  <h2><span class="no">④</span>第二部分 · 1v1 深度访谈提纲（60 分钟）</h2>
+  <div class="callout green">
+    <b>形式：</b>腾讯会议/线下面访，屏幕共享 + 录屏，请用户「边操作边说出来」（出声思考法）。<br>
+    <b>物料：</b>宠记可交互原型、宠康AI 原型、录屏授权书、功能评分卡。<br>
+    <b>顺序平衡：</b>一半人先看宠康AI，一半先看宠记，消除顺序偏差。
+  </div>
+  <table class="act-table">
+    <thead><tr><th>时段</th><th>环节</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td>第 0 幕</td><td>暖场与背景</td><td>5 min</td></tr>
+      <tr><td>第 1 幕</td><td>真实的一天与健康焦虑</td><td>8 min</td></tr>
+      <tr><td>第 2 幕</td><td>记录行为与负担（含操作任务）</td><td>10 min</td></tr>
+      <tr><td>第 3 幕</td><td>喂养体系改版专项 ⭐</td><td>10 min</td></tr>
+      <tr><td>第 4 幕</td><td>AI 信任与纠错</td><td>10 min</td></tr>
+      <tr><td>第 5 幕</td><td>两产品表达对比 &amp; 分类体系</td><td>10 min</td></tr>
+      <tr><td>第 6 幕</td><td>协作、付费与收尾</td><td>7 min</td></tr>
+    </tbody>
+  </table>
+
+  <h3>第 0 幕 · 暖场（5 min）</h3>
+  <ol class="body">
+    <li>介绍一下你家主子：品种、年纪、绝育情况、谁主要管、一天的照顾流程大概怎样？</li>
+    <li>之前用过哪些养宠/宠物健康类 App 或小程序？最常用什么、最不满意什么？</li>
+  </ol>
+  <div class="callout">开场说明：接下来是两款还在设计中的可交互原型，部分功能不完整，任何别扭的地方都欢迎直接说，没有对错。</div>
+
+  <h3>第 1 幕 · 真实的一天与健康焦虑（8 min）</h3>
+  <ol class="body">
+    <li>从早到晚，喂粮、换水、铲屎、护理分别怎么做、谁来做？</li>
+    <li>最近一次「担心它健康」是什么时候？发生了什么，怎么处理的？</li>
+    <li>你怎么判断喂多了还是喂少了？</li>
+    <li>驱虫、疫苗、体检时间怎么记？忘过吗？忘了之后有什么后果？</li>
+    <li>出现呕吐、拉稀、不吃饭等异常时第一反应是什么？（搜索/问群友/问医生/直接去医院）</li>
+  </ol>
+
+  <h3>第 2 幕 · 记录行为与负担（10 min）</h3>
+  <ol class="body">
+    <li>现在会做任何形式的记录吗？<b>可以翻开手机给我看看吗？</b>（相册/备忘录/购物记录/微信群都行）</li>
+  </ol>
+  <div class="task">📋 <b>操作任务</b>：任务 A — 用首页「一键记录」点一下记一次铲屎/刷牙；任务 B — 用「记一笔喂养」完整记一次正餐。</div>
+  <ol class="body" start="3">
+    <li>哪一步让你迟疑或觉得多余？克数和品牌你平时真的知道吗？</li>
+    <li>什么信息愿意每次都填，什么绝对不想填？「长按补详情」这个隐式入口你能发现吗？</li>
+  </ol>
+
+  <h3 style="border-color:var(--deep)">第 3 幕 · 喂养体系改版专项（10 min）⭐ H3/H6</h3>
+  <p class="lead">展示新版喂养卡：上部「正餐 · 供能热量」，下部「今日补给 · 保健品/营养液」，底部统一「记一笔喂养」按钮与「只记一次」说明。</p>
+  <ol class="body">
+    <li>不看任何提示，先描述这张卡片在告诉你什么？</li>
+    <li>正餐热量区（kcal、克数、建议区间）看得懂吗？会照做吗？什么前提下你才信这个克数？（体重/包装代谢能/兽医背书）</li>
+    <li>保健品、营养液平时喂不喂？怎么记剂量？你觉得它们该不该算进「热量」？</li>
+    <li>从「按钮」改成下方补给清单（含周期铃铛标记），和旧版相比哪种更清楚？</li>
+  </ol>
+  <div class="scene">🔁 <b>重复疑虑探针</b>：你在这里记了一顿饭，又去「AI 健康管家」里说了一遍，你觉得数据会记几次？看到底部「共用同一份记录，只记一次」疑虑消除了吗？你希望系统再用什么方式证明没重复？</div>
+  <div class="scene">🔁 <b>同餐覆盖探针</b>：早餐先用大碗快捷记了一次，后来又在表单补了品牌和克数，你期望出现两条记录还是一条被更新？（验证 upsert 规则；加餐场景另问）</div>
+  <ol class="body" start="7">
+    <li>你在什么情况下会每天、每顿都认真记录摄入？为什么大多数时候不记？</li>
+  </ol>
+
+  <h3>第 4 幕 · AI 信任与纠错（10 min）</h3>
+  <p class="lead">依次体验：今日简报（分级要闻）→ 问管家 → 能吃啥直出 → 拍照 BCS → OCR 疫苗本。</p>
+  <ol class="body">
+    <li>「紧急/注意/正常」三级你会先看哪个？点要闻直达处理，路径顺吗？</li>
+    <li>「能吃啥」直接给结论，你信吗？想同时看到什么依据？</li>
+    <li>自动预填「海乐妙 1 片」这种细节，贴心还是不放心？填错了你能发现、能改吗？</li>
+    <li>它说错一次你还会用吗？错到什么程度会彻底不信任？</li>
+  </ol>
+  <div class="scene">🧪 <b>情境题</b>：AI 明确提示巧克力不能喂，但家里长辈已经喂了一小块，你期望它此刻怎么帮你？（观察从「结论」到「行动 + 就医判断」的期待）</div>
+  <ol class="body" start="6">
+    <li>语音一句话自动归类，什么场景会用？担心识别错类型吗？麦克风按钮放哪里最顺手、最容易第一时间找到？</li>
+  </ol>
+
+  <h3>第 5 幕 · 两种表达对比与分类体系（10 min）</h3>
+  <h4>5.1 定位感知与设计表达（宠康AI 专业数据风 vs 宠记温暖萌系）</h4>
+  <ol class="body">
+    <li>分别用一句话说说两个 App 是帮你解决什么问题的？能感觉到它们都想做「AI 健康管家」吗？</li>
+    <li>宠康AI 的「健康分 85 分」是什么意思？会因此改变行为吗？数据化表达更可信还是有距离感？</li>
+    <li>拟人问候「我已经 7 天没驱虫啦」vs「驱虫已逾期 7 天」，你更喜欢哪种？</li>
+    <li>连续打卡、铲屎官等级这类游戏化元素，会激励你还是觉得幼稚？</li>
+    <li>若融合成一个产品：视觉要专业风/萌系/混合？语气直接专业/拟人贴心/按场景切换？功能上最不能少的三个、交互上最不能少的一个？</li>
+    <li>「管家」做到什么程度才算真的「管」到健康？（主动发现/替你做决定/只做提醒和记录）</li>
+  </ol>
+  <h4>5.2 信息架构与分类体系</h4>
+  <ol class="body">
+    <li>首页第一眼看到什么？你认为首页最重要的信息应该是什么？</li>
+    <li>底部 Tab「今天/记录/我的」符合习惯吗？「今天」点之前你知道里面是什么吗？</li>
+    <li>记录一条驱虫最少需要几步？哪些字段必填、哪些可省？</li>
+    <li>宠康AI 五大类（用药/护理/医疗/健康/体重）vs 宠记（事项/成长 + 日常/基础健康/清洁洗护/打理清扫/其他），哪种更符合你的思维？</li>
+    <li>边界探针：驱虫算「用药」吗？洗澡算清洁还是日常？换猫砂算「打理清扫」吗？「呕吐」去哪类找？生理期/发情期放得下吗？</li>
+    <li>查历史更多是找「上次驱虫是什么时候」（按类型）还是「上周发生了什么」（按时间）？手风琴分类展开 vs 纯时间线更习惯哪个？</li>
+    <li>「自定义分类」（过敏记录、饮食调整）你需要吗？</li>
+  </ol>
+
+  <h3>第 6 幕 · 协作、付费与收尾（7 min）</h3>
+  <ol class="body">
+    <li>多人照顾时出现过重复喂、重复给药吗？一份共享记录能解决吗？担心权限或打扰吗？</li>
+    <li>如果有会员，什么功能值得付钱？每年多少钱可接受？（追问价格锚点）</li>
+    <li>AI 背后接通真实执业兽医图文/视频问诊，愿意付费吗？什么价位？</li>
+    <li>填功能评分卡（附录 A）：只能保留 3 个功能留哪 3 个？有没有两个产品都没做但你特别想要的？</li>
+    <li>你会把它推荐给养宠朋友吗？理由？（对应 NPS）</li>
+    <li>还有什么没说到但重要的？如果产品团队就在面前，最想说什么？后续新版本测试愿意继续参加吗？</li>
+  </ol>
+</section>
+
+<!-- 附录 -->
+<section id="score">
+  <h2><span class="no">⑤</span>附录 A · 功能评分卡（1–5 分）</h2>
+  <p class="lead">5 = 非常需要，1 = 完全不需要；并追问原因。</p>
+  <table>
+    <thead><tr><th>#</th><th>功能</th><th>评分</th><th>会常用?</th><th>追问记录</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>首页一键快捷记录（点一下完成）</td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td>正餐热量/克数建议（品牌代谢能折算）</td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td>今日补给（保健品/营养液 + 周期提醒）</td><td></td><td></td><td></td></tr>
+      <tr><td>4</td><td>驱虫/疫苗到期与逾期提醒</td><td></td><td></td><td></td></tr>
+      <tr><td>5</td><td>护理待办一键处理/预约</td><td></td><td></td><td></td></tr>
+      <tr><td>6</td><td>AI 今日健康简报（分级要闻）</td><td></td><td></td><td></td></tr>
+      <tr><td>7</td><td>对话式 AI 健康管家</td><td></td><td></td><td></td></tr>
+      <tr><td>8</td><td>「能吃啥」结论直查</td><td></td><td></td><td></td></tr>
+      <tr><td>9</td><td>拍照 BCS 体况评分</td><td></td><td></td><td></td></tr>
+      <tr><td>10</td><td>疫苗本/病历 OCR 识别录入</td><td></td><td></td><td></td></tr>
+      <tr><td>11</td><td>语音记录自动结构化</td><td></td><td></td><td></td></tr>
+      <tr><td>12</td><td>体重曲线与养护指数</td><td></td><td></td><td></td></tr>
+      <tr><td>13</td><td>全记录搜索/日历回顾</td><td></td><td></td><td></td></tr>
+      <tr><td>14</td><td>成长瞬间/纪念日/照相馆</td><td></td><td></td><td></td></tr>
+      <tr><td>15</td><td>打卡/铲屎官等级</td><td></td><td></td><td></td></tr>
+      <tr><td>16</td><td>家人共享协作</td><td></td><td></td><td></td></tr>
+      <tr><td>17</td><td>体检报告解读 → 复查提醒闭环</td><td></td><td></td><td></td></tr>
+      <tr><td>18</td><td>执业兽医在线问诊</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="record">
+  <h2><span class="no">⑥</span>附录 B · 访谈记录模板</h2>
+  <p class="lead">每位受访者一行/一文档。</p>
+  <table>
+    <tbody class="act-table">
+      <tr><td>基础信息</td><td>受访者编号 ｜ 画像组别（A/B/C/D）｜ 猫/狗 &amp; 年龄 ｜ 养宠年限 ｜ 照顾人数 ｜ 是否用过竞品 ｜ 日期/时长 ｜ 访谈员/记录员</td></tr>
+      <tr><td>关键记录</td><td>① 实际操作卡点（配时间戳）② 说的与做的矛盾点 ③ 主动提及 vs 被提醒才认可的功能 ④ 高频原话引用 ⑤ 假设验证结论（H1–H6：支持/部分支持/不支持）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="tips">
+  <h2><span class="no">⑦</span>附录 C · 执行注意事项</h2>
+  <ol class="body">
+    <li><b>不引导：</b>避免「您不觉得这个功能很方便吗」，改用「你怎么看这个功能」。</li>
+    <li><b>看行为而非观点：</b>「我会用」≠ 真的会用，重点记录自由探索阶段的真实点击路径与卡点。</li>
+    <li><b>沉默是金：</b>受访者停顿时等 5 秒，不急着补充。</li>
+    <li><b>连问为什么：</b>出现「好/不好/还行」时，至少追问一次具体原因与最近一次真实经历。</li>
+    <li><b>顺序平衡：</b>两产品展示顺序轮换，一半先看宠康AI、一半先看宠记。</li>
+    <li><b>标记矛盾：</b>嘴上认可但操作中绕过的功能要显式标记。</li>
+    <li><b>原型免责声明：</b>开场说明「可交互原型、功能不完整、欢迎吐槽」。</li>
+  </ol>
+</section>
+
+<section id="hypo">
+  <h2><span class="no">⑧</span>附录 D · 假设 × 证据对照表（分析阶段填写）</h2>
+  <table>
+    <thead><tr><th>假设</th><th>定量看哪题</th><th>定性看哪幕</th><th>结论判定标准（示例）</th></tr></thead>
+    <tbody>
+      <tr><td><b>H1</b> 周期提醒刚需</td><td>B1、B3、D9</td><td>第 1 幕</td><td>B3 ≥ 4 占比 &gt; 60% 且深访有遗忘后果案例</td></tr>
+      <tr><td><b>H2</b> 快捷 vs 精细</td><td>C3–C6</td><td>第 2 幕</td><td>C5 与 C6 同时 ≥ 4；任务 B 放弃率明显高于任务 A</td></tr>
+      <tr><td><b>H3</b> 热量信任前提</td><td>D3、D4、E1</td><td>第 3 幕</td><td>「照做」组能说出依据（体重/代谢能）的比例</td></tr>
+      <tr><td><b>H4</b> 理由+可纠错</td><td>E3、E6、E7</td><td>第 4 幕</td><td>E7 ≥ 4 占比；E6 选「必须能改」比例</td></tr>
+      <tr><td><b>H5</b> 协作付费</td><td>F1–F3、G1</td><td>第 6 幕</td><td>多人家庭 F3 ≥ 4 且 G4 含多人共享</td></tr>
+      <tr><td><b>H6</b> 分层/只记一次</td><td>D5–D8、D11</td><td>第 3 幕</td><td>D5、D6 ≥ 4 占比；探针疑虑消除率</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="footer">
+  🐾 宠记 PetLog · 用户调研母版 v1.0 ｜ 2026-09-15 ｜ 问卷可直接搬运至问卷星/腾讯问卷投放
+</div>
+
+</div>
+
+<div class="floatbar">
+  <button class="btn btn-ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到顶部</button>
+  <button class="btn btn-primary" onclick="window.print()">🖨 打印 / 存为 PDF</button>
+</div>
+
+</body>
+</html>
