@@ -370,6 +370,76 @@
   .ms-empty{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:var(--muted);background:#fff;border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;touch-action:manipulation}
   .ms-empty:active{transform:scale(.99)}
   .ms-empty .ico{width:14px;height:14px;color:var(--muted)}
+
+  /* ===== 今日营养驾驶舱：结论 + 靶心区间 + 摄入构成 ===== */
+  .nu-panel{position:relative;z-index:1;margin-top:12px;border-radius:18px;padding:13px 13px 12px;border:1.6px solid #F3E4D5;background:linear-gradient(180deg,#FFFCF8,#FFF7EF)}
+  .nu-verdict{display:flex;align-items:center;gap:11px;cursor:pointer;touch-action:manipulation}
+  .nu-verdict:active{transform:scale(.992)}
+  .nu-badge{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--mint-soft,#DFF6EF);color:#20A581;transition:.25s}
+  .nu-badge .ico{width:23px;height:23px}
+  .nu-badge.is-low{background:#FCEFD6;color:#D98324}
+  .nu-badge.is-over{background:#FDE3E8;color:#E0556B}
+  .nu-badge.is-empty{background:#F1EBE4;color:var(--muted)}
+  .nu-v-main{flex:1;min-width:0}
+  .nu-v-title{font-size:14.5px;font-weight:850;color:var(--ink);line-height:1.25;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif}
+  .nu-v-sub{font-size:10.8px;font-weight:700;color:var(--muted);margin-top:3px;line-height:1.4}
+  .nu-v-go{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .nu-v-kcal{font-size:18px;font-weight:900;color:var(--primary-600);line-height:1}
+  .nu-v-kcal small{font-size:10px;font-weight:700;color:var(--muted);margin-left:1px}
+  .nu-v-go span.go-txt{font-size:9.8px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:2px 8px;white-space:nowrap}
+  /* 靶心区间标尺：落在绿色安全区即为好，而非越满越好 */
+  .nu-gauge{margin-top:13px}
+  .nu-track{position:relative;height:11px;border-radius:99px;background:linear-gradient(90deg,#F6E3B4 0,#F6E3B4 18%,#BEEAD9 18%,#BEEAD9 72%,#F8CDD5 72%,#F8CDD5 100%)}
+  .nu-marker{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--primary);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.18);transition:left .5s cubic-bezier(.34,1.4,.64,1),border-color .25s;z-index:2}
+  .nu-marker.is-low{border-color:#D98324}
+  .nu-marker.is-over{border-color:#E0556B}
+  .nu-marker.is-ok{border-color:#20A581}
+  .nu-scale{position:relative;height:15px;margin-top:6px;font-size:9.6px;font-weight:750;color:var(--muted)}
+  .nu-scale .ns{position:absolute;top:0;white-space:nowrap}
+  .nu-scale .ns-zero{left:0}
+  .nu-scale .ns-lo{transform:translateX(-50%)}
+  .nu-scale .ns-hi{transform:translateX(-100%)}
+  .nu-scale b{color:var(--text);font-weight:850}
+  /* 今日摄入构成 */
+  .nu-sec-t{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:850;color:var(--ink);margin:14px 1px 7px}
+  .nu-sec-t .nu-more{margin-left:auto;font-size:10px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+  .nu-kinds{display:flex;flex-wrap:wrap;gap:7px}
+  .nu-kind{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:6px 11px;font-size:11.5px;font-weight:800;color:var(--text)}
+  .nu-kind .kdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .nu-kind .kkcal{color:var(--muted);font-weight:700;font-size:10.5px}
+  .nu-kind.k-snack{border-color:#F3D2A6;background:#FFF8EE}
+  .nu-kind.k-snack .kkcal{color:#D08A2E}
+  .nu-snackwarn{display:none;align-items:center;gap:6px;margin-top:8px;font-size:10.6px;font-weight:750;color:#D08A2E;background:#FCF3E2;border:1.3px solid #F0DCB2;border-radius:11px;padding:7px 10px;line-height:1.4}
+  .nu-snackwarn.show{display:flex}
+  .nu-snackwarn .ico{width:14px;height:14px;flex-shrink:0}
+  /* 补给：明确归为「不计热量的照护项」，与供能正餐分层但同卡 */
+  .nu-care{margin-top:11px;padding-top:10px;border-top:1.5px dashed var(--line)}
+  .nu-care-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--muted);margin:0 1px 7px}
+  .nu-care-head .nu-care-add{margin-left:auto;font-size:10px;font-weight:800;color:#8A63D2;background:#EFE9FD;border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+  .nu-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .nu-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.4px solid var(--line);border-radius:99px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--text)}
+  .nu-chip.supp{border-color:#E3DAFB;background:#F7F3FF;color:#6E4FB8}
+  .nu-chip.liq{border-color:#CFE9F6;background:#F2FAFF;color:#357FA8}
+  .nu-chip .ico{width:12px;height:12px}
+  .nu-chip .cyc{color:#E0A23C}
+  .nu-chip.cyc .ico{width:12px;height:12px}
+  .nu-care-empty{font-size:10.6px;font-weight:700;color:var(--muted);background:#fff;border:1.4px dashed var(--line);border-radius:11px;padding:8px 11px;cursor:pointer}
+  /* 营养分析详情弹层 */
+  .nd-ring{width:120px;height:120px;margin:4px auto 10px;position:relative}
+  .nd-ring svg{transform:rotate(-90deg)}
+  .nd-ring .nd-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .nd-ring .nd-c b{font-size:24px;font-weight:900;color:var(--primary-600);line-height:1}
+  .nd-ring .nd-c span{font-size:10px;font-weight:700;color:var(--muted);margin-top:3px}
+  .nd-status{text-align:center;font-size:14px;font-weight:850;margin:2px 0 2px}
+  .nd-range{text-align:center;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:12px}
+  .nd-bar-row{display:flex;align-items:center;gap:9px;margin:8px 2px;font-size:11.5px}
+  .nd-bar-row .nd-l{width:44px;flex-shrink:0;font-weight:800;color:var(--text)}
+  .nd-bar-track{flex:1;height:9px;border-radius:99px;background:#F1E8DF;overflow:hidden}
+  .nd-bar-track i{display:block;height:100%;border-radius:99px}
+  .nd-bar-row .nd-v{width:78px;flex-shrink:0;text-align:right;font-weight:800;color:var(--text);font-size:10.8px}
+  .nd-tip{margin-top:12px;background:#FFF6EE;border:1.4px solid #F6E2CE;border-radius:14px;padding:10px 12px;font-size:11.5px;font-weight:650;color:var(--text);line-height:1.6}
+  .nd-tip b{color:var(--primary-600)}
+
   /* 统一录入主按钮 */
   .meal-add{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;width:100%;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#FFB066,#FF8A5C);border:none;border-radius:14px;padding:11px;cursor:pointer;box-shadow:0 6px 16px rgba(255,138,92,.28);touch-action:manipulation;transition:transform .12s}
   .meal-add:active{transform:scale(.98)}
@@ -1529,18 +1599,29 @@
                 <span class="mw-dots" id="mw-dots"></span>
                 <span class="mw-add" id="mw-add">＋ 记一次</span>
               </div>
-              <div class="meal-intake" id="meal-intake">
-                <div class="ms-head" style="margin:0 0 7px"><span class="ms-dot" style="background:#FF8A5C"></span>正餐 · 供能热量<span class="ms-count" id="mi-meal-count"></span></div>
-                <div class="mi-top">
-                  <span class="mi-num">今日合计 <b id="mi-kcal">0</b><span id="mi-unit">kcal</span><span id="mi-gram-sub"></span></span>
-                  <span class="mi-goal" id="mi-goal">建议 — kcal/天</span>
+              <div class="nu-panel" id="nu-panel">
+                <div class="nu-verdict" id="nu-verdict">
+                  <span class="nu-badge is-empty" id="nu-badge"><svg class="ico"><use href="#i-food"/></svg></span>
+                  <div class="nu-v-main">
+                    <div class="nu-v-title" id="nu-title">今天还没开饭</div>
+                    <div class="nu-v-sub" id="nu-sub">记一笔，我帮你盯着今天喂得对不对</div>
+                  </div>
+                  <div class="nu-v-go">
+                    <span class="nu-v-kcal"><b id="nu-kcal">0</b><small>kcal</small></span>
+                    <span class="go-txt">营养分析 ›</span>
+                  </div>
                 </div>
-                <div class="mi-bar"><i id="mi-bar-fill" style="width:0%"></i></div>
-                <div class="mi-hint muted" id="mi-hint">记一餐会按该粮代谢能自动折算热量，保健品 / 营养液不计入热量</div>
-              </div>
-              <div class="meal-supp">
-                <div class="ms-head"><span class="ms-dot"></span>今日补给 · 保健品 / 营养液<span class="ms-count" id="ms-count"></span><span class="ms-add" id="ms-add-btn"><svg class="ico"><use href="#i-plus"/></svg>补给</span></div>
-                <div class="ms-list" id="ms-list"></div>
+                <div class="nu-gauge">
+                  <div class="nu-track" id="nu-track"><i class="nu-marker is-ok" id="nu-marker" style="left:0%"></i></div>
+                  <div class="nu-scale"><span class="ns ns-zero">0</span><span class="ns ns-lo" id="nu-lo-txt">建议下限 <b id="nu-lo">–</b></span><span class="ns ns-hi" id="nu-hi-txt"><b id="nu-hi">–</b> 上限</span></div>
+                </div>
+                <div class="nu-sec-t">今日热量构成<span class="nu-more" id="nu-add-food"><svg class="ico" style="width:11px;height:11px;vertical-align:-1px"><use href="#i-plus"/></svg>记正餐</span></div>
+                <div class="nu-kinds" id="nu-kinds"></div>
+                <div class="nu-snackwarn" id="nu-snackwarn"><svg class="ico"><use href="#i-bell"/></svg><span id="nu-snacktxt"></span></div>
+                <div class="nu-care">
+                  <div class="nu-care-head">今日补给 · 保健品 / 营养液（不计热量）<span class="nu-care-add" id="ms-add-btn"><svg class="ico" style="width:11px;height:11px;vertical-align:-1px"><use href="#i-plus"/></svg>补给</span></div>
+                  <div class="nu-chips" id="nu-care-list"></div>
+                </div>
               </div>
               <button type="button" class="meal-add" id="meal-add-btn"><svg class="ico"><use href="#i-plus"/></svg>记一笔喂养</button>
               <div class="meal-src"><svg class="ico"><use href="#i-check"/></svg>这里和健康简报、AI 管家共用同一份记录，只记一次</div>
@@ -2814,6 +2895,16 @@
           </div>
         </div>
 
+        <!-- 今天：营养分析详情（结论环 + 品类构成 + 建议克数 + 行动建议） -->
+        <div class="sheet-mask" id="nutrition-detail-sheet">
+          <div class="sheet">
+            <div class="stitle">今日营养分析</div>
+            <div id="nd-body"></div>
+            <div class="btn btn-primary" id="nd-add" style="margin:14px 4px 4px"><svg class="ico"><use href="#i-plus"/></svg> 再记一笔</div>
+            <div class="sheet-row cancel" id="nd-cancel">关闭</div>
+          </div>
+        </div>
+
         <!-- 今天：待办一键处理完成卡（预填，确认即 勾掉+记录+排下次） -->
         <div class="sheet-mask" id="todo-done-sheet">
           <div class="sheet done-sheet">
@@ -4022,8 +4113,7 @@
         for(var i = 0; i < 5; i++){ html += '<i class="mw-dot' + (i < Math.min(waterN,5) ? ' on' : '') + '"></i>'; }
         dots.innerHTML = html;
       }
-      renderMealIntake(key);
-      renderMealSuppList(key);
+      renderNutritionPanel(key);
     }
     // ===== 喂食扩展：食物库默认克重 + 每日摄入目标 + 食物/保健品/营养液 =====
     var FEED_TYPE_META = {
@@ -4145,93 +4235,242 @@
       feedRecsOfType(key,ftype).forEach(function(r){ n += Number(r.amount)||0; });
       return n;
     }
-    // 渲染：今日补给清单（保健品 / 营养液），逐条结构化展示总量、次数与提醒标记
-    function renderMealSuppList(key){
-      var listEl = document.getElementById('ms-list');
-      var cntEl = document.getElementById('ms-count');
-      if(!listEl) return;
+    // ===== 今日营养驾驶舱：结论 + 靶心区间 + 热量构成 + 非热量照护（保健品/营养液） =====
+    var KIND_META = {
+      '主粮':{color:'#FF8A5C', short:'主粮'},
+      '罐头':{color:'#F0A94B', short:'罐头'},
+      '湿粮':{color:'#5FB3F5', short:'湿粮'},
+      '冻干':{color:'#3EC9A7', short:'冻干'},
+      '自制':{color:'#E08BB0', short:'自制'},
+      '零食':{color:'#F2688E', short:'零食'}
+    };
+    function kindMetaOf(kind){ return KIND_META[kind] || {color:'#B6A48F', short:kind||'其他'}; }
+    // 汇总今日正餐：按品类聚合热量 / 克数 / 餐数，并拆出零食
+    function todayKindAgg(key){
+      var map = {}, order = [];
+      var total = 0, snack = 0, gram = 0, meals = 0;
+      feedRecsOfType(key,'food').forEach(function(r){
+        var k = r.kind || splitBrandName('food', r.food || '主粮').name || '主粮';
+        if(!map[k]){ map[k] = {kind:k, kcal:0, gram:0, n:0}; order.push(k); }
+        var kc = recKcal(r), g = Number(r.gram)||0;
+        map[k].kcal += kc; map[k].gram += g; map[k].n += 1;
+        total += kc; gram += g; meals += 1;
+        if(k === '零食') snack += kc;
+      });
+      return {list:order.map(function(k){return map[k];}), total:total, snack:snack, gram:gram, meals:meals};
+    }
+    // 汇总今日补给（保健品/营养液）：同名同单位合并，带周期提醒标记
+    function todayCareAgg(key){
       var groups = {}, order = [];
       ['supp','liq'].forEach(function(ft){
         feedRecsOfType(key, ft).forEach(function(r){
           var name = r.food || (ft==='supp' ? '保健品' : '营养液');
           var unit = r.unit || (ft==='supp' ? '粒' : 'ml');
           var gk = ft + '||' + name + '||' + unit;
-          if(!groups[gk]){ groups[gk] = {ft:ft, name:name, unit:unit, n:0, amt:0, cycle:r.cycle||'none'}; order.push(gk); }
+          if(!groups[gk]){ groups[gk] = {ft:ft, name:name, unit:unit, n:0, amt:0, cycle:'none'}; order.push(gk); }
           groups[gk].n += 1; groups[gk].amt += Number(r.amount)||0;
           if(r.cycle && r.cycle !== 'none') groups[gk].cycle = r.cycle;
         });
       });
       var list = order.map(function(k){ return groups[k]; });
-      var total = list.reduce(function(s,g){ return s + g.n; }, 0);
-      if(cntEl) cntEl.textContent = total ? ('· 今日 ' + total + ' 次') : '';
-      if(!list.length){
-        listEl.innerHTML = '<div class="ms-empty" id="ms-empty-btn"><svg class="ico"><use href="#i-capsule"/></svg>今天还没记保健品 / 营养液，点这里补一笔</div>';
-        var eb = document.getElementById('ms-empty-btn');
-        if(eb) eb.addEventListener('click', function(){ if(typeof openFeedSheet === 'function') openFeedSheet('supp'); });
-        return;
-      }
-      listEl.innerHTML = list.map(function(g){
-        var icon = g.ft==='supp' ? '#i-capsule' : '#i-droplet';
-        var typeName = g.ft==='supp' ? '保健品' : '营养液';
-        var cycTxt = (g.cycle && g.cycle!=='none') ? (g.cycle==='daily' ? '每天提醒' : '每周提醒') : '';
-        var qty;
-        if(g.n > 1 && g.amt){ qty = g.amt+g.unit+' · '+g.n+'次'; }
-        else if(g.amt){ qty = g.amt+g.unit; }
-        else { qty = g.n+'次'; }
-        var bell = cycTxt ? '<span class="ms-bell" title="已设'+cycTxt+'"><svg class="ico"><use href="#i-bell"/></svg></span>' : '';
-        return '<div class="ms-item '+g.ft+'">'
-          + '<span class="ms-ic"><svg class="ico"><use href="'+icon+'"/></svg></span>'
-          + '<div class="ms-main"><div class="ms-name">'+escHtml(g.name)+'</div>'
-          + '<div class="ms-sub">'+typeName+(cycTxt?(' · '+cycTxt):'')+'</div></div>'
-          + bell
-          + '<span class="ms-qty">'+qty+'</span></div>';
-      }).join('');
+      list.times = list.reduce(function(s,g){ return s + g.n; }, 0);
+      return list;
     }
-    // 渲染：每日热量摄入进度 + 温和提示（统一 kcal 口径，克数仅作副信息；数据不足不评判）
-    function renderMealIntake(key){
-      var box = document.getElementById('meal-intake');
-      if(!box) return;
-      var gram = todayFoodGram(key);
-      var kcal = todayFoodKcal(key);
-      var hasAnyFood = feedRecsOfType(key,'food').length > 0;
-      var kcalEl = document.getElementById('mi-kcal');
-      var unitEl = document.getElementById('mi-unit');
-      var gramSub = document.getElementById('mi-gram-sub');
-      var goalEl = document.getElementById('mi-goal');
-      var bar = document.getElementById('mi-bar-fill');
-      var hint = document.getElementById('mi-hint');
-      var mealNEl = document.getElementById('mi-meal-count');
-      if(mealNEl) mealNEl.textContent = '· ' + feedRecsOfType(key,'food').length + ' 餐';
+    // 综合状态：unknown(无体重不评判) / empty(没开饭) / low / ok / over
+    function nutritionStatus(agg, goal){
+      if(!goal) return agg.meals ? 'unknown' : 'empty';
+      if(!agg.meals) return 'empty';
+      if(agg.total < goal.lo * 0.85) return 'low';
+      if(agg.total > goal.hi * 1.08) return 'over';
+      return 'ok';
+    }
+    function renderNutritionPanel(key){
+      var panel = document.getElementById('nu-panel');
+      if(!panel) return;
+      var agg = todayKindAgg(key);
+      var care = todayCareAgg(key);
       var goal = dailyKcalGoal(key);
-      box.classList.remove('is-low','is-over');
-      kcalEl.textContent = kcal; unitEl.textContent='kcal';
-      gramSub.textContent = hasAnyFood ? ('· '+gram+'g') : '';
-      if(!goal){
-        goalEl.textContent = '补个体重可算建议热量';
-        bar.style.width = '0%';
-        hint.className = 'mi-hint muted';
-        hint.textContent = '先在档案里补个体重，我就能按代谢能给出每日建议热量（保健品 / 营养液不计入热量）';
-        return;
-      }
-      goalEl.textContent = '建议 '+goal.lo+'–'+goal.hi+' kcal/天';
-      var ratio = kcal / goal.mid;
-      bar.style.width = Math.min(ratio,1.2)/1.2*100 + '%';
-      if(!hasAnyFood){
-        hint.className = 'mi-hint muted';
-        hint.textContent = '记一餐会按该粮代谢能自动折算热量，保健品 / 营养液不计入热量';
-      }else if(ratio < 0.7){
-        box.classList.add('is-low');
-        hint.className = 'mi-hint warn';
-        hint.textContent = '今日热量低于建议 70%，留意食欲与进食量';
-      }else if(ratio > 1.2){
-        box.classList.add('is-over');
-        hint.className = 'mi-hint over';
-        hint.textContent = '今日热量略超建议，注意别喂太多、零食占比别过高';
+      var status = nutritionStatus(agg, goal);
+      var snackPct = agg.total ? Math.round(agg.snack / agg.total * 100) : 0;
+
+      var badge = document.getElementById('nu-badge');
+      var titleEl = document.getElementById('nu-title');
+      var subEl = document.getElementById('nu-sub');
+      var kcalEl = document.getElementById('nu-kcal');
+      var loEl = document.getElementById('nu-lo');
+      var hiEl = document.getElementById('nu-hi');
+      var marker = document.getElementById('nu-marker');
+      var kindsEl = document.getElementById('nu-kinds');
+      var snackWarn = document.getElementById('nu-snackwarn');
+      var snackTxt = document.getElementById('nu-snacktxt');
+      var careEl = document.getElementById('nu-care-list');
+
+      kcalEl.textContent = agg.total;
+      badge.className = 'nu-badge' + (status==='ok' ? '' : status==='empty' ? ' is-empty' : ' is-' + status);
+      badge.innerHTML = '<svg class="ico"><use href="#' + (status==='over' ? 'i-bell' : status==='low' ? 'i-droplet' : 'i-food') + '"/></svg>';
+
+      var careTail = care.times ? ('补给 ' + care.times + ' 次') : '';
+      if(status === 'empty'){
+        titleEl.textContent = goal ? '今天还没开饭' : '先记今天吃了什么';
+        subEl.textContent = goal
+          ? '建议 ' + goal.lo + '–' + goal.hi + ' kcal/天，记一笔我帮你盯着'
+          : '档案里补个体重，就能按代谢能算每日建议热量';
+      }else if(status === 'unknown'){
+        titleEl.textContent = '今日 ' + agg.total + ' kcal · ' + agg.meals + ' 餐';
+        subEl.textContent = '补个体重即可判断喂多喂少' + (careTail ? '，' + careTail : '');
+      }else if(status === 'low'){
+        var gapL = goal.lo - agg.total;
+        titleEl.textContent = '今天吃得偏少';
+        subEl.textContent = '还差约 ' + gapL + ' kcal 到建议量，留意下食欲' + (careTail ? ' · ' + careTail : '');
+      }else if(status === 'over'){
+        var over = agg.total - goal.hi;
+        titleEl.textContent = '今天热量略超';
+        subEl.textContent = '超建议上限约 ' + over + ' kcal，下餐适当减点' + (careTail ? ' · ' + careTail : '');
       }else{
-        hint.className = 'mi-hint ok';
-        hint.textContent = '今日热量在建议区间内，继续保持';
+        titleEl.textContent = '今天喂得刚刚好';
+        subEl.textContent = agg.total + ' kcal 落在建议区间' + (snackPct > 20 ? '，注意零食占比' : (careTail ? ' · ' + careTail : ''));
+      }
+
+      // 靶心区间标尺：安全区按该宠实际 lo/hi 动态着色
+      if(goal){
+        loEl.textContent = goal.lo; hiEl.textContent = goal.hi;
+        var scaleMax = Math.max(Math.round(goal.hi * 1.3 / 10) * 10, goal.hi + 10);
+        var pLo = (goal.lo / scaleMax * 100), pHi = (goal.hi / scaleMax * 100);
+        var track = document.getElementById('nu-track');
+        track.style.background = 'linear-gradient(90deg,#F6E3B4 0,#F6E3B4 ' + pLo + '%,#BEEAD9 ' + pLo + '%,#BEEAD9 ' + pHi + '%,#F8CDD5 ' + pHi + '%,#F8CDD5 100%)';
+        var loTxt = document.getElementById('nu-lo-txt'), hiTxt = document.getElementById('nu-hi-txt');
+        if(loTxt) loTxt.style.left = pLo + '%';
+        if(hiTxt) hiTxt.style.left = pHi + '%';
+        var leftPct = Math.min(agg.total / scaleMax, 0.96) * 100;
+        marker.style.left = leftPct + '%';
+        marker.className = 'nu-marker is-' + (status==='empty' ? 'ok' : status==='unknown' ? 'ok' : status);
+      }else{
+        loEl.textContent = '–'; hiEl.textContent = '–';
+        var loTxt0 = document.getElementById('nu-lo-txt'), hiTxt0 = document.getElementById('nu-hi-txt');
+        if(loTxt0) loTxt0.style.left = '30%';
+        if(hiTxt0) hiTxt0.style.left = '70%';
+        marker.style.left = '0%';
+        marker.className = 'nu-marker is-ok';
+      }
+
+      // 今日热量构成（按品类胶囊，零食高亮点名）
+      if(!agg.list.length){
+        kindsEl.innerHTML = '<span style="font-size:11px;font-weight:700;color:var(--muted);padding:3px 2px">还没有正餐记录，主粮 / 罐头 / 冻干会按代谢能自动折算到这里</span>';
+      }else{
+        kindsEl.innerHTML = agg.list.map(function(a){
+          var m = kindMetaOf(a.kind);
+          return '<span class="nu-kind' + (a.kind==='零食' ? ' k-snack' : '') + '">'
+            + '<i class="kdot" style="background:' + m.color + '"></i>' + m.short
+            + ' <span class="kkcal">' + a.kcal + ' kcal</span></span>';
+        }).join('');
+      }
+      if(agg.total && snackPct > 20){
+        snackWarn.classList.add('show');
+        snackTxt.textContent = '零食已占今日热量 ' + snackPct + '%（建议 ≤20%），零食高油高糖，容易顶掉正餐';
+      }else{
+        snackWarn.classList.remove('show');
+      }
+
+      // 非热量照护：保健品 / 营养液
+      if(!care.length){
+        careEl.innerHTML = '<span class="nu-care-empty" id="nu-care-empty">＋ 记保健品 / 营养液（不计入热量，单独跟踪频次）</span>';
+        var ce = document.getElementById('nu-care-empty');
+        if(ce) ce.addEventListener('click', function(){ openFeedSheet('supp'); });
+      }else{
+        careEl.innerHTML = care.map(function(g){
+          var icon = g.ft==='supp' ? '#i-capsule' : '#i-droplet';
+          var cyc = (g.cycle && g.cycle!=='none');
+          var qty;
+          if(g.n > 1 && g.amt){ qty = g.amt + g.unit + '·' + g.n + '次'; }
+          else if(g.amt){ qty = g.amt + g.unit; }
+          else { qty = g.n + '次'; }
+          return '<span class="nu-chip ' + g.ft + (cyc ? ' cyc' : '') + '" title="'+escHtml(g.name)+(cyc ? '（' + (g.cycle==='daily'?'每天':'每周') + '提醒）' : '') + '">'
+            + '<svg class="ico"><use href="' + icon + '"/></svg>'
+            + escHtml(g.name) + ' · ' + qty
+            + (cyc ? '<svg class="ico"><use href="#i-bell"/></svg>' : '') + '</span>';
+        }).join('');
+      }
+
+      // 静态入口只绑一次，避免重复渲染叠加监听
+      if(!panel.__bound){
+        panel.__bound = true;
+        var vd = document.getElementById('nu-verdict');
+        if(vd) vd.addEventListener('click', function(){ openNutritionDetail(activeHomePet); });
+        var af = document.getElementById('nu-add-food');
+        if(af) af.addEventListener('click', function(e){ e.stopPropagation(); openFeedSheet('food'); });
       }
     }
+    // 营养分析详情弹层：结论环 + 品类构成条 + 建议克数 + 行动建议
+    function openNutritionDetail(key){
+      var agg = todayKindAgg(key);
+      var care = todayCareAgg(key);
+      var goal = dailyKcalGoal(key);
+      var status = nutritionStatus(agg, goal);
+      var body = document.getElementById('nd-body');
+      if(!body) return;
+      var STATUS_TXT = {empty:'还没开饭', unknown:'待补体重', low:'热量偏少', ok:'摄入均衡', over:'热量偏多'};
+      var STATUS_COLOR = {empty:'#B6A48F', unknown:'#B6A48F', low:'#D98324', ok:'#20A581', over:'#E0556B'};
+      var pct = goal ? Math.max(0, Math.min(agg.total / goal.mid, 1.3)) : 0;
+      var C = 2 * Math.PI * 52;
+      var html = '';
+      html += '<div class="nd-ring">'
+        + '<svg width="120" height="120" viewBox="0 0 120 120">'
+        + '<circle cx="60" cy="60" r="52" fill="none" stroke="#F1E8DF" stroke-width="11"/>'
+        + '<circle cx="60" cy="60" r="52" fill="none" stroke="' + STATUS_COLOR[status] + '" stroke-width="11" stroke-linecap="round" '
+        + 'stroke-dasharray="' + (C * (goal ? Math.min(pct,1) : 0)).toFixed(1) + ' ' + C.toFixed(1) + '"/></svg>'
+        + '<div class="nd-c"><b>' + agg.total + '</b><span>今日 kcal</span></div></div>';
+      html += '<div class="nd-status" style="color:' + STATUS_COLOR[status] + '">' + STATUS_TXT[status] + '</div>';
+      html += '<div class="nd-range">' + (goal ? ('建议区间 ' + goal.lo + '–' + goal.hi + ' kcal/天 · 中位 ' + goal.mid) : '档案补体重后，按 RER×1.3 给每日建议区间') + '</div>';
+
+      // 品类构成条
+      if(agg.list.length){
+        html += '<div style="font-size:11.5px;font-weight:850;color:var(--ink);margin:6px 2px 2px">热量从哪来</div>';
+        agg.list.forEach(function(a){
+          var m = kindMetaOf(a.kind);
+          var share = agg.total ? Math.round(a.kcal / agg.total * 100) : 0;
+          html += '<div class="nd-bar-row"><span class="nd-l">' + m.short + '</span>'
+            + '<span class="nd-bar-track"><i style="width:' + share + '%;background:' + m.color + '"></i></span>'
+            + '<span class="nd-v">' + a.kcal + ' kcal · ' + share + '%</span></div>';
+        });
+      }
+
+      // 建议克数（按主粮 / 当前常喂食物的密度反推全天克数带）
+      var def = feedDefault(key);
+      var gg = gramGoalFor(key, def.kind, def.brand, null);
+      if(gg){
+        var dn = def.brand ? (def.brand + ' ' + def.kind) : def.kind;
+        html += '<div style="font-size:11.5px;font-weight:850;color:var(--ink);margin:14px 2px 2px">今天该喂多少（' + escHtml(dn) + '）</div>';
+        html += '<div class="nd-bar-row"><span class="nd-l">克数</span>'
+          + '<span class="nd-bar-track"><i style="width:100%;background:linear-gradient(90deg,#FFC59E,#FF8A5C)"></i></span>'
+          + '<span class="nd-v">' + gg.lo + '–' + gg.hi + ' g/天</span></div>';
+        html += '<div style="font-size:10.5px;font-weight:700;color:var(--muted);margin:2px 2px 0">按代谢能 ' + gg.density + ' kcal/g 折算，单餐约 ' + Math.round(gg.mid/3/5)*5 + ' g；罐头 / 冻干密度不同，录入时会各自折算</div>';
+      }
+
+      // 行动建议
+      var tips = [];
+      if(!goal){
+        tips.push('先到<b>宠物档案补个体重</b>，我就能按品种体重算出每日建议热量，判断喂多喂少。');
+      }else if(status === 'empty'){
+        tips.push('今天还没记录正餐，点下方「再记一笔」开始，主粮 / 罐头 / 冻干都会自动折算热量。');
+      }else if(status === 'low'){
+        var gap = goal.lo - agg.total;
+        var def2 = feedDefault(key);
+        var addG = Math.max(5, Math.round(gap / foodDensity(def2.kind, def2.brand, null) / 5) * 5);
+        tips.push('距建议下限还差约 <b>' + gap + ' kcal</b>，约等于 <b>' + addG + ' g ' + escHtml(def2.kind) + '</b>，下餐可以补上。');
+        tips.push('若连续几天吃不完，留意是否挑食、换牙或不舒服，必要时看下精神状态。');
+      }else if(status === 'over'){
+        tips.push('已超建议上限约 <b>' + (agg.total - goal.hi) + ' kcal</b>，下餐适当减量，并保证喝水与活动。');
+      }else{
+        tips.push('今日热量落在建议区间，<b>正餐定时定量</b>的节奏很好，继续保持。');
+      }
+      var snackPct = agg.total ? Math.round(agg.snack / agg.total * 100) : 0;
+      if(snackPct > 20) tips.push('零食占比 <b>' + snackPct + '%</b> 偏高（建议 ≤20%），用小份主粮或互动奖励替代部分零食。');
+      if(!care.length) tips.push('今天还没记保健品 / 营养液，它们不计热量，但建议在同一处跟踪频次与周期，避免漏喂或重复喂。');
+      html += '<div class="nd-tip">' + tips.map(function(t){ return '· ' + t; }).join('<br>') + '</div>';
+      body.innerHTML = html;
+      document.getElementById('nutrition-detail-sheet').classList.add('show');
+    }
+    function closeNutritionDetail(){ var s = document.getElementById('nutrition-detail-sheet'); if(s) s.classList.remove('show'); }
     function addMealRec(key, meal, opts){
       opts = opts || {};
       var def = feedDefault(key);
@@ -4605,6 +4844,15 @@
       if(!feedSheet) return;
       feedSheet.addEventListener('click', function(e){ if(e.target === feedSheet) closeFeedSheet(); });
       fdEl('fd-cancel').addEventListener('click', closeFeedSheet);
+      // 营养分析详情弹层：遮罩/关闭收起，「再记一笔」收起后打开喂食录入
+      var ndSheet = document.getElementById('nutrition-detail-sheet');
+      if(ndSheet){
+        ndSheet.addEventListener('click', function(e){ if(e.target === ndSheet) closeNutritionDetail(); });
+        var ndCancel = document.getElementById('nd-cancel');
+        if(ndCancel) ndCancel.addEventListener('click', closeNutritionDetail);
+        var ndAdd = document.getElementById('nd-add');
+        if(ndAdd) ndAdd.addEventListener('click', function(){ closeNutritionDetail(); openFeedSheet('food'); });
+      }
       // 顶部分类切换
       document.querySelectorAll('#fd-type-seg .ft-opt').forEach(function(o){
         o.addEventListener('click', function(){ showFeedPane(o.getAttribute('data-ftype')); });
