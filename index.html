@@ -1159,6 +1159,31 @@
   .a-send .ico{width:19px;height:19px}
   .a-note{display:flex;gap:7px;align-items:flex-start;margin:2px 18px 14px;font-size:10.5px;color:var(--muted);font-weight:600;line-height:1.5}
   .a-note .ico{width:14px;height:14px;flex-shrink:0;margin-top:1px}
+  /* AI 管家直出的「这能吃吗」答复卡：结论 + 依据 + 喂养量，不再把用户推去速查 */
+  .af-card{margin-top:10px;border-radius:16px;overflow:hidden;border:1.5px solid var(--line);background:#fff}
+  .af-verdict{display:flex;align-items:center;gap:9px;padding:11px 13px;color:#fff}
+  .af-verdict.ok{background:linear-gradient(135deg,#4FC9A5,#33B68E)}
+  .af-verdict.warn{background:linear-gradient(135deg,#FFBD3D,#F59E0B)}
+  .af-verdict.no{background:linear-gradient(135deg,#FF7D7D,#F75A5A)}
+  .af-verdict.brand{background:linear-gradient(135deg,#9B8AFB,#7B6BF6)}
+  .af-verdict .af-em{font-size:21px;line-height:1;flex-shrink:0}
+  .af-verdict .af-em .ico{width:20px;height:20px;color:#fff;display:block}
+  .af-verdict .af-vb{flex:1;min-width:0}
+  .af-verdict .af-vb b{font-size:13.5px;font-weight:800;display:block;line-height:1.25;color:#fff}
+  .af-verdict .af-vb span{font-size:10.5px;font-weight:700;opacity:.93}
+  .af-body{padding:11px 13px 2px}
+  .af-why{font-size:12px;line-height:1.62;color:var(--text);font-weight:600}
+  .af-why b{color:var(--ink)}
+  .af-stats{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 2px}
+  .af-stat{flex:1 1 calc(50% - 4px);min-width:0;background:#F6F2FF;border-radius:11px;padding:8px 10px;box-sizing:border-box}
+  .af-stat .v{font-size:15px;font-weight:800;color:#6A4FE0;line-height:1.1}
+  .af-stat .v small{font-size:10px;font-weight:700;color:#9B8AFB;margin-left:2px}
+  .af-stat .k{font-size:10px;font-weight:700;color:var(--muted);margin-top:2px}
+  .af-tip{font-size:11.5px;font-weight:650;color:var(--text);background:#FFF6EC;border-radius:10px;padding:8px 10px;margin:8px 0 4px;line-height:1.55}
+  .af-foot{display:flex;gap:7px;padding:9px 13px 12px}
+  .af-foot button{flex:1;border:none;border-radius:11px;padding:9px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+  .af-log{color:#fff;background:linear-gradient(135deg,#9B8AFB,#7B6BF6)}
+  .af-again{color:#7B6BF6;background:#F1ECFF}
 
   /* ===== AI-Native：记录页就地解读条 ===== */
   .ai-insight{display:flex;gap:10px;align-items:flex-start;background:#F6F2FF;border:1px solid #E7DEFF;border-radius:16px;padding:12px 14px;margin:0 0 4px}
@@ -6464,9 +6489,9 @@
               go:{label:'去拍照', run:function(){ closePage(); openPage('pg-photo-bcs'); }}
             }};
           case 'food':
-            return {text:'告诉我食物名称或拍包装，我会结合'+p.name+'的情况告诉你能不能吃。', action:{
-              icon:'i-food', title:'这能吃吗', meta:'结合品种与禁忌，给出可吃/慎吃/禁食',
-              go:{label:'打开速查', run:function(){ closePage(); openPage('pg-food-scan'); }}
+            return {text:'把食物名直接发给我就行，比如「鸡胸肉」「皇家 主粮」「弗列加特 罐头」，我会马上告诉'+p.name+'能不能吃、一次喂多少。', action:{
+              icon:'i-food', title:'直接告诉我食物', meta:'可吃/慎吃/禁食 + 建议克数，马上回复',
+              go:{label:'我要输入食物', run:function(){ setTimeout(function(){ if(ib) ib.focus(); },120); }}
             }};
           case 'insight': {
             var s = (p.weightSeries && p.weightSeries['3m']) || [];
@@ -6500,9 +6525,11 @@
         if(/病历|疫苗本|化验单|报告单|单据|识别|OCR/i.test(text)) return 'ocr';
         if(/胖|瘦|体况|BCS|体型/.test(text)) return 'bcs';
         if(/能吃|可以吃|食物|巧克力|葡萄|洋葱/.test(text)) return 'food';
-        if(/怎么样|健康|状态|趋势|分析|解读|健康报告|给医生|兽医|PDF/.test(text)) return 'insight';
-        if(/记|喂|铲屎|遛|洗澡|刚|今天/.test(text)) return 'capture';
+        if(/记|铲屎|遛|洗澡|刚|今天/.test(text)) return 'capture';
+        if(matchHumanFood(text) || matchBrandFood(text)) return 'food';
+        if(/喂/.test(text)) return 'capture';
         if(/待办|处理|逾期|到期|现在处理/.test(text)) return 'todo';
+        if(/怎么样|健康|状态|趋势|分析|解读|健康报告|给医生|兽医|PDF/.test(text)) return 'insight';
         return 'fallback';
       }
 
@@ -6539,33 +6566,149 @@
       }
       window.openAssistant = openAssistant;
 
-      // 从「能吃啥」页带着具体食物名来问：先把用户问题放进对话，再给针对性回答
-      var FOOD_BAD = ['葡萄','葡萄干','洋葱','大蒜','韭菜','葱','巧克力','可可','木糖醇','酒精','咖啡','浓茶','夏威夷果','澳洲坚果'];
+      // ===== 「这能吃吗」直答引擎：人类食物走安全库，品牌粮走营养模型，直接给结论与克数，不再推速查 =====
+      var KIND_KEYS = Object.keys(FOOD_KIND_DENSITY);
+      var BRAND_KEYS = Object.keys(BRAND_DENSITY);
+      var FOOD_QUESTION_WORDS = /请问|我家|主子|毛孩|猫咪|猫猫|狗狗|小狗|小猫|能不能吃|可以吃|能吃吗|能吃|可不可以|能不能|可以吗|怎么办|咋样|怎么样|吗|呢|啊|哦|？|\?|，|,|。|\s+/g;
+      // 识别人类食物：先精确命中，再模糊包含，再别名（与速查页同口径）
+      function matchHumanFood(text){
+        if(FOOD_DB[text]) return {key:text, f:FOOD_DB[text]};
+        if(FOOD_ALIAS[text]) return {key:FOOD_ALIAS[text], f:FOOD_DB[FOOD_ALIAS[text]]};
+        for(var k in FOOD_DB){
+          if(text.indexOf(k) >= 0 || (k.length > 1 && k.indexOf(text) >= 0)) return {key:k, f:FOOD_DB[k]};
+        }
+        for(var a in FOOD_ALIAS){
+          if(text.indexOf(a) >= 0) return {key:FOOD_ALIAS[a], f:FOOD_DB[FOOD_ALIAS[a]]};
+        }
+        return null;
+      }
+      // 识别品牌粮：句中含已知品牌 + 品类；品牌有、品类缺则按主粮
+      function matchBrandFood(text){
+        var brand = '';
+        for(var i=0;i<BRAND_KEYS.length;i++){ if(text.indexOf(BRAND_KEYS[i]) >= 0){ brand = BRAND_KEYS[i]; break; } }
+        var kind = '';
+        for(var j=0;j<KIND_KEYS.length;j++){ if(text.indexOf(KIND_KEYS[j]) >= 0){ kind = KIND_KEYS[j]; break; } }
+        if(!brand){
+          var sp = splitBrandName('food', text.replace(FOOD_QUESTION_WORDS,' ').trim());
+          if(sp.brand && sp.name && KIND_KEYS.indexOf(sp.name) > -1){ brand = sp.brand; kind = sp.name; }
+        }
+        if(!brand) return null;
+        if(!kind) kind = '主粮';
+        return {brand:brand, kind:kind};
+      }
+      function answerHumanCard(hm){
+        var f = hm.f;
+        var sub = {ok:'可以喂 · 注意做法和量', warn:'需要注意 / 限量', no:'绝对不能喂'}[f.level];
+        var tip = {
+          ok:'作为零食/拌粮，建议不超过全天热量的 10%，白水制作、无盐无调料。',
+          warn:'按上面说的方式少量给，先观察有没有软便、呕吐或瘙痒。',
+          no:'包装和残渣收好别让它翻到；若已误食，立刻联系兽医并带上包装。'
+        }[f.level];
+        return '<div class="af-card">'
+          + '<div class="af-verdict '+f.level+'"><span class="af-em">'+f.emoji+'</span><span class="af-vb"><b>'+escHtml(f.name)+'</b><span>'+sub+'</span></span></div>'
+          + '<div class="af-body"><div class="af-why">'+f.desc+'</div><div class="af-tip">'+tip+'</div></div>'
+          + '<div class="af-foot">' + (f.level==='no'
+              ? '<button class="af-again" data-af="again">我知道了</button>'
+              : '<button class="af-log" data-af="log">就按这个喂，记一笔</button><button class="af-again" data-af="again">再问一个</button>')
+          + '</div></div>';
+      }
+      function answerBrandCard(mb, k){
+        var den = foodDensity(mb.kind, mb.brand);
+        var gg = gramGoalFor(k, mb.kind, mb.brand);
+        var mg = defaultMealGram(k, mb.kind, mb.brand);
+        var mealKcal = Math.round(mg * den);
+        var title = mb.brand + ' · ' + mb.kind;
+        var tip = (mb.kind === '主粮' || mb.kind === '冻干')
+          ? '可作为'+pName(k)+'的主喂食物，按上面克数分 3 餐左右；换粮用 7 天逐步过渡。'
+          : '建议作为搭配/加餐，全天热量别超过目标，主粮克数按比例减一点。';
+        return '<div class="af-card">'
+          + '<div class="af-verdict brand"><span class="af-em"><svg class="ico"><use href="#i-bowl"/></svg></span><span class="af-vb"><b>'+escHtml(title)+'</b><span>可以喂 · 已按该粮代谢能折算</span></span></div>'
+          + '<div class="af-body"><div class="af-why">这是<b>商品'+escHtml(mb.kind)+'</b>，我按「'+escHtml(mb.brand)+' · '+escHtml(mb.kind)+'」的常见代谢能 <b>'+Math.round(den*100)+' kcal/100g</b> 估算；不同配方有差，照包装袋数值会更准。</div>'
+          + '<div class="af-stats">'
+          + '<div class="af-stat"><div class="v">'+gg.lo+'–'+gg.hi+'<small>g/天</small></div><div class="k">全天建议克数</div></div>'
+          + '<div class="af-stat"><div class="v">'+mg+'<small>g/餐</small></div><div class="k">单餐建议克数</div></div>'
+          + '<div class="af-stat"><div class="v">'+mealKcal+'<small>kcal</small></div><div class="k">单餐约热量</div></div>'
+          + '<div class="af-stat"><div class="v">'+gg.kcal.lo+'–'+gg.kcal.hi+'<small>kcal</small></div><div class="k">全天热量目标</div></div>'
+          + '</div><div class="af-tip">'+tip+'</div></div>'
+          + '<div class="af-foot"><button class="af-log" data-af="log">按建议克数记一餐</button><button class="af-again" data-af="again">再问一个</button></div></div>';
+      }
+      function answerUnknownCard(raw){
+        return '<div class="af-card">'
+          + '<div class="af-verdict warn"><span class="af-em"><svg class="ico"><use href="#i-info"/></svg></span><span class="af-vb"><b>'+escHtml(raw)+'</b><span>暂时没有可靠资料，不建议冒险喂</span></span></div>'
+          + '<div class="af-body"><div class="af-why">我的食物库和品牌数据里没有「<b>'+escHtml(raw)+'</b>」的可靠信息。对猫狗来说，<b>没确认安全的食物先当它不能吃</b>，尤其要避开葱蒜、葡萄、巧克力、木糖醇、酒精、咖啡和熟尖骨。</div>'
+          + '<div class="af-tip">你可以换个常用名再问，或告诉我品牌+品类（如「弗列加特 罐头」）；误食不适请及时就医。</div></div>'
+          + '<div class="af-foot"><button class="af-again" data-af="again">再问一个</button></div></div>';
+      }
+      function bindCardButtons(cardEl, ctx){
+        cardEl.querySelectorAll('[data-af]').forEach(function(b){
+          b.addEventListener('click', function(){
+            if(b.getAttribute('data-af') === 'log'){ prefillFeed(ctx.kind, ctx.brand); }
+            else { msg('好，把食物名发给我就行 🐾','ai'); setTimeout(function(){ if(ib) ib.focus(); },120); scrollBottom(); }
+          });
+        });
+      }
+      // 带品牌/品类打开喂食表单并预填（复用喂食模块的状态与联动）
+      function prefillFeed(kind, brand){
+        closePage();
+        openFeedSheet('food');
+        var f = feedForm.food;
+        f.customDensity = null;
+        if(kind) f.name = kind;
+        if(brand != null) f.brand = brand;
+        syncFoodPane(activeHomePet);
+        var g = defaultMealGram(activeHomePet, f.name, f.brand);
+        f.gram = g;
+        var gi = document.getElementById('fd-food-gram'); if(gi) gi.value = g;
+        refreshFoodHint(activeHomePet);
+      }
+      // 直接给出「这能吃吗」的完整答复；命中具体食物返回 true，否则返回 false（showUnknown 时给兜底卡）
+      function presentFoodAnswer(rawText, showUnknown){
+        var k = asKey;
+        var text = (rawText || '').trim();
+        var stripped = text.replace(FOOD_QUESTION_WORDS,'').trim();
+        var hm = matchHumanFood(text);
+        var mb = hm ? null : matchBrandFood(text);
+        if(!hm && !mb && stripped && stripped !== text){
+          hm = matchHumanFood(stripped);
+          if(!hm) mb = matchBrandFood(stripped);
+        }
+        if(!hm && !mb){
+          if(!showUnknown || !stripped || stripped.length < 2) return false;
+          msg(text, 'me');
+          var n0 = typing();
+          setTimeout(function(){
+            n0.querySelector('.a-bubble').innerHTML = answerUnknownCard(stripped);
+            bindCardButtons(n0, {});
+            scrollBottom();
+          }, 480);
+          return true;
+        }
+        msg(text, 'me');
+        var node = typing();
+        setTimeout(function(){
+          var bubble = node.querySelector('.a-bubble');
+          if(hm){
+            var lead = '<b>'+pName(k)+' 能不能吃「'+escHtml(stripped||hm.key)+'」——</b>';
+            bubble.innerHTML = lead + answerHumanCard(hm);
+            bindCardButtons(node, {kind:hm.key, brand:''});
+          }else{
+            var lead2 = '我结合'+pName(k)+'的体重帮你算好了 👇';
+            bubble.innerHTML = lead2 + answerBrandCard(mb, k);
+            bindCardButtons(node, {kind:mb.kind, brand:mb.brand});
+          }
+          scrollBottom();
+        }, 520);
+        return true;
+      }
+
+      // 从「能吃啥」页带着具体食物名来问：直接在对话里给确定答复
       function askFoodAI(food){
         var name = (food || '').trim();
         openPage('pg-ai-center');
         syncAssistantPet(activeHomePet);
         if(scroll) scroll.scrollTop = 0;
         if(!name){ setTimeout(function(){ runIntent('food'); }, 240); return; }
-        setTimeout(function(){
-          msg('「'+name+'」'+pName(asKey)+'能不能吃？', 'me');
-          var node = typing();
-          setTimeout(function(){
-            var isBad = FOOD_BAD.some(function(w){ return name.indexOf(w) > -1; });
-            var html;
-            if(isBad){
-              html = '关于「<b>'+name+'</b>」——<b style="color:#FF6B6B">不建议喂，能不喂就不喂</b>。这类食物对猫狗有毒性或高风险，即使少量也可能出问题，误食后留意有没有呕吐、精神差，异常请立刻就医。<br>我可以继续帮你：结合'+pName(asKey)+'的体重估算危险摄入量，或告诉你误食后怎么应急处理。';
-            }else{
-              html = '关于「<b>'+name+'</b>」：建议<b>先少量、单一地试</b>，确保无盐无调料、不带骨/核，并观察 24 小时有没有软便、呕吐或瘙痒。<br>如果你告诉我它的<b>品种、体重、年龄和有没有过敏史</b>，我能判断得更准。也可以点下面「这能吃吗」让我打开速查表核对。'
-                + actionCardHTML({icon:'i-food', title:'这能吃吗', meta:'结合品种与禁忌，给出可吃/慎吃/禁食',
-                  go:{label:'打开速查表', run:function(){ closePage(); openPage('pg-food-scan'); }}});
-            }
-            node.querySelector('.a-bubble').innerHTML = html;
-            var goBtn = node.querySelector('[data-go]');
-            if(goBtn) goBtn.addEventListener('click', function(){ closePage(); openPage('pg-food-scan'); });
-            scrollBottom();
-          }, 520);
-        }, 260);
+        setTimeout(function(){ presentFoodAnswer(name, true); }, 260);
       }
       function pName(k){ return HOME_PETS[k].name; }
       window.askFoodAI = askFoodAI;
@@ -6595,8 +6738,9 @@
       function doSend(){
         var text = ib.textContent.trim();
         if(!text) return;
-        msg(text, 'me');
         ib.textContent = '';
+        if(classify(text) === 'food' && presentFoodAnswer(text)){ scrollBottom(); return; }
+        msg(text, 'me');
         runIntent(classify(text));
       }
       if(sendBtn) sendBtn.addEventListener('click', doSend);
