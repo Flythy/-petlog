@@ -270,6 +270,7 @@
   .mi-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
   .mi-num{font-size:12px;font-weight:800;color:var(--ink)}
   .mi-num b{font-size:17px;color:var(--primary-600);margin:0 2px}
+  .mi-num #mi-gram-sub{font-size:10.5px;font-weight:700;color:var(--muted);margin-left:5px}
   .mi-goal{font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap}
   .mi-bar{height:7px;border-radius:99px;background:#F3E2D2;margin-top:7px;overflow:hidden}
   .mi-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFBE85,#FF8A5C);transition:width .45s cubic-bezier(.34,1.4,.64,1)}
@@ -310,6 +311,24 @@
   .fd-name-preview{display:none;margin:9px 6px 0;font-size:11.5px;color:var(--muted);font-weight:700;line-height:1.5}
   .fd-name-preview.show{display:block;animation:fdFade .16s ease}
   .fd-name-preview b{color:var(--primary-600);font-weight:800}
+  /* 食物代谢能：热量密度展示 + 照包装袋手填覆盖 */
+  .fd-energy{margin:10px 4px 0;background:#FFF8F1;border:1.5px solid #F6E2CE;border-radius:14px;padding:9px 11px}
+  .fde-row{display:flex;align-items:center;gap:8px}
+  .fde-label{font-size:11.5px;font-weight:800;color:var(--text);flex:1}
+  .fde-val{font-size:11.5px;color:var(--muted);font-weight:700}
+  .fde-val b{font-size:15px;color:var(--primary-600);font-weight:900;margin-right:1px}
+  .fde-edit{font-size:10.5px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+  .fde-custom{display:none;align-items:center;gap:7px;margin-top:9px}
+  .fde-custom.show{display:flex}
+  .fde-custom .rem-input{flex:1;min-width:0;font-size:13px}
+  .fde-unit{font-size:10.5px;font-weight:800;color:var(--muted);white-space:nowrap}
+  .fde-reset{font-size:10.5px;font-weight:800;color:#B98FE8;white-space:nowrap;cursor:pointer;text-decoration:underline}
+  .fde-src{font-size:10px;font-weight:700;color:var(--muted);margin-top:7px;line-height:1.45}
+  .fde-src.custom{color:#B98FE8}
+  .fd-gram-head{display:flex;align-items:center;justify-content:space-between;margin:14px 4px 0}
+  .fd-gram-head .fd-sec-t{margin-bottom:0}
+  .fd-sec-kcal{font-size:11px;font-weight:800;color:var(--muted)}
+  .fd-sec-kcal b{color:var(--primary-600);font-size:13px;font-weight:900}
   /* 喂食面板里的分区小标题：不用带边框的输入框样式，避免被误看成一个空输入框 */
   .fd-sec{margin:14px 4px 2px}
   .fd-sec-t{display:block;font-size:12px;font-weight:850;color:#9B8BB8;letter-spacing:.4px;margin-bottom:8px}
@@ -1462,11 +1481,11 @@
               </div>
               <div class="meal-intake" id="meal-intake">
                 <div class="mi-top">
-                  <span class="mi-num">今日已喂 <b id="mi-gram">0</b><span id="mi-unit">g</span></span>
-                  <span class="mi-goal" id="mi-goal">建议 — g/天</span>
+                  <span class="mi-num">今日热量 <b id="mi-kcal">0</b><span id="mi-unit">kcal</span><span id="mi-gram-sub"></span></span>
+                  <span class="mi-goal" id="mi-goal">建议 — kcal/天</span>
                 </div>
                 <div class="mi-bar"><i id="mi-bar-fill" style="width:0%"></i></div>
-                <div class="mi-hint muted" id="mi-hint">记一餐会按常用量自动算，点这里可改</div>
+                <div class="mi-hint muted" id="mi-hint">记一餐会按该粮代谢能自动折算热量，点这里可改</div>
               </div>
               <div class="meal-extras-log" id="meal-extras-log"></div>
               <div class="meal-extras">
@@ -2589,10 +2608,10 @@
                 <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
                 <div class="fd-pick" id="fd-food-brand-pick">
                   <span class="fp" data-brand="皇家">皇家</span>
+                  <span class="fp" data-brand="弗列加特">弗列加特</span>
                   <span class="fp" data-brand="渴望">渴望</span>
                   <span class="fp" data-brand="爱肯拿">爱肯拿</span>
                   <span class="fp" data-brand="巅峰">巅峰</span>
-                  <span class="fp" data-brand="纽翠斯">纽翠斯</span>
                   <span class="fp" data-brand="网易严选">网易严选</span>
                   <span class="fp fp-custom" data-brand-custom="1">＋自己输</span>
                 </div>
@@ -2601,7 +2620,20 @@
                 </div>
               </div>
               <div class="fd-name-preview" id="fd-food-preview"></div>
-              <div class="fd-sec"><span class="fd-sec-t">本次克数</span></div>
+              <div class="fd-energy" id="fd-energy-box">
+                <div class="fde-row">
+                  <span class="fde-label">代谢能（热量密度）</span>
+                  <span class="fde-val"><b id="fd-density-val">400</b> kcal/100g</span>
+                  <span class="fde-edit" id="fd-density-edit">照包装袋改</span>
+                </div>
+                <div class="fde-custom" id="fd-density-wrap">
+                  <input class="rem-input" id="fd-density-input" type="number" inputmode="decimal" min="1" placeholder="照营养成分表填，如 396">
+                  <span class="fde-unit">kcal/100g</span>
+                  <span class="fde-reset" id="fd-density-reset">用回参考值</span>
+                </div>
+                <div class="fde-src" id="fd-density-src"></div>
+              </div>
+              <div class="fd-gram-head"><span class="fd-sec-t">本次克数</span><span class="fd-sec-kcal">≈ <b id="fd-meal-kcal">0</b> kcal</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-gram-minus">−</button>
                 <div class="stp-box"><input id="fd-food-gram" type="number" inputmode="decimal" min="1" value="20"><span class="u">g</span></div>
@@ -3171,7 +3203,8 @@
     function feedRecSub(r){
       var ft = r.ftype || 'food';
       if(ft === 'food'){
-        return (r.food ? r.food : '') + (r.gram ? (' ' + r.gram + 'g') : '');
+        var kc = recKcal(r);
+        return (r.food ? r.food : '') + (r.gram ? (' ' + r.gram + 'g') : '') + (kc ? (' · 约' + kc + 'kcal') : '');
       }
       var lab = ft === 'supp' ? '保健品' : '营养液';
       var nm = r.food || '';
@@ -3945,28 +3978,89 @@
       var s = (p.weightSeries && p.weightSeries['3m']) || [];
       return s.length ? s[s.length-1].v : null;
     }
-    // 简化参考表：按体重给每日建议总热量对应的干粮克数区间（原型展示用，约 4 kcal/g）
-    function dailyGramGoal(key){
+    // ===== 营养能量模型：所有「量」的判断统一走热量(kcal)口径，克数只是各食物的表现形式 =====
+    // ① 品类典型代谢能密度 kcal/g（按喂食形态）：干粮≈4，罐头/湿粮含水≈1，冻干浓缩≈4.8，零食≈3.6
+    var FOOD_KIND_DENSITY = {'主粮':4.0,'罐头':1.0,'湿粮':1.1,'冻干':4.8,'自制':1.3,'零食':3.6};
+    // ② 品牌×品类覆盖：同品类不同品牌能量密度有差，给出常见品牌的典型值（可被手填覆盖）
+    var BRAND_DENSITY = {
+      '皇家':  {'主粮':3.9,'罐头':1.1,'湿粮':1.0,'零食':3.6},
+      '弗列加特':{'主粮':4.1,'罐头':1.0,'冻干':4.9,'湿粮':1.1,'零食':3.8},
+      '渴望':  {'主粮':4.2,'冻干':5.0,'罐头':1.2,'零食':3.9},
+      '爱肯拿': {'主粮':4.1,'罐头':1.1},
+      '巅峰':  {'主粮':4.3,'冻干':5.1,'罐头':1.3,'湿粮':1.2},
+      '纽翠斯': {'主粮':4.2,'冻干':5.0,'罐头':1.1},
+      '网易严选':{'主粮':3.8,'罐头':0.9,'湿粮':0.9,'零食':3.5},
+      '红狗':  {'主粮':3.9,'罐头':1.0,'湿粮':1.0,'零食':3.6},
+      '麦富迪': {'主粮':3.8,'罐头':0.9,'冻干':4.7,'零食':3.5},
+      '冠能':  {'主粮':4.0,'罐头':1.1},
+      '伯纳天纯':{'主粮':4.0,'冻干':4.8}
+    };
+    function normBrand(b){ return (b||'').trim(); }
+    // 某「品类」默认密度（未知品类按干粮 4.0）
+    function kindDensity(kind){
+      var v = FOOD_KIND_DENSITY[kind];
+      return (v != null) ? v : 4.0;
+    }
+    // 某「品牌+品类」的代谢能密度 kcal/g；customDensity 为照包装袋手填值（kcal/100g 传入时先换算）
+    function foodDensity(kind, brand, customDensity){
+      if(customDensity != null && customDensity > 0) return customDensity;
+      var b = normBrand(brand);
+      if(b && BRAND_DENSITY[b] && BRAND_DENSITY[b][kind] != null) return BRAND_DENSITY[b][kind];
+      return kindDensity(kind);
+    }
+    // 每日建议总热量 kcal（RER 静息能量 × 成年维持系数 1.3），给 ±10% 区间
+    function dailyKcalGoal(key){
       var w = petWeightKg(key);
       if(!w) return null;
-      var rer = 70 * Math.pow(w, 0.75);            // 静息能量需求 kcal/天
-      var dailyKcal = rer * 1.3;                    // 一般成年维持系数
-      var mid = Math.round(dailyKcal / 4 / 5) * 5;
-      return {lo: Math.round(mid*0.9/5)*5, hi: Math.round(mid*1.1/5)*5, mid:mid};
+      var rer = 70 * Math.pow(w, 0.75);
+      var mid = Math.round(rer * 1.3);
+      return {lo: Math.round(mid*0.9), hi: Math.round(mid*1.1), mid:mid};
     }
-    // 单餐默认克重 = 每日目标 ÷ 三餐
-    function defaultMealGram(key){
-      var g = dailyGramGoal(key);
+    // 兼容旧调用：无密度参数时按干粮(4.0)估算克数目标，仅供旧 UI 兜底；新逻辑用 gramGoalFor
+    function dailyGramGoal(key){
+      var k = dailyKcalGoal(key);
+      if(!k) return null;
+      function g(v){ return Math.round(v/4/5)*5; }
+      return {lo:g(k.lo), hi:g(k.hi), mid:g(k.mid), kcal:k};
+    }
+    // 某食物（品牌+品类+密度）下，全天建议克数区间（由热量÷密度反推）
+    function gramGoalFor(key, kind, brand, customDensity){
+      var k = dailyKcalGoal(key);
+      if(!k) return null;
+      var den = foodDensity(kind, brand, customDensity);
+      function r5(v){ return Math.max(5, Math.round(v/5)*5); }
+      return {lo:r5(k.lo/den), hi:r5(k.hi/den), mid:r5(k.mid/den), kcal:k, density:den};
+    }
+    // 单餐默认克重 = 该食物每日中值 ÷ 三餐
+    function defaultMealGram(key, kind, brand, customDensity){
+      var g = gramGoalFor(key, kind, brand, customDensity);
       if(!g) return null;
-      return Math.round(g.mid/3/5)*5;
+      return Math.max(5, Math.round(g.mid/3/5)*5);
     }
-    // 每只宠物的「常喂食物」默认值（用户可在面板里覆盖）
+    // 一餐食物的热量 = 克数 × 密度；兼容旧记录（无 density 时按品牌/品类回推）
+    function recDensity(r){
+      if(!r) return 4.0;
+      if(r.density != null && r.density > 0) return r.density;
+      var meta = splitBrandName('food', r.food || (r.kind || '主粮'));
+      return foodDensity(r.kind || meta.name || '主粮', r.brand || meta.brand, null);
+    }
+    function recKcal(r){
+      if(!r) return 0;
+      if(r.kcal != null && r.kcal > 0) return Number(r.kcal);
+      var gram = Number(r.gram)||0;
+      return Math.round(gram * recDensity(r));
+    }
+    // 每只宠物的「常喂食物」默认值（用户可在面板里覆盖），携带品牌/品类/密度以便一键记录也按真实热量算
     function feedDefault(key){
       var p = HOME_PETS[key];
       if(!p.feedDefault){
-        p.feedDefault = {food:'主粮', gram:defaultMealGram(key), unit:'g'};
+        var g0 = defaultMealGram(key,'主粮','',null) || 20;
+        p.feedDefault = {kind:'主粮', brand:'', density:kindDensity('主粮'), gram:g0, unit:'g'};
       }
-      if(p.feedDefault.gram == null) p.feedDefault.gram = defaultMealGram(key);
+      if(p.feedDefault.kind == null) p.feedDefault.kind = splitBrandName('food', p.feedDefault.food || '主粮').name || '主粮';
+      if(p.feedDefault.brand == null) p.feedDefault.brand = splitBrandName('food', p.feedDefault.food || '').brand || '';
+      if(p.feedDefault.density == null) p.feedDefault.density = foodDensity(p.feedDefault.kind, p.feedDefault.brand, null);
+      if(p.feedDefault.gram == null) p.feedDefault.gram = defaultMealGram(key, p.feedDefault.kind, p.feedDefault.brand, null) || 20;
       return p.feedDefault;
     }
     function feedRecs(key){
@@ -3975,11 +4069,17 @@
     function feedRecsOfType(key, ftype){
       return feedRecs(key).filter(function(r){ return (r.ftype||'food') === ftype; });
     }
-    // 仅「食物」计入克重总量；营养液按 ml、保健品按粒，分开统计
+    // 「食物」今日总克数（保留，用于展示）；热量才是跨品类可比的统一口径
     function todayFoodGram(key){
       var g = 0;
       feedRecsOfType(key,'food').forEach(function(r){ g += Number(r.gram)||0; });
       return g;
+    }
+    // 今日食物总热量 kcal：干粮/罐头/冻干等按各自代谢能密度折算后相加，修复旧版直接加克数误判超量
+    function todayFoodKcal(key){
+      var k = 0;
+      feedRecsOfType(key,'food').forEach(function(r){ k += recKcal(r); });
+      return k;
     }
     function todayUnitSum(key, ftype){
       var n = 0;
@@ -4016,48 +4116,50 @@
           + escHtml(g.name) + ' ' + qty + '</span>';
       }).join('');
     }
-    // 渲染：每日摄入量进度 + 温和提示（数据不足不评判）
+    // 渲染：每日热量摄入进度 + 温和提示（统一 kcal 口径，克数仅作副信息；数据不足不评判）
     function renderMealIntake(key){
       var box = document.getElementById('meal-intake');
       if(!box) return;
       var gram = todayFoodGram(key);
+      var kcal = todayFoodKcal(key);
       var hasAnyFood = feedRecsOfType(key,'food').length > 0;
-      var gramEl = document.getElementById('mi-gram');
+      var kcalEl = document.getElementById('mi-kcal');
       var unitEl = document.getElementById('mi-unit');
+      var gramSub = document.getElementById('mi-gram-sub');
       var goalEl = document.getElementById('mi-goal');
       var bar = document.getElementById('mi-bar-fill');
       var hint = document.getElementById('mi-hint');
       var suppN = feedRecsOfType(key,'supp').length;
       var liqN = feedRecsOfType(key,'liq').length;
       var extra = (suppN?(' · 保健品 '+suppN+' 次'):'') + (liqN?(' · 营养液 '+liqN+' 次'):'');
-      var goal = dailyGramGoal(key);
+      var goal = dailyKcalGoal(key);
       box.classList.remove('is-low','is-over');
+      kcalEl.textContent = kcal; unitEl.textContent='kcal';
+      gramSub.textContent = hasAnyFood ? ('· '+gram+'g') : '';
       if(!goal){
-        gramEl.textContent = gram; unitEl.textContent='g';
-        goalEl.textContent = '补个体重可算建议量';
+        goalEl.textContent = '补个体重可算建议热量';
         bar.style.width = '0%';
         hint.className = 'mi-hint muted';
-        hint.textContent = '先在档案里补个体重，我就能给出每日建议量' + extra;
+        hint.textContent = '先在档案里补个体重，我就能按代谢能给出每日建议热量' + extra;
         return;
       }
-      gramEl.textContent = gram; unitEl.textContent='g';
-      goalEl.textContent = '建议 '+goal.lo+'–'+goal.hi+' g/天';
-      var ratio = gram / goal.mid;
+      goalEl.textContent = '建议 '+goal.lo+'–'+goal.hi+' kcal/天';
+      var ratio = kcal / goal.mid;
       bar.style.width = Math.min(ratio,1.2)/1.2*100 + '%';
       if(!hasAnyFood){
         hint.className = 'mi-hint muted';
-        hint.textContent = '记一餐会按常用量自动算克重' + extra;
+        hint.textContent = '记一餐会按该粮代谢能自动折算热量' + extra;
       }else if(ratio < 0.7){
         box.classList.add('is-low');
         hint.className = 'mi-hint warn';
-        hint.textContent = '今天吃得偏少（低于建议 70%），留意食欲' + extra;
+        hint.textContent = '今日热量低于建议 70%，留意食欲与进食量' + extra;
       }else if(ratio > 1.2){
         box.classList.add('is-over');
         hint.className = 'mi-hint over';
-        hint.textContent = '已略超建议量，注意别喂太多' + extra;
+        hint.textContent = '今日热量略超建议，注意别喂太多、零食占比别过高' + extra;
       }else{
         hint.className = 'mi-hint ok';
-        hint.textContent = '饭量在建议区间内，继续保持' + extra;
+        hint.textContent = '今日热量在建议区间内，继续保持' + extra;
       }
     }
     function addMealRec(key, meal, opts){
@@ -4065,15 +4167,30 @@
       var def = feedDefault(key);
       var ftype = opts.ftype || 'food';
       var meta = FEED_TYPE_META[ftype] || FEED_TYPE_META.food;
-      var food = opts.food || def.food;
+      var food = opts.food;
       var gram = (opts.gram != null) ? opts.gram : (ftype==='food' ? def.gram : null);
       var rec = {pet:key, key:'feed', meal:meal, ftype:ftype, cat:'daily',
         title:MEAL_LABEL[meal]+'喂食', ico:meta.ico, icoCls:meta.icoCls, source:opts.source||'quick',
-        food:food, gram:gram, amount:opts.amount!=null?opts.amount:gram, unit:opts.unit||meta.unit, note:''};
+        gram:gram, amount:opts.amount!=null?opts.amount:gram, unit:opts.unit||meta.unit, note:''};
+      if(ftype === 'food'){
+        // 结构化营养信息：品类 + 品牌 + 代谢能密度，热量由克数×密度确定，跨品类才可加总
+        var kind = opts.kind || def.kind || '主粮';
+        var brand = opts.brand != null ? opts.brand : (def.brand || '');
+        var density = (opts.density != null && opts.density > 0) ? opts.density
+          : foodDensity(kind, brand, opts.customDensity != null ? opts.customDensity : null);
+        if(!food) food = brand ? (brand + ' ' + kind) : kind;
+        rec.food = food; rec.kind = kind; rec.brand = brand;
+        rec.density = Math.round(density*100)/100;
+        rec.kcal = Math.max(0, Math.round((Number(gram)||0) * density));
+      }else{
+        rec.food = food || '';
+      }
       RecordStore.add(key, rec);
       HOME_PETS[key].logsToday = (HOME_PETS[key].logsToday || 0) + 1;
       afterHomeLog(key);
-      var qty = ftype==='food' ? (gram?(' · '+gram+'g'):'') : (' · '+(opts.amount!=null?opts.amount+meta.unit:''));
+      var qty;
+      if(ftype==='food'){ qty = (gram?(' · '+gram+'g'):'') + (rec.kcal?(' · '+rec.kcal+'kcal'):''); }
+      else { qty = ' · '+(opts.amount!=null?opts.amount+meta.unit:''); }
       showToast('已帮'+HOME_PETS[key].name+'记录「'+MEAL_LABEL[meal]+'」'+qty+' 🐾');
     }
     // 保健品 / 营养液：不是「三餐」，归入加餐时间线，可带周期提醒
@@ -4148,12 +4265,10 @@
     var feedSheet = document.getElementById('feed-detail-sheet');
     var FD_TITLES = {food:'记一笔喂食 · 食物', supp:'记一笔保健品', liq:'记一笔营养液'};
     var FD_SAVE_LABEL = {food:'保存这一餐', supp:'保存保健品记录', liq:'保存营养液记录'};
-    // 不同食物种类相对「主粮单餐默认克重」的系数（罐头/湿粮含水克数多，冻干浓缩克数少，零食少量）
-    var FOOD_GRAM_FACTOR = {'主粮':1,'罐头':1.6,'湿粮':1.5,'冻干':0.5,'自制':1.2,'零食':0.25};
     function fdEl(id){ return document.getElementById(id); }
     var feedForm = {
       ftype:'food',
-      food:{name:'主粮', brand:'', brandCustom:false, gram:20, meal:'breakfast'},
+      food:{name:'主粮', brand:'', brandCustom:false, customDensity:null, gram:20, meal:'breakfast'},
       supp:{name:'化毛膏', brand:'', brandCustom:false, amount:1, unit:'粒', cycle:'none'},
       liq:{name:'综合营养液', brand:'', brandCustom:false, amount:10, unit:'ml', cycle:'none'}
     };
@@ -4168,21 +4283,58 @@
         p.classList.toggle('on', p.getAttribute('data-cycle') === value);
       });
     }
-    function foodRecommendedGram(key, foodName){
-      var base = defaultMealGram(key) || 20;
-      var f = FOOD_GRAM_FACTOR[foodName];
-      if(f == null) return base;
-      return Math.max(5, Math.round(base*f/5)*5);
+    // 当前所选食物的代谢能密度 kcal/g（手填 kcal/100g 优先，其次品牌表，最后品类默认）
+    function currentFoodDensity(){
+      var f = feedForm.food;
+      var custom = (f.customDensity != null && f.customDensity > 0) ? f.customDensity/100 : null;
+      return foodDensity(f.name || '主粮', f.brand || '', custom);
+    }
+    // 单餐建议克数：由「每日热量目标 ÷ 该粮密度」反推（干粮克数少、湿粮克数多），不再用固定系数
+    function foodRecommendedGram(key){
+      var f = feedForm.food;
+      var custom = (f.customDensity != null && f.customDensity > 0) ? f.customDensity/100 : null;
+      return defaultMealGram(key, f.name || '主粮', f.brand || '', custom) || 20;
+    }
+    function refreshMealKcal(){
+      var el = fdEl('fd-meal-kcal');
+      if(el) el.textContent = Math.round(num(feedForm.food.gram,0) * currentFoodDensity());
+    }
+    // 代谢能区块：展示密度来源与手填入口
+    function refreshEnergyBox(){
+      var f = feedForm.food;
+      var valEl = fdEl('fd-density-val'), srcEl = fdEl('fd-density-src');
+      var wrap = fdEl('fd-density-wrap'), input = fdEl('fd-density-input');
+      var den = currentFoodDensity();
+      if(valEl) valEl.textContent = Math.round(den*100);
+      var isCustom = f.customDensity != null && f.customDensity > 0;
+      if(wrap) wrap.classList.toggle('show', isCustom);
+      if(input && isCustom) input.value = Math.round(f.customDensity);
+      if(srcEl){
+        srcEl.classList.toggle('custom', isCustom);
+        if(isCustom){
+          srcEl.textContent = '已按你填的 '+Math.round(f.customDensity)+' kcal/100g 计算';
+        }else{
+          var b = normBrand(f.brand);
+          var hasBrandVal = b && BRAND_DENSITY[b] && BRAND_DENSITY[b][f.name] != null;
+          srcEl.textContent = hasBrandVal
+            ? ('「'+b+' · '+f.name+'」常见代谢能参考值，配方不同有差，可照袋改')
+            : ('「'+(f.name||'主粮')+'」品类典型值，不同品牌有差，可照包装袋改');
+        }
+      }
+      refreshMealKcal();
     }
     function refreshFoodHint(key){
       var hint = fdEl('fd-food-hint');
       if(!hint) return;
-      var goal = dailyGramGoal(key);
+      var f = feedForm.food;
+      var custom = (f.customDensity != null && f.customDensity > 0) ? f.customDensity/100 : null;
+      var goal = gramGoalFor(key, f.name || '主粮', f.brand || '', custom);
       if(goal){
-        hint.innerHTML = '建议全天 <b>'+goal.lo+'–'+goal.hi+'g</b>（约 3 餐），点 − / ＋ 调整本次克数';
+        hint.innerHTML = '按该粮代谢能折算，建议全天 <b>'+goal.lo+'–'+goal.hi+'g</b>（约 '+goal.kcal.lo+'–'+goal.kcal.hi+' kcal），点 − / ＋ 调整本次克数';
       }else{
-        hint.textContent = '在档案里补个体重，可给出每日建议克数';
+        hint.textContent = '在档案里补个体重，可按代谢能给出每日建议克数';
       }
+      refreshEnergyBox();
     }
     var FD_PRESETS = {
       food:['主粮','罐头','冻干','湿粮','自制','零食'],
@@ -4329,15 +4481,16 @@
       var t = mode || 'food';
       var key = activeHomePet;
       var def = feedDefault(key);
-      // 食物：带入该宠物的默认食物与克重，餐次按当前时段（或传入）；默认名可能是「品牌 种类」
+      // 食物：带入该宠物的默认食物（品类/品牌/密度）与克重，餐次按当前时段（或传入）；兼容旧的「品牌 种类」串
       if(!presetMeal){ presetMeal = expectedMealByHour(new Date().getHours()) || 'breakfast'; }
       feedForm.food.meal = presetMeal;
-      var fullName = def.food || '主粮';
-      var parsed = splitBrandName('food', fullName);
-      feedForm.food.name = parsed.name || '主粮';
-      feedForm.food.brand = parsed.brand || '';
+      var parsed = splitBrandName('food', def.food || '');
+      feedForm.food.name = def.kind || parsed.name || '主粮';
+      feedForm.food.brand = def.brand != null ? def.brand : (parsed.brand || '');
       feedForm.food.brandCustom = false;
-      feedForm.food.gram = (def.gram != null) ? def.gram : (defaultMealGram(key) || 20);
+      feedForm.food.customDensity = null;
+      feedForm.food.gram = (def.gram != null) ? def.gram : (defaultMealGram(key, feedForm.food.name, feedForm.food.brand, null) || 20);
+      var di = document.getElementById('fd-density-input'); if(di) di.value = '';
       // 保健品 / 营养液每次打开重置为预设、清空品牌，避免残留上次选择
       feedForm.supp.brand = ''; feedForm.supp.brandCustom = false;
       feedForm.liq.brand = ''; feedForm.liq.brandCustom = false;
@@ -4380,12 +4533,14 @@
             feedForm[kind].brand = p.getAttribute('data-brand');
             feedForm[kind].brandCustom = false;
             syncBrandField(kind, feedForm[kind].brand);
+            if(kind === 'food') refreshFoodHint(activeHomePet);
           });
         });
         var bi = document.getElementById(ids.input);
         if(bi) bi.addEventListener('input', function(){
           feedForm[kind].brand = this.value.trim();
           refreshNamePreview(kind);
+          if(kind === 'food') refreshFoodHint(activeHomePet);
         });
       });
       // —— 食物 ——
@@ -4395,17 +4550,43 @@
           var name = p.getAttribute('data-food');
           feedForm.food.name = name;
           feedForm.food.custom = false;
+          feedForm.food.customDensity = null;   // 换品类后回到参考密度
           syncNameField('food', name);
-          var g = foodRecommendedGram(activeHomePet, name);
+          var g = foodRecommendedGram(activeHomePet);
           feedForm.food.gram = g; fdEl('fd-food-gram').value = g;
           refreshFoodHint(activeHomePet);
         });
       });
-      fdEl('fd-food-name').addEventListener('input', function(){ feedForm.food.name = this.value.trim(); });
+      fdEl('fd-food-name').addEventListener('input', function(){
+        feedForm.food.name = this.value.trim();
+        refreshFoodHint(activeHomePet);
+      });
       fdEl('fd-food-gram').addEventListener('input', function(){
-        feedForm.food.gram = num(this.value, 0); refreshFoodHint(activeHomePet);
+        feedForm.food.gram = num(this.value, 0); refreshMealKcal();
       });
       bindStepper('fd-food-gram','fd-gram-minus','fd-gram-plus', 5, 5);
+      // 代谢能：照包装袋手填 kcal/100g，或恢复参考值
+      var dEdit = fdEl('fd-density-edit'), dWrap = fdEl('fd-density-wrap'), dInput = fdEl('fd-density-input'), dReset = fdEl('fd-density-reset');
+      if(dEdit) dEdit.addEventListener('click', function(){
+        dWrap.classList.add('show');
+        if(!(feedForm.food.customDensity > 0)) dInput.value = '';
+        setTimeout(function(){ dInput.focus(); }, 120);
+      });
+      if(dInput) dInput.addEventListener('input', function(){
+        var v = num(this.value, 0);
+        feedForm.food.customDensity = v > 0 ? v : null;
+        refreshEnergyBox();
+        var g = foodRecommendedGram(activeHomePet);
+        feedForm.food.gram = g; fdEl('fd-food-gram').value = g;
+        refreshFoodHint(activeHomePet);
+      });
+      if(dReset) dReset.addEventListener('click', function(){
+        feedForm.food.customDensity = null; dInput.value = '';
+        dWrap.classList.remove('show');
+        var g = foodRecommendedGram(activeHomePet);
+        feedForm.food.gram = g; fdEl('fd-food-gram').value = g;
+        refreshFoodHint(activeHomePet);
+      });
       document.querySelectorAll('#fd-meal-seg .fc-opt').forEach(function(o){
         o.addEventListener('click', function(){
           feedForm.food.meal = o.getAttribute('data-meal');
@@ -4474,12 +4655,14 @@
           var gram = Math.round(num(fdEl('fd-food-gram').value, 0));
           var baseName = (fdEl('fd-food-name').value || '').trim() || '主粮';
           f.name = baseName;
+          var brand = (f.brand || '').trim();
           var foodName = composeName('food');
+          var density = currentFoodDensity();   // kcal/g
           if(!gram || gram <= 0){ showToast('先选一下本次克数哦'); return; }
           if(fdEl('fd-make-default').checked){
-            HOME_PETS[key].feedDefault = {food:foodName, gram:gram, unit:'g'};
+            HOME_PETS[key].feedDefault = {food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g'};
           }
-          addMealRec(key, f.meal, {ftype:'food', food:foodName, gram:gram, unit:'g', source:'manual'});
+          addMealRec(key, f.meal, {ftype:'food', food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g', source:'manual'});
         } else if(t === 'supp'){
           var s = feedForm.supp;
           s.name = (fdEl('fd-supp-name').value || '').trim();
@@ -5341,10 +5524,10 @@
       var mealDone = mealDoneMap(key);
       var feedN = mealFeedRecs(key).length;
       var waterN = RecordStore.todayCountByKey(key, 'water');
-      var foodGram = todayFoodGram(key);
-      var hasGram = feedRecsOfType(key,'food').some(function(r){ return Number(r.gram) > 0; });
-      var gramGoal = dailyGramGoal(key);
-      var gramRatio = (hasGram && gramGoal) ? foodGram / gramGoal.mid : null;
+      var foodKcal = todayFoodKcal(key);
+      var hasFood = feedRecsOfType(key,'food').some(function(r){ return Number(r.gram) > 0; });
+      var kcalGoal = dailyKcalGoal(key);
+      var kcalRatio = (hasFood && kcalGoal) ? foodKcal / kcalGoal.mid : null;
       var suppN = feedRecsOfType(key,'supp').length;
       var liqMl = todayUnitSum(key,'liq');
       var pct = weightTrendPct(key);
@@ -5352,8 +5535,8 @@
       var wStart = s3.length ? s3[0].v : 0, wEnd = s3.length ? s3[s3.length-1].v : 0;
 
       return {p:p, danger:danger, pending:pending, hh:hh, exp:exp, mealDone:mealDone,
-        feedN:feedN, waterN:waterN, foodGram:foodGram, hasGram:hasGram, gramGoal:gramGoal,
-        gramRatio:gramRatio, suppN:suppN, liqMl:liqMl,
+        feedN:feedN, waterN:waterN, foodKcal:foodKcal, hasFood:hasFood, kcalGoal:kcalGoal,
+        kcalRatio:kcalRatio, suppN:suppN, liqMl:liqMl,
         pct:pct, wStart:wStart, wEnd:wEnd, streak:(p.streak||0)};
     }
     // 是否为「完全没有真实数据」：没有护理节律、没记吃喝、体重不足 2 个点
@@ -5388,22 +5571,22 @@
       }else{
         news.push({cat:'护理', dot:'ok', flag:'防护齐全', flagCls:'ok', to:'todo', text:'今日驱虫、疫苗等防护项目齐全，感染风险低'});
       }
-      // 吃饭 → 进食/能量（有克数才评判「量」，没克数只看餐次节律）
+      // 吃饭 → 进食/能量：干粮/罐头/冻干等先折算成热量(kcal)再和每日目标比
       var eaten = ['breakfast','lunch','dinner','snack'].filter(function(m){return d.mealDone[m];}).map(function(m){return MEAL_LABEL[m];});
-      var gramTail = d.hasGram ? ('（已喂 <b>'+d.foodGram+'g</b>）') : '';
+      var kcalTail = d.hasFood ? ('（已摄 <b>'+d.foodKcal+'kcal</b>）') : '';
       if(d.exp && !d.mealDone[d.exp]){
         news.push({cat:'吃饭', dot:'warn', flag:'待进食', flagCls:'warn', to:'meal', text:MEAL_LABEL[d.exp]+'还没开饭，留意别让它饿太久、暴饮暴食'});
       }else if(d.feedN === 0){
         news.push({cat:'吃饭', dot:'warn', flag:'食欲待察', flagCls:'warn', to:'meal', text:'今天还没有进食记录，食欲与肠胃需要关注'});
-      }else if(d.hasGram && d.gramRatio < 0.7){
-        news.push({cat:'吃饭', dot:'warn', flag:'摄入偏少', flagCls:'warn', to:'meal',
-          text:'已进 <b>'+eaten.join('、')+'</b>'+gramTail+'，低于建议量 70%，留意食欲'});
-      }else if(d.hasGram && d.gramRatio > 1.2){
-        news.push({cat:'吃饭', dot:'warn', flag:'略超量', flagCls:'warn', to:'meal',
-          text:'已进 <b>'+eaten.join('、')+'</b>'+gramTail+'，略超建议量，注意别喂太多'});
+      }else if(d.hasFood && d.kcalRatio < 0.7){
+        news.push({cat:'吃饭', dot:'warn', flag:'能量偏少', flagCls:'warn', to:'meal',
+          text:'已进 <b>'+eaten.join('、')+'</b>'+kcalTail+'，热量低于建议 70%，留意食欲'});
+      }else if(d.hasFood && d.kcalRatio > 1.2){
+        news.push({cat:'吃饭', dot:'warn', flag:'能量偏高', flagCls:'warn', to:'meal',
+          text:'已进 <b>'+eaten.join('、')+'</b>'+kcalTail+'，热量略超建议，注意别喂太多'});
       }else{
         news.push({cat:'吃饭', dot:'ok', flag:d.feedN+' 餐', flagCls:'ok', to:'meal',
-          text:'已进 <b>'+eaten.join('、')+'</b>'+(d.hasGram?gramTail+'，饭量在建议区间内' : '，进食规律、能量摄入正常')});
+          text:'已进 <b>'+eaten.join('、')+'</b>'+(d.hasFood?kcalTail+'，能量摄入在建议区间内' : '，进食规律')});
       }
       // 喝水 → 泌尿
       if(d.waterN === 0 && d.hh >= 9){
