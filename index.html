@@ -103,6 +103,11 @@
   .btn-primary{background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;padding:14px;width:100%;box-shadow:0 12px 24px rgba(255,116,72,.28)}
   .btn-ghost{background:var(--primary-soft);color:var(--primary-600);padding:8px 12px;font-size:12.5px;border-radius:11px}
   .btn-line{background:#fff;color:var(--text);border:2px solid var(--line);padding:13px;width:100%;border-radius:16px}
+  .findcard{display:flex!important;flex-direction:row!important;flex-wrap:nowrap;align-items:center;gap:12px;padding:14px 16px;margin-bottom:14px}
+  .findcard .fc-qr{flex:0 0 auto;width:100px;height:100px}
+  .findcard .fc-body{flex:1 1 auto;min-width:0}
+  .findcard .fc-btn{flex:0 0 auto;width:auto;padding:8px 14px;font-size:12px;white-space:nowrap}
+  @media (max-width:380px){ .findcard{gap:10px;padding:12px} .findcard .fc-qr{width:84px;height:84px} .findcard .fc-qr svg{width:74px;height:74px} }
   .btn-mint{background:linear-gradient(135deg,#4ED0B0,#2FB996);color:#fff;padding:14px;width:100%;box-shadow:0 12px 24px rgba(62,201,167,.28)}
 
   .section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 4px 11px}
@@ -6023,21 +6028,21 @@
     function renderPetFindCard(p){
       var isDog = p.speciesKey === 'dog';
       var hasChip = !!p.microchip;
-      var qr = '<div style="width:104px;height:104px;background:#fff;border-radius:14px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm)">'+renderPetQR(p.name+'|'+(p.microchip||'nochip'))+'</div>';
+      var qr = '<div class="fc-qr" style="background:#fff;border-radius:14px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)">'+renderPetQR(p.name+'|'+(p.microchip||'nochip'))+'</div>';
       var chipLine = hasChip
         ? '<div style="font-size:12px;color:var(--text);margin-top:2px">芯片号 <b style="color:var(--ink);letter-spacing:.3px">'+escHtml(p.microchip)+'</b></div>'
         : (isDog
             ? '<div id="pd-find-tip" style="margin-top:6px;font-size:12px;font-weight:700;color:var(--primary-600);cursor:pointer">还没录芯片号，遛狗走失风险高，点此补充 →</div>'
             : '<div style="margin-top:6px;font-size:11.5px;color:var(--muted)">室内猫可不录芯片；常外出/会溜的猫也建议补一张</div>');
       var sub = hasChip ? '走失路人扫码即可联系你，救助站扫芯片也能查到你' : '即使没录芯片，路人扫码也能一键联系主人';
-      return '<div class="card" style="display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:14px">'
+      return '<div class="card findcard">'
         + qr
-        + '<div style="flex:1;min-width:0">'
+        + '<div class="fc-body">'
         +   '<div style="display:flex;align-items:center;gap:6px;font-weight:800;font-size:15px"><svg class="ico" style="width:16px;height:16px;color:var(--mint)"><use href="#i-shield"/></svg>'+escHtml(p.name)+' · 寻回卡</div>'
-        +   '<div style="font-size:12px;color:var(--text);line-height:1.55;margin:3px 0 2px">'+sub+'</div>'
+        +   '<div style="font-size:12px;color:var(--text);line-height:1.5;margin:3px 0 2px">'+sub+'</div>'
         +   chipLine
         + '</div>'
-        + '<div class="btn btn-line" id="pd-find-preview" style="flex-shrink:0;padding:8px 12px;font-size:12px;font-weight:700">预览</div>'
+        + '<div class="btn btn-line fc-btn" id="pd-find-preview">预览</div>'
         + '</div>';
     }
     function openFinderPreview(p){
