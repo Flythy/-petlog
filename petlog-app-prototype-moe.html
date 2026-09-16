@@ -103,6 +103,11 @@
   .btn-primary{background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;padding:14px;width:100%;box-shadow:0 12px 24px rgba(255,116,72,.28)}
   .btn-ghost{background:var(--primary-soft);color:var(--primary-600);padding:8px 12px;font-size:12.5px;border-radius:11px}
   .btn-line{background:#fff;color:var(--text);border:2px solid var(--line);padding:13px;width:100%;border-radius:16px}
+  .findcard{display:flex!important;flex-direction:row!important;flex-wrap:nowrap;align-items:center;gap:12px;padding:14px 16px;margin-bottom:14px}
+  .findcard .fc-qr{flex:0 0 auto;width:100px;height:100px}
+  .findcard .fc-body{flex:1 1 auto;min-width:0}
+  .findcard .fc-btn{flex:0 0 auto;width:auto;padding:8px 14px;font-size:12px;white-space:nowrap}
+  @media (max-width:380px){ .findcard{gap:10px;padding:12px} .findcard .fc-qr{width:84px;height:84px} .findcard .fc-qr svg{width:74px;height:74px} }
   .btn-mint{background:linear-gradient(135deg,#4ED0B0,#2FB996);color:#fff;padding:14px;width:100%;box-shadow:0 12px 24px rgba(62,201,167,.28)}
 
   .section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 4px 11px}
@@ -242,12 +247,11 @@
   .meal-bowl.filled .kibble{opacity:1}
   @keyframes bowlPop{0%{transform:scale(1)}45%{transform:scale(1.16) rotate(-3deg)}100%{transform:scale(1)}}
   .meal-bowl.pop{animation:bowlPop .42s cubic-bezier(.34,1.56,.64,1)}
-  .meal-right{flex:1;min-width:0}
-  .meal-progress{font-size:11.5px;font-weight:800;color:var(--text);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-  .meal-progress b{color:var(--primary-600);font-size:16px;margin:0 2px}
-  .meal-tip{font-size:11px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:3px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1;min-width:0}
-  .meal-bar{height:9px;border-radius:99px;background:#FBE6D4;overflow:hidden;margin-bottom:10px}
-  .meal-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFB27A,#FF8A5C);transition:width .4s cubic-bezier(.34,1.4,.64,1)}
+  .meal-right{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .meal-next{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--primary-600);margin-bottom:9px;min-height:14px}
+  .meal-next::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0;box-shadow:0 0 0 3px rgba(255,138,92,.16)}
+  .meal-next.is-done{color:var(--mint,#20A581)}
+  .meal-next.is-done::before{background:var(--mint,#20A581);box-shadow:0 0 0 3px rgba(32,165,129,.15)}
   .meal-chips{display:flex;gap:7px;flex-wrap:wrap}
   .mchip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:2px solid var(--line);border-radius:99px;padding:6px 11px;font-size:11.5px;font-weight:800;color:var(--text);cursor:pointer;touch-action:manipulation;transition:.15s}
   .mchip .tick{width:14px;height:14px;border-radius:50%;border:1.8px solid var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -290,6 +294,16 @@
   .feed-cyc{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
   .feed-cyc .fc-opt{font-size:11px;font-weight:800;color:var(--text);background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer}
   .feed-cyc .fc-opt.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-600)}
+  /* 常喂食物库快捷条 */
+  .fd-lib{display:none;margin:2px 4px 10px;background:var(--primary-soft);border:1.4px solid #D8EDE5;border-radius:13px;padding:9px 10px}
+  .fd-lib.show{display:block}
+  .fd-lib-t{font-size:10.5px;font-weight:850;color:var(--primary-600);margin-bottom:7px;display:flex;align-items:center;gap:4px}
+  .fd-lib-items{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .fd-lib-item{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.4px solid #DCE7E2;border-radius:10px;padding:6px 8px 6px 10px;font-size:11.5px;font-weight:800;color:var(--ink);cursor:pointer;max-width:172px}
+  .fd-lib-item .fl-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fd-lib-item .fl-den{font-size:9.5px;font-weight:700;color:var(--muted)}
+  .fd-lib-item .fl-del{flex-shrink:0;width:15px;height:15px;line-height:13px;text-align:center;border-radius:50%;color:#B7A99A;font-size:12px;font-weight:900}
+  .fd-lib-item .fl-del:active{background:#F0E6DA;color:#7A6C5E}
   /* 喂食面板：种类/名称快选 + 克数步进 */
   .fd-pick{display:flex;gap:7px;flex-wrap:wrap;margin:2px 4px 4px}
   .fd-pick .fp{font-size:12px;font-weight:800;color:var(--text);background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:7px 13px;cursor:pointer;transition:.13s}
@@ -365,6 +379,113 @@
   .ms-empty{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:var(--muted);background:#fff;border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;touch-action:manipulation}
   .ms-empty:active{transform:scale(.99)}
   .ms-empty .ico{width:14px;height:14px;color:var(--muted)}
+
+  /* ===== 今日营养驾驶舱：结论 + 靶心区间 + 摄入构成 ===== */
+  .nu-sec-head{margin:16px 4px 9px}
+  .nu-panel{position:relative;z-index:1;margin-top:0;border-radius:18px;padding:13px 13px 12px;border:1.6px solid #F3E4D5;background:linear-gradient(180deg,#FFFCF8,#FFF7EF)}
+  .nu-verdict{display:flex;align-items:center;gap:11px;cursor:pointer;touch-action:manipulation}
+  .nu-verdict:active{transform:scale(.992)}
+  .nu-badge{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--mint-soft,#DFF6EF);color:#20A581;transition:.25s}
+  .nu-badge .ico{width:23px;height:23px}
+  .nu-badge.is-low{background:#FCEFD6;color:#D98324}
+  .nu-badge.is-over{background:#FDE3E8;color:#E0556B}
+  .nu-badge.is-empty{background:#F1EBE4;color:var(--muted)}
+  .nu-v-main{flex:1;min-width:0}
+  .nu-v-title{font-size:14.5px;font-weight:850;color:var(--ink);line-height:1.25;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif}
+  .nu-v-sub{font-size:10.8px;font-weight:700;color:var(--muted);margin-top:3px;line-height:1.4}
+  .nu-v-go{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+  .nu-v-kcal,.nu-v-left{display:inline-flex;align-items:baseline;gap:2px;line-height:1}
+  .nu-v-kcal{font-size:18px;font-weight:900;color:var(--primary-600)}
+  .nu-v-kcal small{font-size:9px;font-weight:700;color:var(--muted)}
+  .nu-v-left{font-size:13px;font-weight:900;color:#15946F}
+  .nu-v-left.is-over{color:#E0647A}
+  .nu-v-left small{font-size:9px;font-weight:700;color:var(--muted)}
+  .nu-v-go span.go-txt{font-size:9.8px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:2px 8px;white-space:nowrap}
+  /* 靶心区间标尺：落在绿色安全区即为好，而非越满越好 */
+  .nu-gauge{margin-top:13px}
+  .nu-track{position:relative;height:11px;border-radius:99px;background:linear-gradient(90deg,#F6E3B4 0,#F6E3B4 18%,#BEEAD9 18%,#BEEAD9 72%,#F8CDD5 72%,#F8CDD5 100%)}
+  .nu-marker{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--primary);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.18);transition:left .5s cubic-bezier(.34,1.4,.64,1),border-color .25s;z-index:2}
+  .nu-marker.is-low{border-color:#D98324}
+  .nu-marker.is-over{border-color:#E0556B}
+  .nu-marker.is-ok{border-color:#20A581}
+  .nu-scale{display:flex;justify-content:space-between;align-items:center;height:15px;margin-top:6px;font-size:9.6px;font-weight:750;color:var(--muted)}
+  .nu-scale .ns-zero{flex-shrink:0}
+  .nu-scale .ns-range{white-space:nowrap}
+  .nu-scale b{color:var(--text);font-weight:850}
+  /* 补给芯片：不计热量的照护项（明细在营养分析详情页展示） */
+  .nu-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .nu-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.4px solid var(--line);border-radius:99px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--text)}
+  .nu-chip.supp{border-color:#E3DAFB;background:#F7F3FF;color:#6E4FB8}
+  .nu-chip.liq{border-color:#CFE9F6;background:#F2FAFF;color:#357FA8}
+  .nu-chip .ico{width:12px;height:12px}
+  .nu-chip .cyc{color:#E0A23C}
+  .nu-chip.cyc .ico{width:12px;height:12px}
+  .nu-chip .nc-name{white-space:nowrap}
+  .nu-chip b{font-size:10px;font-weight:900;border-radius:99px;padding:1.5px 7px;white-space:nowrap}
+  .nu-chip .cb-ok{background:#DFF4EC;color:#15946F}
+  .nu-chip .cb-wait{background:#FDEBD0;color:#D9820F}
+  .nu-chip .cb-prog{background:#E8F1FD;color:#3D78C4}
+  .nu-chip .cb-rest{background:#EDEDED;color:#9A9A9A}
+  .nu-chip.care-done{border-color:#BFE7D8;background:#F2FBF7}
+  .nu-chip.care-pending{border-color:#F6D6A8;background:#FFF8EE;cursor:pointer}
+  .nu-chip.care-week{border-color:#C7DEF7;background:#F4F9FF}
+  .nu-chip.care-rest{border-color:#E4E4E4;background:#F7F7F7;color:#9A9A9A}
+  .nu-chip .nc-bell{color:#E0A23C;animation:ncBell 1.8s ease-in-out infinite}
+  @keyframes ncBell{0%,100%{transform:rotate(0)}30%{transform:rotate(-14deg)}60%{transform:rotate(12deg)}}
+  .nu-care-empty{font-size:10.6px;font-weight:700;color:var(--muted);background:#fff;border:1.4px dashed var(--line);border-radius:11px;padding:8px 11px;cursor:pointer}
+  /* 营养分析详情弹层 */
+  .nd-ring{width:120px;height:120px;margin:4px auto 10px;position:relative}
+  .nd-ring svg{transform:rotate(-90deg)}
+  .nd-ring .nd-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .nd-ring .nd-c b{font-size:24px;font-weight:900;color:var(--primary-600);line-height:1}
+  .nd-ring .nd-c span{font-size:10px;font-weight:700;color:var(--muted);margin-top:3px}
+  .nd-status{text-align:center;font-size:14px;font-weight:850;margin:2px 0 2px}
+  .nd-range{text-align:center;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:12px}
+  /* 热量需求计算卡 */
+  .nd-need{background:#FBF8F3;border:1.4px solid #EEE4D7;border-radius:16px;padding:13px 14px;margin:2px 0 4px}
+  .ndn-title{font-size:14px;font-weight:900;color:var(--ink);margin-bottom:10px}
+  .ndn-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;font-weight:700;color:var(--muted);line-height:1.5}
+  .ndn-row b{font-size:12.5px;font-weight:900;color:var(--ink);white-space:nowrap}
+  .ndn-label{font-size:11px;font-weight:700;color:var(--muted);margin:11px 0 7px}
+  .ndn-seg{display:flex;flex-wrap:wrap;gap:7px}
+  .ndn-opt{font-size:11px;font-weight:800;color:var(--text);background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:6px 13px;cursor:pointer;touch-action:manipulation}
+  .ndn-opt.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-600)}
+  .ndn-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:13px;padding-top:11px;border-top:1.2px solid #ECE2D5;font-size:12.5px;font-weight:850;color:var(--ink)}
+  .ndn-total b{font-size:20px;font-weight:900;color:#20A581}
+  .ndn-note{font-size:10px;font-weight:650;color:var(--muted);margin-top:7px;line-height:1.5}
+  .nd-bar-row{display:flex;align-items:center;gap:9px;margin:8px 2px;font-size:11.5px}
+  .nd-bar-row .nd-l{width:44px;flex-shrink:0;font-weight:800;color:var(--text)}
+  .nd-bar-track{flex:1;height:9px;border-radius:99px;background:#F1E8DF;overflow:hidden}
+  .nd-bar-track i{display:block;height:100%;border-radius:99px}
+  .nd-bar-row .nd-v{width:78px;flex-shrink:0;text-align:right;font-weight:800;color:var(--text);font-size:10.8px}
+  .nd-tip{margin-top:12px;background:#FFF6EE;border:1.4px solid #F6E2CE;border-radius:14px;padding:10px 12px;font-size:11.5px;font-weight:650;color:var(--text);line-height:1.6}
+  .nd-tip b{color:var(--primary-600)}
+  .nd-care-head{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:850;color:var(--ink);margin:15px 2px 8px}
+  .nd-care-add{margin-left:auto;font-size:10.5px;font-weight:800;color:#8A63D2;background:#EFE9FD;border-radius:99px;padding:3px 10px;cursor:pointer;white-space:nowrap}
+  .nd-trend-link{display:flex;align-items:center;gap:7px;margin-top:12px;border:1.5px solid var(--primary-600);color:var(--primary-600);background:var(--primary-soft);border-radius:14px;padding:11px 13px;font-size:12px;font-weight:850;cursor:pointer;touch-action:manipulation}
+  .nd-trend-link .ico{width:16px;height:16px;flex-shrink:0}
+  .nd-trend-link .ico.ico-r{margin-left:auto}
+  /* 近 7 天营养趋势柱图 */
+  .nt-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin:2px 2px 0;font-size:10px;font-weight:800;color:#20A581}
+  .nt-legend i{width:14px;height:8px;border-radius:2px;background:rgba(62,201,167,.35);border-top:1px solid rgba(32,165,129,.7);border-bottom:1px solid rgba(32,165,129,.7)}
+  .nt-chart{position:relative;height:152px;margin:2px 2px 0;padding-left:2px}
+  .nt-band{position:absolute;left:0;right:0;border-top:1.4px dashed rgba(32,165,129,.55);border-bottom:1.4px dashed rgba(32,165,129,.55);background:rgba(62,201,167,.10);z-index:0}
+  .nt-cols{position:absolute;inset:0;display:flex;align-items:flex-end;gap:6px;z-index:1}
+  .nt-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .nt-v{font-size:9.8px;font-weight:850;color:var(--text);margin-bottom:3px;white-space:nowrap}
+  .nt-bar{width:100%;max-width:24px;border-radius:7px 7px 3px 3px;min-height:4px;background:#DCD2C7;transition:height .5s cubic-bezier(.34,1.3,.64,1)}
+  .nt-bar.s-ok{background:linear-gradient(180deg,#5BD2B1,#2BB48F)}
+  .nt-bar.s-low{background:linear-gradient(180deg,#F4C26B,#E59E33)}
+  .nt-bar.s-over{background:linear-gradient(180deg,#F28AA0,#E0556B)}
+  .nt-bar.s-none{background:#EAE3DA}
+  .nt-x{display:flex;gap:6px;margin:6px 2px 0}
+  .nt-x span{flex:1;text-align:center;font-size:10px;font-weight:800;color:var(--muted)}
+  .nt-x span.is-today{color:var(--primary-600)}
+  .nt-stats{display:flex;gap:8px;margin-top:14px}
+  .nt-stat{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:9px 6px;text-align:center}
+  .nt-stat b{display:block;font-size:17px;font-weight:900;color:var(--primary-600);line-height:1}
+  .nt-stat span{display:block;font-size:9.8px;font-weight:700;color:var(--muted);margin-top:4px}
+
   /* 统一录入主按钮 */
   .meal-add{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;width:100%;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#FFB066,#FF8A5C);border:none;border-radius:14px;padding:11px;cursor:pointer;box-shadow:0 6px 16px rgba(255,138,92,.28);touch-action:manipulation;transition:transform .12s}
   .meal-add:active{transform:scale(.98)}
@@ -1321,6 +1442,7 @@
             <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 11h18"/></g></symbol>
             <symbol id="i-droplet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></g></symbol>
             <symbol id="i-scale" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v3M6 8h12"/><path d="M6 8a6 6 0 0 0 12 0"/><path d="M9 13v7M15 13v7M9 20h6"/></g></symbol>
+            <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><rect x="6" y="11" width="3.2" height="9" rx="1"/><rect x="10.6" y="7" width="3.2" height="13" rx="1"/><rect x="15.2" y="13" width="3.2" height="7" rx="1"/></g></symbol>
             <symbol id="i-capsule" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M9 9l6 6"/></g></symbol>
             <symbol id="i-medical" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></g></symbol>
             <symbol id="i-clipcheck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M9 12l2 2 4-4"/></g></symbol>
@@ -1508,8 +1630,7 @@
                   </svg>
                 </div>
                 <div class="meal-right">
-                  <div class="meal-progress"><span>今日 <b id="meal-count">0</b> 餐</span><span class="meal-tip" id="meal-advice">还没开饭哦</span></div>
-                  <div class="meal-bar"><i id="meal-bar-fill" style="width:0%"></i></div>
+                  <div class="meal-next" id="meal-advice">还没开饭哦</div>
                   <div class="meal-chips" id="meal-chips">
                     <span class="mchip" data-meal="breakfast"><span class="tick"><svg class="ico"><use href="#i-check"/></svg></span>早餐</span>
                     <span class="mchip" data-meal="lunch"><span class="tick"><svg class="ico"><use href="#i-check"/></svg></span>午餐</span>
@@ -1524,21 +1645,28 @@
                 <span class="mw-dots" id="mw-dots"></span>
                 <span class="mw-add" id="mw-add">＋ 记一次</span>
               </div>
-              <div class="meal-intake" id="meal-intake">
-                <div class="ms-head" style="margin:0 0 7px"><span class="ms-dot" style="background:#FF8A5C"></span>正餐 · 供能热量<span class="ms-count" id="mi-meal-count"></span></div>
-                <div class="mi-top">
-                  <span class="mi-num">今日合计 <b id="mi-kcal">0</b><span id="mi-unit">kcal</span><span id="mi-gram-sub"></span></span>
-                  <span class="mi-goal" id="mi-goal">建议 — kcal/天</span>
-                </div>
-                <div class="mi-bar"><i id="mi-bar-fill" style="width:0%"></i></div>
-                <div class="mi-hint muted" id="mi-hint">记一餐会按该粮代谢能自动折算热量，保健品 / 营养液不计入热量</div>
-              </div>
-              <div class="meal-supp">
-                <div class="ms-head"><span class="ms-dot"></span>今日补给 · 保健品 / 营养液<span class="ms-count" id="ms-count"></span><span class="ms-add" id="ms-add-btn"><svg class="ico"><use href="#i-plus"/></svg>补给</span></div>
-                <div class="ms-list" id="ms-list"></div>
-              </div>
               <button type="button" class="meal-add" id="meal-add-btn"><svg class="ico"><use href="#i-plus"/></svg>记一笔喂养</button>
               <div class="meal-src"><svg class="ico"><use href="#i-check"/></svg>这里和健康简报、AI 管家共用同一份记录，只记一次</div>
+            </div>
+
+            <!-- 今日营养：只留结论 + 热量进度，构成与补给明细收进「营养分析」详情页 -->
+            <div class="section-head nu-sec-head"><b>今日营养</b><a id="nu-detail-go">营养分析 ›</a></div>
+            <div class="nu-panel" id="nu-panel">
+              <div class="nu-verdict" id="nu-verdict">
+                <span class="nu-badge is-empty" id="nu-badge"><svg class="ico"><use href="#i-food"/></svg></span>
+                <div class="nu-v-main">
+                  <div class="nu-v-title" id="nu-title">今天还没开饭</div>
+                  <div class="nu-v-sub" id="nu-sub">记一笔，我帮你盯着喂得对不对</div>
+                </div>
+                <div class="nu-v-go">
+                  <span class="nu-v-kcal"><b id="nu-kcal">0</b><small>已摄入 kcal</small></span>
+                  <span class="nu-v-left" id="nu-left-wrap"><b id="nu-left">–</b><small>剩余 kcal</small></span>
+                </div>
+              </div>
+              <div class="nu-gauge">
+                <div class="nu-track" id="nu-track"><i class="nu-marker is-ok" id="nu-marker" style="left:0%"></i></div>
+                <div class="nu-scale"><span class="ns-zero">0</span><span class="ns-range">建议区间 <b id="nu-lo">–</b>–<b id="nu-hi">–</b> kcal</span></div>
+              </div>
             </div>
 
             <!-- 分层①：今日行动（该做什么）——吃饭喝水在上方喂食卡，护理待办在此 -->
@@ -1706,6 +1834,12 @@
             <!-- 基础资料：查看态 / 编辑态由 JS 渲染到 #pd-basic；年龄永远由出生日期自动算，不单独存 -->
             <div class="section-head"><b>基础资料</b><span style="font-size:12px;color:var(--muted)" id="pd-basic-note"></span></div>
             <div class="card" id="pd-basic" style="margin-bottom:14px"></div>
+
+            <!-- 身份与寻回：芯片号 + 路人扫码联系，由 JS 按宠物数据渲染；编辑态隐藏，统一在基础资料里录入 -->
+            <div id="pd-findme-wrap">
+              <div class="section-head"><b>身份与寻回</b><span style="font-size:12px;color:var(--muted)">芯片号 + 路人扫码联系</span></div>
+              <div id="pd-findme-card"></div>
+            </div>
 
             <div class="section-head"><b>纪念日</b><span style="font-size:12px;color:var(--muted)">到期提醒</span></div>
             <div class="card" style="padding:4px 14px">
@@ -2637,6 +2771,7 @@
 
             <!-- ===== 食物 ===== -->
             <div class="fd-pane on" id="fd-pane-food">
+              <div class="fd-lib" id="fd-foodlib"></div>
               <div class="fd-sec"><span class="fd-sec-t">喂的是什么</span></div>
               <div class="fd-pick" id="fd-food-pick">
                 <span class="fp on" data-food="主粮">主粮</span>
@@ -2745,7 +2880,9 @@
                 <div class="feed-cyc" id="fd-cycle-seg-supp">
                   <span class="fc-opt on" data-cycle="none">不提醒</span>
                   <span class="fc-opt" data-cycle="daily">每天</span>
-                  <span class="fc-opt" data-cycle="weekly">每周</span>
+                  <span class="fc-opt" data-cycle="alt">隔日</span>
+                  <span class="fc-opt" data-cycle="w2">每周2次</span>
+                  <span class="fc-opt" data-cycle="w3">每周3次</span>
                 </div>
               </div>
             </div>
@@ -2793,13 +2930,34 @@
                 <div class="feed-cyc" id="fd-cycle-seg-liq">
                   <span class="fc-opt on" data-cycle="none">不提醒</span>
                   <span class="fc-opt" data-cycle="daily">每天</span>
-                  <span class="fc-opt" data-cycle="weekly">每周</span>
+                  <span class="fc-opt" data-cycle="alt">隔日</span>
+                  <span class="fc-opt" data-cycle="w2">每周2次</span>
+                  <span class="fc-opt" data-cycle="w3">每周3次</span>
                 </div>
               </div>
             </div>
 
             <div class="btn btn-primary" id="fd-save" style="margin:16px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> <span id="fd-save-label">保存这一餐</span></div>
             <div class="sheet-row cancel" id="fd-cancel">取消</div>
+          </div>
+        </div>
+
+        <!-- 今天：营养分析详情（结论环 + 品类构成 + 建议克数 + 行动建议） -->
+        <div class="sheet-mask" id="nutrition-detail-sheet">
+          <div class="sheet">
+            <div class="stitle">今日营养分析</div>
+            <div id="nd-body"></div>
+            <div class="btn btn-primary" id="nd-add" style="margin:14px 4px 4px"><svg class="ico"><use href="#i-plus"/></svg> 再记一笔</div>
+            <div class="sheet-row cancel" id="nd-cancel">关闭</div>
+          </div>
+        </div>
+
+        <!-- 今天：近 7 天营养趋势（建议区间柱图 + 均值/达标/零食占比 + 结论） -->
+        <div class="sheet-mask" id="nutrition-trend-sheet">
+          <div class="sheet">
+            <div class="stitle">近 7 天营养趋势</div>
+            <div id="nt-body"></div>
+            <div class="sheet-row cancel" id="nt-cancel" style="margin-top:12px">关闭</div>
           </div>
         </div>
 
@@ -2959,7 +3117,7 @@
     // ===== 统一记录存储层：localStorage 持久化，按宠物隔离 =====
     // 一键记录 / 语音归类 / 手动表单 三个入口都写入这里，记录页时间线统一读取
     var PETLOG_STORE_KEY = 'petlog_records_v3';
-    var PETLOG_SEED_KEY = 'petlog_seeded_v3';
+    var PETLOG_SEED_KEY = 'petlog_seeded_v4';
     // 原型演示用「App 今天」锚点，与首页日历保持一致（2026-09-07）
     var APP_TODAY = new Date(2026, 8, 7, 12, 0);
     function tsAt(y, m0, d, h, mi){ return new Date(y, m0, d, h==null?12:h, mi||0).getTime(); }
@@ -3025,7 +3183,30 @@
         {id:'seed-c-10', cat:'clean', title:'换猫砂', ico:'i-litter', icoCls:'slate', source:'manual', ts:demoTs(-1,18,0), note:'整盆更换', fields:{'方式':'整盆更换','状态':'完成'}},
         {id:'seed-c-11', cat:'clean', title:'洗碗', ico:'i-bowl', icoCls:'amber', source:'manual', ts:demoTs(-3,19,0), note:'水碗饭盆', fields:{'范围':'水碗 + 饭盆','状态':'完成'}},
         {id:'seed-c-12', cat:'clean', title:'洗猫窝', ico:'i-cage', icoCls:'coral', source:'manual', ts:demoTs(-5,12,0), note:'已烘干消毒', fields:{'处理':'清洗 + 烘干 + 消毒','状态':'完成'}},
-        {id:'seed-c-13', cat:'other', title:'宠物美容院预约', ico:'i-memo', icoCls:'violet', source:'manual', ts:demoTs(5,14,0), note:'自定义 · 下周 14:00', fields:{'类型':'到店美容','预约时间':'下周六 14:00','状态':'已预约'}}
+        {id:'seed-c-13', cat:'other', title:'宠物美容院预约', ico:'i-memo', icoCls:'violet', source:'manual', ts:demoTs(5,14,0), note:'自定义 · 下周 14:00', fields:{'类型':'到店美容','预约时间':'下周六 14:00','状态':'已预约'}},
+        {id:'seed-cm-01', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,8,30), gram:32, amount:32, unit:'g', note:'', food:'渴望 主粮', kind:'主粮', brand:'渴望', density:3.9, kcal:125},
+        {id:'seed-cm-02', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,12,15), gram:35, amount:35, unit:'g', note:'', food:'希宝 罐头', kind:'罐头', brand:'希宝', density:0.85, kcal:30},
+        {id:'seed-cs-01', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'保健品 · 布拉迪酵母益生菌', ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,9,10), gram:null, amount:1, unit:'粒', note:'', food:'布拉迪酵母益生菌', cycle:'daily'},
+        {id:'seed-cs-02', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'保健品 · 绿十字化毛膏', ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,10,0), gram:null, amount:3, unit:'cm', note:'', food:'绿十字化毛膏', cycle:'w3'},
+        {id:'seed-cm-61', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-62', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,12,40), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-63', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-51', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-52', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,12,30), gram:60, amount:60, unit:'g', note:'', food:'罐头', kind:'罐头', brand:'', density:1, kcal:60},
+        {id:'seed-cm-53', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-41', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-42', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-31', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,8,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-32', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,12,30), gram:10, amount:10, unit:'g', note:'', food:'冻干', kind:'冻干', brand:'', density:4.8, kcal:48},
+        {id:'seed-cm-33', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-34', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'加餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,16,0), gram:10, amount:10, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:36},
+        {id:'seed-cm-21', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,8,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-22', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,12,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-23', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'加餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,15,30), gram:20, amount:20, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:72},
+        {id:'seed-cm-24', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-11', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-12', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,12,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-13', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,18,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80}
       ],
       dog:[
         {id:'seed-d-1', cat:'groom', title:'挤肛门腺', ico:'i-anal', icoCls:'coral', source:'manual', ts:demoTs(0,15,40), note:'豆豆 · 狗狗', fields:{'方式':'美容店处理','状态':'完成'}}
@@ -3038,6 +3219,7 @@
         try{ this._cache = JSON.parse(localStorage.getItem(PETLOG_STORE_KEY)||'{}') || {}; }
         catch(e){ this._cache = {}; }
         this._ensureSeeds();
+        this._ensureNutritionSeeds();
         return this._cache;
       },
       _ensureSeeds:function(){
@@ -3057,6 +3239,30 @@
         });
         this._write();
         try{ localStorage.setItem(PETLOG_SEED_KEY, '1'); }catch(e){}
+      },
+      // 营养模块新示例（今日正餐 2 条 + 补剂 2 条）：独立批次、按 id 幂等补入，老用户也能看到
+      _ensureNutritionSeeds:function(){
+        var done = false;
+        try{ done = localStorage.getItem('petlog_seeded_nutrition_v1') === '1'; }catch(e){}
+        if(done) return;
+        var ids = ['seed-cm-01','seed-cm-02','seed-cs-01','seed-cs-02'];
+        var all = this._cache || (this._cache = {});
+        if(!all.cat) all.cat = [];
+        var have = {};
+        all.cat.forEach(function(r){ have[r.id] = true; });
+        var changed = false;
+        ids.forEach(function(id){
+          if(have[id]) return;
+          var found = SEED_RECORDS.cat.filter(function(r){ return r.id === id; })[0];
+          if(found){
+            var rec = JSON.parse(JSON.stringify(found)); rec.pet = 'cat';
+            all.cat.push(rec); changed = true;
+          }
+        });
+        if(changed){
+          try{ localStorage.setItem(PETLOG_STORE_KEY, JSON.stringify(all)); }catch(e){}
+        }
+        try{ localStorage.setItem('petlog_seeded_nutrition_v1', '1'); }catch(e){}
       },
       _write:function(){
         try{ localStorage.setItem(PETLOG_STORE_KEY, JSON.stringify(this._read())); }catch(e){}
@@ -3750,6 +3956,7 @@
       cat: {
         name:'小白', species:'猫咪', speciesKey:'cat', breed:'英国短毛猫', avatar:'data:image/jpeg;base64,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', line:'我已经 7 天没有驱虫啦，快来帮我驱虫吧', mascot:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUEBAQEAwUEBAQGBQUGCA0ICAcHCBALDAkNExAUExIQEhIUFx0ZFBYcFhISGiMaHB4fISEhFBkkJyQgJh0gISD/2wBDAQUGBggHCA8ICA8gFRIVICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wgARCAEYARgDASIAAhEBAxEB/8QAHAABAQACAwEBAAAAAAAAAAAAAAEEBwIFBgMI/8QAGgEBAQEBAQEBAAAAAAAAAAAAAAECAwQFBv/aAAwDAQACEAMQAAAB3HLOVoIsBSAAAVBKFQAsAolCEOUUEAKQAFAECcgiiLCpRKIUTlxqyyFlIolCAKECVQQso40rh0Pg+6z22Bz1D2+sbIceTA42cl80vaawmyM9dYet7fXfH07j+mP9e/h5iAEsKlABCgSwqBgZ3hreg931PceT6PPEye27eXTXrffOnLWnPZBNc/PZSOPnfSfHO+l857DruHv6712qtp+v52RZZgQFJQriLLxLYKQA4652N41vt8rN+3PrOSdfOLBKBSVD4/UvivY9H1917Bw5zCglhUFA42FKJRKg8Ve2uu/ljK8daLs1+d98S9hKZi67Xse61rrV1/VrFynFqravUNZOVrXZepysuYgAVAWQLRBZep01puHSWz89O+mL1ON42q9oacx383vDXu99c+wxPO9LvhsfWeTsKz8q99tX48fbnZ2POHs7fy3ovt6vl6Q9z1G49zF+uB2V4hChAUCWCWmF5v1H31dIbP1n6PHX1uJ2WD5vd8vszM9O3qe34+NlAIXqO3menmnd3h7cfpPW636+Tw2ysvvumcj6YmZOcqgEAqApLBx896HFrqNf7V6Rv1Py01s7LtvvLcpSBSUDgc2L5TG8zwnx2/rUyMfMcoCoLAAsolgssFgYuVKxdB+29HOubnZlznpOfY9f5vZcLofG8vTtXE15s+Xrey7r79vJg/bKenx6q2h1fnd33XL4/aYSiKAIoEKAUgJ8Pv4S3z+3PNelzUq5llNLcPZeE+B+szvT+K3V6/DlD6nwQLqTbXhW/bfXzveXH3hACwEFlgsoShKTTu4tT3e1uVTBKQo836OzWBnxZZSJRMHOtas2ZqXbTf3JMUAhQJQgVKIwq+uscn5TrtMORx5U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', isExample:true,
         gender:'male', birthISO:'2024-03-15', birthApprox:false, neutered:'yes', weight:4.2, adoptISO:'2024-06-01',
+        microchip:null, chipHospital:null, chipDate:null,
         logsToday:2, streak:5, weekCaption:'体内驱虫已逾期 · 本周还有 3 项护理',
         quickLogs:[
           {key:'tooth', label:'刷牙', icon:'i-tooth', cls:'c-tooth'},
@@ -3773,6 +3980,7 @@
       dog: {
         name:'豆豆', species:'狗狗', speciesKey:'dog', breed:'柯基', avatar:'data:image/jpeg;base64,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', line:'我已经 3 天没有驱虫啦，快来帮我驱虫吧', mascot:'data:image/jpeg;base64,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', isExample:true,
         gender:'male', birthISO:'2023-09-08', birthApprox:true, neutered:'yes', weight:8.5,
+        microchip:'156012345678901', chipHospital:'爱诺动物医院（朝阳店）', chipDate:'2024-04-12',
         logsToday:1, streak:3, weekCaption:'体外驱虫已逾期 · 周末安排一次洗澡',
         quickLogs:[
           {key:'walk', label:'遛狗', icon:'i-walk', cls:'c-walk'},
@@ -3794,6 +4002,32 @@
       }
     };
     var activeHomePet = 'cat';
+    // 营养模块升级：幂等补齐活动系数 / 分餐数 / 常喂食物库 / 补剂周期计划（旧数据与示例宠物都兼容）
+    (function ensureNutritionModel(){
+      // 示例猫：室内宅猫、分 2 餐；对齐参考页「营养计划」场景
+      if(!HOME_PETS.cat.activityLevel) HOME_PETS.cat.activityLevel = 'indoor';
+      if(!HOME_PETS.cat.mealsPerDay) HOME_PETS.cat.mealsPerDay = 2;
+      if(!HOME_PETS.cat.suppPlans){
+        HOME_PETS.cat.suppPlans = [
+          {ftype:'supp', name:'布拉迪酵母益生菌', amount:1, unit:'粒', cycle:'daily'},
+          {ftype:'supp', name:'NOW Foods 超级鱼油', amount:1, unit:'粒', cycle:'alt'},
+          {ftype:'supp', name:'绿十字化毛膏', amount:3, unit:'cm', cycle:'w3'}
+        ];
+      }
+      if(!HOME_PETS.cat.foodLibrary){
+        HOME_PETS.cat.foodLibrary = [
+          {kind:'主粮', brand:'渴望', customDensity:390},
+          {kind:'罐头', brand:'希宝', customDensity:85}
+        ];
+      }
+      // 示例狗：一般活动量、默认 3 餐
+      if(HOME_PETS.dog){
+        if(!HOME_PETS.dog.activityLevel) HOME_PETS.dog.activityLevel = 'normal';
+        if(!HOME_PETS.dog.mealsPerDay) HOME_PETS.dog.mealsPerDay = 3;
+        if(!HOME_PETS.dog.foodLibrary) HOME_PETS.dog.foodLibrary = [];
+        if(!HOME_PETS.dog.suppPlans) HOME_PETS.dog.suppPlans = [];
+      }
+    })();
     // 给内置护理待办补稳定 uid（自定义保健品待办在 push 时补 uid）
     (function ensureTodoUids(){
       Object.keys(HOME_PETS).forEach(function(k, pi){
@@ -3987,19 +4221,20 @@
       var count = recs.length;
       var done = mealDoneMap(key);
       document.querySelectorAll('#meal-chips .mchip').forEach(function(c){ c.classList.toggle('on', !!done[c.getAttribute('data-meal')]); });
-      var cntEl = document.getElementById('meal-count'); if(cntEl) cntEl.textContent = count;
-      var bar = document.getElementById('meal-bar-fill'); if(bar) bar.style.width = Math.min(count,3)/3*100 + '%';
       var bowl = document.getElementById('meal-bowl'); if(bowl) bowl.classList.toggle('filled', count > 0);
+      // 这里只负责「下一顿喂了没」的待办提醒；喂得对不对统一交给下方营养结论，不再重复终审
       var advice = document.getElementById('meal-advice');
       if(advice){
-        var txt, cur = expectedMealByHour(new Date().getHours());
-        var MEAL_TIP = {breakfast:'该吃早餐啦', lunch:'该吃午餐啦', dinner:'该吃晚餐啦'};
-        if(count === 0){ txt = cur ? MEAL_TIP[cur] : '还没开饭哦'; }
-        else if(count >= 3){ txt = '三餐吃好啦'; }
-        else if(cur && !done[cur]){ txt = MEAL_TIP[cur]; }
-        else if(count === 2 && !done.dinner){ txt = '就差晚餐啦'; }
-        else { txt = '继续保持'; }
+        var cur = expectedMealByHour(new Date().getHours());
+        var next = null;
+        if(cur && !done[cur]) next = cur;
+        if(!next){ for(var i=0;i<MEAL_ORDER.length;i++){ if(!done[MEAL_ORDER[i]]){ next = MEAL_ORDER[i]; break; } } }
+        var txt;
+        if(!next){ txt = '三餐已打卡 · 营养看下方'; }
+        else if(next === cur){ txt = '该喂' + MEAL_LABEL[next] + '啦'; }
+        else { txt = '下一顿 · ' + MEAL_LABEL[next]; }
         advice.textContent = txt;
+        advice.classList.toggle('is-done', !next);
       }
       var waterN = RecordStore.todayCountByKey(key, 'water');
       var wc = document.getElementById('mw-count'); if(wc) wc.textContent = waterN;
@@ -4009,8 +4244,7 @@
         for(var i = 0; i < 5; i++){ html += '<i class="mw-dot' + (i < Math.min(waterN,5) ? ' on' : '') + '"></i>'; }
         dots.innerHTML = html;
       }
-      renderMealIntake(key);
-      renderMealSuppList(key);
+      renderNutritionPanel(key);
     }
     // ===== 喂食扩展：食物库默认克重 + 每日摄入目标 + 食物/保健品/营养液 =====
     var FEED_TYPE_META = {
@@ -4054,13 +4288,59 @@
       if(b && BRAND_DENSITY[b] && BRAND_DENSITY[b][kind] != null) return BRAND_DENSITY[b][kind];
       return kindDensity(kind);
     }
-    // 每日建议总热量 kcal（RER 静息能量 × 成年维持系数 1.3），给 ±10% 区间
+    // 活动系数（用户可按宠物日常活动量选择）：室内宅猫 1.2 / 一般活动 1.4 / 活泼好动 1.6 / 户外 1.8
+    var ACTIVITY_LEVELS = [
+      {key:'indoor', label:'室内宅猫', factor:1.2, dogLabel:'室内少动'},
+      {key:'normal', label:'一般活动', factor:1.4, dogLabel:'一般活动'},
+      {key:'active', label:'活泼好动', factor:1.6, dogLabel:'活泼好动'},
+      {key:'outdoor',label:'户外',     factor:1.8, dogLabel:'高频户外'}
+    ];
+    function activityMeta(key){
+      var p = HOME_PETS[key];
+      var k = p && p.activityLevel;
+      if(!k){ k = (p && p.speciesKey==='dog') ? 'normal' : 'indoor'; }
+      for(var i=0;i<ACTIVITY_LEVELS.length;i++){ if(ACTIVITY_LEVELS[i].key===k) return ACTIVITY_LEVELS[i]; }
+      return ACTIVITY_LEVELS[1];
+    }
+    function activityLabel(key){
+      var m = activityMeta(key);
+      return (HOME_PETS[key] && HOME_PETS[key].speciesKey==='dog') ? m.dogLabel : m.label;
+    }
+    // 每日分餐数（2/3/4 可选，默认 3 餐）
+    function mealsPerDay(key){
+      var n = parseInt(HOME_PETS[key] && HOME_PETS[key].mealsPerDay, 10);
+      return (n===2||n===4) ? n : 3;
+    }
+    // 今日剩余可喂热量（相对每日目标中位值）；正数=还能喂，负数=已超
+    function remainingKcal(key, total){
+      var g = dailyKcalGoal(key);
+      if(!g) return null;
+      return g.mid - (total||0);
+    }
+    // 常喂食物库：按「品类+品牌」去重保存最近用过的供能食物（含手填密度），录入时一键带入，最多 12 条
+    function foodLibrary(key){
+      var p = HOME_PETS[key];
+      if(!p.foodLibrary) p.foodLibrary = [];
+      return p.foodLibrary;
+    }
+    function foodLibId(item){ return (item.kind||'主粮') + '||' + (item.brand||''); }
+    // 入库项：品类 + 品牌 + 手填密度（kcal/100g，空则按品牌/品类参考值）；同「品类+品牌」覆盖并置顶，最多 12 条
+    function upsertFoodLib(key, item){
+      var lib = foodLibrary(key), id = foodLibId(item),
+          entry = {kind:item.kind||'主粮', brand:item.brand||'', customDensity:(item.customDensity!=null&&item.customDensity>0)?Math.round(item.customDensity):null};
+      for(var i=0;i<lib.length;i++){ if(foodLibId(lib[i])===id){ lib.splice(i,1); break; } }
+      lib.unshift(entry);
+      if(lib.length > 12) lib.length = 12;
+    }
+    function removeFoodLib(key, idx){ var lib = foodLibrary(key); if(idx>=0 && idx<lib.length) lib.splice(idx,1); }
+    // 每日建议总热量 kcal：RER 静息能量(70×kg^0.75) × 活动系数，给 ±10% 区间；同时回传 RER/系数便于透明展示
     function dailyKcalGoal(key){
       var w = petWeightKg(key);
       if(!w) return null;
       var rer = 70 * Math.pow(w, 0.75);
-      var mid = Math.round(rer * 1.3);
-      return {lo: Math.round(mid*0.9), hi: Math.round(mid*1.1), mid:mid};
+      var factor = activityMeta(key).factor;
+      var mid = Math.round(rer * factor);
+      return {lo: Math.round(mid*0.9), hi: Math.round(mid*1.1), mid:mid, rer:Math.round(rer), factor:factor};
     }
     // 兼容旧调用：无密度参数时按干粮(4.0)估算克数目标，仅供旧 UI 兜底；新逻辑用 gramGoalFor
     function dailyGramGoal(key){
@@ -4077,11 +4357,11 @@
       function r5(v){ return Math.max(5, Math.round(v/5)*5); }
       return {lo:r5(k.lo/den), hi:r5(k.hi/den), mid:r5(k.mid/den), kcal:k, density:den};
     }
-    // 单餐默认克重 = 该食物每日中值 ÷ 三餐
+    // 单餐默认克重 = 该食物每日中值 ÷ 每日分餐数（2/3/4 餐可配）
     function defaultMealGram(key, kind, brand, customDensity){
       var g = gramGoalFor(key, kind, brand, customDensity);
       if(!g) return null;
-      return Math.max(5, Math.round(g.mid/3/5)*5);
+      return Math.max(5, Math.round(g.mid/mealsPerDay(key)/5)*5);
     }
     // 一餐食物的热量 = 克数 × 密度；兼容旧记录（无 density 时按品牌/品类回推）
     function recDensity(r){
@@ -4132,93 +4412,477 @@
       feedRecsOfType(key,ftype).forEach(function(r){ n += Number(r.amount)||0; });
       return n;
     }
-    // 渲染：今日补给清单（保健品 / 营养液），逐条结构化展示总量、次数与提醒标记
-    function renderMealSuppList(key){
-      var listEl = document.getElementById('ms-list');
-      var cntEl = document.getElementById('ms-count');
-      if(!listEl) return;
+    // ===== 今日营养驾驶舱：结论 + 靶心区间 + 热量构成 + 非热量照护（保健品/营养液） =====
+    var KIND_META = {
+      '主粮':{color:'#FF8A5C', short:'主粮'},
+      '罐头':{color:'#F0A94B', short:'罐头'},
+      '湿粮':{color:'#5FB3F5', short:'湿粮'},
+      '冻干':{color:'#3EC9A7', short:'冻干'},
+      '自制':{color:'#E08BB0', short:'自制'},
+      '零食':{color:'#F2688E', short:'零食'}
+    };
+    function kindMetaOf(kind){ return KIND_META[kind] || {color:'#B6A48F', short:kind||'其他'}; }
+    // 汇总今日正餐：按品类聚合热量 / 克数 / 餐数，并拆出零食
+    function todayKindAgg(key){
+      var map = {}, order = [];
+      var total = 0, snack = 0, gram = 0, meals = 0;
+      feedRecsOfType(key,'food').forEach(function(r){
+        var k = r.kind || splitBrandName('food', r.food || '主粮').name || '主粮';
+        if(!map[k]){ map[k] = {kind:k, kcal:0, gram:0, n:0}; order.push(k); }
+        var kc = recKcal(r), g = Number(r.gram)||0;
+        map[k].kcal += kc; map[k].gram += g; map[k].n += 1;
+        total += kc; gram += g; meals += 1;
+        if(k === '零食') snack += kc;
+      });
+      return {list:order.map(function(k){return map[k];}), total:total, snack:snack, gram:gram, meals:meals};
+    }
+    // ===== 补给（保健品/营养液）周期计划：只追依从性、不计热量 =====
+    // 周期类型：不提醒 / 每天 / 隔日 / 每周 2 次 / 每周 3 次（隔日按周一三五日为应喂日，可预测）
+    var SUPP_CYCLES = {
+      none: {label:'不提醒', plan:false},
+      daily:{label:'每天',   plan:true,  per:'day'},
+      alt:  {label:'隔日',   plan:true,  per:'alt'},
+      w2:   {label:'每周 2 次', plan:true, per:'week', times:2},
+      w3:   {label:'每周 3 次', plan:true, per:'week', times:3}
+    };
+    function suppCycleLabel(c){ return (SUPP_CYCLES[c] && SUPP_CYCLES[c].label) || '不提醒'; }
+    function suppPlans(key){
+      var p = HOME_PETS[key];
+      if(!p.suppPlans) p.suppPlans = [];
+      return p.suppPlans;
+    }
+    function suppPlanId(ft, name, unit){ return ft + '||' + (name||'') + '||' + (unit||''); }
+    // 带周期保存补剂时，把它沉淀为档案级计划（同名同单位覆盖），之后即使今天没喂也会出现在「待喂」
+    function upsertSuppPlan(key, ftype, name, amount, unit, cycle){
+      if(!cycle || cycle === 'none' || !SUPP_CYCLES[cycle]) return;
+      var plans = suppPlans(key), pid = suppPlanId(ftype, name, unit);
+      for(var i=0;i<plans.length;i++){
+        if(suppPlanId(plans[i].ftype, plans[i].name, plans[i].unit) === pid){
+          plans[i].amount = amount; plans[i].cycle = cycle; return;
+        }
+      }
+      plans.push({ftype:ftype, name:name||'', amount:Number(amount)||0, unit:unit||'', cycle:cycle});
+    }
+    // 本周一 0 点的时间戳（周一为一周起点）
+    function weekStartTs(date){
+      var d = dayStart(date);
+      var dow = (d.getDay()+6)%7; // 周一=0 … 周日=6
+      return d.getTime() - dow*24*3600*1000;
+    }
+    // 隔日应喂日：周一 / 三 / 五 / 日（自周一算第偶数天）；按当天 0 点取整天偏移，避免中午 12 点被算成 0.5 天
+    function altDueOn(date){
+      var d0 = dayStart(date).getTime();
+      return ((d0 - weekStartTs(date)) / (24*3600*1000)) % 2 === 0;
+    }
+    // 取某补剂今日记录条数 / 本周记录条数
+    function suppCount(key, ft, name, sinceTs){
+      return RecordStore.list(key).filter(function(r){
+        if(r.key!=='feed' || (r.ftype||'food')!==ft) return false;
+        if((r.food||'') !== (name||'')) return false;
+        return sinceTs ? r.ts >= sinceTs : r.ts >= dayStart(APP_TODAY).getTime();
+      }).length;
+    };
+    // 汇总补给：合并「今日已记录」与「档案计划中的待喂」，算出每日/隔日/每周进度
+    function todayCareAgg(key){
       var groups = {}, order = [];
+      var wkStart = weekStartTs(APP_TODAY);
+      function bucket(ft, name, unit){
+        var gk = suppPlanId(ft, name, unit);
+        if(!groups[gk]){ groups[gk] = {ft:ft, name:name, unit:unit, n:0, amt:0, todayN:0, weekN:0, cycle:'none'}; order.push(gk); }
+        return groups[gk];
+      }
+      // ① 今日实际记录
       ['supp','liq'].forEach(function(ft){
         feedRecsOfType(key, ft).forEach(function(r){
           var name = r.food || (ft==='supp' ? '保健品' : '营养液');
           var unit = r.unit || (ft==='supp' ? '粒' : 'ml');
-          var gk = ft + '||' + name + '||' + unit;
-          if(!groups[gk]){ groups[gk] = {ft:ft, name:name, unit:unit, n:0, amt:0, cycle:r.cycle||'none'}; order.push(gk); }
-          groups[gk].n += 1; groups[gk].amt += Number(r.amount)||0;
-          if(r.cycle && r.cycle !== 'none') groups[gk].cycle = r.cycle;
+          var g = bucket(ft, name, unit);
+          g.n += 1; g.amt += Number(r.amount)||0;
+          // 若这条记录带周期，顺带把计划刷新成最近一次选择
+          if(r.cycle && r.cycle !== 'none') g.cycle = r.cycle;
         });
       });
+      // ② 档案里的周期计划（覆盖今日/本周计数与周期；计划存在但今日没记录也会列入 → 形成「待喂」）
+      suppPlans(key).forEach(function(pl){
+        var g = bucket(pl.ftype, pl.name, pl.unit);
+        g.cycle = pl.cycle; g.planAmount = pl.amount;
+        g.fromPlan = true;
+      });
+      // ③ 计算每个补剂的今日/本周次数与依从状态
+      var todayStart = dayStart(APP_TODAY).getTime();
+      order.forEach(function(gk){
+        var g = groups[gk];
+        g.todayN = suppCount(key, g.ft, g.name, todayStart);
+        g.weekN  = suppCount(key, g.ft, g.name, wkStart);
+        var cyc = SUPP_CYCLES[g.cycle];
+        if(!cyc || !cyc.plan){ g.dueToday = false; g.target = 0; g.done = g.todayN>0; g.plan=false; return; }
+        g.plan = true;
+        if(cyc.per === 'day'){
+          g.dueToday = true; g.target = 1; g.done = g.todayN >= 1;
+          g.status = g.done ? 'done' : 'pending';
+        }else if(cyc.per === 'alt'){
+          g.dueToday = altDueOn(APP_TODAY); g.target = g.dueToday ? 1 : 0; g.done = g.todayN >= 1;
+          g.status = !g.dueToday ? 'rest' : (g.done ? 'done' : 'pending');
+        }else{
+          g.target = cyc.times; g.done = g.weekN >= cyc.times;
+          g.dueToday = !g.done; // 本周没喂够就一直提醒
+          g.status = g.done ? 'done' : 'pending';
+        }
+      });
       var list = order.map(function(k){ return groups[k]; });
-      var total = list.reduce(function(s,g){ return s + g.n; }, 0);
-      if(cntEl) cntEl.textContent = total ? ('· 今日 ' + total + ' 次') : '';
-      if(!list.length){
-        listEl.innerHTML = '<div class="ms-empty" id="ms-empty-btn"><svg class="ico"><use href="#i-capsule"/></svg>今天还没记保健品 / 营养液，点这里补一笔</div>';
-        var eb = document.getElementById('ms-empty-btn');
-        if(eb) eb.addEventListener('click', function(){ if(typeof openFeedSheet === 'function') openFeedSheet('supp'); });
-        return;
-      }
-      listEl.innerHTML = list.map(function(g){
+      list.times = list.reduce(function(s,g){ return s + g.n; }, 0);
+      list.pending = list.filter(function(g){ return g.plan && g.status==='pending'; }).length;
+      return list;
+    }
+    // 综合状态：unknown(无体重不评判) / empty(没开饭) / low / ok / over
+    function nutritionStatus(agg, goal){
+      if(!goal) return agg.meals ? 'unknown' : 'empty';
+      if(!agg.meals) return 'empty';
+      if(agg.total < goal.lo * 0.85) return 'low';
+      if(agg.total > goal.hi * 1.08) return 'over';
+      return 'ok';
+    }
+    // 非热量照护芯片（保健品/营养液）HTML：已喂✓ / 待喂 / 本周N/M / 今日休息
+    function careChipsHtml(care){
+      return care.map(function(g, ci){
         var icon = g.ft==='supp' ? '#i-capsule' : '#i-droplet';
-        var typeName = g.ft==='supp' ? '保健品' : '营养液';
-        var cycTxt = (g.cycle && g.cycle!=='none') ? (g.cycle==='daily' ? '每天提醒' : '每周提醒') : '';
+        var badge = '', cls = g.ft, quick = false;
         var qty;
-        if(g.n > 1 && g.amt){ qty = g.amt+g.unit+' · '+g.n+'次'; }
-        else if(g.amt){ qty = g.amt+g.unit; }
-        else { qty = g.n+'次'; }
-        var bell = cycTxt ? '<span class="ms-bell" title="已设'+cycTxt+'"><svg class="ico"><use href="#i-bell"/></svg></span>' : '';
-        return '<div class="ms-item '+g.ft+'">'
-          + '<span class="ms-ic"><svg class="ico"><use href="'+icon+'"/></svg></span>'
-          + '<div class="ms-main"><div class="ms-name">'+escHtml(g.name)+'</div>'
-          + '<div class="ms-sub">'+typeName+(cycTxt?(' · '+cycTxt):'')+'</div></div>'
-          + bell
-          + '<span class="ms-qty">'+qty+'</span></div>';
+        if(g.n > 1 && g.amt){ qty = g.amt + g.unit + '·' + g.n + '次'; }
+        else if(g.amt){ qty = g.amt + g.unit; }
+        else if(g.planAmount){ qty = g.planAmount + g.unit; }
+        else { qty = (g.todayN||0) + '次'; }
+        if(g.plan){
+          if(g.cycle==='daily'){
+            if(g.todayN>0){ cls += ' care-done'; badge = '<b class="cb-ok">已喂 ✓</b>'; }
+            else { cls += ' care-pending'; quick = true; badge = '<b class="cb-wait">待喂</b>'; }
+          }else if(g.cycle==='alt'){
+            if(g.status==='rest' && g.todayN===0){ cls += ' care-rest'; badge = '<b class="cb-rest">今日休息</b>'; }
+            else if(g.todayN>0){ cls += ' care-done'; badge = '<b class="cb-ok">已喂 ✓</b>'; }
+            else { cls += ' care-pending'; quick = true; badge = '<b class="cb-wait">待喂</b>'; }
+          }else{
+            var reach = g.weekN >= g.target;
+            if(reach){ cls += ' care-done'; badge = '<b class="cb-ok">本周 '+g.weekN+'/'+g.target+' ✓</b>'; }
+            else if(g.todayN>0){ cls += ' care-week'; badge = '<b class="cb-prog">本周 '+g.weekN+'/'+g.target+'</b>'; }
+            else { cls += ' care-pending'; quick = true; badge = '<b class="cb-wait">本周 '+g.weekN+'/'+g.target+' · 待喂</b>'; }
+          }
+        }
+        var titleAttr = 'title="'+escHtml(g.name)+'（'+suppCycleLabel(g.cycle)+'）'+(quick?'，点击补记一次':'')+'"';
+        return '<span class="nu-chip '+cls+'" data-care="'+ci+'" data-quick="'+(quick?'1':'0')+'" '+titleAttr+'>'
+          + '<svg class="ico"><use href="' + icon + '"/></svg>'
+          + '<span class="nc-name">'+escHtml(g.name)+' · '+qty+'</span>'
+          + badge
+          + (quick ? '<svg class="ico nc-bell"><use href="#i-bell"/></svg>' : '') + '</span>';
       }).join('');
     }
-    // 渲染：每日热量摄入进度 + 温和提示（统一 kcal 口径，克数仅作副信息；数据不足不评判）
-    function renderMealIntake(key){
-      var box = document.getElementById('meal-intake');
-      if(!box) return;
-      var gram = todayFoodGram(key);
-      var kcal = todayFoodKcal(key);
-      var hasAnyFood = feedRecsOfType(key,'food').length > 0;
-      var kcalEl = document.getElementById('mi-kcal');
-      var unitEl = document.getElementById('mi-unit');
-      var gramSub = document.getElementById('mi-gram-sub');
-      var goalEl = document.getElementById('mi-goal');
-      var bar = document.getElementById('mi-bar-fill');
-      var hint = document.getElementById('mi-hint');
-      var mealNEl = document.getElementById('mi-meal-count');
-      if(mealNEl) mealNEl.textContent = '· ' + feedRecsOfType(key,'food').length + ' 餐';
+    // 绑定芯片：待喂一键按计划剂量补记，其余点开对应录入面板
+    function bindCareChips(container, care, petKey, afterQuick){
+      if(!container) return;
+      container.querySelectorAll('.nu-chip[data-care]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var idx = Number(el.getAttribute('data-care'));
+          var g = care[idx];
+          if(!g) return;
+          if(el.getAttribute('data-quick')==='1'){
+            addSupplementRec(petKey, g.ft, g.name, g.planAmount||g.amt||1, g.unit, g.cycle);
+            if(typeof renderHomeTodos === 'function') renderHomeTodos(petKey);
+            if(afterQuick) afterQuick();
+          }else{
+            openFeedSheet(g.ft);
+          }
+        });
+      });
+    }
+    // 首页营养卡：只保留「结论 + 已摄入/剩余 + 区间进度条」，构成与补给明细收进详情页
+    function renderNutritionPanel(key){
+      var panel = document.getElementById('nu-panel');
+      if(!panel) return;
+      var agg = todayKindAgg(key);
       var goal = dailyKcalGoal(key);
-      box.classList.remove('is-low','is-over');
-      kcalEl.textContent = kcal; unitEl.textContent='kcal';
-      gramSub.textContent = hasAnyFood ? ('· '+gram+'g') : '';
-      if(!goal){
-        goalEl.textContent = '补个体重可算建议热量';
-        bar.style.width = '0%';
-        hint.className = 'mi-hint muted';
-        hint.textContent = '先在档案里补个体重，我就能按代谢能给出每日建议热量（保健品 / 营养液不计入热量）';
-        return;
+      var status = nutritionStatus(agg, goal);
+
+      var badge = document.getElementById('nu-badge');
+      var titleEl = document.getElementById('nu-title');
+      var subEl = document.getElementById('nu-sub');
+      var kcalEl = document.getElementById('nu-kcal');
+      var leftEl = document.getElementById('nu-left');
+      var leftWrap = document.getElementById('nu-left-wrap');
+      var loEl = document.getElementById('nu-lo');
+      var hiEl = document.getElementById('nu-hi');
+      var marker = document.getElementById('nu-marker');
+
+      kcalEl.textContent = agg.total;
+      // 剩余热量：正数绿色、负数红色「超 N」；无体重不评判
+      if(leftWrap){
+        var rem = remainingKcal(key, agg.total);
+        if(rem == null){ leftEl.textContent = '–'; leftWrap.classList.remove('is-over'); }
+        else if(rem >= 0){ leftEl.textContent = rem; leftWrap.classList.remove('is-over'); }
+        else { leftEl.textContent = '超' + Math.abs(rem); leftWrap.classList.add('is-over'); }
       }
-      goalEl.textContent = '建议 '+goal.lo+'–'+goal.hi+' kcal/天';
-      var ratio = kcal / goal.mid;
-      bar.style.width = Math.min(ratio,1.2)/1.2*100 + '%';
-      if(!hasAnyFood){
-        hint.className = 'mi-hint muted';
-        hint.textContent = '记一餐会按该粮代谢能自动折算热量，保健品 / 营养液不计入热量';
-      }else if(ratio < 0.7){
-        box.classList.add('is-low');
-        hint.className = 'mi-hint warn';
-        hint.textContent = '今日热量低于建议 70%，留意食欲与进食量';
-      }else if(ratio > 1.2){
-        box.classList.add('is-over');
-        hint.className = 'mi-hint over';
-        hint.textContent = '今日热量略超建议，注意别喂太多、零食占比别过高';
+      badge.className = 'nu-badge' + (status==='ok' ? '' : status==='empty' ? ' is-empty' : ' is-' + status);
+      badge.innerHTML = '<svg class="ico"><use href="#' + (status==='over' ? 'i-bell' : status==='low' ? 'i-droplet' : 'i-food') + '"/></svg>';
+
+      // 一句话结论 + 一行短说明（避免长句换行、信息堆叠）
+      if(status === 'empty'){
+        titleEl.textContent = goal ? '今天还没开饭' : '先记今天吃了什么';
+        subEl.textContent = goal ? ('目标 ' + goal.mid + ' kcal · 分' + mealsPerDay(key) + '餐') : '档案补个体重，就能算每日建议热量';
+      }else if(status === 'unknown'){
+        titleEl.textContent = '今日 ' + agg.total + ' kcal · ' + agg.meals + ' 餐';
+        subEl.textContent = '补个体重即可判断喂多喂少';
+      }else if(status === 'low'){
+        titleEl.textContent = '今天吃得偏少';
+        subEl.textContent = '还差约 ' + (goal.lo - agg.total) + ' kcal 到建议量';
+      }else if(status === 'over'){
+        titleEl.textContent = '今天热量略超';
+        subEl.textContent = '超建议上限约 ' + (agg.total - goal.hi) + ' kcal';
       }else{
-        hint.className = 'mi-hint ok';
-        hint.textContent = '今日热量在建议区间内，继续保持';
+        titleEl.textContent = '今天喂得刚刚好';
+        subEl.textContent = agg.total + ' kcal 在建议区间内';
+      }
+
+      // 区间进度条：安全区按该宠实际 lo/hi 动态着色
+      if(goal){
+        loEl.textContent = goal.lo; hiEl.textContent = goal.hi;
+        var scaleMax = Math.max(Math.round(goal.hi * 1.3 / 10) * 10, goal.hi + 10);
+        var pLo = (goal.lo / scaleMax * 100), pHi = (goal.hi / scaleMax * 100);
+        var track = document.getElementById('nu-track');
+        track.style.background = 'linear-gradient(90deg,#F6E3B4 0,#F6E3B4 ' + pLo + '%,#BEEAD9 ' + pLo + '%,#BEEAD9 ' + pHi + '%,#F8CDD5 ' + pHi + '%,#F8CDD5 100%)';
+        marker.style.left = Math.min(agg.total / scaleMax, 0.96) * 100 + '%';
+        marker.className = 'nu-marker is-' + ((status==='empty' || status==='unknown') ? 'ok' : status);
+      }else{
+        loEl.textContent = '–'; hiEl.textContent = '–';
+        marker.style.left = '0%';
+        marker.className = 'nu-marker is-ok';
+      }
+
+      // 整卡（含右上角标题入口）点开营养分析；只绑一次
+      if(!panel.__bound){
+        panel.__bound = true;
+        var open = function(){ openNutritionDetail(activeHomePet); };
+        var vd = document.getElementById('nu-verdict');
+        if(vd) vd.addEventListener('click', open);
+        var go = document.getElementById('nu-detail-go');
+        if(go) go.addEventListener('click', function(e){ e.stopPropagation(); openNutritionDetail(activeHomePet); });
       }
     }
+    // 营养分析详情弹层：结论环 + 品类构成条 + 建议克数 + 行动建议
+    function openNutritionDetail(key){
+      var agg = todayKindAgg(key);
+      var care = todayCareAgg(key);
+      var goal = dailyKcalGoal(key);
+      var status = nutritionStatus(agg, goal);
+      var body = document.getElementById('nd-body');
+      if(!body) return;
+      var STATUS_TXT = {empty:'还没开饭', unknown:'待补体重', low:'热量偏少', ok:'摄入均衡', over:'热量偏多'};
+      var STATUS_COLOR = {empty:'#B6A48F', unknown:'#B6A48F', low:'#D98324', ok:'#20A581', over:'#E0556B'};
+      var pct = goal ? Math.max(0, Math.min(agg.total / goal.mid, 1.3)) : 0;
+      var C = 2 * Math.PI * 52;
+      var html = '';
+      html += '<div class="nd-ring">'
+        + '<svg width="120" height="120" viewBox="0 0 120 120">'
+        + '<circle cx="60" cy="60" r="52" fill="none" stroke="#F1E8DF" stroke-width="11"/>'
+        + '<circle cx="60" cy="60" r="52" fill="none" stroke="' + STATUS_COLOR[status] + '" stroke-width="11" stroke-linecap="round" '
+        + 'stroke-dasharray="' + (C * (goal ? Math.min(pct,1) : 0)).toFixed(1) + ' ' + C.toFixed(1) + '"/></svg>'
+        + '<div class="nd-c"><b>' + agg.total + '</b><span>今日 kcal</span></div></div>';
+      html += '<div class="nd-status" style="color:' + STATUS_COLOR[status] + '">' + STATUS_TXT[status] + '</div>';
+      html += '<div class="nd-range">' + (goal ? ('建议区间 ' + goal.lo + '–' + goal.hi + ' kcal/天 · 中位 ' + goal.mid) : '档案补体重后，按 RER×活动系数给每日建议区间') + '</div>';
+
+      // 热量需求计算卡：透明展示 RER 公式，活动系数 / 分餐可点选
+      var wkg = petWeightKg(key);
+      if(goal && wkg){
+        var isDog = HOME_PETS[key].speciesKey === 'dog';
+        var curAct = activityMeta(key).key;
+        var curMeals = mealsPerDay(key);
+        html += '<div class="nd-need">'
+          + '<div class="ndn-title">热量需求计算</div>'
+          + '<div class="ndn-row"><span>静息能量需求 (RER)</span><b>70 × (' + (+wkg ? wkg.toFixed(1) : wkg) + 'kg)^0.75 = ' + goal.rer + ' kcal</b></div>'
+          + '<div class="ndn-label">活动系数（点击选择）</div>'
+          + '<div class="ndn-seg">' + ACTIVITY_LEVELS.map(function(a){
+              var lab = isDog ? a.dogLabel : a.label;
+              return '<span class="ndn-opt'+(a.key===curAct?' on':'')+'" data-act="'+a.key+'">'+lab+' ×'+a.factor.toFixed(1)+'</span>';
+            }).join('') + '</div>'
+          + '<div class="ndn-label">每日分餐</div>'
+          + '<div class="ndn-seg">' + [2,3,4].map(function(n){
+              return '<span class="ndn-opt'+(n===curMeals?' on':'')+'" data-meals="'+n+'">'+n+' 餐</span>';
+            }).join('') + '</div>'
+          + '<div class="ndn-total"><span>每日推荐摄入 · 分'+curMeals+'次喂食</span><b>' + goal.mid + ' kcal</b></div>'
+          + '<div class="ndn-note">* 基于体重 '+wkg.toFixed(1)+'kg、'+(activityLabel(key))+'活动量计算，可在此调整参数。</div>'
+          + '</div>';
+      }
+
+      // 品类构成条
+      if(agg.list.length){
+        html += '<div style="font-size:11.5px;font-weight:850;color:var(--ink);margin:6px 2px 2px">热量从哪来</div>';
+        agg.list.forEach(function(a){
+          var m = kindMetaOf(a.kind);
+          var share = agg.total ? Math.round(a.kcal / agg.total * 100) : 0;
+          html += '<div class="nd-bar-row"><span class="nd-l">' + m.short + '</span>'
+            + '<span class="nd-bar-track"><i style="width:' + share + '%;background:' + m.color + '"></i></span>'
+            + '<span class="nd-v">' + a.kcal + ' kcal · ' + share + '%</span></div>';
+        });
+      }
+
+      // 建议克数（按主粮 / 当前常喂食物的密度反推全天克数带）
+      var def = feedDefault(key);
+      var gg = gramGoalFor(key, def.kind, def.brand, null);
+      if(gg){
+        var dn = def.brand ? (def.brand + ' ' + def.kind) : def.kind;
+        html += '<div style="font-size:11.5px;font-weight:850;color:var(--ink);margin:14px 2px 2px">今天该喂多少（' + escHtml(dn) + '）</div>';
+        html += '<div class="nd-bar-row"><span class="nd-l">克数</span>'
+          + '<span class="nd-bar-track"><i style="width:100%;background:linear-gradient(90deg,#FFC59E,#FF8A5C)"></i></span>'
+          + '<span class="nd-v">' + gg.lo + '–' + gg.hi + ' g/天</span></div>';
+        html += '<div style="font-size:10.5px;font-weight:700;color:var(--muted);margin:2px 2px 0">按代谢能 ' + gg.density + ' kcal/g 折算，单餐约 ' + Math.round(gg.mid/mealsPerDay(key)/5)*5 + ' g（共' + mealsPerDay(key) + '餐）；罐头 / 冻干密度不同，录入时会各自折算</div>';
+      }
+
+      // 今日补给（保健品 / 营养液，不计热量）：明细从首页收进详情页
+      html += '<div class="nd-care-head"><span>今日补给 · 保健品 / 营养液（不计热量）</span><span class="nd-care-add" id="nd-care-add">＋补给</span></div>';
+      if(care.length){
+        html += '<div class="nu-chips" id="nd-care-list">' + careChipsHtml(care) + '</div>';
+      }else{
+        html += '<div class="nu-care-empty" id="nd-care-empty">＋ 记保健品 / 营养液（不计入热量，单独跟踪频次）</div>';
+      }
+
+      // 行动建议
+      var tips = [];
+      if(!goal){
+        tips.push('先到<b>宠物档案补个体重</b>，我就能按品种体重算出每日建议热量，判断喂多喂少。');
+      }else if(status === 'empty'){
+        tips.push('今天还没记录正餐，点下方「再记一笔」开始，主粮 / 罐头 / 冻干都会自动折算热量。');
+      }else if(status === 'low'){
+        var gap = goal.lo - agg.total;
+        var def2 = feedDefault(key);
+        var addG = Math.max(5, Math.round(gap / foodDensity(def2.kind, def2.brand, null) / 5) * 5);
+        tips.push('距建议下限还差约 <b>' + gap + ' kcal</b>，约等于 <b>' + addG + ' g ' + escHtml(def2.kind) + '</b>，下餐可以补上。');
+        tips.push('若连续几天吃不完，留意是否挑食、换牙或不舒服，必要时看下精神状态。');
+      }else if(status === 'over'){
+        tips.push('已超建议上限约 <b>' + (agg.total - goal.hi) + ' kcal</b>，下餐适当减量，并保证喝水与活动。');
+      }else{
+        tips.push('今日热量落在建议区间，<b>正餐定时定量</b>的节奏很好，继续保持。');
+      }
+      var snackPct = agg.total ? Math.round(agg.snack / agg.total * 100) : 0;
+      if(snackPct > 20) tips.push('零食占比 <b>' + snackPct + '%</b> 偏高（建议 ≤20%），用小份主粮或互动奖励替代部分零食。');
+      html += '<div class="nd-tip">' + tips.map(function(t){ return '· ' + t; }).join('<br>') + '</div>';
+      html += '<div class="nd-trend-link" id="nd-trend-link"><svg class="ico"><use href="#i-chart"/></svg>查看近 7 天营养趋势<svg class="ico ico-r"><use href="#i-chev-r"/></svg></div>';
+      body.innerHTML = html;
+      var tl = document.getElementById('nd-trend-link');
+      if(tl) tl.addEventListener('click', function(){ closeNutritionDetail(); openNutritionTrend(key); });
+      // 活动系数 / 分餐点选：落档案后重渲染弹层与首页营养卡（单餐克数随之变化）
+      body.querySelectorAll('.ndn-opt[data-act]').forEach(function(o){
+        o.addEventListener('click', function(){
+          HOME_PETS[key].activityLevel = o.getAttribute('data-act');
+          openNutritionDetail(key);
+          renderNutritionPanel(key);
+        });
+      });
+      body.querySelectorAll('.ndn-opt[data-meals]').forEach(function(o){
+        o.addEventListener('click', function(){
+          HOME_PETS[key].mealsPerDay = Number(o.getAttribute('data-meals'));
+          openNutritionDetail(key);
+          renderNutritionPanel(key);
+        });
+      });
+      // 今日补给：待喂芯片一键补记后刷新详情与首页；其余与「＋补给」进入录入面板
+      var ndCareList = document.getElementById('nd-care-list');
+      bindCareChips(ndCareList, care, key, function(){ openNutritionDetail(key); renderNutritionPanel(key); });
+      var ndCareEmpty = document.getElementById('nd-care-empty');
+      if(ndCareEmpty) ndCareEmpty.addEventListener('click', function(){ openFeedSheet('supp'); });
+      var ndCareAdd = document.getElementById('nd-care-add');
+      if(ndCareAdd) ndCareAdd.addEventListener('click', function(){ openFeedSheet('supp'); });
+      document.getElementById('nutrition-detail-sheet').classList.add('show');
+    }
+    function closeNutritionDetail(){ var s = document.getElementById('nutrition-detail-sheet'); if(s) s.classList.remove('show'); }
+    // ===== 近 7 天营养趋势：把单日结论延伸成长期闭环 =====
+    var TREND_WEEK_LABEL = ['日','一','二','三','四','五','六'];
+    function aggDayKcal(key, date){
+      var recs = RecordStore.listDay(key, date).filter(function(r){ return r.key==='feed' && (r.ftype||'food')==='food'; });
+      var total = 0, snack = 0, n = 0;
+      recs.forEach(function(r){ var kc = recKcal(r); total += kc; n++; if((r.kind||'')==='零食') snack += kc; });
+      return {total:total, snack:snack, meals:n};
+    }
+    // 构建含今天在内的近 n 天序列（由旧到新），每天带日期/总热量/零食/达标状态
+    function trendSeries(key, days){
+      var goal = dailyKcalGoal(key);
+      var arr = [];
+      for(var i = days-1; i >= 0; i--){
+        var d = new Date(APP_TODAY.getFullYear(), APP_TODAY.getMonth(), APP_TODAY.getDate() - i);
+        var a = aggDayKcal(key, d);
+        var st = 'none';
+        if(a.meals){
+          if(!goal) st = 'unknown';
+          else if(a.total < goal.lo*0.85) st = 'low';
+          else if(a.total > goal.hi*1.08) st = 'over';
+          else st = 'ok';
+        }
+        arr.push({date:d, label:(i===0?'今天':TREND_WEEK_LABEL[d.getDay()]), total:a.total, snack:a.snack, meals:a.meals, status:st});
+      }
+      arr.goal = goal;
+      return arr;
+    }
+    function openNutritionTrend(key){
+      var body = document.getElementById('nt-body');
+      if(!body) return;
+      var series = trendSeries(key, 7);
+      var goal = series.goal;
+      var valid = series.filter(function(d){ return d.meals > 0; });
+      var html = '';
+      if(!valid.length){
+        html += '<div style="text-align:center;padding:26px 10px 10px;color:var(--muted);font-weight:750;font-size:12px;line-height:1.7">近 7 天还没有正餐记录<br>从今天记一笔开始，几天后这里就能看到喂得稳不稳</div>';
+        body.innerHTML = html;
+        document.getElementById('nutrition-trend-sheet').classList.add('show');
+        return;
+      }
+      var yMax = Math.max.apply(null, series.map(function(d){return d.total;}).concat([goal ? goal.hi*1.18 : 10]));
+      yMax = Math.ceil(yMax/50)*50;
+      var bandTop = goal ? (yMax-goal.hi)/yMax*100 : 0;
+      var bandBottom = goal ? (yMax-goal.lo)/yMax*100 : 100;
+      if(goal){
+        html += '<div class="nt-legend"><i></i>建议区间 '+goal.lo+'–'+goal.hi+' kcal</div>';
+      }
+      html += '<div class="nt-chart">';
+      if(goal){
+        html += '<div class="nt-band" style="top:'+bandTop+'%;height:'+(bandBottom-bandTop)+'%"></div>';
+      }
+      html += '<div class="nt-cols">';
+      series.forEach(function(d){
+        var h = d.meals ? (d.total/yMax*100) : 0;
+        var cls = d.meals ? ('s-'+d.status) : 's-none';
+        html += '<div class="nt-col">'
+          + (d.meals ? '<span class="nt-v">'+d.total+'</span>' : '<span class="nt-v" style="color:var(--muted)">–</span>')
+          + '<div class="nt-bar '+cls+'" style="height:'+(d.meals?h:3)+'%"></div></div>';
+      });
+      html += '</div></div>';
+      html += '<div class="nt-x">' + series.map(function(d){
+        return '<span'+(d.label==='今天'?' class="is-today"':'')+'>'+d.label+'</span>';
+      }).join('') + '</div>';
+
+      var sum = valid.reduce(function(s,d){return s+d.total;},0);
+      var avg = Math.round(sum/valid.length);
+      var okDays = valid.filter(function(d){return d.status==='ok';}).length;
+      var snackSum = valid.reduce(function(s,d){return s+d.snack;},0);
+      var snackPct = sum ? Math.round(snackSum/sum*100) : 0;
+      html += '<div class="nt-stats">'
+        + '<div class="nt-stat"><b>'+avg+'</b><span>日均 kcal</span></div>'
+        + '<div class="nt-stat"><b>'+okDays+'/'+valid.length+'</b><span>落在建议区间</span></div>'
+        + '<div class="nt-stat"><b>'+snackPct+'%</b><span>零食热量占比</span></div></div>';
+
+      var verdicts = [];
+      if(!goal){
+        verdicts.push('补个体重后可对照建议区间评估达标天数。');
+      }else if(okDays >= Math.ceil(valid.length*0.7)){
+        verdicts.push('近 7 天有 <b>'+okDays+' 天</b>落在建议区间，喂养节奏很稳，继续保持。');
+      }else{
+        var lows = valid.filter(function(d){return d.status==='low';}).length;
+        var overs = valid.filter(function(d){return d.status==='over';}).length;
+        if(lows > overs) verdicts.push('有 <b>'+lows+' 天</b>偏少，留意是否食欲下降或喂食量不够。');
+        if(overs) verdicts.push('有 <b>'+overs+' 天</b>偏多，多与零食/加餐有关，注意给正餐留空间。');
+        if(!lows && !overs) verdicts.push('达标天数偏少，尽量把每天总量稳定在 <b>'+goal.lo+'–'+goal.hi+' kcal</b>。');
+      }
+      if(snackPct > 20) verdicts.push('零食周占比 <b>'+snackPct+'%</b>（建议 ≤20%），用互动奖励替代部分零食。');
+      html += '<div class="nd-tip" style="margin-top:14px">' + verdicts.map(function(v){return '· '+v;}).join('<br>') + '</div>';
+      body.innerHTML = html;
+      document.getElementById('nutrition-trend-sheet').classList.add('show');
+    }
+    function closeNutritionTrend(){ var s = document.getElementById('nutrition-trend-sheet'); if(s) s.classList.remove('show'); }
     function addMealRec(key, meal, opts){
       opts = opts || {};
       var def = feedDefault(key);
@@ -4267,25 +4931,35 @@
     // 保健品 / 营养液：不是「三餐」，归入加餐时间线，可带周期提醒
     function addSupplementRec(key, ftype, name, amount, unit, cycle){
       var meta = FEED_TYPE_META[ftype];
-      var title = meta.label + ' · ' + (name||(ftype==='supp'?'保健品':'营养液'));
+      var realName = name || (ftype==='supp'?'保健品':'营养液');
+      var title = meta.label + ' · ' + realName;
       RecordStore.add(key, {pet:key, key:'feed', meal:'snack', ftype:ftype, cat:'daily',
         title:title, ico:meta.ico, icoCls:meta.icoCls, source:'manual',
         food:name||'', gram:null, amount:Number(amount)||0, unit:unit||meta.unit,
         cycle:(cycle && cycle!=='none') ? cycle : 'none', note:''});
       HOME_PETS[key].logsToday = (HOME_PETS[key].logsToday || 0) + 1;
-      if(cycle && cycle !== 'none') addSupplementTodo(key, ftype, name, amount, unit, cycle);
+      if(cycle && cycle !== 'none'){
+        upsertSuppPlan(key, ftype, name||'', amount, unit||meta.unit, cycle);
+        addSupplementTodo(key, ftype, name, amount, unit, cycle);
+      }
       afterHomeLog(key);
       showToast('已记录'+HOME_PETS[key].name+'的「'+title+'」'+(cycle&&cycle!=='none'?'，并排好周期提醒 🔔':' 🐾'));
     }
     // 复用待办体系：为保健品建一条周期护理待办
     function addSupplementTodo(key, ftype, name, amount, unit, cycle){
       var p = HOME_PETS[key];
-      var cycLabel = cycle==='daily' ? '每天' : '每周';
-      var nextLabel = cycle==='daily' ? '明天同一时间' : '下周此时';
+      var cyc = SUPP_CYCLES[cycle];
+      var cycLabel = cyc ? cyc.label : '每周';
+      var nextLabel = cycle==='daily' ? '明天同一时间'
+                    : cycle==='alt'   ? '后天同一时间'
+                    : '下周此时';
+      var typeKey = (name||'保健品')+'（'+cycLabel+'）';
+      var dup = (p.todos||[]).some(function(t){ return t.type === typeKey && t.kind==='do' && !t.done; });
+      if(dup) return;
       p.todos.push({
         uid:'supp-'+Date.now()+Math.floor(Math.random()*1000),
         ico:'amber', icon:'i-capsule', kind:'do',
-        type:(name||'保健品')+'（'+cycLabel+'）',
+        type:typeKey,
         title:(name||'保健品')+' · '+cycLabel+'喂食',
         desc:p.name+' · '+(amount?amount+unit+' ':'')+cycLabel+'补充',
         meta:FEED_TYPE_META[ftype].label+(name?(' · '+name):''),
@@ -4520,6 +5194,47 @@
       });
       fdEl('fd-make-default').checked = false;
       refreshFoodHint(key);
+      renderFoodLib(key);
+    }
+    // 常喂食物库快捷条：一键带入「品类 + 品牌 + 手填密度 + 建议单餐克数」
+    function renderFoodLib(key){
+      var box = document.getElementById('fd-foodlib');
+      if(!box) return;
+      var lib = foodLibrary(key);
+      if(!lib.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
+      box.classList.add('show');
+      box.innerHTML = '<div class="fd-lib-t"><svg class="ico" style="width:12px;height:12px"><use href="#i-star"/></svg>常喂食物 · 点一下直接带入</div>'
+        + '<div class="fd-lib-items">' + lib.map(function(it, i){
+            var den = it.customDensity || Math.round(foodDensity(it.kind, it.brand, null)*100);
+            var label = (it.brand ? it.brand + ' ' : '') + it.kind;
+            return '<span class="fd-lib-item" data-lib="'+i+'">'
+              + '<span><span class="fl-name">'+escHtml(label)+'</span> <span class="fl-den">'+den+' kcal/100g</span></span>'
+              + '<span class="fl-del" data-lib-del="'+i+'">×</span></span>';
+          }).join('') + '</div>';
+      box.querySelectorAll('.fd-lib-item').forEach(function(el){
+        el.addEventListener('click', function(e){
+          if(e.target && e.target.hasAttribute('data-lib-del')) return;
+          applyFoodLib(key, Number(el.getAttribute('data-lib')));
+        });
+      });
+      box.querySelectorAll('[data-lib-del]').forEach(function(el){
+        el.addEventListener('click', function(e){
+          e.stopPropagation();
+          removeFoodLib(key, Number(el.getAttribute('data-lib-del')));
+          renderFoodLib(key);
+        });
+      });
+    }
+    function applyFoodLib(key, idx){
+      var it = foodLibrary(key)[idx];
+      if(!it) return;
+      var f = feedForm.food;
+      f.name = it.kind; f.brand = it.brand || ''; f.brandCustom = false;
+      f.customDensity = (it.customDensity && it.customDensity > 0) ? it.customDensity : null;
+      var di = document.getElementById('fd-density-input'); if(di) di.value = f.customDensity ? Math.round(f.customDensity) : '';
+      var custom = f.customDensity ? f.customDensity/100 : null;
+      f.gram = defaultMealGram(key, f.name, f.brand, custom) || f.gram || 20;
+      syncFoodPane(key);
     }
     function syncSuppPane(){
       fdEl('fd-supp-amount').value = feedForm.supp.amount;
@@ -4592,6 +5307,22 @@
       if(!feedSheet) return;
       feedSheet.addEventListener('click', function(e){ if(e.target === feedSheet) closeFeedSheet(); });
       fdEl('fd-cancel').addEventListener('click', closeFeedSheet);
+      // 营养分析详情弹层：遮罩/关闭收起，「再记一笔」收起后打开喂食录入
+      var ndSheet = document.getElementById('nutrition-detail-sheet');
+      if(ndSheet){
+        ndSheet.addEventListener('click', function(e){ if(e.target === ndSheet) closeNutritionDetail(); });
+        var ndCancel = document.getElementById('nd-cancel');
+        if(ndCancel) ndCancel.addEventListener('click', closeNutritionDetail);
+        var ndAdd = document.getElementById('nd-add');
+        if(ndAdd) ndAdd.addEventListener('click', function(){ closeNutritionDetail(); openFeedSheet('food'); });
+      }
+      // 近 7 天营养趋势弹层：遮罩/关闭收起
+      var ntSheet = document.getElementById('nutrition-trend-sheet');
+      if(ntSheet){
+        ntSheet.addEventListener('click', function(e){ if(e.target === ntSheet) closeNutritionTrend(); });
+        var ntCancel = document.getElementById('nt-cancel');
+        if(ntCancel) ntCancel.addEventListener('click', closeNutritionTrend);
+      }
       // 顶部分类切换
       document.querySelectorAll('#fd-type-seg .ft-opt').forEach(function(o){
         o.addEventListener('click', function(){ showFeedPane(o.getAttribute('data-ftype')); });
@@ -4735,6 +5466,8 @@
             HOME_PETS[key].feedDefault = {food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g'};
           }
           addMealRec(key, f.meal, {ftype:'food', food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g', source:'manual'});
+          // 喂过的具体食物（带品牌）自动沉淀进「常喂食物库」，下次一键带入
+          if(brand) upsertFoodLib(key, {kind:baseName, brand:brand, customDensity:(f.customDensity>0?f.customDensity:null)});
         } else if(t === 'supp'){
           var s = feedForm.supp;
           s.name = (fdEl('fd-supp-name').value || '').trim();
@@ -5862,6 +6595,7 @@
         gender:d.gender, birthISO:d.birthISO, birthApprox:!!d.birthApprox,
         neutered:d.neutered || 'unknown', weight:(d.weight==null?null:d.weight),
         adoptISO:d.adoptISO || '',
+        microchip:null, chipHospital:null, chipDate:null,
         avatar:d.avatar || sp.avatar, mascot:d.mascot || sp.mascot,
         line:'先从记一笔开始，慢慢攒齐 TA 的健康档案吧',
         logsToday:0, streak:0, weekCaption:'刚开始记录 · 今天先记一笔吧',
@@ -5986,25 +6720,120 @@
         } else am.textContent = '未设置 · 补上到家的日子';
       }
     }
+    // 寻回二维码：用宠物名+芯片号做种子，本地生成一张「看起来像」的二维码图案（原型占位，正式版换成真实二维码库）
+    function petQRSeed(str){
+      var h = 2166136261;
+      for(var i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+      return h || 1;
+    }
+    function renderPetQR(seed){
+      var N = 21, rects = [], s = petQRSeed(seed||'petlog');
+      function rnd(){ s = (Math.imul(s,1664525) + 1013904223) >>> 0; return s/4294967296; }
+      function finder(x,y,ox,oy){
+        var dx=x-ox, dy=y-oy;
+        return dx===0||dx===6||dy===0||dy===6||(dx>=2&&dx<=4&&dy>=2&&dy<=4);
+      }
+      for(var y=0;y<N;y++){
+        for(var x=0;x<N;x++){
+          var on;
+          if(x<7&&y<7) on=finder(x,y,0,0);
+          else if(x>=N-7&&y<7) on=finder(x,y,N-7,0);
+          else if(x<7&&y>=N-7) on=finder(x,y,0,N-7);
+          else on = rnd()>0.54;
+          if(on) rects.push('<rect x="'+x+'" y="'+y+'" width="1.02" height="1.02"/>');
+        }
+      }
+      return '<svg viewBox="-0.5 -0.5 22 22" width="92" height="92" shape-rendering="crispEdges" fill="#4A3B32">'+rects.join('')+'</svg>';
+    }
+    function renderPetFindCard(p){
+      var isDog = p.speciesKey === 'dog';
+      var hasChip = !!p.microchip;
+      var qr = '<div class="fc-qr" style="background:#fff;border-radius:14px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)">'+renderPetQR(p.name+'|'+(p.microchip||'nochip'))+'</div>';
+      var chipLine = hasChip
+        ? '<div style="font-size:12px;color:var(--text);margin-top:2px">芯片号 <b style="color:var(--ink);letter-spacing:.3px">'+escHtml(p.microchip)+'</b></div>'
+        : (isDog
+            ? '<div id="pd-find-tip" style="margin-top:6px;font-size:12px;font-weight:700;color:var(--primary-600);cursor:pointer">还没录芯片号，遛狗走失风险高，点此补充 →</div>'
+            : '<div style="margin-top:6px;font-size:11.5px;color:var(--muted)">室内猫可不录芯片；常外出/会溜的猫也建议补一张</div>');
+      var sub = hasChip ? '走失路人扫码即可联系你，救助站扫芯片也能查到你' : '即使没录芯片，路人扫码也能一键联系主人';
+      return '<div class="card findcard">'
+        + qr
+        + '<div class="fc-body">'
+        +   '<div style="display:flex;align-items:center;gap:6px;font-weight:800;font-size:15px"><svg class="ico" style="width:16px;height:16px;color:var(--mint)"><use href="#i-shield"/></svg>'+escHtml(p.name)+' · 寻回卡</div>'
+        +   '<div style="font-size:12px;color:var(--text);line-height:1.5;margin:3px 0 2px">'+sub+'</div>'
+        +   chipLine
+        + '</div>'
+        + '<div class="btn btn-line fc-btn" id="pd-find-preview">预览</div>'
+        + '</div>';
+    }
+    function openFinderPreview(p){
+      var s = openSettingSheet({
+        body:'<div class="stitle">路人扫码看到的页面（预览）</div>'
+        + '<div style="background:linear-gradient(160deg,#FFF1EA,#FFE6D8);border-radius:20px;padding:20px 16px;text-align:center;margin:2px 0 14px">'
+        +   '<div style="width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 10px;border:3px solid #fff;box-shadow:var(--shadow-sm)"><img src="'+(p.avatar||p.mascot)+'" style="width:100%;height:100%;object-fit:cover"></div>'
+        +   '<div style="font-weight:800;font-size:17px">我捡到了 <span style="color:var(--primary-600)">'+escHtml(p.name)+'</span></div>'
+        +   '<div style="font-size:12.5px;color:var(--text);margin-top:3px">'+escHtml(p.breed?breedShort(p):p.species)+(p.gender==='female'?' · 女生':p.gender==='male'?' · 男生':'')+' · 信息已脱敏</div>'
+        +   '<div style="background:#fff;border-radius:14px;padding:12px;margin-top:12px;text-align:left;font-size:13px;line-height:1.9">'
+        +     '主人留言：它很胆小，请勿追逐，叫名字会回应 🐾<br>'
+        +     '芯片号：<b>'+(p.microchip?escHtml(p.microchip):'未登记')+'</b><br>'
+        +     '最近地址：<span style="color:var(--muted)">已脱敏 · 仅显示 1km 范围</span>'
+        +   '</div>'
+        + '</div>'
+        + '<div class="btn btn-primary" id="pd-find-call" style="margin:0 4px 10px"><svg class="ico" style="width:17px;height:17px;vertical-align:-3px"><use href="#i-bell"/></svg> 一键通知主人（虚拟通话）</div>'
+        + '<div class="btn btn-line" id="pd-find-msg" style="margin:0 4px 4px">给主人留言</div>'
+        + '<div class="qlm-hint" style="text-align:center;margin-top:10px">原型演示：不会真的拨出电话；正式版将通过隐私号转接，不暴露双方手机号。</div>'
+      });
+      s.mask.querySelector('#pd-find-call').addEventListener('click', function(){ showToast('已用隐私号通知 '+p.name+' 的主人，请保持手机畅通 🐾'); s.close(); });
+      s.mask.querySelector('#pd-find-msg').addEventListener('click', function(){ showToast('留言已发送，主人会收到通知'); s.close(); });
+    }
+    function bindPetFindCard(p){
+      var pv = document.getElementById('pd-find-preview');
+      if(pv) pv.addEventListener('click', function(){ openFinderPreview(p); });
+      var tip = document.getElementById('pd-find-tip');
+      if(tip) tip.addEventListener('click', function(){ startPetEdit(); });
+    }
+    function startPetEdit(){
+      pdState.editing = true;
+      setPdEditBtn();
+      renderPetDetail(pdState.key);
+    }
     function renderPetDetailView(){
       var p = HOME_PETS[pdState.key];
       var box = document.getElementById('pd-basic');
       var note = document.getElementById('pd-basic-note');
       if(note) note.textContent = '';
+      var isDog = p.speciesKey === 'dog';
       var age = petAge(p.birthISO, p.birthApprox);
+      var mutedHint = '<span style="color:var(--muted);font-weight:600;font-size:11px">';
+      var chipVal;
+      if(p.microchip){
+        chipVal = escHtml(p.microchip) + '<span style="margin-left:6px;display:inline-flex;align-items:center;gap:2px;color:var(--mint);font-size:11px;font-weight:700"><svg class="ico" style="width:12px;height:12px"><use href="#i-check"/></svg>已植入</span>';
+      }else if(isDog){
+        chipVal = '<span class="v ph">未填写 · 建议补充</span>';
+      }else{
+        chipVal = '<span class="v ph">未填写'+mutedHint+'（室内猫选填）</span></span>';
+      }
       var rows = [
         ['种类', valOrDash(p.species)],
         ['品种', valOrDash(p.breed)],
         ['性别', valOrDash(petGenderLabel(p.gender))],
         ['出生日期', p.birthISO ? escHtml(fmtISOCN(p.birthISO) + (p.birthApprox?'（估算）':'')) : valOrDash(null)],
-        ['年龄', age ? escHtml(age.text)+' <span style="color:var(--muted);font-weight:600;font-size:11px">（自动计算）</span>' : valOrDash(null)],
+        ['年龄', age ? escHtml(age.text)+mutedHint+'（自动计算）</span>' : valOrDash(null)],
         ['绝育情况', valOrDash(petNeuteredLabel(p.neutered))],
         ['体重', p.weight!=null ? escHtml(p.weight+' kg') : valOrDash(null)],
-        ['到家日期', p.adoptISO ? escHtml(fmtISOCN(p.adoptISO)) : valOrDash(null)]
+        ['到家日期', p.adoptISO ? escHtml(fmtISOCN(p.adoptISO)) : valOrDash(null)],
+        ['芯片号', chipVal]
       ];
+      if(p.chipHospital) rows.push(['植入医院', valOrDash(p.chipHospital)]);
+      if(p.chipDate) rows.push(['植入日期', p.chipDate ? escHtml(fmtISOCN(p.chipDate)) : valOrDash(null)]);
       box.innerHTML = rows.map(function(r){
         return '<div class="info-row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>';
       }).join('');
+      var fw = document.getElementById('pd-findme-wrap');
+      if(fw){
+        fw.style.display = '';
+        var fc = document.getElementById('pd-findme-card');
+        if(fc){ fc.innerHTML = renderPetFindCard(p); bindPetFindCard(p); }
+      }
     }
     function ageOptions(selected, withPlaceholder){
       var h = withPlaceholder ? '<option value="" disabled selected>几岁</option>' : '';
@@ -6021,8 +6850,14 @@
       var box = document.getElementById('pd-basic');
       var note = document.getElementById('pd-basic-note');
       if(note) note.textContent = '编辑中';
+      var fw0 = document.getElementById('pd-findme-wrap');
+      if(fw0) fw0.style.display = 'none';
       var age = petAge(p.birthISO, p.birthApprox);
       pdState.birthMode = p.birthApprox ? 'age' : 'date';
+      var isDogEdit = p.speciesKey === 'dog';
+      var chipLabel = isDogEdit
+        ? '芯片号 <span id="pd-f-chiplabel" style="color:var(--primary-600);font-weight:700;font-size:11px">（狗狗建议补充）</span>'
+        : '芯片号 <span id="pd-f-chiplabel" style="color:var(--muted);font-weight:600;font-size:11px">（室内猫选填）</span>';
       box.innerHTML =
         '<div class="field" style="margin-bottom:10px"><label>TA 的名字</label><input type="text" id="pd-f-name" value="'+escHtml(p.name)+'"></div>'
         + '<div class="field" style="margin-bottom:10px"><label>种类</label>'
@@ -6053,6 +6888,16 @@
         +   '<div class="field" style="flex:1;margin:0"><label>体重</label><div style="display:flex;align-items:center;gap:6px"><input type="text" id="pd-f-weight" inputmode="decimal" value="'+(p.weight!=null?p.weight:'')+'" placeholder="4.2" style="flex:1"><span style="font-size:12px;font-weight:700;color:var(--muted)">kg</span></div></div>'
         +   '<div class="field" style="flex:1;margin:0"><label>到家日期</label><input type="date" id="pd-f-adopt" value="'+escHtml(p.adoptISO||'')+'" max="'+isoOfDate(dayStart(new Date(APP_TODAY)))+'"></div>'
         + '</div>'
+        + '<div style="border-top:2px dashed var(--line);margin:4px 0 12px"></div>'
+        + '<div style="display:flex;gap:10px;margin-bottom:10px">'
+        +   '<div class="field" style="flex:2;margin:0"><label>'+chipLabel+'</label>'
+        +     '<input type="text" id="pd-f-mchip" inputmode="numeric" maxlength="15" value="'+escHtml(p.microchip||'')+'" placeholder="15 位数字芯片号">'
+        +     '<div id="pd-f-mchip-hint" style="font-size:11px;color:var(--primary-600);font-weight:600;margin-top:4px;display:none">请核对，目前输入 <b id="mchip-count">0</b> 位，国标芯片号为 15 位数字</div>'
+        +     '<div id="pd-f-chipsub" style="font-size:11px;color:var(--muted);margin-top:3px">'+(isDogEdit?'遛狗走失风险高，植入芯片 + 寻回码更稳妥':'纯室内猫可留空；常外出/会溜的猫建议补充')+'</div>'
+        +   '</div>'
+        +   '<div class="field" style="flex:1;margin:0"><label>植入日期</label><input type="date" id="pd-f-chipdate" value="'+escHtml(p.chipDate||'')+'" max="'+isoOfDate(dayStart(new Date(APP_TODAY)))+'"></div>'
+        + '</div>'
+        + '<div class="field" style="margin-bottom:14px"><label>植入医院</label><input type="text" id="pd-f-chip-hosp" value="'+escHtml(p.chipHospital||'')+'" placeholder="植入芯片的医院 / 宠物店名称"></div>'
         + '<div style="display:flex;gap:10px;margin-top:12px"><div class="btn btn-line" style="flex:1" id="pd-f-cancel">取消</div><div class="btn btn-primary" style="flex:1" id="pd-f-save">保存</div></div>';
       bindPetDetailEdit(p);
     }
@@ -6066,8 +6911,34 @@
           c.addEventListener('click', function(){
             g.querySelectorAll('.cell').forEach(function(x){ x.classList.remove('on'); });
             c.classList.add('on');
+            if(id === 'pd-f-species') refreshChipSpeciesUI();
           });
         });
+      }
+      // 芯片区随物种切换：狗=橙色建议补充，猫=灰色选填
+      function refreshChipSpeciesUI(){
+        var dogNow = pdSelected('pd-f-species') === 'dog';
+        var lab = document.getElementById('pd-f-chiplabel');
+        if(lab){
+          lab.textContent = dogNow ? '（狗狗建议补充）' : '（室内猫选填）';
+          lab.style.color = dogNow ? 'var(--primary-600)' : 'var(--muted)';
+          lab.style.fontWeight = dogNow ? '700' : '600';
+        }
+        var sub = document.getElementById('pd-f-chipsub');
+        if(sub) sub.textContent = dogNow ? '遛狗走失风险高，植入芯片 + 寻回码更稳妥' : '纯室内猫可留空；常外出/会溜的猫建议补充';
+      }
+      var mchipInput = document.getElementById('pd-f-mchip');
+      var mchipCount = document.getElementById('mchip-count');
+      var mchipHint = document.getElementById('pd-f-mchip-hint');
+      if(mchipInput){
+        function syncChipHint(){
+          var digits = (mchipInput.value||'').replace(/\D/g,'');
+          if(digits !== mchipInput.value) mchipInput.value = digits;
+          if(mchipCount) mchipCount.textContent = digits.length;
+          if(mchipHint) mchipHint.style.display = (digits.length>0 && digits.length!==15) ? 'block' : 'none';
+        }
+        mchipInput.addEventListener('input', syncChipHint);
+        syncChipHint();
       }
       function setBirthMode(mode){
         pdState.birthMode = mode;
@@ -6102,9 +6973,16 @@
         var nameEl = document.getElementById('pd-f-name');
         var name = (nameEl.value||'').trim();
         if(!name){ showToast('名字不能空哦'); nameEl.focus(); return; }
+        var mchipVal = ((document.getElementById('pd-f-mchip')||{}).value||'').replace(/\D/g,'');
+        if(mchipVal && mchipVal.length !== 15){
+          showToast('芯片号应为 15 位数字，请核对（如暂不确定可先清空）');
+          var mi = document.getElementById('pd-f-mchip'); if(mi) mi.focus();
+          return;
+        }
+        var spNow = pdSelected('pd-f-species') || p.speciesKey;
         p.name = name;
-        p.speciesKey = pdSelected('pd-f-species') || p.speciesKey;
-        p.species = p.speciesKey==='dog' ? '狗狗' : '猫咪';
+        p.speciesKey = spNow;
+        p.species = spNow==='dog' ? '狗狗' : '猫咪';
         p.gender = pdSelected('pd-f-gender') || 'male';
         p.neutered = pdSelected('pd-f-neutered') || 'unknown';
         p.breed = (document.getElementById('pd-f-breed').value||'').trim();
@@ -6113,10 +6991,13 @@
         var wv = parseFloat((document.getElementById('pd-f-weight').value||'').replace(/[^\d.]/g,''));
         p.weight = isNaN(wv) ? null : wv;
         p.adoptISO = document.getElementById('pd-f-adopt').value || '';
+        p.microchip = mchipVal || null;
+        p.chipHospital = ((document.getElementById('pd-f-chip-hosp')||{}).value||'').trim() || null;
+        p.chipDate = (document.getElementById('pd-f-chipdate')||{}).value || null;
         pdState.editing = false;
         setPdEditBtn();
         renderPetDetail(pdState.key);
-        showToast('档案已保存 🐾');
+        showToast(mchipVal ? '档案已保存，寻回卡已更新 🐾' : '档案已保存 🐾');
       });
     }
     function setPdEditBtn(){
