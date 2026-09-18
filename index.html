@@ -507,6 +507,49 @@
   .todo-card.flash-card{animation:flashcard 1.8s ease}
   @keyframes flashcard{0%,100%{box-shadow:0 6px 18px rgba(0,0,0,.06)}25%{box-shadow:0 0 0 3px var(--primary),0 10px 26px rgba(123,107,246,.35)}}
 
+  /* ===== 首页：健康异常 · 首要价值入口（异常场景填报意愿最强） ===== */
+  .health-alert{position:relative;border-radius:22px;padding:15px 16px;margin:14px 2px 2px;overflow:hidden;border:2px solid var(--line);background:linear-gradient(180deg,#FFFDFB,#FFF7F1);box-shadow:0 8px 22px rgba(255,138,92,.10)}
+  .health-alert.is-alert{border-color:#FFC7C7;background:linear-gradient(180deg,#FFF7F7,#FFEFEF);box-shadow:0 12px 28px rgba(255,107,107,.20)}
+  .ha-top{display:flex;align-items:center;gap:11px}
+  .ha-badge{width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--mint-soft);color:var(--mint)}
+  .health-alert.is-alert .ha-badge{background:#FFE2E2;color:#FF5A5A}
+  .ha-badge .ico{width:24px;height:24px}
+  .ha-main{flex:1;min-width:0}
+  .ha-title{font-size:15.5px;font-weight:850;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif;line-height:1.25}
+  .ha-sub{font-size:11px;font-weight:700;color:var(--muted);margin-top:3px;line-height:1.5}
+  .health-alert.is-alert .ha-sub{color:#DF7878}
+  .ha-recover{flex-shrink:0;font-size:10.5px;font-weight:800;color:var(--mint);background:var(--mint-soft);border-radius:99px;padding:5px 11px;cursor:pointer;white-space:nowrap}
+  .ha-body{margin-top:13px}
+  .ha-items{display:flex;flex-direction:column;gap:8px}
+  .ha-item{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #FFD8D8;border-radius:15px;padding:10px 12px}
+  .ha-item .hi-ic{width:30px;height:30px;border-radius:11px;background:#FFE9E9;color:#F06262;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ha-item .hi-ic .ico{width:16px;height:16px}
+  .ha-item .hi-body{flex:1;min-width:0}
+  .ha-item .hi-name{font-size:13px;font-weight:800;line-height:1.2}
+  .ha-item .hi-prog{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:2px}
+  .ha-item .hi-act{flex-shrink:0;font-size:10.5px;font-weight:800;color:#F06262;background:#FFEFEF;border-radius:99px;padding:5px 11px;cursor:pointer;white-space:nowrap}
+  .ha-actions{display:flex;gap:8px;margin-top:12px}
+  .ha-actions .haa{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:13px;padding:11px 6px;font-size:12px;font-weight:800;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--text)}
+  .ha-actions .haa.primary{background:linear-gradient(135deg,#FF8A6E,#F4623E);border-color:transparent;color:#fff;box-shadow:0 8px 18px rgba(244,98,62,.28)}
+  .ha-actions .haa .ico{width:15px;height:15px}
+  .health-alert.is-ok .ha-body{display:none}
+  .health-alert.is-ok{padding:12px 16px}
+  .ha-report{display:none;margin-left:auto;flex-shrink:0;font-size:10.5px;font-weight:800;color:var(--primary-600);background:var(--primary-soft);border-radius:99px;padding:5px 11px;cursor:pointer;white-space:nowrap}
+  .health-alert.is-ok .ha-recover{display:none}
+  .health-alert.is-ok .ha-report{display:inline-block}
+  .health-alert.is-ok .ha-badge{background:var(--mint-soft);color:var(--mint)}
+
+/* ===== 首页：饮食安全「能吃啥」显眼入口（调研 Top2 高频刚需，直接给结论） ===== */
+.food-quick{position:relative;display:flex;align-items:center;gap:12px;border-radius:20px;padding:14px 15px;margin:12px 2px 2px;cursor:pointer;overflow:hidden;border:2px solid transparent;background:linear-gradient(135deg,#FFB36B,#FF834F);color:#fff;box-shadow:0 12px 24px rgba(255,131,79,.30)}
+.food-quick::after{content:"";position:absolute;right:-26px;top:-30px;width:104px;height:104px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.20),transparent 70%)}
+.fq-ic{position:relative;z-index:1;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fq-ic .ico{width:23px;height:23px}
+.fq-body{position:relative;z-index:1;flex:1;min-width:0}
+.fq-t{font-size:15px;font-weight:850;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif;line-height:1.2}
+.fq-s{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.92);margin-top:3px;line-height:1.45}
+.fq-go{position:relative;z-index:1;flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center}
+.fq-go .ico{width:17px;height:17px}
+
   /* ===== 一键记录 · 管理常用项面板 ===== */
   .qlm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:4px 2px 6px}
   .qlm-opt{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .1s,border-color .15s,background .15s;-webkit-tap-highlight-color:transparent}
@@ -1338,8 +1381,15 @@
   .ai-capture{border-radius:20px;padding:15px 15px 13px;margin-bottom:6px;background:linear-gradient(135deg,#F3EEFF,#FFF4EC);border:1px solid #EAE1FF}
   .ac-cap{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#7B6BF6;margin-bottom:9px}
   .ac-cap .ico{width:14px;height:14px}
-  .ac-input{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid #EAE1FF;border-radius:15px;padding:11px 13px;font-size:12.5px;color:var(--muted);font-weight:650;margin-bottom:11px;cursor:pointer}
+  .ac-quick{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+  .ac-input{flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid #EAE1FF;border-radius:15px;padding:11px 13px;font-size:12.5px;color:var(--muted);font-weight:650;cursor:pointer;margin-bottom:0;min-width:0}
   .ac-input .ico{width:17px;height:17px;color:#9B8AFB;flex-shrink:0}
+  .ac-input span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ac-mini{flex-shrink:0;width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:#EAF1FF;color:#5B8DEF;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .ac-mini:active{transform:scale(.92)}
+  .ac-mini.cam{background:var(--mint-soft);color:var(--mint)}
+  .ac-mini .ico{width:19px;height:19px}
+  .ac-link{color:var(--primary-600);font-weight:800;margin-left:4px;cursor:pointer;white-space:nowrap}
   .ac-types{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
   .ac-type{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:12px 6px;font-size:11.5px;font-weight:750;color:#6E5E8C;cursor:pointer}
   .ac-type .ac-ic{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--primary-tint);color:var(--primary-600)}
@@ -1397,8 +1447,21 @@
   .fr-name{font-size:17px;font-weight:800}
   .fr-level{font-size:12px;font-weight:800;margin-top:2px}
   .food-result.ok .fr-level{color:var(--mint)}.food-result.warn .fr-level{color:#D98E04}.food-result.no .fr-level{color:var(--danger)}
-  .fr-desc{font-size:12.5px;color:var(--text);line-height:1.65;margin-top:10px}
+  .fr-desc{font-size:12.5px;color:var(--text);line-height:1.65;margin-top:0}
   .fr-desc b{color:var(--ink)}
+  .fr-verdict{font-size:15px;font-weight:850;line-height:1.45;margin-top:12px;color:var(--ink);font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif}
+  .food-result.no .fr-verdict{color:var(--danger)}
+  .food-result.warn .fr-verdict{color:#C97F00}
+  .food-result.ok .fr-verdict{color:var(--mint)}
+  .fr-detail{margin-top:11px;border-top:2px dashed rgba(0,0,0,.08);padding-top:4px}
+  .fr-detail summary{list-style:none;display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:var(--primary-600);padding:7px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .fr-detail summary::-webkit-details-marker{display:none}
+  .frd-arrow{width:14px;height:14px;transition:transform .2s}
+  .fr-detail[open] .frd-arrow{transform:rotate(90deg)}
+  .frd-body{animation:pop .22s ease}
+  .fr-gram{display:flex;align-items:flex-start;gap:8px;margin-top:10px;background:#fff;border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:700;line-height:1.55;color:var(--text)}
+  .fr-gram b{color:var(--ink)}
+  .frg-tag{flex-shrink:0;font-size:10.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#FFB36B,#FF834F);border-radius:99px;padding:3px 9px;margin-top:1px}
   .fr-ask{margin-top:12px;border:none;border-radius:99px;padding:10px 16px;font-family:inherit;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#9B8AFB,#7B6BF6);box-shadow:0 8px 16px rgba(123,107,246,.28);cursor:pointer}
   .fr-ask:active{transform:scale(.96)}
   .food-list-hide{display:none!important}
@@ -1561,6 +1624,53 @@
                   <button type="button" class="hlo-btn" id="hl-off-on">开启</button>
                 </div>
               </div>
+            </div>
+
+            <!-- 首要价值入口：健康异常管理（生病恢复 / 体重异常时填报意愿最强，优先前置） -->
+            <div class="health-alert is-alert" id="health-alert">
+              <div class="ha-top">
+                <span class="ha-badge"><svg class="ico"><use href="#i-medical"/></svg></span>
+                <div class="ha-main">
+                  <div class="ha-title">小白正在恢复期 · 有 2 项需要盯</div>
+                  <div class="ha-sub">软便好转中 · 体重较上月 +0.6kg，管家帮你跟到康复</div>
+                </div>
+                <span class="ha-recover" id="ha-recover">已康复</span>
+                <span class="ha-report" data-open="pg-new-record">报异常</span>
+              </div>
+              <div class="ha-body">
+                <div class="ha-items">
+                  <div class="ha-item">
+                    <span class="hi-ic"><svg class="ico"><use href="#i-capsule"/></svg></span>
+                    <div class="hi-body">
+                      <div class="hi-name">软便恢复期 · 益生菌</div>
+                      <div class="hi-prog">第 3 天 / 共 5 天 · 今天 19:00 还需喂 1 次</div>
+                    </div>
+                    <span class="hi-act" data-open="pg-todo">去喂药</span>
+                  </div>
+                  <div class="ha-item">
+                    <span class="hi-ic"><svg class="ico"><use href="#i-scale"/></svg></span>
+                    <div class="hi-body">
+                      <div class="hi-name">体重增长偏快</div>
+                      <div class="hi-prog">4.8kg · 较上月 +0.6kg，建议 3 天后复测</div>
+                    </div>
+                    <span class="hi-act" data-open="pg-weight">记体重</span>
+                  </div>
+                </div>
+                <div class="ha-actions">
+                  <div class="haa primary" data-open="pg-new-record"><svg class="ico"><use href="#i-edit"/></svg>记录今天状况</div>
+                  <div class="haa" data-open="pg-ai-center" data-as-intent="insight"><svg class="ico"><use href="#i-sparkle"/></svg>问管家怎么护理</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 饮食安全高频入口：能吃啥直接给结论（调研 Top2，仅次于护理提醒） -->
+            <div class="food-quick" id="home-food-scan">
+              <span class="fq-ic"><svg class="ico"><use href="#i-food"/></svg></span>
+              <div class="fq-body">
+                <div class="fq-t">这口能不能吃？</div>
+                <div class="fq-s">输入食物名，先给「能吃/慎吃/禁食」结论 · 需要克数再展开</div>
+              </div>
+              <span class="fq-go"><svg class="ico"><use href="#i-chev-r"/></svg></span>
             </div>
 
             <!-- 分层②：状态解读（为什么 / 现在状态如何） -->
@@ -1801,13 +1911,14 @@
 
             <div class="grid2" style="margin-top:14px">
               <div class="gcell" data-open="pg-pets-manage"><span class="g-ico"><svg class="ico fill"><use href="#i-paw"/></svg></span><span>我的毛孩子</span></div>
-              <div class="gcell" data-open="pg-pet-photo"><span class="g-ico pink"><svg class="ico"><use href="#i-heart"/></svg></span><span>宠物照相馆</span></div>
-              <div class="gcell" data-open="pg-family"><span class="g-ico blue"><svg class="ico"><use href="#i-users"/></svg></span><span>家庭成员</span></div>
               <div class="gcell" data-open="pg-ai-center" data-as-intent="insight"><span class="g-ico violet"><svg class="ico"><use href="#i-sparkle"/></svg></span><span>AI 健康管家</span></div>
+              <div class="gcell" data-open="pg-food-scan"><span class="g-ico amber"><svg class="ico"><use href="#i-food"/></svg></span><span>能吃啥</span></div>
+              <div class="gcell" data-open="pg-family"><span class="g-ico blue"><svg class="ico"><use href="#i-users"/></svg></span><span>家庭成员</span></div>
             </div>
 
             <div class="menu" style="margin-top:14px">
               <div class="menu-item" data-open="pg-member"><div class="m-ico amber"><svg class="ico"><use href="#i-star"/></svg></div><div class="m-body">会员订阅</div><span class="m-val">未开通</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
+              <div class="menu-item" data-open="pg-pet-photo"><div class="m-ico"><svg class="ico"><use href="#i-camera-ai"/></svg></div><div class="m-body">宠物照相馆</div><span class="m-val">趣味玩法</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-help"><div class="m-ico"><svg class="ico"><use href="#i-info"/></svg></div><div class="m-body">帮助与反馈</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-about"><div class="m-ico"><svg class="ico fill"><use href="#i-paw"/></svg></div><div class="m-body">关于宠记</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
             </div>
@@ -1945,16 +2056,15 @@
         <div class="page" id="pg-new-record">
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle" id="rec-form-title">记一笔</div><div class="pact" id="rec-form-save-top">保存</div></div>
           <div class="scroll">
-            <!-- AI 多模态速记：说一句 / 拍一下 / 打几个字，AI 自动归类预填 -->
+            <!-- 速记：以文字录入为主（调研首选），语音 / 拍照只做输入框旁的辅助小图标 -->
             <div class="ai-capture">
-              <div class="ac-cap"><svg class="ico"><use href="#i-sparkle"/></svg>AI 速记 · 怎么方便怎么来，我帮你整理成规范档案</div>
-              <div class="ac-input" id="ac-text"><svg class="ico"><use href="#i-mic"/></svg><span>说一句，比如「刚给小白喂了半罐主食罐」…</span></div>
-              <div class="ac-types">
-                <div class="ac-type" id="ac-voice"><span class="ac-ic"><svg class="ico"><use href="#i-mic"/></svg></span>说一句</div>
-                <div class="ac-type" id="ac-photo"><span class="ac-ic"><svg class="ico"><use href="#i-camera-ai"/></svg></span>拍药板/病历</div>
-                <div class="ac-type" id="ac-bcs"><span class="ac-ic"><svg class="ico"><use href="#i-image"/></svg></span>拍照估体况</div>
+              <div class="ac-cap"><svg class="ico"><use href="#i-edit"/></svg>打几个字就行，我帮你整理成规范档案</div>
+              <div class="ac-quick">
+                <div class="ac-input" id="ac-text"><svg class="ico"><use href="#i-edit"/></svg><span>比如「刚给小白喂了半罐主食罐」…</span></div>
+                <span class="ac-mini" id="ac-voice" title="说一句"><svg class="ico"><use href="#i-mic"/></svg></span>
+                <span class="ac-mini cam" id="ac-photo" title="拍药板/病历"><svg class="ico"><use href="#i-camera-ai"/></svg></span>
               </div>
-              <div class="ac-hint"><svg class="ico" style="color:var(--muted)"><use href="#i-info"/></svg><span>识别后我会自动填好宠物、分类、时间，你确认一下就能存档。</span></div>
+              <div class="ac-hint"><svg class="ico" style="color:var(--muted)"><use href="#i-info"/></svg><span>文字优先，说一句/拍照是辅助；识别后自动填好宠物、分类、时间，确认即可存档。<span class="ac-link" id="ac-bcs">拍照估体况</span></span></div>
             </div>
 
             <div class="field"><label>关联宠物</label>
@@ -2560,7 +2670,8 @@
               <div class="rem-item"><div class="rem-ico primary"><svg class="ico"><use href="#i-sparkle"/></svg></div><div class="rem-body"><b>无限 AI 规划</b><span>不限次数生成养护方案</span></div></div>
               <div class="rem-item"><div class="rem-ico warn"><svg class="ico"><use href="#i-users"/></svg></div><div class="rem-body"><b>多人共享</b><span>邀请多位家人共同照顾</span></div></div>
             </div>
-            <div class="btn btn-primary" style="margin-top:16px">升级会员 · ¥18/月</div>
+            <div class="btn btn-primary" style="margin-top:16px">升级会员 · ¥9.9/月</div>
+            <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:10px;font-weight:700">调研定价 · 一杯奶茶钱多一点，随时可取消</div>
             <div class="btn btn-line" style="margin-top:10px">恢复购买</div>
           </div>
         </div>
@@ -5004,6 +5115,8 @@
       if(wadd) wadd.addEventListener('click', function(){ addWaterRec(activeHomePet); });
       var fscan = document.getElementById('meal-food-scan');
       if(fscan) fscan.addEventListener('click', function(){ openPage('pg-food-scan'); });
+      var fscanHome = document.getElementById('home-food-scan');
+      if(fscanHome) fscanHome.addEventListener('click', function(){ openPage('pg-food-scan'); });
     })();
 
     // ===== 喂食录入面板：食物 / 保健品 / 营养液 三类相互独立，各自字段与单位 =====
@@ -5621,6 +5734,31 @@
       if(done) done.addEventListener('click', function(){ applyQuickLogSelection(); mask.classList.remove('show'); showToast('已更新首页常用项'); });
       var cancel = document.getElementById('qlm-cancel');
       if(cancel) cancel.addEventListener('click', function(){ mask.classList.remove('show'); });
+    })();
+
+    // 健康异常卡：点「已康复」收起到无异常弱化态；无异常时点「报异常」重新展开
+    (function(){
+      var box = document.getElementById('health-alert');
+      if(!box) return;
+      var ok = document.getElementById('ha-recover');
+      function setAlert(on){
+        box.classList.toggle('is-alert', on);
+        box.classList.toggle('is-ok', !on);
+        var title = box.querySelector('.ha-title');
+        var sub = box.querySelector('.ha-sub');
+        if(!on){
+          title.textContent = '小白最近状态不错';
+          sub.textContent = '没有进行中的异常，继续保持；再出现不舒服随时报一下';
+        }else{
+          title.textContent = '小白正在恢复期 · 有 2 项需要盯';
+          sub.textContent = '软便好转中 · 体重较上月 +0.6kg，管家帮你跟到康复';
+        }
+      }
+      if(ok) ok.addEventListener('click', function(){ setAlert(false); showToast('已标记康复，继续观察就好'); });
+      box.addEventListener('click', function(e){
+        var report = e.target.closest('.ha-report');
+        if(report) setAlert(true);
+      });
     })();
 
     // ===== 设置项交互 =====
@@ -8928,16 +9066,16 @@
 
     // ===== 能不能吃：食物安全查询 =====
     var FOOD_DB = {
-      '葡萄':{level:'no', emoji:'🍇', name:'葡萄 / 葡萄干', desc:'<b>严禁喂食。</b>葡萄与葡萄干含不明毒素，犬猫误食可能引发<b>急性肾衰竭</b>，一两颗就有风险。误食后请立即联系兽医。'},
-      '巧克力':{level:'no', emoji:'🍫', name:'巧克力 / 可可制品', desc:'<b>严禁喂食。</b>含可可碱与咖啡因，猫狗代谢很慢，可致呕吐、心律不齐、抽搐，<b>黑巧克力毒性最强</b>。'},
-      '洋葱':{level:'no', emoji:'🧅', name:'洋葱 / 大蒜 / 韭菜', desc:'<b>严禁喂食。</b>葱属植物含硫化物，会破坏红细胞引发<b>溶血性贫血</b>，熟食、粉料、汤汁同样危险。'},
-      '木糖醇':{level:'no', emoji:'🍬', name:'木糖醇（代糖）', desc:'<b>严禁喂食。</b>常见于口香糖、无糖烘焙中，狗狗误食会使胰岛素骤升，导致<b>低血糖、肝损伤</b>。'},
-      '牛奶':{level:'warn', emoji:'🥛', name:'牛奶', desc:'多数成年猫狗<b>乳糖不耐受</b>，喝牛奶易腹泻、胀气。想补充奶类可选<b>宠物专用奶</b>或少量无糖酸奶。'},
-      '鸡骨头':{level:'warn', emoji:'🦴', name:'鸡骨头（熟）', desc:'煮熟的禽骨容易<b>碎裂成尖刺</b>，划伤口腔、食道和肠胃。要喂骨头请选生食骨或宠物专用磨牙骨。'},
-      '鸡胸肉':{level:'ok', emoji:'🍗', name:'鸡胸肉（白水煮熟）', desc:'<b>可以吃。</b>优质蛋白、低脂，<b>白水煮熟、不加盐和任何调料、去骨</b>后撕成小块，是很棒的拌粮零食。'},
-      '胡萝卜':{level:'ok', emoji:'🥕', name:'胡萝卜', desc:'<b>可以吃。</b>富含维生素与纤维、热量低，<b>煮熟切块</b>更易消化，生的小块也可当磨牙零食。'},
-      '酸奶':{level:'ok', emoji:'🥛', name:'无糖原味酸奶', desc:'<b>可以吃（少量）。</b>选<b>无糖、无木糖醇</b>的原味酸奶，少量可补充益生菌；乳糖不耐受或肠胃敏感的宠物不建议喂。'},
-      '苹果':{level:'ok', emoji:'🍎', name:'苹果（去核）', desc:'<b>可以吃。</b>果肉富含纤维和维生素，但<b>果核与种子含氰苷</b>，务必去核去籽、切小块再喂。'}
+      '葡萄':{level:'no', emoji:'🍇', name:'葡萄 / 葡萄干', verdict:'绝对不能吃，一口都别喂。', desc:'葡萄与葡萄干含不明毒素，犬猫误食可能引发<b>急性肾衰竭</b>，一两颗就有风险。误食后请立即联系兽医。'},
+      '巧克力':{level:'no', emoji:'🍫', name:'巧克力 / 可可制品', verdict:'绝对不能吃，误食尽快联系兽医。', desc:'含可可碱与咖啡因，猫狗代谢很慢，可致呕吐、心律不齐、抽搐，<b>黑巧克力毒性最强</b>。'},
+      '洋葱':{level:'no', emoji:'🧅', name:'洋葱 / 大蒜 / 韭菜', verdict:'绝对不能吃，熟食、粉料、汤汁都算。', desc:'葱属植物含硫化物，会破坏红细胞引发<b>溶血性贫血</b>，熟食、粉料、汤汁同样危险。'},
+      '木糖醇':{level:'no', emoji:'🍬', name:'木糖醇（代糖）', verdict:'绝对不能吃，口香糖、无糖烘焙里常见。', desc:'常见于口香糖、无糖烘焙中，狗狗误食会使胰岛素骤升，导致<b>低血糖、肝损伤</b>。'},
+      '牛奶':{level:'warn', emoji:'🥛', name:'牛奶', verdict:'不建议直接喂，多数猫狗喝了会拉稀。', gram:'想喂奶可选<b>宠物专用奶</b>，或从 1–2 小勺（约 5–10ml）无糖酸奶试起，观察大便；乳糖不耐受就停。', desc:'多数成年猫狗<b>乳糖不耐受</b>，喝牛奶易腹泻、胀气；想补充奶类可选<b>宠物专用奶</b>或少量无糖酸奶。'},
+      '鸡骨头':{level:'warn', emoji:'🦴', name:'鸡骨头（熟）', verdict:'别喂熟鸡骨头，容易碎裂划伤肠胃。', gram:'想磨牙请选<b>生食骨或宠物专用磨牙骨</b>，并在看护下啃咬，不建议喂任何煮熟的禽骨。', desc:'煮熟的禽骨容易<b>碎裂成尖刺</b>，划伤口腔、食道和肠胃。要喂骨头请选生食骨或宠物专用磨牙骨。'},
+      '鸡胸肉':{level:'ok', emoji:'🍗', name:'鸡胸肉（白水煮熟）', verdict:'可以吃，白水煮熟、去骨、不加盐和调料。', gram:'按小白体重估算，零食量建议<b>每次 15–20g</b>（约一两小块撕碎），全天零食热量不超过每日总量的 <b>10%</b>，主粮相应减一点。', desc:'优质蛋白、低脂，<b>白水煮熟、不加盐和任何调料、去骨</b>后撕成小块，是很棒的拌粮零食。'},
+      '胡萝卜':{level:'ok', emoji:'🥕', name:'胡萝卜', verdict:'可以吃，煮熟切小块更好消化。', gram:'建议<b>每次 10–15g</b> 小丁（约 2–3 片），煮熟喂；当零食计入每日 10% 热量上限即可。', desc:'富含维生素与纤维、热量低，<b>煮熟切块</b>更易消化，生的小块也可当磨牙零食。'},
+      '酸奶':{level:'ok', emoji:'🥛', name:'无糖原味酸奶', verdict:'可以少量吃，认准无糖、无木糖醇的原味。', gram:'建议<b>每次 5–10g（1–2 小勺）</b>，先少量试；乳糖不耐受或肠胃敏感、正在软便时先不喂。', desc:'选<b>无糖、无木糖醇</b>的原味酸奶，少量可补充益生菌；乳糖不耐受或肠胃敏感的宠物不建议喂。'},
+      '苹果':{level:'ok', emoji:'🍎', name:'苹果（去核）', verdict:'可以吃，但必须去核去籽、切小块。', gram:'建议<b>每次 1–2 小块（约 10g）</b> 果肉，去掉果核种子再喂，同样计入每日零食量。', desc:'果肉富含纤维和维生素，但<b>果核与种子含氰苷</b>，务必去核去籽、切小块再喂。'}
     };
     var FOOD_ALIAS = {'葡萄干':'葡萄','葱':'洋葱','大蒜':'洋葱','蒜':'洋葱','韭菜':'洋葱','无糖酸奶':'酸奶','优格':'酸奶','乳酪':'酸奶'};
     function escHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -8959,7 +9097,9 @@
         var ask = box.querySelector('.fr-ask');
         if(ask) ask.addEventListener('click', function(){ askFoodAI(key); });
       } else {
-        box.innerHTML = '<div class="food-result ' + f.level + '"><div class="fr-head"><div class="fr-badge">' + f.emoji + '</div><div><div class="fr-name">' + f.name + '</div><div class="fr-level">' + FOOD_LEVEL_TEXT[f.level] + '</div></div></div><div class="fr-desc">' + f.desc + '</div></div>';
+        var detailLabel = f.level === 'no' ? '为什么不能吃' : (f.gram ? '看依据和建议喂多少' : '为什么这么判断');
+        var gramHtml = f.gram ? '<div class="fr-gram"><span class="frg-tag">建议量</span>' + f.gram + '</div>' : '';
+        box.innerHTML = '<div class="food-result ' + f.level + '"><div class="fr-head"><div class="fr-badge">' + f.emoji + '</div><div><div class="fr-name">' + f.name + '</div><div class="fr-level">' + FOOD_LEVEL_TEXT[f.level] + '</div></div></div><div class="fr-verdict">' + f.verdict + '</div><details class="fr-detail"><summary>' + detailLabel + '<svg class="ico frd-arrow"><use href="#i-chev-r"/></svg></summary><div class="frd-body"><div class="fr-desc">' + f.desc + '</div>' + gramHtml + '</div></details></div>';
       }
     }
     var foodInput = document.getElementById('food-query');
