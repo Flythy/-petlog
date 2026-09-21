@@ -48,6 +48,9 @@
     background:linear-gradient(180deg,#FFEBDD 0%,#FFF6EF 420px);
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+    overscroll-behavior-y:none;
     padding:34px 20px 60px;
   }
   .board{max-width:1120px;margin:0 auto}
@@ -69,9 +72,10 @@
   .phone{position:relative;width:376px;height:780px;border-radius:44px;background:#2A211C;padding:10px;box-shadow:0 40px 80px rgba(74,59,50,.30),0 0 0 1px rgba(0,0,0,.05)}
   .viewport{position:relative;width:100%;height:100%;border-radius:35px;overflow:hidden;background:var(--bg)}
 
-  /* ===== 真机全屏：像原生小程序一样铺满、无黑边、适配刘海屏 ===== */
-  @media (max-width:640px){
-    html,body{height:100%;width:100%;overflow:hidden;background:var(--bg)}
+  /* ===== 真机全屏：像原生小程序一样铺满、无黑边、适配刘海屏 =====
+     覆盖：竖屏手机（≤640px）+ 横屏手机（landscape 且高度 ≤500px，避免误伤桌面/平板） */
+  @media (max-width:640px), (orientation:landscape) and (max-height:500px){
+    html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);overscroll-behavior:none}
     body{padding:0;background:var(--bg)}
     .board{max-width:100%}
     .board-head,.hint{display:none}
@@ -83,6 +87,31 @@
     .header{padding-left:calc(20px + env(safe-area-inset-left));padding-right:calc(20px + env(safe-area-inset-right))}
     .scroll{padding-left:calc(20px + env(safe-area-inset-left));padding-right:calc(20px + env(safe-area-inset-right))}
     .tabbar{border-radius:0;padding-bottom:calc(8px + env(safe-area-inset-bottom));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+    /* 触摸优化：去除浏览器双击缩放延迟，滚动容器带回弹与滚动链控制 */
+    .tab,.iconbtn,.btn,.chip,.cell,.backbtn,.seg div,.ht-check,.ht-post,.mchip{touch-action:manipulation}
+    .scroll{-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;overflow-x:hidden}
+    .viewport{overflow:hidden}
+    /* iOS：输入框字号 ≥16px，防止聚焦时浏览器强制放大页面 */
+    .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,input[type="date"],input[type="text"],input[type="number"]{font-size:16px}
+    /* 底部弹层：避开 home 指示条，滚动不穿透 */
+    .sheet{padding-bottom:calc(22px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  }
+  /* ===== 横屏紧凑模式：压扁状态栏与头部，保住内容高度 ===== */
+  @media (orientation:landscape) and (max-height:500px){
+    .statusbar{padding-top:4px;padding-bottom:2px;font-size:10px}
+    .header{padding:6px 16px 4px}
+    .header .title{font-size:16px}
+    .tabbar{padding:4px 6px 6px}
+    .tab .tab-ic{height:24px}
+    .tab{gap:1px;font-size:9px}
+  }
+  /* ===== 小屏手机（≤360px）：压缩留白与字号，避免内容溢出 ===== */
+  @media (max-width:360px){
+    .scroll{padding-left:max(14px, env(safe-area-inset-left));padding-right:max(14px, env(safe-area-inset-right))}
+    .header .title{font-size:19px}
+    .section-head b{font-size:13.5px}
+    .field .mock{font-size:13.5px}
+    .btn{font-size:13px}
   }
   .tab-screen{position:absolute;inset:0;display:none;flex-direction:column;background:var(--bg)}
   .tab-screen.active{display:flex}
