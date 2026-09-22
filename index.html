@@ -2446,14 +2446,12 @@
   .hrd-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.22);border-radius:99px;padding:3px 10px}
   .hrd-badge .ico{width:12px;height:12px}
   .hrd-date-pill{background:rgba(255,255,255,.26);border-radius:99px;padding:3px 11px}
-  .hrd-hero h2{margin-top:10px;font-size:22px;font-weight:850;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif;letter-spacing:.5px;text-align:center}
-  .hrd-hero-row{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:14px;position:relative;z-index:1;text-align:center}
+  .hrd-hero-row{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:16px;position:relative;z-index:1;text-align:center}
   .hrd-ring{position:relative;width:78px;height:78px;flex-shrink:0}
   .hrd-ring svg{transform:rotate(-90deg)}
   .hrd-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:850}
   .hrd-ring-info{flex:1;min-width:0}
-  .hrd-ring-info b{font-size:14.5px;font-weight:850;display:block;line-height:1.4}
-  .hrd-ring-info span{font-size:11px;font-weight:700;opacity:.92;line-height:1.5;display:block;margin-top:3px}
+  .hrd-ring-info b{font-size:16.5px;font-weight:850;display:block;line-height:1.4;letter-spacing:.3px}
   .hrd-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
   .hrd-card{background:rgba(255,255,255,.9);border:1.5px solid #F4E2CF;border-radius:22px;padding:12px 10px 11px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 16px rgba(220,150,90,.08)}
   .hrd-card.full{grid-column:1/-1}
@@ -3139,7 +3137,7 @@
 
         <!-- ============ 覆盖层：AI 健康报告详情 ============ -->
         <div class="page" id="pg-health-report">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">AI健康简报</div></div>
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">AI健康简报</div><div style="width:40px;flex-shrink:0"></div></div>
           <div class="scroll" id="hrd-scroll">
 
             <!-- 空态：无任何数据时展示 -->
@@ -3157,7 +3155,6 @@
                   <span class="hrd-badge"><svg class="ico"><use href="#i-sparkle"/></svg>AI 健康管家</span>
                   <span class="hrd-date-pill" id="hrd-date"></span>
                 </div>
-                <h2 id="hrd-pet-name">小白 的今日健康状态</h2>
                 <div class="hrd-hero-row">
                   <div class="hrd-ring">
                     <svg width="78" height="78" viewBox="0 0 78 78">
@@ -3169,7 +3166,6 @@
                   </div>
                   <div class="hrd-ring-info">
                     <b id="hrd-level-lab">—</b>
-                    <span id="hrd-summary">—</span>
                   </div>
                 </div>
               </div>
@@ -8147,8 +8143,6 @@
       var slot = now.getHours() < 11 ? '晨报' : (now.getHours() < 18 ? '午报' : '晚报');
       var dateEl = document.getElementById('hrd-date');
       if(dateEl) dateEl.textContent = (now.getMonth()+1)+'月'+now.getDate()+'日 '+week+' · '+slot;
-      var nameEl = document.getElementById('hrd-pet-name');
-      if(nameEl) nameEl.textContent = p.name + ' 的今日健康状态';
       var CIRC = 213.6;
       var ringFg = document.getElementById('hrd-ring-fg');
       if(ringFg){
@@ -8157,10 +8151,10 @@
       }
       var scoreEl = document.getElementById('hrd-score');
       if(scoreEl) scoreEl.textContent = score;
+      // 需关注项数（与下方「需要关注」明细同口径）
+      var riskCount = b.news.filter(function(n){ return n.flagCls==='bad' || n.flagCls==='warn'; }).length;
       var levelLab = document.getElementById('hrd-level-lab');
-      if(levelLab) levelLab.textContent = b.level==='danger' ? '需要立即处理' : (b.level==='warn' ? '需要留意' : '状态很棒');
-      var summaryEl = document.getElementById('hrd-summary');
-      if(summaryEl) summaryEl.textContent = stripHtml(b.title);
+      if(levelLab) levelLab.textContent = riskCount ? ('需要关注 '+riskCount+' 项') : '状态很棒';
 
       // —— 护理维度卡 ——
       var careChip = d.danger.length ? '<span class="hrd-chip bad">已逾期</span>'
