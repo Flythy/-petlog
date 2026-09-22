@@ -868,7 +868,7 @@
   /* 记录列表左滑删除 */
   .my-rec-swipe{position:relative;overflow:hidden;margin-bottom:0}
   .my-rec-swipe .swipe-del{position:absolute;right:0;top:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:#E0523E;color:#fff;font-size:12px;font-weight:800;cursor:pointer;border-radius:0}
-  .my-rec-swipe .t-entry{position:relative;z-index:1;transition:transform .2s ease;background:inherit}
+  .my-rec-swipe .t-entry{position:relative;z-index:1;transition:transform .2s ease;background:#fff}
   .my-rec-swipe.swipe-open .t-entry{transform:translateX(-72px)}
 
   .fab{position:absolute;right:20px;bottom:88px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(255,116,72,.32),inset 0 -3px 0 rgba(0,0,0,.08);cursor:pointer;z-index:5;transition:transform .12s ease}
@@ -9933,9 +9933,9 @@
     }
     // 体重默认取「记一笔」里最新一条体重记录（兼容字段「体重」与 note 中的 “4.2 kg”）
     function pdLatestWeight(p){
-      var rec = pdLastRec(p, function(r){ return r.title==='体重记录' || r.ico==='i-scale'; });
+      var rec = pdLastRec(p, function(r){ return r.key==='weight' || r.title==='体重记录' || r.ico==='i-scale'; });
       if(!rec) return null;
-      var raw = (rec.fields && rec.fields['体重']) || rec.note || '';
+      var raw = (rec.fields && (rec.fields.kg || rec.fields['体重'])) || rec.note || '';
       var m = String(raw).match(/(\d+(?:\.\d+)?)/);
       return { kg:(m ? parseFloat(m[1])+' kg' : '—'), num:(m?parseFloat(m[1]):null), ts:rec.ts, rec:rec };
     }
@@ -11192,23 +11192,24 @@
 
     /* ===== 体重记录页：当前概览 + 趋势图 + 历史列表（数据源：weightSeries + 记一笔中的体重记录） ===== */
     function weightTrendRecords(p){
-      // 合并 weightSeries（内置示例）与「记一笔」中真实落库的体重记录
+      // 真实落库记录优先于内置示例 weightSeries：同月以真实数据为准
       var merged = {};
-      (p.weightSeries && p.weightSeries['1y'] || []).forEach(function(pt){
-        merged[pt.m] = pt.v;
-      });
       try {
+        // list 按时间倒序：同月有多条时先遇到的是最新值，仅在该月尚无值时写入
         var recs = (typeof RecordStore !== 'undefined' && RecordStore.list(p.__key || activeHomePet)) || [];
         recs.forEach(function(r){
-          if(r.title !== '体重记录' && r.ico !== 'i-scale') return;
-          var raw = (r.fields && r.fields['体重']) || r.note || '';
+          if(r.key !== 'weight' && r.title !== '体重记录' && r.ico !== 'i-scale') return;
+          var raw = (r.fields && (r.fields.kg || r.fields['体重'])) || r.note || '';
           var m = String(raw).match(/(\d+(?:\.\d+)?)/);
           if(!m) return;
           var d = new Date(r.ts);
           var k = (d.getMonth()+1) + '月';
-          merged[k] = parseFloat(m[1]);
+          if(merged[k] == null) merged[k] = parseFloat(m[1]);
         });
       } catch(e){}
+      (p.weightSeries && p.weightSeries['1y'] || []).forEach(function(pt){
+        if(merged[pt.m] == null) merged[pt.m] = pt.v;
+      });
       // 按月份顺序输出（以最近 12 个月为准）
       var out = [];
       var now = new Date(APP_TODAY);
