@@ -90,6 +90,10 @@
     /* 首页顶部已移入滚动区：由 scroll 统一承担左右安全区，状态栏/header 不再单独加 */
     .tab-screen[data-screen="home"] .scroll{padding-left:max(18px, env(safe-area-inset-left));padding-right:max(18px, env(safe-area-inset-right))}
     .tab-screen[data-screen="home"] .scroll > .statusbar{padding-top:env(safe-area-inset-top)}
+    .tab-screen[data-screen="records"] .scroll,
+    .tab-screen[data-screen="mine"] .scroll{padding-left:max(20px, env(safe-area-inset-left));padding-right:max(20px, env(safe-area-inset-right))}
+    .tab-screen[data-screen="records"] .scroll > .statusbar,
+    .tab-screen[data-screen="mine"] .scroll > .statusbar{padding-top:env(safe-area-inset-top)}
     .tabbar{border-radius:0;padding-bottom:calc(8px + env(safe-area-inset-bottom));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
     /* 触摸优化：去除浏览器双击缩放延迟，滚动容器带回弹与滚动链控制 */
     .tab,.iconbtn,.btn,.chip,.cell,.backbtn,.seg div,.ht-check,.ht-post,.mchip{touch-action:manipulation}
@@ -2064,6 +2068,23 @@
   .tab-screen[data-screen="home"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top));color:#fff}
   .tab-screen[data-screen="home"] .scroll > .header{padding-top:6px}
 
+  /* 记录页/我的页：statusbar+header+seg 移入滚动区，清除双重内边距 */
+  .tab-screen[data-screen="records"] .scroll,
+  .tab-screen[data-screen="mine"] .scroll{position:relative;z-index:1;padding:0 20px 100px}
+  .tab-screen[data-screen="records"] .scroll > .statusbar,
+  .tab-screen[data-screen="records"] .scroll > .header,
+  .tab-screen[data-screen="mine"] .scroll > .statusbar,
+  .tab-screen[data-screen="mine"] .scroll > .header{padding-left:0;padding-right:0}
+  .tab-screen[data-screen="records"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top))}
+  .tab-screen[data-screen="mine"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top))}
+  /* seg/chiprow 清除自身水平 margin（scroll 已有 padding） */
+  .tab-screen[data-screen="records"] .seg{margin:0 0 14px}
+  .tab-screen[data-screen="records"] .chiprow{margin:0 0 12px}
+  /* pane 不再 flex 撑满，退化为普通 block */
+  .tab-screen[data-screen="records"] .pane{display:block;flex:none;min-height:auto;position:relative}
+  /* 成长相机按钮固定在右下角（随滚动内容不丢失） */
+  .tab-screen[data-screen="records"] .pane-bottom .fab{position:fixed;bottom:96px;right:18px;z-index:5}
+
   /* 顶部装饰 - 浮动的爪印和圆点，增加趣味 */
   .home-deco{position:absolute;pointer-events:none;z-index:0}
   .home-deco.d1{top:60px;right:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
@@ -2802,21 +2823,20 @@
 
         <!-- ============ 记录 ============ -->
         <div class="tab-screen" data-screen="records">
-          <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
-          <div class="header">
-            <div><div class="eyebrow">MEMO</div><div class="title">记录</div></div>
-            <div style="display:flex;align-items:center;gap:10px">
-              <div class="iconbtn" data-open="pg-new-record" title="文字录入"><svg class="ico"><use href="#i-edit"/></svg></div>
-              <div class="iconbtn" data-open="pg-search"><svg class="ico"><use href="#i-search"/></svg></div>
+          <div class="scroll">
+            <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
+            <div class="header">
+              <div><div class="eyebrow">MEMO</div><div class="title">记录</div></div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="iconbtn" data-open="pg-new-record" title="文字录入"><svg class="ico"><use href="#i-edit"/></svg></div>
+                <div class="iconbtn" data-open="pg-search"><svg class="ico"><use href="#i-search"/></svg></div>
+              </div>
             </div>
-          </div>
 
-          <div class="seg" id="rec-seg">
-            <div class="on" data-view="list">事项记录</div>
-            <div data-view="growth">成长记录</div>
-          </div>
-
-          <div class="split-panes">
+            <div class="seg" id="rec-seg">
+              <div class="on" data-view="list">事项记录</div>
+              <div data-view="growth">成长记录</div>
+            </div>
 
           <div class="pane pane-top" id="rec-list">
             <div class="chiprow" id="rec-chips">
@@ -2827,7 +2847,6 @@
               <div class="chip" data-cat="clean">打理清扫</div>
               <div class="chip" data-cat="other">其他</div>
             </div>
-            <div class="scroll">
               <div class="rec-overview">
               <div class="section-head"><b>体重变化</b><a data-open="pg-weight">详情 ›</a></div>
               <div class="trend-card" data-open="pg-weight" style="cursor:pointer">
@@ -2861,11 +2880,9 @@
               <div class="section-head" style="margin-top:16px"><b>全部记录</b></div>
               <div id="my-records-wrap"></div>
               <div style="height:40px"></div>
-            </div>
           </div>
 
           <div class="pane pane-bottom" id="rec-growth" style="display:none">
-            <div class="scroll">
               <div class="section-head"><b>纪念日</b><a data-open="pg-memo-add">+ 添加</a></div>
               <div class="card" style="padding:4px 14px;margin-bottom:4px">
                 <div class="rem-item"><div class="rem-ico pink"><svg class="ico"><use href="#i-cake"/></svg></div><div class="rem-body"><b>小白 · 生日 🎂</b><span>2024-03-15 · 每周年提醒</span></div><span class="switch on"></span></div>
@@ -2880,21 +2897,21 @@
                   <span class="we-sub">点右下角相机，拍一张或从相册选一张<br>就能记下 TA 的此刻啦</span>
                 </div>
               </div>
-            </div>
+              <div style="height:100px"></div>
             <div class="fab" id="growth-add-btn"><svg class="ico lg"><use href="#i-camera"/></svg></div>
           </div>
 
-          </div><!-- /.split-panes -->
+          </div><!-- /.scroll -->
         </div>
 
         <!-- ============ 我的 ============ -->
         <div class="tab-screen" data-screen="mine">
-          <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
-          <div class="header">
-            <div><div class="eyebrow">ME</div><div class="title">我的</div></div>
-            <div class="iconbtn" data-open="pg-settings"><svg class="ico"><use href="#i-gear"/></svg></div>
-          </div>
           <div class="scroll">
+            <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
+            <div class="header">
+              <div><div class="eyebrow">ME</div><div class="title">我的</div></div>
+              <div class="iconbtn" data-open="pg-settings"><svg class="ico"><use href="#i-gear"/></svg></div>
+            </div>
             <div class="profile-card" id="profile-card">
               <span class="pc-deco"></span>
               <div class="pc-avatar" id="pc-avatar">🧑</div>
@@ -4351,8 +4368,8 @@
           recSeg.querySelectorAll('div').forEach(function(x){x.classList.remove('on')});
           d.classList.add('on');
           var isGrowth = d.getAttribute('data-view') === 'growth';
-          document.getElementById('rec-list').style.display = isGrowth ? 'none' : 'flex';
-          document.getElementById('rec-growth').style.display = isGrowth ? 'flex' : 'none';
+          document.getElementById('rec-list').style.display = isGrowth ? 'none' : 'block';
+          document.getElementById('rec-growth').style.display = isGrowth ? 'block' : 'none';
           var mf = document.getElementById('mic-fab');
           if(mf) mf.classList.toggle('hide', isGrowth);
         });
