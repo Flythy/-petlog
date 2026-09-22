@@ -948,8 +948,6 @@
   .rf-seg .rf-opt.on{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-600);box-shadow:0 3px 8px rgba(255,138,92,.18)}
   .rf-area{width:100%;border:1.6px solid var(--line);border-radius:14px;background:#FBF8F5;padding:11px 13px;font-size:13.5px;font-weight:650;color:var(--text);font-family:inherit;min-height:74px;outline:none;resize:none;box-sizing:border-box}
   .rf-area::placeholder{color:#CDBFAE;font-weight:600}
-  .rf-foot-tip{text-align:center;font-size:11.5px;font-weight:650;color:var(--muted);margin:1px 4px 0;line-height:1.5}
-
   /* 首页日历 · 手绘可爱风 */
   .home-cal{position:relative;background:#fff;border:2.5px solid var(--line);border-radius:28px 18px 30px 20px/20px 28px 18px 30px;padding:14px 14px 12px;box-shadow:0 6px 16px rgba(255,138,92,.10);overflow:hidden}
   .home-cal::before{content:'';position:absolute;top:-22px;right:-22px;width:78px;height:78px;border-radius:50%;background:var(--pink-soft);opacity:.75}
@@ -1712,7 +1710,6 @@
   .nr-head .backbtn{width:34px;height:34px;border-radius:12px}
   .nr-head .backbtn .ico{width:18px;height:18px}
   .nr-title{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--text)}
-  .nr-save{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;padding:8px 6px;flex-shrink:0}
   .nr-body{padding:0 2px 6px}
   /* 记一笔 · 纯选择面板：分组 + 圆形图标（参考事项选择样式） */
   .nr-scroll{padding:2px 0 4px}
@@ -3371,7 +3368,7 @@
               <div class="nr-head">
                 <div class="backbtn" id="nr-back"><svg class="ico"><use href="#i-chev-l"/></svg></div>
                 <div class="nr-title" id="nr-title">记一笔</div>
-                <div class="nr-save" id="nr-save-top">保存</div>
+                <div style="width:34px;flex-shrink:0"></div>
               </div>
               <div class="nr-body">
                 <!-- 自定义分类 / 旧记录：通用编辑 -->
@@ -3383,7 +3380,10 @@
                     <div><label style="display:block">首页快捷方式</label><span style="font-size:12px;color:var(--muted)">开启后首页显示吃饭/喝水等一键记录</span></div>
                     <div class="switch" id="rec-quicklog-sw"></div>
                   </div>
-                  <div class="btn btn-primary" id="rec-form-save" style="margin-top:18px">保存记录</div>
+                  <div style="display:flex;gap:10px;margin-top:18px">
+                    <div class="btn btn-line" style="flex:1" id="rec-form-cancel">取消</div>
+                    <div class="btn btn-primary" style="flex:1" id="rec-form-save">保存记录</div>
+                  </div>
                 </div>
                 <!-- 专属表单（驱虫/疫苗/生理期/洗澡… 动态渲染） -->
                 <div id="rf-scroll"></div>
@@ -4226,7 +4226,7 @@
                 <input class="rem-input" id="fd-food-name" type="text" placeholder="输入食物名称，比如：生骨肉、猫条…">
               </div>
               <div class="fd-brand" id="fd-food-brand-box">
-                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-sec"><span class="fd-sec-t">品牌<em>（可不选）</em></span></div>
                 <div class="fd-pick" id="fd-food-brand-pick">
                   <span class="fp" data-brand="皇家">皇家</span>
                   <span class="fp" data-brand="弗列加特">弗列加特</span>
@@ -4243,25 +4243,26 @@
               <div class="fd-name-preview" id="fd-food-preview"></div>
               <div class="fd-energy" id="fd-energy-box">
                 <div class="fde-row">
-                  <span class="fde-label">代谢能（热量密度）</span>
+                  <span class="fde-label">热量密度</span>
                   <span class="fde-val"><b id="fd-density-val">400</b> kcal/100g</span>
-                  <span class="fde-edit" id="fd-density-edit">照包装袋改</span>
+                  <span class="fde-edit" id="fd-density-edit">改</span>
                 </div>
                 <div class="fde-custom" id="fd-density-wrap">
                   <input class="rem-input" id="fd-density-input" type="number" inputmode="decimal" min="1" placeholder="照营养成分表填，如 396">
                   <span class="fde-unit">kcal/100g</span>
-                  <span class="fde-reset" id="fd-density-reset">用回参考值</span>
+                  <span class="fde-reset" id="fd-density-reset">用参考值</span>
                 </div>
                 <div class="fde-src" id="fd-density-src"></div>
               </div>
               <div class="fd-gram-head"><span class="fd-sec-t">本次克数</span><span class="fd-sec-kcal">≈ <b id="fd-meal-kcal">0</b> kcal</span></div>
+
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-gram-minus">−</button>
                 <div class="stp-box"><input id="fd-food-gram" type="number" inputmode="decimal" min="1" value="20"><span class="u">g</span></div>
                 <button type="button" class="stp" id="fd-gram-plus">+</button>
               </div>
               <div class="fd-hint" id="fd-food-hint"></div>
-              <div class="fd-sec"><span class="fd-sec-t">算到哪一餐</span>
+              <div class="fd-sec"><span class="fd-sec-t">哪一餐</span>
                 <div class="feed-cyc" id="fd-meal-seg">
                   <span class="fc-opt on" data-meal="breakfast">早餐</span>
                   <span class="fc-opt" data-meal="lunch">午餐</span>
@@ -4270,7 +4271,7 @@
                 </div>
               </div>
               <label style="display:flex;align-items:center;gap:8px;margin:12px 6px 2px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer">
-                <input type="checkbox" id="fd-make-default" style="width:16px;height:16px;accent-color:var(--primary)">以后这种按此份量作为「三餐默认值」
+                <input type="checkbox" id="fd-make-default" style="width:16px;height:16px;accent-color:var(--primary)">设为这餐的默认份量
               </label>
             </div>
 
@@ -4290,7 +4291,7 @@
                 <input class="rem-input" id="fd-supp-name" type="text" placeholder="输入保健品名称，比如：鱼油、猫草片…">
               </div>
               <div class="fd-brand" id="fd-supp-brand-box">
-                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-sec"><span class="fd-sec-t">品牌<em>（可不选）</em></span></div>
                 <div class="fd-pick" id="fd-supp-brand-pick">
                   <span class="fp" data-brand="红狗">红狗</span>
                   <span class="fp" data-brand="卫仕">卫仕</span>
@@ -4304,7 +4305,7 @@
                 </div>
               </div>
               <div class="fd-name-preview" id="fd-supp-preview"></div>
-              <div class="fd-sec"><span class="fd-sec-t">本次剂量</span></div>
+              <div class="fd-sec"><span class="fd-sec-t">剂量</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-supp-minus">−</button>
                 <div class="stp-box"><input id="fd-supp-amount" type="number" inputmode="decimal" min="0" value="1"><span class="u" id="fd-supp-unit-lab">粒</span></div>
@@ -4316,7 +4317,7 @@
                 <span class="fp" data-unit="勺">勺</span>
                 <span class="fp" data-unit="g">g</span>
               </div>
-              <div class="fd-sec"><span class="fd-sec-t">按周期提醒 TA 吃</span>
+              <div class="fd-sec"><span class="fd-sec-t">周期提醒</span>
                 <div class="feed-cyc" id="fd-cycle-seg-supp">
                   <span class="fc-opt on" data-cycle="none">不提醒</span>
                   <span class="fc-opt" data-cycle="daily">每天</span>
@@ -4342,7 +4343,7 @@
                 <input class="rem-input" id="fd-liq-name" type="text" placeholder="输入营养液名称，比如：液体钙、奶昔…">
               </div>
               <div class="fd-brand" id="fd-liq-brand-box">
-                <div class="fd-sec"><span class="fd-sec-t">什么品牌？<em>（可不选）</em></span></div>
+                <div class="fd-sec"><span class="fd-sec-t">品牌<em>（可不选）</em></span></div>
                 <div class="fd-pick" id="fd-liq-brand-pick">
                   <span class="fp" data-brand="麦德氏">麦德氏</span>
                   <span class="fp" data-brand="红狗">红狗</span>
@@ -4356,7 +4357,7 @@
                 </div>
               </div>
               <div class="fd-name-preview" id="fd-liq-preview"></div>
-              <div class="fd-sec"><span class="fd-sec-t">本次喂了多少</span></div>
+              <div class="fd-sec"><span class="fd-sec-t">喂了多少</span></div>
               <div class="fd-stepper">
                 <button type="button" class="stp" id="fd-liq-minus">−</button>
                 <div class="stp-box"><input id="fd-liq-amount" type="number" inputmode="decimal" min="0" value="10"><span class="u" id="fd-liq-unit-lab">ml</span></div>
@@ -4366,7 +4367,7 @@
                 <span class="fp on" data-unit="ml">ml</span>
                 <span class="fp" data-unit="滴">滴</span>
               </div>
-              <div class="fd-sec"><span class="fd-sec-t">按周期提醒 TA 喝</span>
+              <div class="fd-sec"><span class="fd-sec-t">周期提醒</span>
                 <div class="feed-cyc" id="fd-cycle-seg-liq">
                   <span class="fc-opt on" data-cycle="none">不提醒</span>
                   <span class="fc-opt" data-cycle="daily">每天</span>
@@ -4379,8 +4380,10 @@
 
             <div class="fd-sec" style="margin-top:14px"><span class="fd-sec-t">备注<em>（可选）</em></span></div>
             <div class="fd-note-wrap"><input class="rem-input" id="fd-note" type="text" placeholder="比如：今天胃口不错、剩了一半…"></div>
-            <div class="btn btn-primary" id="fd-save" style="margin:16px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> <span id="fd-save-label">保存这一餐</span></div>
-            <div class="sheet-row cancel" id="fd-cancel">取消</div>
+            <div style="display:flex;gap:10px;margin:16px 4px 4px">
+              <div class="btn btn-line" style="flex:1" id="fd-cancel">取消</div>
+              <div class="btn btn-primary" style="flex:1" id="fd-save"><svg class="ico"><use href="#i-check"/></svg> <span id="fd-save-label">保存这一餐</span></div>
+            </div>
           </div>
         </div>
 
@@ -5647,12 +5650,13 @@
         }
       });
       html += '</div>';
-      html += '<div class="btn btn-primary" id="rf-save">'+(isEdit?'保存修改':'保存记录')+'</div>';
+      html += '<div style="display:flex;gap:10px;margin-top:16px">'
+        + '<div class="btn btn-line" style="flex:1" id="rf-cancel">取消</div>'
+        + '<div class="btn btn-primary" style="flex:1" id="rf-save">'+(isEdit?'保存修改':'保存记录')+'</div></div>';
       if(isEdit){
         html += '<div class="btn btn-line" id="rf-delete" style="color:var(--danger);margin-top:8px">删除这条记录</div>';
       }
-      html += '<div class="rf-foot-tip">保存后自动归档到健康时间线'+(/deworm|vaccine/.test(rfState.key)?'，并更新相关提醒':'')+'</div>';
-      html += '<div style="height:24px"></div>';
+      html += '<div style="height:16px"></div>';
       scroll.innerHTML = html;
       bindRecordFormEvents(fields);
       var delBtn = document.getElementById('rf-delete');
@@ -5729,6 +5733,8 @@
       });
       var saveEl = document.getElementById('rf-save');
       if(saveEl) saveEl.addEventListener('click', saveRecordFormRF);
+      var cancelEl = document.getElementById('rf-cancel');
+      if(cancelEl) cancelEl.addEventListener('click', nrBack);
     }
     function saveRecordFormRF(){
       var meta = REC_META[rfState.key];
@@ -5876,8 +5882,10 @@
       if(!s) return;
       nrCtx = {view:'picker', edit:false};
       var pv = document.getElementById('nr-picker'), fm = document.getElementById('nr-form');
+      var nc = document.getElementById('nr-cancel');
       if(pv) pv.style.display = '';
       if(fm) fm.style.display = 'none';
+      if(nc) nc.style.display = '';
       syncRecordTypesByPet(nrPending.petKey || activeHomePet);
       s.classList.add('show');
     }
@@ -5887,10 +5895,12 @@
       nrCtx = {view:view, edit:(view === 'rf' ? rfState.mode === 'edit' : recFormState.mode === 'edit')};
       var pv = document.getElementById('nr-picker'), fm = document.getElementById('nr-form');
       var gen = document.getElementById('nr-generic'), rfs = document.getElementById('rf-scroll');
+      var nc = document.getElementById('nr-cancel');
       if(pv) pv.style.display = 'none';
       if(fm) fm.style.display = '';
       if(gen) gen.style.display = view === 'generic' ? '' : 'none';
       if(rfs) rfs.style.display = view === 'rf' ? '' : 'none';
+      if(nc) nc.style.display = 'none';
       s.classList.add('show');
     }
     function nrBack(){
@@ -5906,11 +5916,8 @@
       if(cancel) cancel.addEventListener('click', nrCloseSheet);
       var back = document.getElementById('nr-back');
       if(back) back.addEventListener('click', nrBack);
-      var saveTop = document.getElementById('nr-save-top');
-      if(saveTop) saveTop.addEventListener('click', function(){
-        if(nrCtx.view === 'rf' && typeof saveRecordFormRF === 'function') saveRecordFormRF();
-        else if(typeof saveRecordForm === 'function') saveRecordForm();
-      });
+      var genCancel = document.getElementById('rec-form-cancel');
+      if(genCancel) genCancel.addEventListener('click', nrBack);
     })();
 
     // 统一打开表单：opt={petKey,date,editId,fromDay}
@@ -7263,7 +7270,7 @@
 
     // ===== 喂食录入面板：食物 / 保健品 / 营养液 三类相互独立，各自字段与单位 =====
     var feedSheet = document.getElementById('feed-detail-sheet');
-    var FD_TITLES = {food:'记一笔喂食 · 食物', supp:'记一笔保健品', liq:'记一笔营养液'};
+    var FD_TITLES = {food:'记一笔喂食', supp:'记一笔保健品', liq:'记一笔营养液'};
     var FD_SAVE_LABEL = {food:'保存这一餐', supp:'保存保健品记录', liq:'保存营养液记录'};
     function fdEl(id){ return document.getElementById(id); }
     var feedForm = {
@@ -7313,13 +7320,13 @@
       if(srcEl){
         srcEl.classList.toggle('custom', isCustom);
         if(isCustom){
-          srcEl.textContent = '已按你填的 '+Math.round(f.customDensity)+' kcal/100g 计算';
+          srcEl.textContent = '按你填的 '+Math.round(f.customDensity)+' 计算';
         }else{
           var b = normBrand(f.brand);
           var hasBrandVal = b && BRAND_DENSITY[b] && BRAND_DENSITY[b][f.name] != null;
           srcEl.textContent = hasBrandVal
-            ? ('「'+b+' · '+f.name+'」常见代谢能参考值，配方不同有差，可照袋改')
-            : ('「'+(f.name||'主粮')+'」品类典型值，不同品牌有差，可照包装袋改');
+            ? ('「'+b+' · '+f.name+'」参考值，可照袋改')
+            : ('「'+(f.name||'主粮')+'」典型值，可照袋改');
         }
       }
       refreshMealKcal();
@@ -7331,9 +7338,9 @@
       var custom = (f.customDensity != null && f.customDensity > 0) ? f.customDensity/100 : null;
       var goal = gramGoalFor(key, f.name || '主粮', f.brand || '', custom);
       if(goal){
-        hint.innerHTML = '按该粮代谢能折算，建议全天 <b>'+goal.lo+'–'+goal.hi+'g</b>（约 '+goal.kcal.lo+'–'+goal.kcal.hi+' kcal），点 − / ＋ 调整本次克数';
+        hint.innerHTML = '建议全天 <b>'+goal.lo+'–'+goal.hi+'g</b>（约 '+goal.kcal.lo+'–'+goal.kcal.hi+' kcal）';
       }else{
-        hint.textContent = '在档案里补个体重，可按代谢能给出每日建议克数';
+        hint.textContent = '档案里补个体重，可看每日建议克数';
       }
       refreshEnergyBox();
     }
@@ -7435,7 +7442,7 @@
       var brand = (feedForm[kind].brand || '').trim();
       if(brand && name){
         pv.classList.add('show');
-        pv.innerHTML = '将记录为：<b>'+escHtml(brand)+' '+escHtml(name)+'</b>';
+        pv.innerHTML = '记为：<b>'+escHtml(brand)+' '+escHtml(name)+'</b>';
       }else{
         pv.classList.remove('show'); pv.innerHTML = '';
       }
@@ -7458,7 +7465,7 @@
       var lib = foodLibrary(key);
       if(!lib.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
       box.classList.add('show');
-      box.innerHTML = '<div class="fd-lib-t"><svg class="ico" style="width:12px;height:12px"><use href="#i-star"/></svg>常喂食物 · 点一下直接带入</div>'
+      box.innerHTML = '<div class="fd-lib-t"><svg class="ico" style="width:12px;height:12px"><use href="#i-star"/></svg>常喂 · 点一下带入</div>'
         + '<div class="fd-lib-items">' + lib.map(function(it, i){
             var den = it.customDensity || Math.round(foodDensity(it.kind, it.brand, null)*100);
             var label = (it.brand ? it.brand + ' ' : '') + it.kind;
