@@ -4161,7 +4161,7 @@
               <div class="switch on" id="qlm-master-sw"></div>
             </div>
             <div id="qlm-pick-wrap">
-              <div class="qlm-hint">勾选的事项会出现在首页「一键记录」，方便每天快速点一下记录。</div>
+              <div class="qlm-hint">勾选的事项会出现在首页「一键记录」，最多可勾选 7 项，方便每天快速点一下记录。</div>
               <div class="qlm-grid" id="qlm-grid"></div>
               <div class="btn btn-primary" id="qlm-done" style="margin:10px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> 完成</div>
             </div>
@@ -6136,8 +6136,8 @@
       if(!p) return [];
       var byKey = {};
       quickCandidatesFor(petKey).forEach(function(c){ byKey[c.key] = c; });
-      // 直接展示用户在管理面板里勾选的全部项（不再裁剪到 3 个或补默认项）
-      var picked = (p.quickLogs || []).filter(function(q){ return byKey[q.key]; });
+      // 直接展示用户在管理面板里勾选的全部项（不再裁剪到 3 个或补默认项）；旧数据最多展示 7 项
+      var picked = (p.quickLogs || []).filter(function(q){ return byKey[q.key]; }).slice(0, 7);
       // 兜底：用户从未配置过时，取默认前 3 项避免首页空白
       if(picked.length === 0){
         quickCandidatesFor(petKey).slice(0,3).forEach(function(c){ picked.push(c); });
@@ -6214,7 +6214,7 @@
       + '<div class="ql ql-custom" id="hl-custom-slot">'
         + '<span class="ql-ic"><svg class="ico"><use href="#i-plus"/></svg></span>'
         + '<span class="ql-lab">自定义</span>'
-        + '<span class="ql-sub">5~8 项</span>'
+        + '<span class="ql-sub">最多 7 项</span>'
         + '</div>';
       var customSlot = row.querySelector('#hl-custom-slot');
       if(customSlot){
@@ -7884,7 +7884,7 @@
           var k = o.getAttribute('data-key');
           var i = qlmDraft.indexOf(k);
           if(i > -1){ if(qlmDraft.length <= 1){ showToast('至少保留 1 个常用项'); return; } qlmDraft.splice(i,1); }
-          else { if(qlmDraft.length >= 8){ showToast('最多选 8 个常用项'); return; } qlmDraft.push(k); }
+          else { if(qlmDraft.length >= 7){ showToast('最多选 7 个常用项'); return; } qlmDraft.push(k); }
           renderQuickLogManage();
         });
       });
