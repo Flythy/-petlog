@@ -241,8 +241,9 @@
   .hl-edit{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);background:rgba(255,255,255,.16);border-radius:99px;padding:3px 11px;cursor:pointer}
   .hl-ai{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;color:#8A4B12;background:linear-gradient(135deg,#FFF6E8,#FFE9C7);border-radius:99px;padding:3px 10px;cursor:pointer;box-shadow:0 2px 6px rgba(122,52,28,.18)}
   .hl-ai .ico{width:12px;height:12px}
-  .hl-row{display:flex;gap:8px}
-  .ql{flex:1;background:rgba(255,255,255,.92);border-radius:15px;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;position:relative;transition:transform .12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  .hl-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .hl-row::-webkit-scrollbar{display:none}
+  .ql{flex:1 1 0;background:rgba(255,255,255,.92);border-radius:15px;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;position:relative;transition:transform .12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;min-width:62px}
   .ql:active{transform:scale(.92)}
   .ql .ql-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center}
   .ql .ql-ic .ico{width:19px;height:19px}
@@ -282,6 +283,8 @@
   .ql-coach p b{color:#E8702A}
   .ql-coach .qlc-ok{margin-top:9px;width:100%;border:none;border-radius:11px;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;font-size:12.5px;font-weight:800;padding:9px 0;cursor:pointer;box-shadow:0 5px 12px rgba(255,116,72,.28)}
   .ql-coach .qlc-x{position:absolute;top:7px;right:9px;width:22px;height:22px;border:none;background:transparent;color:#C99A78;font-size:15px;font-weight:800;cursor:pointer;line-height:22px;padding:0}
+  .ql-longpress-hint{font-size:11px;font-weight:700;color:#B08D6B;text-align:center;margin-top:8px;padding:5px 10px;background:rgba(255,247,239,.6);border-radius:10px;transition:opacity .3s}
+  .ql-longpress-hint.hide{opacity:0;pointer-events:none;height:0;margin:0;padding:0;overflow:hidden}
   /* 一键记录：关闭后的轻量找回入口 */
   .hl-off{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);border:1px dashed rgba(255,255,255,.45);border-radius:15px;padding:11px 13px;margin-top:12px}
   .hl-off .hlo-ic{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
@@ -915,6 +918,32 @@
   .cal-legend i.pink{background:var(--pink)}
   .cal-legend i.green{background:var(--mint)}
 
+  /* ===== 专属记录录入表单（如记录驱虫：类型/药品/剂量/日期/下次/备注） ===== */
+  .rf-hero{text-align:center;padding:6px 4px 14px}
+  .rf-hero .rf-h-ic{width:58px;height:58px;border-radius:20px;margin:0 auto 11px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FFE2CE,#FFD0B4);color:#E0762E;box-shadow:0 10px 22px rgba(224,118,46,.18)}
+  .rf-hero .rf-h-ic .ico{width:29px;height:29px}
+  .rf-hero .rf-h-title{font-size:21px;font-weight:900;color:var(--ink);font-family:'YouYuan','Yuanti SC','PingFang SC','Microsoft YaHei',sans-serif;letter-spacing:.5px}
+  .rf-hero .rf-h-sub{font-size:12.5px;font-weight:650;color:var(--muted);margin-top:6px;line-height:1.55}
+  .rf-card{background:#fff;border:2px solid var(--line);border-radius:20px;padding:6px 16px;margin-bottom:14px;box-shadow:0 6px 16px rgba(255,138,92,.07)}
+  .rf-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1.5px solid #F4ECE2}
+  .rf-row:last-child{border-bottom:none}
+  .rf-row.stack{flex-direction:column;align-items:stretch;gap:9px}
+  .rf-row .rf-k{font-size:14.5px;font-weight:800;color:var(--ink);white-space:nowrap}
+  .rf-row .rf-k .rf-req{color:var(--primary-600);margin-left:3px}
+  .rf-row .rf-k .rf-hint{display:block;font-size:11px;font-weight:650;color:var(--muted);margin-top:3px}
+  .rf-row .rf-v{margin-left:auto;text-align:right;min-width:0}
+  .rf-row .rf-v input{width:100%;border:none;outline:none;background:transparent;text-align:right;font-size:14.5px;font-weight:700;color:var(--text);font-family:inherit}
+  .rf-row .rf-v input::placeholder{color:#CDBFAE;font-weight:600}
+  .rf-row .rf-ph{color:#CDBFAE;font-weight:600;font-size:14px}
+  .rf-seg{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .rf-seg .rf-opt{border:1.6px solid var(--line);background:#FBF8F5;color:var(--ink);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:750;cursor:pointer;touch-action:manipulation}
+  .rf-seg .rf-opt.on{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-600);box-shadow:0 3px 8px rgba(255,138,92,.18)}
+  .rf-area{width:100%;border:1.6px solid var(--line);border-radius:14px;background:#FBF8F5;padding:11px 13px;font-size:13.5px;font-weight:650;color:var(--text);font-family:inherit;min-height:74px;outline:none;resize:none;box-sizing:border-box}
+  .rf-area::placeholder{color:#CDBFAE;font-weight:600}
+  .rf-foot-tip{text-align:center;font-size:11.5px;font-weight:650;color:var(--muted);margin:1px 4px 0;line-height:1.5}
+  .rf-pet-line{display:flex;align-items:center;gap:9px;background:var(--primary-tint);border:1.5px solid var(--primary-soft);border-radius:15px;padding:9px 13px;margin-bottom:13px;font-size:12.5px;font-weight:750;color:var(--primary-600)}
+  .rf-pet-line .ico{width:18px;height:18px}
+
   /* 首页日历 · 手绘可爱风 */
   .home-cal{position:relative;background:#fff;border:2.5px solid var(--line);border-radius:28px 18px 30px 20px/20px 28px 18px 30px;padding:14px 14px 12px;box-shadow:0 6px 16px rgba(255,138,92,.10);overflow:hidden}
   .home-cal::before{content:'';position:absolute;top:-22px;right:-22px;width:78px;height:78px;border-radius:50%;background:var(--pink-soft);opacity:.75}
@@ -1007,6 +1036,15 @@
   .field .mock .ph{color:var(--muted);font-weight:500}
   .field input{width:100%;border:none;outline:none;background:transparent;font-size:14.5px;font-weight:600;font-family:inherit;color:var(--text)}
   .field input::placeholder{color:#D6C9BC;font-weight:500}
+  .field select{
+    width:100%;border:none;outline:none;background:transparent;
+    font-size:14.5px;font-weight:600;font-family:inherit;color:var(--text);
+    appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23FF8A5C' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 4px center;
+    padding:0 20px 0 0;cursor:pointer;
+  }
+  .field select:disabled{color:var(--muted);cursor:not-allowed}
   /* 分段切换：知道生日 / 只知道年龄 */
   .mini-seg{display:flex;background:#F6E9DB;border-radius:12px;padding:3px;margin:0 0 10px}
   .mini-seg div{flex:1;text-align:center;padding:7px 4px;font-size:12px;font-weight:700;color:var(--muted);border-radius:9px;cursor:pointer;transition:.16s}
@@ -2153,6 +2191,9 @@
   .tab-screen[data-screen="home"] .home-block.todo-block{
     background:transparent;border:none;box-shadow:none;backdrop-filter:none;
     border-radius:0;padding:0;margin-bottom:12px}
+  .tab-screen[data-screen="home"] .home-block.home-cal-block{
+    background:transparent;border:none;box-shadow:none;backdrop-filter:none;
+    border-radius:0;padding:0;margin-bottom:12px}
   .tab-screen[data-screen="home"] .home-block.todo-block .block-head{margin:0 4px 12px}
   .tab-screen[data-screen="home"] .home-block.todo-block #home-todo-list .ht-card{
     background:#FFFDF9;border:1px solid #F4E9DA;border-radius:20px;padding:2px 15px;
@@ -2266,10 +2307,10 @@
   .tab-screen[data-screen="home"] .ql-block{background:transparent;border:none;padding:0;margin-bottom:12px}
   .tab-screen[data-screen="home"] .ql-block .pbc-ql-head{display:none}
   .tab-screen[data-screen="home"] .ql-block .pbc-ql-wrap{background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
-  .tab-screen[data-screen="home"] .ql-block #hl-row{display:flex;gap:9px;background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
-  .tab-screen[data-screen="home"] .ql-block #hl-row .ql{flex:1 1 0;min-width:0;border:none;background:#FFFDFB;border-radius:18px;
+  .tab-screen[data-screen="home"] .ql-block #hl-row{display:flex;flex-wrap:wrap;gap:9px;background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
+  .tab-screen[data-screen="home"] .ql-block #hl-row .ql{flex:0 0 calc(25% - 7px);min-width:0;border:none;background:#FFFDFB;border-radius:18px;
     padding:12px 2px 30px;display:flex;flex-direction:column;align-items:center;gap:6px;
-    box-shadow:0 8px 18px rgba(206,140,90,.11)}
+    box-shadow:0 8px 18px rgba(206,140,90,.11);position:relative}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-ic{width:40px;height:40px;border-radius:13px}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-ic .ico{width:22px;height:22px}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-lab{font-size:13.5px;font-weight:800;color:#4E3B30;letter-spacing:.3px}
@@ -2730,6 +2771,7 @@
                 <span>快速记录 · 点一下就记好</span>
               </div>
               <div class="pbc-ql-row" id="hl-row"></div>
+              <div class="ql-longpress-hint" id="ql-longpress-hint">💡 长按图标可进入详细记录页</div>
               </div>
             </div><!-- /.ql-block -->
 
@@ -2760,6 +2802,26 @@
                   <span class="ab-mini-title" id="ab-mini-title">—</span>
                 </span>
                 <svg class="ico fq-go"><use href="#i-chev-r"/></svg>
+              </div>
+            </div>
+
+            <!-- 模块 5：本月日历（从记录页迁移到首页，点日期可看/补当天记录） -->
+            <div class="home-block home-cal-block">
+              <div class="home-cal" id="home-cal">
+                <div class="hcal-head">
+                  <div class="m"><b>9 月</b><span>2026</span></div>
+                  <span class="today-tag">今天 · 7 号</span>
+                  <div class="nav"><span title="上个月">‹</span><span title="下个月">›</span></div>
+                </div>
+                <div class="cal-grid">
+                  <div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div>
+                  <div class="d dim"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">31</span><span class="dd"></span></div><div class="d"><span class="dn">1</span><span class="dd"></span></div><div class="d dot"><span class="dn">2</span><span class="dd"></span></div><div class="d"><span class="dn">3</span><span class="dd"></span></div><div class="d dot"><span class="dn">4</span><span class="dd"></span></div><div class="d"><span class="dn">5</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">6</span><span class="dd"></span></div><div class="d today"><span class="dn">7</span><span class="dd"></span></div><div class="d"><span class="dn">8</span><span class="dd"></span></div><div class="d"><span class="dn">9</span><span class="dd"></span></div><div class="d dot"><span class="dn">10</span><span class="dd"></span></div><div class="d"><span class="dn">11</span><span class="dd"></span></div><div class="d"><span class="dn">12</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">13</span><span class="dd"></span></div><div class="d"><span class="dn">14</span><span class="dd"></span></div><div class="d"><span class="dn">15</span><span class="dd"></span></div><div class="d"><span class="dn">16</span><span class="dd"></span></div><div class="d"><span class="dn">17</span><span class="dd"></span></div><div class="d dot"><span class="dn">18</span><span class="dd"></span></div><div class="d dot pink"><span class="dn">19</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">20</span><span class="dd"></span></div><div class="d"><span class="dn">21</span><span class="dd"></span></div><div class="d dot"><span class="dn">22</span><span class="dd"></span></div><div class="d"><span class="dn">23</span><span class="dd"></span></div><div class="d"><span class="dn">24</span><span class="dd"></span></div><div class="d"><span class="dn">25</span><span class="dd"></span></div><div class="d"><span class="dn">26</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">27</span><span class="dd"></span></div><div class="d"><span class="dn">28</span><span class="dd"></span></div><div class="d"><span class="dn">29</span><span class="dd"></span></div><div class="d"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">1</span><span class="dd"></span></div><div class="d dim"><span class="dn">2</span><span class="dd"></span></div><div class="d dim"><span class="dn">3</span><span class="dd"></span></div>
+                </div>
+                <div class="cal-legend"><span><i></i>待办</span><span><i class="green"></i>记录</span><span><i class="pink"></i>纪念日</span></div>
               </div>
             </div>
             </div><!-- /.home-shell -->
@@ -2868,37 +2930,8 @@
               <div class="chip" data-cat="clean">打理清扫</div>
               <div class="chip" data-cat="other">其他</div>
             </div>
-              <div class="rec-overview">
-              <div class="section-head"><b>体重变化</b><a data-open="pg-weight">详情 ›</a></div>
-              <div class="trend-card" data-open="pg-weight" style="cursor:pointer">
-                <div class="trend-head"><div class="range-chips" id="weight-range"><span class="chip on" data-range="3m">近3月</span><span class="chip" data-range="6m">近6月</span><span class="chip" data-range="1y">近1年</span></div></div>
-                <svg id="weight-trend-svg" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid meet"></svg>
-                <div class="weight-empty" id="weight-empty"></div>
-                <div class="trend-legend" id="trend-legend">🐾 体重稳步上升 · 健康在线</div>
-              </div>
-              </div>
 
-              <div class="rec-overview">
-              <div class="section-head"><b>本月日历</b></div>
-              <div class="home-cal" id="home-cal">
-                <div class="hcal-head">
-                  <div class="m"><b>9 月</b><span>2026</span></div>
-                  <span class="today-tag">今天 · 7 号</span>
-                  <div class="nav"><span title="上个月">‹</span><span title="下个月">›</span></div>
-                </div>
-                <div class="cal-grid">
-                  <div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div>
-                  <div class="d dim"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">31</span><span class="dd"></span></div><div class="d"><span class="dn">1</span><span class="dd"></span></div><div class="d dot"><span class="dn">2</span><span class="dd"></span></div><div class="d"><span class="dn">3</span><span class="dd"></span></div><div class="d dot"><span class="dn">4</span><span class="dd"></span></div><div class="d"><span class="dn">5</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">6</span><span class="dd"></span></div><div class="d today"><span class="dn">7</span><span class="dd"></span></div><div class="d"><span class="dn">8</span><span class="dd"></span></div><div class="d"><span class="dn">9</span><span class="dd"></span></div><div class="d dot"><span class="dn">10</span><span class="dd"></span></div><div class="d"><span class="dn">11</span><span class="dd"></span></div><div class="d"><span class="dn">12</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">13</span><span class="dd"></span></div><div class="d"><span class="dn">14</span><span class="dd"></span></div><div class="d"><span class="dn">15</span><span class="dd"></span></div><div class="d"><span class="dn">16</span><span class="dd"></span></div><div class="d"><span class="dn">17</span><span class="dd"></span></div><div class="d dot"><span class="dn">18</span><span class="dd"></span></div><div class="d dot pink"><span class="dn">19</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">20</span><span class="dd"></span></div><div class="d"><span class="dn">21</span><span class="dd"></span></div><div class="d dot"><span class="dn">22</span><span class="dd"></span></div><div class="d"><span class="dn">23</span><span class="dd"></span></div><div class="d"><span class="dn">24</span><span class="dd"></span></div><div class="d"><span class="dn">25</span><span class="dd"></span></div><div class="d"><span class="dn">26</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">27</span><span class="dd"></span></div><div class="d"><span class="dn">28</span><span class="dd"></span></div><div class="d"><span class="dn">29</span><span class="dd"></span></div><div class="d"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">1</span><span class="dd"></span></div><div class="d dim"><span class="dn">2</span><span class="dd"></span></div><div class="d dim"><span class="dn">3</span><span class="dd"></span></div>
-                </div>
-                <div class="cal-legend"><span><i></i>待办</span><span><i class="green"></i>记录</span><span><i class="pink"></i>纪念日</span></div>
-              </div>
-              </div>
-
-              <div class="section-head" style="margin-top:16px"><b>全部记录</b></div>
+              <div class="section-head" style="margin-top:4px"><b>全部记录</b></div>
               <div id="my-records-wrap"></div>
               <div style="height:40px"></div>
           </div>
@@ -2964,6 +2997,7 @@
             <div class="menu">
               <div class="menu-item" data-open="pg-ai-center" data-as-intent="insight"><div class="m-ico" style="background:var(--lav-soft);color:var(--lav)"><svg class="ico"><use href="#i-sparkle"/></svg></div><div class="m-body">AI 健康管家</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-ocr"><div class="m-ico" style="background:var(--primary-soft);color:var(--primary-600)"><svg class="ico"><use href="#i-camera-ai"/></svg></div><div class="m-body">体检报告上传</div><span class="m-val">OCR 智能识别</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
+              <div class="menu-item" id="mine-dl-entry" data-open="pg-dog-license"><div class="m-ico" style="background:#FFF1DC;color:#E58A5C"><svg class="ico"><use href="#i-shield"/></svg></div><div class="m-body">狗证档案</div><span class="m-val">狗狗登记管理</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-help"><div class="m-ico"><svg class="ico"><use href="#i-info"/></svg></div><div class="m-body">帮助与反馈</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-about"><div class="m-ico"><svg class="ico fill"><use href="#i-paw"/></svg></div><div class="m-body">关于</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
             </div>
@@ -3133,7 +3167,7 @@
             </div>
 
             <div class="ob-group-title">这些可以先跳过<span class="tag-opt">选填 · 之后随时补</span></div>
-            <div class="field"><label>品种</label><input type="text" id="ob-breed" placeholder="如：英国短毛猫（不清楚可以先不填）"></div>
+            <div class="field"><label>品种</label><select id="ob-breed"></select></div>
             <div class="field"><label>绝育情况</label>
               <div class="type-grid pick-flat" style="grid-template-columns:repeat(3,1fr)" id="ob-neutered-grid">
                 <div class="cell" data-val="yes"><span class="ic teal"><svg class="ico" style="width:20px;height:20px"><use href="#i-check"/></svg></span>已绝育</div>
@@ -3315,6 +3349,12 @@
             </div>
             <div class="btn btn-primary" id="rec-form-save" style="margin-top:18px">保存记录</div>
           </div>
+        </div>
+
+        <!-- ============ 覆盖层：专属记录录入（驱虫/疫苗/洗澡… 每个事项有自己的表单） ============ -->
+        <div class="page" id="pg-record-form">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle" id="rf-title">记录</div><div class="pact" id="rf-save-top">保存</div></div>
+          <div class="scroll" id="rf-scroll"></div>
         </div>
 
         <!-- ============ 覆盖层：新建分类 ============ -->
@@ -3572,22 +3612,72 @@
           </div>
         </div>
 
-        <!-- ============ 覆盖层：体重记录 ============ -->
+                <!-- ============ 覆盖层：体重记录（从宠物档案进入，顶部折线图 + 动态历史列表）============ -->
         <div class="page" id="pg-weight">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">体重记录</div><div class="pact" data-open="pg-new-record">记一笔</div></div>
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">体重记录</div><div class="pact" id="weight-add-btn">记一笔</div></div>
           <div class="scroll">
-            <div class="mascot-hero card" style="margin-bottom:14px">
-              <img src="data:image/jpeg;base64,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" alt="小白" decoding="async">
-              <b>4.2 kg</b><span>小白 · 较上月 +0.1 kg · 标准范围</span>
+            <!-- 当前体重概览 -->
+            <div class="card" id="weight-summary" style="padding:14px 16px;margin-bottom:14px"></div>
+
+            <!-- 趋势折线图 -->
+            <div class="section-head" style="margin-top:2px"><b>体重趋势</b></div>
+            <div class="card" style="padding:14px 12px 10px">
+              <div class="trend-head">
+                <div class="range-chips" id="weight-range">
+                  <div class="chip on" data-range="3m">近 3 月</div>
+                  <div class="chip" data-range="6m">近 6 月</div>
+                  <div class="chip" data-range="1y">近 1 年</div>
+                </div>
+              </div>
+              <svg id="weight-trend-svg" viewBox="0 0 320 118" preserveAspectRatio="xMidYMid meet"></svg>
+              <div class="trend-legend" id="trend-legend"></div>
+              <div class="weight-empty" id="weight-empty" style="display:none"></div>
             </div>
-            <div class="section-head"><b>历史记录</b></div>
-            <div class="card" style="padding:4px 14px">
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.2 kg</b><span>2026-09-06 · 稳定</span></div><span class="rem-tag slate">最新</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.1 kg</b><span>2026-08-02 · 稳定</span></div><span class="rem-tag slate">持平</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.0 kg</b><span>2026-07-05 · 正常</span></div><span class="rem-tag green">+0.1</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>3.9 kg</b><span>2026-06-01 · 略轻</span></div><span class="rem-tag green">+0.1</span></div>
+
+            <!-- 历史记录（JS 动态渲染） -->
+            <div class="section-head" style="margin-top:6px"><b>历史记录</b></div>
+            <div class="card" id="weight-history-list" style="padding:4px 14px"></div>
+            <div class="ai-note" id="weight-breed-tip" style="display:none"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span></span></div>
+          </div>
+        </div>
+
+        <!-- ============ 覆盖层：狗证录入（仅狗狗）============ -->
+        <div class="page" id="pg-dog-license">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">狗证档案</div><div class="pact" id="dl-edit-btn">编辑</div></div>
+          <div class="scroll">
+            <!-- 状态卡 -->
+            <div class="card" id="dl-status" style="padding:16px;margin-bottom:14px"></div>
+
+            <!-- 登记信息 -->
+            <div class="section-head"><b>登记信息</b></div>
+            <div class="card" id="dl-info" style="padding:6px 14px;margin-bottom:14px"></div>
+
+            <!-- 关联宠物 -->
+            <div class="section-head"><b>关联宠物</b></div>
+            <div class="card" id="dl-pet-card" style="padding:14px 16px;margin-bottom:14px"></div>
+
+            <!-- 温馨提示 -->
+            <div class="ai-note"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span>依据《动物防疫法》与各地养犬管理条例，狗狗需办理养犬登记，按时年检。</span></div>
+
+            <!-- 编辑/录入表单（默认隐藏） -->
+            <div class="card" id="dl-form" style="display:none;padding:14px 16px;margin-top:14px">
+              <div class="section-head" style="margin-top:0"><b>登记信息填写</b></div>
+              <div class="field" style="margin-bottom:10px"><label>犬只名称</label><input type="text" id="dl-f-name" placeholder="请填写犬只名称"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记证号</label><input type="text" id="dl-f-no" placeholder="养犬登记证号 / 牌号"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记城市</label><input type="text" id="dl-f-city" placeholder="如：北京市朝阳区"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记机关</label><input type="text" id="dl-f-agency" placeholder="如：xx 公安局养犬管理办公室"></div>
+              <div style="display:flex;gap:10px;margin-bottom:10px">
+                <div class="field" style="flex:1;margin:0"><label>登记日期</label><input type="date" id="dl-f-date"></div>
+                <div class="field" style="flex:1;margin:0"><label>有效期至</label><input type="date" id="dl-f-expire"></div>
+              </div>
+              <div class="field" style="margin-bottom:14px"><label>犬牌颜色</label>
+                <div class="type-grid" id="dl-f-color" style="margin-top:6px">
+                  <div class="cell" data-val="red"><span class="ic coral"><svg class="ico"><use href="#i-paw"/></svg></span>红牌 · 大型犬</div>
+                  <div class="cell on" data-val="green"><span class="ic mint"><svg class="ico"><use href="#i-paw"/></svg></span>绿牌 · 小型犬</div>
+                </div>
+              </div>
+              <div class="btn btn-primary" id="dl-save-btn">保存狗证信息</div>
             </div>
-            <div class="ai-note"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span>英短成年公猫健康体重区间 3.8–4.5 kg。</span></div>
           </div>
         </div>
 
@@ -3626,6 +3716,10 @@
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">今日待办</div><div class="pact" data-open="pg-new-reminder" style="cursor:pointer">新增</div></div>
           <div class="scroll">
             <div class="todo-pet-switch" id="todo-pet-switch"></div>
+            <div class="mr-filters" id="todo-filters">
+              <div class="mr-filter on" data-todofilter="today">今日</div>
+              <div class="mr-filter" data-todofilter="all">全部</div>
+            </div>
             <div id="todo-page-body"></div>
             <div style="text-align:center;font-size:11px;color:var(--muted);margin:6px 16px 16px;line-height:1.6">点左侧圆圈即可勾掉并自动记一笔；左滑不了的话点右侧图标可删除。新增的提醒也会同步到首页与日历。</div>
           </div>
@@ -4360,6 +4454,8 @@
       if(id === 'pg-family' && typeof renderFamily === 'function') renderFamily();
       if(id === 'pg-todo' && typeof renderTodoPage === 'function') renderTodoPage();
       if(id === 'pg-search' && typeof resetRecSearch === 'function') resetRecSearch();
+      if(id === 'pg-weight' && typeof renderWeightPage === 'function') renderWeightPage();
+      if(id === 'pg-dog-license' && typeof renderDogLicensePage === 'function') renderDogLicensePage();
     }
     document.querySelectorAll('[data-open]').forEach(function(el){
       el.addEventListener('click', function(e){
@@ -5125,6 +5221,15 @@
     recCells().forEach(function(cell){
       cell.addEventListener('click', function(){
         if(cell.hasAttribute('data-open')) return;
+        // 内置事项：直接进入该事项的专属录入表单（驱虫/疫苗/洗澡…各有各的字段）
+        var dk = cell.getAttribute('data-key');
+        if(dk && typeof REC_FORMS !== 'undefined' && REC_FORMS[dk] && cell.style.display !== 'none'){
+          if(openRecordFormRF(activeHomePet, dk, {})){
+            var pgn = document.getElementById('pg-new-record');
+            if(pgn) pgn.classList.remove('open');
+          }
+          return;
+        }
         selectRecCell(cell);
         if(recTitle){ recTitle.textContent = cell.textContent.trim(); }
       });
@@ -5199,9 +5304,450 @@
       // 关联宠物模块已移除：记录默认归属当前首页宠物，这里仅同步猫 / 狗专属分类的显隐
       syncRecordTypesByPet(petKey || activeHomePet);
     }
+    // ===== 专属记录录入：每个事项有自己的表单（如驱虫：类型/药品/剂量/日期/下次/备注） =====
+    var REC_META = {
+      deworm:{title:'记录驱虫', recTitle:'驱虫', ico:'i-droplet', icoCls:'amber', cat:'health', sub:'填写以下信息，保存后自动归档并更新提醒'},
+      vaccine:{title:'记录疫苗', recTitle:'疫苗', ico:'i-medical', icoCls:'teal', cat:'health', sub:'接种信息保存后自动归档，并生成下次接种提醒'},
+      checkup:{title:'记录体检', recTitle:'体检', ico:'i-clipcheck', icoCls:'blue', cat:'health', sub:'记录体检结果，健康时间线持续更新'},
+      medicine:{title:'记录用药', recTitle:'用药', ico:'i-capsule', icoCls:'pink', cat:'health', sub:'记下药名与剂量，用药周期不错过'},
+      weight:{title:'记录体重', recTitle:'体重记录', ico:'i-scale', icoCls:'slate', cat:'health', sub:'记一笔自动汇入体重趋势图'},
+      bath:{title:'记录洗澡', recTitle:'洗澡', ico:'i-bath', icoCls:'blue', cat:'groom', sub:'洗护记录自动归档到清洁时间线'},
+      nail:{title:'记录剪指甲', recTitle:'剪指甲', ico:'i-nail', icoCls:'pink', cat:'groom', sub:'记录修剪情况，到点提醒下一次'},
+      tooth:{title:'记录刷牙', recTitle:'刷牙', ico:'i-tooth', icoCls:'teal', cat:'groom', sub:'坚持刷牙，牙齿健康看得见'},
+      anal:{title:'记录挤肛门腺', recTitle:'挤肛门腺', ico:'i-anal', icoCls:'coral', cat:'groom', sub:'定期清理，减少体味与不适', dogOnly:true},
+      feed:{title:'记录喂食', recTitle:'喂食', ico:'i-food', icoCls:'coral', cat:'daily', sub:'记一餐，喂养规律一目了然'},
+      water:{title:'记录喝水', recTitle:'喝水', ico:'i-droplet', icoCls:'blue', cat:'daily', sub:'记下饮水量，关注 TA 的饮水健康'},
+      litter:{title:'记录铲屎', recTitle:'铲屎', ico:'i-litter', icoCls:'slate', cat:'daily', sub:'两便情况是健康的晴雨表', catOnly:true},
+      play:{title:'记录玩耍', recTitle:'玩耍', ico:'i-paw', icoCls:'pink', cat:'daily', sub:'记下开心时光，运动量也能追踪'},
+      walk:{title:'记录遛狗', recTitle:'遛狗', ico:'i-walk', icoCls:'teal', cat:'daily', sub:'遛狗时长与排便情况一起记', dogOnly:true},
+      poop:{title:'记录便便', recTitle:'便便', ico:'i-poop', icoCls:'amber', cat:'daily', sub:'便便性状直接反映肠胃状态'},
+      cage:{title:'记录洗笼子', recTitle:'洗笼子', ico:'i-cage', icoCls:'slate', cat:'clean', sub:'清洗消毒记录，居住环境更干净'},
+      bowl:{title:'记录洗餐具', recTitle:'洗餐具', ico:'i-bowl', icoCls:'amber', cat:'clean', sub:'饭碗水碗常洗，入口更安心'},
+      litterchg:{title:'记录换猫砂', recTitle:'换猫砂', ico:'i-litter', icoCls:'slate', cat:'clean', sub:'猫砂定期换，如厕更清爽', catOnly:true}
+    };
+    // field 类型：seg 单选 / text 文本 / num 数字 / date 日期 / dateNext 下次提醒 / area 备注
+    var REC_FORMS = {
+      deworm:[
+        {t:'seg', k:'type', label:'驱虫类型', req:true, opts:['体外','体内','体内外']},
+        {t:'text', k:'drug', label:'药品名', ph:'如：大宠爱'},
+        {t:'text', k:'dose', label:'剂量', ph:'如：0.75ml'},
+        {t:'date', k:'date', label:'驱虫日期', req:true},
+        {t:'dateNext', k:'next', label:'下次驱虫', hint:'根据驱虫日期自动推算，可修改', days:30},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      vaccine:[
+        {t:'seg', k:'type', label:'疫苗类型', req:true, opts:['猫三联','狂犬疫苗','多联疫苗','其他']},
+        {t:'text', k:'name', label:'疫苗名称', ph:'如：妙三多'},
+        {t:'seg', k:'shot', label:'针次', opts:['第 1 针','第 2 针','第 3 针','加强针']},
+        {t:'date', k:'date', label:'接种日期', req:true},
+        {t:'dateNext', k:'next', label:'下次接种', hint:'根据接种日期自动推算，可修改', days:365},
+        {t:'area', k:'note', label:'备注', ph:'接种反应、医院等（选填）'}
+      ],
+      checkup:[
+        {t:'text', k:'hospital', label:'医院 / 机构', ph:'如：伴侣宠物医院'},
+        {t:'seg', k:'type', label:'体检类型', opts:['年度体检','常规复查','术前检查']},
+        {t:'date', k:'date', label:'体检日期', req:true},
+        {t:'area', k:'result', label:'体检结论 / 异常发现', ph:'如：各项指标正常（选填）'},
+        {t:'text', k:'report', label:'报告附件', ph:'如：已归档 / 化验单编号'}
+      ],
+      medicine:[
+        {t:'text', k:'name', label:'药品名', ph:'如：阿莫西林'},
+        {t:'text', k:'dose', label:'剂量', ph:'如：50mg'},
+        {t:'seg', k:'way', label:'用药方式', opts:['口服','外用','注射']},
+        {t:'date', k:'date', label:'用药日期', req:true},
+        {t:'seg', k:'status', label:'用药状态', opts:['单次','持续中','疗程结束']},
+        {t:'area', k:'note', label:'备注', ph:'服药反应等（选填）'}
+      ],
+      weight:[
+        {t:'num', k:'kg', label:'本次体重', ph:'如：4.2', unit:'kg', step:'0.1', req:true},
+        {t:'date', k:'date', label:'称重日期', req:true},
+        {t:'seg', k:'bcs', label:'体况评级', opts:['偏瘦','标准','偏胖']},
+        {t:'text', k:'way', label:'测量方式', ph:'如：体重秤'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      bath:[
+        {t:'date', k:'date', label:'洗澡日期', req:true},
+        {t:'seg', k:'place', label:'洗澡方式', opts:['在家','宠物店']},
+        {t:'text', k:'supply', label:'用品', ph:'如：宠物香波'},
+        {t:'seg', k:'dry', label:'是否吹干', opts:['已吹干','自然干']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      nail:[
+        {t:'date', k:'date', label:'修剪日期', req:true},
+        {t:'seg', k:'range', label:'修剪范围', opts:['全部爪子','前爪','后爪']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      tooth:[
+        {t:'date', k:'date', label:'刷牙日期', req:true},
+        {t:'seg', k:'way', label:'刷牙方式', opts:['牙刷','洁牙零食','医院洗牙']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      anal:[
+        {t:'date', k:'date', label:'处理日期', req:true},
+        {t:'seg', k:'way', label:'处理方式', opts:['美容店处理','在家处理']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      feed:[
+        {t:'date', k:'date', label:'喂食时间', req:true},
+        {t:'seg', k:'meal', label:'餐次', opts:['早餐','午餐','晚餐','加餐']},
+        {t:'seg', k:'ftype', label:'食物类型', opts:['主食','零食','罐头','保健品']},
+        {t:'text', k:'name', label:'食物名称', ph:'如：主食罐'},
+        {t:'text', k:'amount', label:'分量', ph:'如：80g'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      water:[
+        {t:'date', k:'date', label:'喝水时间', req:true},
+        {t:'num', k:'ml', label:'饮水量', ph:'如：150', unit:'ml', step:'10'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      litter:[
+        {t:'date', k:'date', label:'铲屎时间', req:true},
+        {t:'seg', k:'poop', label:'便便状态', opts:['正常','偏软','腹泻','无']},
+        {t:'seg', k:'pee', label:'尿量', opts:['正常','偏多','偏少','无']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      play:[
+        {t:'date', k:'date', label:'玩耍时间', req:true},
+        {t:'num', k:'mins', label:'时长', ph:'如：20', unit:'分钟', step:'5'},
+        {t:'text', k:'content', label:'玩耍内容', ph:'如：逗猫棒'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      walk:[
+        {t:'date', k:'date', label:'遛狗时间', req:true},
+        {t:'num', k:'mins', label:'时长', ph:'如：30', unit:'分钟', step:'5'},
+        {t:'text', k:'route', label:'路线', ph:'常走路线（选填）'},
+        {t:'seg', k:'poop', label:'便便情况', opts:['正常','偏软','无']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      poop:[
+        {t:'date', k:'date', label:'便便时间', req:true},
+        {t:'seg', k:'shape', label:'性状', opts:['正常','偏软','腹泻']},
+        {t:'seg', k:'color', label:'颜色', opts:['正常','发黑','带血']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      cage:[
+        {t:'date', k:'date', label:'清洗日期', req:true},
+        {t:'seg', k:'way', label:'处理方式', opts:['清洗','清洗 + 消毒']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      bowl:[
+        {t:'date', k:'date', label:'清洗日期', req:true},
+        {t:'seg', k:'range', label:'清洗范围', opts:['水碗','饭盆','水碗 + 饭盆']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      litterchg:[
+        {t:'date', k:'date', label:'更换日期', req:true},
+        {t:'seg', k:'way', label:'更换方式', opts:['整盆更换','局部添加']},
+        {t:'text', k:'kind', label:'猫砂种类', ph:'如：豆腐砂'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ]
+    };
+    var rfState = {key:null, petKey:null, mode:'create', editId:null, editPet:null, date:null, timeMin:12*60, fromDay:false, vals:{}, nextAuto:{}};
+    function rfFmtDate(d){ return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'; }
+    function rfISO(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+    function rfParseLooseDate(str, baseDate){
+      if(!str) return null;
+      var m = String(str).match(/(\d{4})[-年\/.](\d{1,2})[-月\/.](\d{1,2})/);
+      if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+      var m2 = String(str).match(/(\d{1,2})[-月\/.](\d{1,2})/);
+      if(m2 && baseDate) return new Date(baseDate.getFullYear(), +m2[1]-1, +m2[2]);
+      return null;
+    }
+    // 从一条已存在记录反推它属于哪个专属表单（编辑时用）
+    function recKeyOfRec(rec){
+      if(rec.key && REC_META[rec.key]) return rec.key;
+      var t = rec.title || '';
+      if(/换猫砂/.test(t)) return 'litterchg';
+      if(/驱虫/.test(t)) return 'deworm';
+      if(/疫苗|狂犬/.test(t)) return 'vaccine';
+      if(/体检|检查/.test(t)) return 'checkup';
+      if(/体重|称重/.test(t)) return 'weight';
+      if(/药/.test(t)) return 'medicine';
+      if(/肛门腺/.test(t)) return 'anal';
+      if(/洗澡|美容/.test(t)) return 'bath';
+      if(/指甲|剪爪/.test(t)) return 'nail';
+      if(/刷牙|牙齿/.test(t)) return 'tooth';
+      if(/喂|吃|食/.test(t)) return 'feed';
+      if(/水/.test(t)) return 'water';
+      if(/铲屎|猫砂/.test(t)) return 'litter';
+      if(/玩耍/.test(t)) return 'play';
+      if(/遛/.test(t)) return 'walk';
+      if(/便便|拉屎/.test(t)) return 'poop';
+      if(/笼子|猫窝|狗窝/.test(t)) return 'cage';
+      if(/餐具|洗碗|碗/.test(t)) return 'bowl';
+      var hit = null;
+      Object.keys(REC_META).forEach(function(k){ if(REC_META[k].ico === rec.ico) hit = k; });
+      return hit;
+    }
+    function rfFieldVal(rec, f){
+      var fmap = rec.fields || {};
+      var hit = null;
+      Object.keys(fmap).forEach(function(k){
+        if(hit == null && k.indexOf(f.label) >= 0) hit = fmap[k];
+      });
+      return hit;
+    }
+    function renderRecordForm(){
+      var meta = REC_META[rfState.key];
+      var fields = REC_FORMS[rfState.key] || [];
+      var pet = HOME_PETS[rfState.petKey] || HOME_PETS[activeHomePet] || {name:''};
+      var titleEl = document.getElementById('rf-title');
+      if(titleEl) titleEl.textContent = meta.title;
+      var scroll = document.getElementById('rf-scroll');
+      if(!scroll) return;
+      var isEdit = rfState.mode === 'edit';
+      var html = '';
+      html += '<div class="rf-pet-line"><svg class="ico"><use href="#i-paw"/></svg>正在为 <b>'+escHtml(pet.name)+'</b> 记录 · '+escHtml(meta.recTitle)+'</div>';
+      html += '<div class="rf-hero"><div class="rf-h-ic"><svg class="ico"><use href="#'+meta.ico+'"/></svg></div>'
+        + '<div class="rf-h-title">'+meta.title+'</div>'
+        + '<div class="rf-h-sub">'+meta.sub+'</div></div>';
+      html += '<div class="rf-card">';
+      fields.forEach(function(f){
+        if(f.t === 'seg'){
+          var curSeg = rfState.vals[f.k];
+          html += '<div class="rf-row stack"><div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')+'</div>'
+            + '<div class="rf-seg" data-rfk="'+f.k+'">'
+            + f.opts.map(function(o, i){ return '<div class="rf-opt'+((curSeg?o===curSeg:i===0)?' on':'')+'" data-val="'+escHtml(o)+'">'+escHtml(o)+'</div>'; }).join('')
+            + '</div></div>';
+        } else if(f.t === 'area'){
+          var v0 = rfState.vals[f.k] || '';
+          html += '<div class="rf-row stack"><div class="rf-k">'+f.label+'</div>'
+            + '<textarea class="rf-area" data-rfk="'+f.k+'" placeholder="'+escHtml(f.ph||'')+'">'+escHtml(v0)+'</textarea></div>';
+        } else if(f.t === 'date' || f.t === 'dateNext'){
+          var dv = f.t === 'date' ? rfState.date : rfState.vals[f.k];
+          var disp = dv ? rfFmtDate(dv) : (f.t==='dateNext' ? '自动推算' : '点击选择日期');
+          html += '<div class="rf-row'+(f.t==='dateNext'?' rf-next-row':'')+'" data-rfdate="'+f.k+'"'
+            + (f.t==='dateNext'?' data-days="'+(f.days||30)+'"':'') + ' style="cursor:pointer">'
+            + '<div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')
+            + (f.hint?'<span class="rf-hint">'+f.hint+'</span>':'')+'</div>'
+            + '<div class="rf-v '+(dv?'':'rf-ph')+'">'+escHtml(disp)+'</div></div>';
+        } else {
+          var tv = rfState.vals[f.k] || '';
+          html += '<div class="rf-row"><div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')+'</div>'
+            + '<div class="rf-v"><input type="'+(f.t==='num'?'number':'text')+'"'+(f.step?' step="'+f.step+'"':'')
+            + ' data-rfk="'+f.k+'" placeholder="'+escHtml(f.ph||'')+'" value="'+escHtml(tv)+'"></div>'
+            + (f.unit?'<span style="font-size:11px;color:var(--muted);font-weight:700;margin-left:-4px">'+f.unit+'</span>':'')+'</div>';
+        }
+      });
+      html += '</div>';
+      html += '<div class="btn btn-primary" id="rf-save">'+(isEdit?'保存修改':'保存记录')+'</div>';
+      html += '<div class="rf-foot-tip">保存后自动归档到健康时间线'+(/deworm|vaccine/.test(rfState.key)?'，并更新相关提醒':'')+'</div>';
+      html += '<div style="height:24px"></div>';
+      scroll.innerHTML = html;
+      bindRecordFormEvents(fields);
+      var saveTop = document.getElementById('rf-save-top');
+      if(saveTop) saveTop.onclick = saveRecordFormRF;
+    }
+    function rfPickDate(initDate, title, allowEmpty){
+      var iso = rfISO(initDate);
+      var nv = prompt(title+'（格式 YYYY-MM-DD）'+(allowEmpty?'，留空清除':''), iso);
+      if(nv === null) return null;
+      nv = nv.trim();
+      if(!nv && allowEmpty) return false;
+      var m = nv.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+      if(!m){ showToast('日期格式不对，示例：2026-09-08'); return null; }
+      return new Date(+m[1], +m[2]-1, +m[3]);
+    }
+    function bindRecordFormEvents(fields){
+      var scroll = document.getElementById('rf-scroll');
+      if(!scroll) return;
+      // 单选段
+      scroll.querySelectorAll('.rf-seg').forEach(function(seg){
+        var k = seg.getAttribute('data-rfk');
+        seg.querySelectorAll('.rf-opt').forEach(function(opt){
+          opt.addEventListener('click', function(){
+            seg.querySelectorAll('.rf-opt').forEach(function(x){ x.classList.remove('on'); });
+            opt.classList.add('on');
+            rfState.vals[k] = opt.getAttribute('data-val');
+          });
+        });
+      });
+      // 文本 / 数字 / 备注实时写入
+      scroll.querySelectorAll('[data-rfk]').forEach(function(inp){
+        if(inp.classList.contains('rf-area')){
+          inp.addEventListener('input', function(){ rfState.vals[inp.getAttribute('data-rfk')] = inp.value; });
+        } else {
+          inp.addEventListener('input', function(){ rfState.vals[inp.getAttribute('data-rfk')] = inp.value; });
+        }
+      });
+      // 日期选择（含时间）
+      scroll.querySelectorAll('[data-rfdate]').forEach(function(row){
+        row.addEventListener('click', function(){
+          var k = row.getAttribute('data-rfdate');
+          var isNext = row.classList.contains('rf-next-row');
+          var cur = rfState.vals[k] || rfState.date;
+          var nd = rfPickDate(cur || new Date(APP_TODAY), isNext ? '选择'+row.querySelector('.rf-k').childNodes[0].textContent : '选择日期', isNext);
+          if(nd === null) return;
+          if(nd === false){ rfState.vals[k] = null; rfState.nextAuto[k] = false; renderRecordForm(); return; }
+          if(!isNext){
+            rfState.date = dayStart(nd);
+            var tv = prompt('发生时间（24 小时制 HH:MM，留空=12:00）', ('0'+Math.floor(rfState.timeMin/60)).slice(-2)+':'+('0'+(rfState.timeMin%60)).slice(-2));
+            if(tv && tv.trim()){
+              var tm = tv.trim().match(/^(\d{1,2}):(\d{1,2})$/);
+              if(tm && +tm[1] <= 23 && +tm[2] <= 59) rfState.timeMin = +tm[1]*60 + +tm[2];
+            }
+            // 下次提醒日期：自动模式下跟随主日期重新推算
+            fields.forEach(function(f){
+              if(f.t === 'dateNext' && rfState.nextAuto[f.k] !== false){
+                rfState.vals[f.k] = new Date(rfState.date.getTime() + (f.days||30)*86400000);
+              }
+            });
+          } else {
+            rfState.nextAuto[k] = false;
+            rfState.vals[k] = dayStart(nd);
+          }
+          renderRecordForm();
+        });
+      });
+      var saveEl = document.getElementById('rf-save');
+      if(saveEl) saveEl.addEventListener('click', saveRecordFormRF);
+    }
+    function saveRecordFormRF(){
+      var meta = REC_META[rfState.key];
+      var fields = REC_FORMS[rfState.key] || [];
+      var vals = rfState.vals;
+      // 必填校验
+      for(var i=0;i<fields.length;i++){
+        var f = fields[i];
+        if(f.req){
+          if(f.t === 'date' && !rfState.date){ showToast('请选择'+f.label); return; }
+          if(f.t === 'seg' && !vals[f.k]){ showToast('请选择'+f.label); return; }
+          if((f.t === 'text' || f.t === 'num') && !String(vals[f.k]||'').trim()){ showToast('请填写'+f.label); return; }
+        }
+      }
+      var outFields = {};
+      var note = '';
+      fields.forEach(function(f){
+        if(f.t === 'date') return;
+        var v = vals[f.k];
+        if(f.t === 'area'){ note = (v||'').trim(); return; }
+        if(f.t === 'dateNext'){
+          if(v) outFields[f.label] = rfISO(v);
+          return;
+        }
+        if(f.t === 'seg'){
+          if(v) outFields[f.label] = v;
+          return;
+        }
+        var tv = String(v==null?'':v).trim();
+        if(!tv) return;
+        if(f.t === 'num'){
+          if(!isNaN(parseFloat(tv))) outFields[f.label] = tv + (f.unit==='kg'?' kg':(f.unit==='ml'?' ml':(f.unit==='分钟'?' 分钟':'')));
+          else outFields[f.label] = tv;
+        } else {
+          outFields[f.label] = tv;
+        }
+      });
+      var baseDate = rfState.date || dayStart(new Date(APP_TODAY));
+      var ts = baseDate.getTime() + (rfState.timeMin||12*60)*60000;
+      var payload = {
+        pet:rfState.petKey, cat:meta.cat, title:meta.recTitle, key:rfState.key,
+        ico:meta.ico, icoCls:meta.icoCls, source:'manual', note:note, ts:ts, fields:outFields
+      };
+      var petKey = rfState.petKey;
+      if(rfState.mode === 'edit' && rfState.editId){
+        var targetPet = rfState.editPet || petKey;
+        RecordStore.update(targetPet, rfState.editId, payload);
+        if(petKey !== targetPet){
+          var moved = RecordStore.get(targetPet, rfState.editId);
+          if(moved){ RecordStore.remove(targetPet, rfState.editId); RecordStore.add(petKey, moved); }
+        }
+      } else {
+        RecordStore.add(petKey, payload);
+        var fp = HOME_PETS[petKey];
+        if(dayStart(baseDate).getTime() === dayStart(new Date(APP_TODAY)).getTime() && fp) fp.logsToday = (fp.logsToday||0)+1;
+        activeHomePet = petKey;
+      }
+      // 下次提醒（驱虫 / 疫苗）自动写入提醒中心
+      var nf = null, nLabel = '';
+      fields.forEach(function(f){ if(f.t === 'dateNext' && vals[f.k]){ nf = vals[f.k]; nLabel = f.label; } });
+      if(nf && rfState.mode !== 'edit'){
+        try{
+          ReminderStore.add(petKey, {
+            title:'下次'+meta.recTitle,
+            petName:(HOME_PETS[petKey]||{}).name || '',
+            repeat:meta.recTitle==='疫苗'?'每年':'单次',
+            ahead:0,
+            tagCls:meta.icoCls,
+            tagText:'待处理',
+            due:dayStart(nf).getTime()+10*3600*1000
+          });
+        }catch(e){}
+      }
+      var pgRFEl = document.getElementById('pg-record-form');
+      if(pgRFEl) pgRFEl.classList.remove('open');
+      refreshAfterRecord(petKey);
+      if(rfState.fromDay && typeof openLastDay === 'function'){ openLastDay(); }
+      else { switchMainTab('records'); }
+      showToast('已保存「'+meta.recTitle+'」🐾');
+    }
+    function openRecordFormRF(petKey, key, opt){
+      opt = opt || {};
+      var meta0 = REC_META[key];
+      // 物种守卫：狗狗专属事项猫不能记，反之亦然
+      var petInfo0 = HOME_PETS[petKey] || {};
+      var species = petInfo0.speciesKey || (petKey === 'dog' ? 'dog' : 'cat');
+      if(meta0.dogOnly && species !== 'dog') return false;
+      if(meta0.catOnly && species !== 'cat') return false;
+      var meta = meta0;
+      rfState = {key:key, petKey:petKey, mode:'create', editId:null, editPet:null,
+        date:dayStart(new Date(APP_TODAY)), timeMin:12*60, fromDay:!!opt.fromDay, vals:{}, nextAuto:{}};
+      if(opt.date) rfState.date = dayStart(new Date(opt.date));
+      if(opt.editId){
+        var rec = RecordStore.get(petKey, opt.editId) || RecordStore.get(activeHomePet, opt.editId);
+        if(!rec){ showToast('找不到这条记录'); return false; }
+        rfState.petKey = rec.pet;
+        rfState.mode = 'edit';
+        rfState.editId = rec.id;
+        rfState.editPet = rec.pet;
+        var od = new Date(rec.ts);
+        rfState.date = dayStart(od);
+        rfState.timeMin = od.getHours()*60 + od.getMinutes();
+        (REC_FORMS[key]||[]).forEach(function(f){
+          if(f.t === 'date') return;
+          var v0 = rfFieldVal(rec, f);
+          if(v0 == null || v0 === '') return;
+          if(f.t === 'dateNext'){
+            var pd = rfParseLooseDate(v0, od);
+            if(pd){ rfState.vals[f.k] = pd; rfState.nextAuto[f.k] = false; }
+          } else if(f.t === 'num'){
+            var mm = String(v0).match(/(\d+(?:\.\d+)?)/);
+            if(mm) rfState.vals[f.k] = mm[1];
+          } else {
+            rfState.vals[f.k] = String(v0);
+          }
+        });
+        if(rec.note) rfState.vals.note = rec.note;
+      } else {
+        // 默认值：单选取第一项；下次提醒按默认周期自动推算
+        (REC_FORMS[key]||[]).forEach(function(f){
+          if(f.t === 'seg') rfState.vals[f.k] = f.opts[0];
+          if(f.t === 'dateNext'){
+            rfState.vals[f.k] = new Date(rfState.date.getTime() + (f.days||30)*86400000);
+            rfState.nextAuto[f.k] = true;
+          }
+        });
+        if(opt.presetNote) rfState.vals.note = opt.presetNote;
+      }
+      renderRecordForm();
+      openPage('pg-record-form');
+      return true;
+    }
+
     // 统一打开表单：opt={petKey,date,editId,fromDay}
     function openRecordForm(opt){
       opt = opt || {};
+      // 优先走专属表单：明确 presetKey，或编辑时能识别出事项类型；识别不出再回退通用「记一笔」
+      var specKey = null;
+      if(opt.editId){
+        var existRec = RecordStore.get(opt.petKey || activeHomePet, opt.editId) || RecordStore.get(activeHomePet, opt.editId);
+        if(existRec) specKey = recKeyOfRec(existRec);
+      } else if(opt.presetKey && REC_META[opt.presetKey]){
+        specKey = opt.presetKey;
+      }
+      if(specKey){
+        if(openRecordFormRF(opt.petKey || activeHomePet, specKey, opt)) return;
+      }
       var petKey = opt.petKey || activeHomePet;
       setRecPetSwitch(petKey);
       recFormState.fromDay = !!opt.fromDay;
@@ -5485,18 +6031,13 @@
       if(!p) return [];
       var byKey = {};
       quickCandidatesFor(petKey).forEach(function(c){ byKey[c.key] = c; });
-      // 保持用户配置的固定顺序（点击不重排），不再按使用频率排序
+      // 直接展示用户在管理面板里勾选的全部项（不再裁剪到 3 个或补默认项）
       var picked = (p.quickLogs || []).filter(function(q){ return byKey[q.key]; });
-      var chosenKeys = {};
-      picked.forEach(function(q){ chosenKeys[q.key] = true; });
-      var top = picked.slice(0,3);
-      if(top.length < 3){
-        quickCandidatesFor(petKey).forEach(function(c){
-          if(top.length >= 3) return;
-          if(!chosenKeys[c.key]){ chosenKeys[c.key] = true; top.push(c); }
-        });
+      // 兜底：用户从未配置过时，取默认前 3 项避免首页空白
+      if(picked.length === 0){
+        quickCandidatesFor(petKey).slice(0,3).forEach(function(c){ picked.push(c); });
       }
-      return top;
+      return picked;
     }
     function renderHeroStats(key){
       var p = HOME_PETS[key];
@@ -5530,6 +6071,13 @@
       if(offBox) offBox.style.display = 'none';
       row.style.display = 'flex';
       if(coach) coach.style.display = quickLogCoachSeen() ? 'none' : 'block';
+      // 长按引导：首次使用后隐藏
+      var lpHint = document.getElementById('ql-longpress-hint');
+      if(lpHint){
+        var lpSeen = false;
+        try{ lpSeen = JSON.parse(localStorage.getItem('petlog_set_longpressSeen')||'false'); }catch(e){}
+        lpHint.classList.toggle('hide', lpSeen);
+      }
       var init = p.quickInit || {};
       var displayLogs = topQuickLogs(key);
       row.innerHTML = displayLogs.map(function(q){
@@ -5616,8 +6164,12 @@
           clearTimeout(pressTimer);
           pressTimer = setTimeout(function(){
             longPressed = true;
+            try{ localStorage.setItem('petlog_set_longpressSeen','true'); }catch(e){}
+            var lpHint2 = document.getElementById('ql-longpress-hint');
+            if(lpHint2) lpHint2.classList.add('hide');
             var qk = el.getAttribute('data-key');
             if(qk === 'feed') openFeedSheet('food');
+            else if(typeof REC_FORMS !== 'undefined' && REC_FORMS[qk] && openRecordFormRF(key, qk, {})) { /* 专属表单已打开 */ }
             else openPage('pg-new-record');
           }, 500);
         }, {passive:true});
@@ -7728,8 +8280,8 @@
       var p = HOME_PETS[key];
       var pending = visibleTodayTodos(key);
       var doneMap = getTodoDone(key);
-      // 今日已完成项（排在卡片底部，弱化展示，对齐参考图「每日体重记录 · 已完成」）
-      var finished = getTodayTodos(key).filter(function(it){ return doneMap[it.uid]; });
+      // 首页只展示未完成待办，已完成项从首页消失（待办页仍可查看）
+      var finished = [];
       var hasDanger = pending.some(function(it){ return it.ico === 'danger'; });
       // 分层呼应：有逾期/紧急护理时，「今日待办」标题亮起风险脉冲点，与简报红色要闻呼应
       var pulse = document.getElementById('todo-pulse');
@@ -7854,6 +8406,7 @@
 
     // ===== 今日待办页：宠物切换 + 勾选完成/撤销 + 删除（跳过今日/删提醒），与首页同一份数据 =====
     var todoPetKey = null;
+    var todoListMode = 'today'; // 'today' | 'all'：全部视图含已完成的自定义提醒
     function todoItemRow(key, it, done){
       var tagHtml = '';
       if(!done){
@@ -7871,6 +8424,7 @@
     }
     function renderTodoPage(){
       var switchWrap = document.getElementById('todo-pet-switch');
+      var filterWrap = document.getElementById('todo-filters');
       var body = document.getElementById('todo-page-body');
       if(!body) return;
       var keys = Object.keys(HOME_PETS);
@@ -7885,16 +8439,39 @@
           c.addEventListener('click', function(){ todoPetKey = c.getAttribute('data-pet'); renderTodoPage(); });
         });
       }
+      if(filterWrap){
+        filterWrap.querySelectorAll('.mr-filter').forEach(function(c){
+          c.classList.toggle('on', c.getAttribute('data-todofilter') === todoListMode);
+          c.onclick = function(){ todoListMode = c.getAttribute('data-todofilter'); renderTodoPage(); };
+        });
+      }
       var doneMap = getTodoDone(key), skip = getTodoSkip(key);
-      var all = getTodayTodos(key);
+      var all;
+      if(todoListMode === 'all'){
+        // 全部视图：列出所有自定义提醒（含已完成）+ 周期 todos，按完成状态分组
+        all = p.todos.map(function(t){
+          return {src:'care', uid:t.uid, ico:t.ico, icon:t.icon, title:t.title, desc:t.desc,
+            type:t.type||t.title, meta:t.meta, next:t.next, tint:t.tint,
+            lastISO:t.lastISO, intervalDays:t.intervalDays, raw:t};
+        });
+        ReminderStore.list(key).forEach(function(r){
+          all.push({src:'rem', uid:'rem-'+r.id, ico:r.done?'teal':'amber', icon:r.icon||'i-bell-heart',
+            title:r.title, desc:p.name+' · '+(r.repeat||('今天'+(r.time?(' '+r.time):''))),
+            type:r.title, meta:r.note||r.repeat||'自定义提醒', next:r.repeat||'今天仅此一次',
+            tint:'blue', raw:r, __done:!!r.done});
+        });
+      } else {
+        all = getTodayTodos(key);
+      }
       var urgent = [], pending = [], finished = [];
       all.forEach(function(it){
-        if(skip[it.uid]) return;
-        if(doneMap[it.uid]) finished.push(it);
+        var isDone = (it.src === 'rem') ? !!it.__done : !!doneMap[it.uid];
+        if(todoListMode === 'today' && skip[it.uid]) return;
+        if(isDone) finished.push(it);
         else if(it.ico === 'danger') urgent.push(it);
         else pending.push(it);
       });
-      function card(title, list, tone){
+      function card(title, list){
         if(!list.length) return '';
         var head = '<div class="section-head"><b>'+title+'</b>'
           + '<span style="font-size:12px;color:var(--muted)">'+list.length+' 项</span></div>';
@@ -7902,16 +8479,30 @@
           + list.map(function(it){ return todoItemRow(key, it, false); }).join('') + '</div>';
       }
       var html = '';
-      html += card('已到期 / 需尽快处理', urgent, 'red');
-      html += card('今日待处理', pending, 'amber');
-      if(finished.length){
-        html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
-          + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
-          + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
-      }
-      if(!urgent.length && !pending.length && !finished.length){
-        html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
-          + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
+      if(todoListMode === 'all'){
+        // 全部视图：分「待处理 / 已完成」两段（已完成含历史自定义提醒，可撤销重新激活）
+        html += card('待处理提醒', pending.concat(urgent));
+        if(finished.length){
+          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
+            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
+            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
+        }
+        if(!pending.length && !urgent.length && !finished.length){
+          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
+            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 还没有任何提醒<br>点右上角「新增」排一个护理提醒</div></div>';
+        }
+      } else {
+        html += card('已到期 / 需尽快处理', urgent);
+        html += card('今日待处理', pending);
+        if(finished.length){
+          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
+            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
+            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
+        }
+        if(!urgent.length && !pending.length && !finished.length){
+          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
+            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
+        }
       }
       body.innerHTML = html;
 
@@ -7919,7 +8510,7 @@
         var uid = row.getAttribute('data-uid');
         var it = all.filter(function(x){return x.uid === uid;})[0];
         if(!it) return;
-        var isDone = !!doneMap[uid];
+        var isDone = (it.src === 'rem') ? !!it.__done : !!doneMap[uid];
         var toggle = row.querySelector('[data-act="toggle"]');
         if(toggle) toggle.addEventListener('click', function(e){
           e.stopPropagation();
@@ -8513,6 +9104,35 @@
         ]
       }
     };
+    // 常见品种库（按种类联动下拉，含「其他/不清楚」兜底项）
+    var BREED_OPTIONS = {
+      cat:[
+        '中华田园猫','英国短毛猫','美国短毛猫','布偶猫','暹罗猫','波斯猫','缅因猫','孟加拉猫',
+        '苏格兰折耳猫','加菲猫（异短）','斯芬克斯猫','挪威森林猫','俄罗斯蓝猫','阿比西尼亚猫',
+        '金渐层','银渐层','狸花猫','橘猫','三花猫','玳瑁猫','其他 / 不清楚'
+      ],
+      dog:[
+        '中华田园犬','金毛寻回犬','拉布拉多','贵宾犬（泰迪）','比熊犬','柯基犬','柴犬','博美犬',
+        '边境牧羊犬','德国牧羊犬','哈士奇','阿拉斯加雪橇犬','萨摩耶','雪纳瑞','约克夏梗',
+        '马尔济斯','法国斗牛犬','英国斗牛犬','八哥犬','吉娃娃','罗威纳','杜宾犬','斑点犬',
+        '秋田犬','松狮','京巴','西施犬','其他 / 不清楚'
+      ]
+    };
+    // 按 species 填充品种下拉；currentValue 命中则选中，否则默认选「其他/不清楚」并返回空串
+    function fillBreedOptions(selectEl, speciesKey, currentValue){
+      if(!selectEl) return '';
+      var list = BREED_OPTIONS[speciesKey] || BREED_OPTIONS.cat;
+      var hit = (currentValue && list.indexOf(currentValue) > -1) ? currentValue : '';
+      var fallback = list[list.length-1]; // 「其他/不清楚」
+      var html = '<option value="">— 请选择品种 —</option>';
+      list.forEach(function(b){
+        var sel = (hit ? b === hit : b === fallback) ? ' selected' : '';
+        html += '<option value="'+escHtml(b)+'"'+sel+'>'+escHtml(b)+'</option>';
+      });
+      selectEl.innerHTML = html;
+      // 返回此次应使用的 value（hit 优先；否则空——代表未选/不清楚）
+      return hit || '';
+    }
     function breedShort(p){
       if(p.breed) return p.breed;
       return p.speciesKey === 'dog' ? '狗狗' : '猫咪';
@@ -9111,12 +9731,21 @@
         main: weightInfo
           ? escHtml(weightInfo.kg)
           : (p.weight!=null?escHtml(p.weight)+'<small>kg</small>':'—'),
-        sub: weightRec ? ('更新时间：'+fmtISODate(new Date(weightRec.ts))) : '还没有体重记录，点此记一笔',
-        action:function(){ openRecordForm({petKey:pdState.key, presetKey:'weight'}); }
+        sub: weightRec ? ('更新时间：'+fmtISODate(new Date(weightRec.ts))) : '还没有体重记录，点此查看趋势',
+        action:function(){ openPage('pg-weight'); }
       });
       cards.push({
         ico:'i-paw', cls:'teal', title:'BCS', bcs:true
       });
+      // 狗证（仅狗狗）：从宠物档案查看 / 录入
+      if(p.speciesKey === 'dog'){
+        cards.push({
+          ico:'i-shield', cls:'amber', title:'狗证',
+          main:null,
+          desc: dogLicenseDesc(p),
+          action:function(){ openPage('pg-dog-license'); }
+        });
+      }
       cards.push({
         ico:'i-droplet', cls:'amber', title:'驱虫',
         main:null,
@@ -9897,7 +10526,7 @@
           +     '<div class="cell'+(p.speciesKey==='cat'?' on':'')+'" data-val="cat"><span class="ic coral"><svg class="ico" style="width:26px;height:26px"><use href="#i-cat-face"/></svg></span>猫咪</div>'
           +     '<div class="cell'+(p.speciesKey==='dog'?' on':'')+'" data-val="dog"><span class="ic blue"><svg class="ico" style="width:26px;height:26px"><use href="#i-dog-face"/></svg></span>狗狗</div>'
           +   '</div></div>'
-          + '<div class="field" style="margin-bottom:10px"><label>品种</label><input type="text" id="pd-f-breed" value="'+escHtml(p.breed||'')+'" placeholder="不清楚可以先不填"></div>'
+          + '<div class="field" style="margin-bottom:10px"><label>品种</label><select id="pd-f-breed"></select></div>'
           + '<div class="field" style="margin-bottom:10px"><label>性别</label>'
           +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="pd-f-gender">'
           +     '<div class="cell'+(p.gender!=='female'?' on':'')+'" data-val="male"><span class="ic sky" style="font-size:18px">♂</span>弟弟</div>'
@@ -9949,6 +10578,21 @@
     }
     function bindPetEditSheet(s, p){
       bindGrid('pd-f-species'); bindGrid('pd-f-gender'); bindGrid('pd-f-neutered');
+      // 品种下拉：按当前种类填充；种类切换时联动刷新
+      var breedSel = s.mask.querySelector('#pd-f-breed');
+      fillBreedOptions(breedSel, p.speciesKey, p.breed);
+      var speciesGrid = s.mask.querySelector('#pd-f-species');
+      if(speciesGrid){
+        speciesGrid.querySelectorAll('.cell').forEach(function(c){
+          c.addEventListener('click', function(){
+            var sp = c.getAttribute('data-val') || p.speciesKey;
+            if(breedSel){
+              var prev = breedSel.value;
+              fillBreedOptions(breedSel, sp, prev);
+            }
+          });
+        });
+      }
       var mode = p.birthApprox ? 'age' : 'date';
       function setBirthMode(m){
         mode = m;
@@ -9992,7 +10636,7 @@
         p.species = sp==='dog'?'狗狗':'猫咪';
         p.gender = pdGridVal('pd-f-gender') || 'male';
         p.neutered = pdGridVal('pd-f-neutered') || 'unknown';
-        p.breed = (s.mask.querySelector('#pd-f-breed').value||'').trim();
+        p.breed = (function(){ var v=(s.mask.querySelector('#pd-f-breed').value||'').trim(); return /其他|不清楚/.test(v) ? '' : v; })();
         p.birthISO = birthInput.value || p.birthISO;
         p.birthApprox = mode==='age';
         var wv = parseFloat((s.mask.querySelector('#pd-f-weight').value||'').replace(/[^\d.]/g,''));
@@ -10315,6 +10959,309 @@
         });
       });
     }
+    // 「记一笔」按钮：直接进入新建记录表单（预填体重）
+    var wAddBtn = document.getElementById('weight-add-btn');
+    if(wAddBtn){
+      wAddBtn.addEventListener('click', function(){
+        if(typeof openRecordForm === 'function') openRecordForm({petKey:activeHomePet, presetKey:'weight'});
+      });
+    }
+
+    /* ===== 体重记录页：当前概览 + 趋势图 + 历史列表（数据源：weightSeries + 记一笔中的体重记录） ===== */
+    function weightTrendRecords(p){
+      // 合并 weightSeries（内置示例）与「记一笔」中真实落库的体重记录
+      var merged = {};
+      (p.weightSeries && p.weightSeries['1y'] || []).forEach(function(pt){
+        merged[pt.m] = pt.v;
+      });
+      try {
+        var recs = (typeof RecordStore !== 'undefined' && RecordStore.list(p.__key || activeHomePet)) || [];
+        recs.forEach(function(r){
+          if(r.title !== '体重记录' && r.ico !== 'i-scale') return;
+          var raw = (r.fields && r.fields['体重']) || r.note || '';
+          var m = String(raw).match(/(\d+(?:\.\d+)?)/);
+          if(!m) return;
+          var d = new Date(r.ts);
+          var k = (d.getMonth()+1) + '月';
+          merged[k] = parseFloat(m[1]);
+        });
+      } catch(e){}
+      // 按月份顺序输出（以最近 12 个月为准）
+      var out = [];
+      var now = new Date(APP_TODAY);
+      for(var i=11;i>=0;i--){
+        var dd = new Date(now.getFullYear(), now.getMonth()-i, 1);
+        var k = (dd.getMonth()+1) + '月';
+        if(merged[k] != null) out.push({m:k, v:merged[k]});
+      }
+      return out;
+    }
+    function sliceRange(data, range){
+      if(range === '3m') return data.slice(-3);
+      if(range === '6m') return data.slice(-6);
+      return data;
+    }
+    function renderWeightPage(){
+      var p = HOME_PETS[activeHomePet] || HOME_PETS[pdState.key];
+      if(!p) return;
+      var allData = weightTrendRecords(p);
+      // 顶部概览
+      var sumEl = document.getElementById('weight-summary');
+      if(sumEl){
+        var latest = allData[allData.length-1] || null;
+        var prev = allData.length >= 2 ? allData[allData.length-2] : null;
+        var delta = (latest && prev) ? (latest.v - prev.v) : null;
+        var deltaTxt = delta == null ? '暂无对比' : (delta >= 0 ? '+' : '') + delta.toFixed(1) + ' kg';
+        var deltaCls = delta == null ? 'slate' : (delta > 0.2 ? 'amber' : (delta < -0.2 ? 'amber' : 'green'));
+        var breedTipTxt = p.breed ? (p.speciesKey==='dog' ? (escHtml(p.breed)+' 成犬健康体重参考') : (escHtml(p.breed)+' 健康体重参考')) : (p.species+'健康体重参考');
+        sumEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+          + '<div class="rem-ico blue" style="width:48px;height:48px;border-radius:16px"><svg class="ico"><use href="#i-scale"/></svg></div>'
+          + '<div style="flex:1;min-width:0">'
+          +   '<div style="font-size:30px;font-weight:850;color:var(--ink);line-height:1.1">'+(latest?latest.v+'<span style="font-size:14px;color:var(--muted);font-weight:700;margin-left:3px">kg</span>':'—')+'</div>'
+          +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">'+escHtml(p.name)+' · '+(latest?'较上次 '+deltaTxt:'还没有体重记录')+'</div>'
+          + '</div>'
+          + '<span class="rem-tag '+deltaCls+'">'+(latest?(delta==null?'持平':(delta>0?'↑':'↓')):'—')+'</span>'
+          + '</div>';
+      }
+      // 趋势图：临时把 p.weightSeries 切到合并数据，渲染完恢复
+      var origSeries = p.weightSeries;
+      p.weightSeries = {
+        '3m': sliceRange(allData, '3m'),
+        '6m': sliceRange(allData, '6m'),
+        '1y': allData
+      };
+      try { renderWeightTrend(); } finally { p.weightSeries = origSeries; }
+      // 历史列表：按时间倒序
+      var listEl = document.getElementById('weight-history-list');
+      if(listEl){
+        if(!allData.length){
+          listEl.innerHTML = '<div class="rem-item"><div class="rem-ico slate"><svg class="ico"><use href="#i-memo"/></svg></div><div class="rem-body"><b>暂无体重记录</b><span>点右上角「记一笔」补记</span></div></div>';
+        } else {
+          var rows = allData.slice().reverse();
+          listEl.innerHTML = rows.map(function(d, i){
+            var prev = i < rows.length-1 ? rows[i+1] : null;
+            var diff = prev ? (d.v - prev.v) : null;
+            var diffTxt = diff == null ? '首次' : (diff === 0 ? '持平' : (diff > 0 ? '+'+diff.toFixed(1)+' kg' : diff.toFixed(1)+' kg'));
+            var diffCls = diff == null ? 'slate' : (diff === 0 ? 'slate' : (diff > 0.2 ? 'amber' : (diff < -0.2 ? 'amber' : 'green')));
+            var tagTxt = i === 0 ? '最新' : diffTxt;
+            return '<div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>'+d.v+' kg</b><span>'+escHtml(d.m)+' 记录</span></div><span class="rem-tag '+diffCls+'">'+tagTxt+'</span></div>';
+          }).join('');
+        }
+      }
+      // 品种健康体重提示
+      var tipEl = document.getElementById('weight-breed-tip');
+      if(tipEl){
+        var tip = breedWeightTip(p);
+        if(tip){
+          tipEl.style.display = 'flex';
+          tipEl.querySelector('span').textContent = tip;
+        } else {
+          tipEl.style.display = 'none';
+        }
+      }
+    }
+    function breedWeightTip(p){
+      if(!p) return '';
+      if(p.speciesKey === 'dog'){
+        var map = {'中华田园犬':'12–25 kg','金毛寻回犬':'25–34 kg','拉布拉多':'25–36 kg','贵宾犬（泰迪）':'3–6 kg','比熊犬':'4–6 kg','柯基犬':'10–14 kg','柴犬':'8–11 kg','博美犬':'1.8–3.5 kg','边境牧羊犬':'14–22 kg','德国牧羊犬':'22–40 kg','哈士奇':'16–27 kg','阿拉斯加雪橇犬':'34–50 kg','萨摩耶':'20–30 kg','雪纳瑞':'5–9 kg','法国斗牛犬':'8–14 kg','吉娃娃':'1.5–3 kg'};
+        if(p.breed && map[p.breed]) return p.breed+' 健康体重参考：'+map[p.breed];
+        return '狗狗健康体重因品种差异较大，请咨询兽医';
+      }
+      var map = {'英国短毛猫':'4–8 kg','美国短毛猫':'3.5–7 kg','布偶猫':'4–9 kg','暹罗猫':'3–5 kg','波斯猫':'3–5.5 kg','缅因猫':'4–8 kg','中华田园猫':'3–5 kg','金渐层':'4–6 kg','银渐层':'3–5.5 kg','狸花猫':'3.5–6 kg','橘猫':'4–6 kg','三花猫':'3–5 kg'};
+      if(p.breed && map[p.breed]) return p.breed+' 健康体重参考：'+map[p.breed];
+      return '猫咪健康体重一般在 3–6 kg 区间';
+    }
+
+    /* ===== 狗证档案存储 + 渲染（仅狗狗） ===== */
+    var PETLOG_DOG_LICENSE_KEY = 'petlog_dog_license_v1';
+    var DogLicenseStore = {
+      _cache:null,
+      _read:function(){
+        if(this._cache) return this._cache;
+        try{ this._cache = JSON.parse(localStorage.getItem(PETLOG_DOG_LICENSE_KEY)||'{}') || {}; }
+        catch(e){ this._cache = {}; }
+        this._ensureSeed();
+        return this._cache;
+      },
+      _ensureSeed:function(){
+        var done = false;
+        try{ done = localStorage.getItem('petlog_dog_license_seeded') === '1'; }catch(e){}
+        if(done) return;
+        // 给 demo 狗狗「豆豆」种一条示例狗证
+        if(HOME_PETS.dog && !this._cache.dog){
+          this._cache.dog = {
+            name:'豆豆', no:'京朝犬字第 2025-04-001234 号',
+            city:'北京市朝阳区', agency:'北京市公安局朝阳分局养犬管理办公室',
+            date:'2025-04-12', expire:'2026-11-11', color:'green'
+          };
+          try{ localStorage.setItem(PETLOG_DOG_LICENSE_KEY, JSON.stringify(this._cache)); }catch(e){}
+        }
+        try{ localStorage.setItem('petlog_dog_license_seeded','1'); }catch(e){}
+      },
+      get:function(petKey){
+        var all = this._read();
+        return all[petKey] || null;
+      },
+      set:function(petKey, data){
+        var all = this._read();
+        all[petKey] = data;
+        try{ localStorage.setItem(PETLOG_DOG_LICENSE_KEY, JSON.stringify(all)); }catch(e){}
+      }
+    };
+    // 狗证卡片简短描述（宠物档案健康卡用）
+    function dogLicenseDesc(p){
+      var d = DogLicenseStore.get(p.__key || activeHomePet);
+      if(!d) return '还没登记狗证，点击录入养犬登记信息';
+      var txt = '证号 '+(d.no || '—')+' · '+(d.city || '未填城市');
+      if(d.expire){
+        var days = Math.ceil((new Date(d.expire).getTime() - new Date(APP_TODAY).getTime()) / 86400000);
+        if(days < 0) txt += ' · 已过期';
+        else if(days < 30) txt += ' · 还剩 '+days+' 天到期';
+        else txt += ' · '+(d.expire||'').slice(0,7)+' 到期';
+      } else {
+        txt += ' · 未填有效期';
+      }
+      return txt;
+    }
+    // 选中的犬牌颜色
+    function dlGridVal(){
+      var sel = document.querySelector('#dl-f-color .cell.on');
+      return sel ? sel.getAttribute('data-val') : 'green';
+    }
+    function renderDogLicensePage(){
+      var p = HOME_PETS[activeHomePet] || HOME_PETS[pdState.key];
+      if(!p) return;
+      // 如果当前宠物不是狗，自动切到第一只狗
+      if(p.speciesKey !== 'dog'){
+        var dk = null;
+        Object.keys(HOME_PETS).forEach(function(k){ if(HOME_PETS[k].speciesKey==='dog' && !dk) dk = k; });
+        if(dk){ activeHomePet = dk; pdState.key = dk; if(typeof applyHomePet === 'function') applyHomePet(dk); p = HOME_PETS[dk]; }
+      }
+      var petKey = p.__key || activeHomePet;
+      var d = DogLicenseStore.get(petKey);
+      // 状态卡
+      var stEl = document.getElementById('dl-status');
+      if(stEl){
+        if(d){
+          var days = d.expire ? Math.ceil((new Date(d.expire).getTime() - new Date(APP_TODAY).getTime())/86400000) : null;
+          var stTxt = '已登记', stCls = 'green';
+          if(days == null){ stTxt = '未填有效期'; stCls = 'amber'; }
+          else if(days < 0){ stTxt = '已过期，请尽快续期'; stCls = 'amber'; }
+          else if(days < 30){ stTxt = '还有 '+days+' 天到期'; stCls = 'amber'; }
+          else { stTxt = '有效期内 · '+(d.expire||'').slice(0,10)+' 到期'; stCls = 'green'; }
+          stEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+            + '<div class="rem-ico '+(stCls==='green'?'mint':'amber')+'" style="width:50px;height:50px;border-radius:16px"><svg class="ico"><use href="#i-shield"/></svg></div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:18px;font-weight:850;color:var(--ink);line-height:1.2">'+(d.name||p.name)+' 的狗证</div>'
+            +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">'+stTxt+'</div>'
+            + '</div>'
+            + '<span class="rem-tag '+(stCls==='green'?'green':'amber')+'">'+(d.color==='red'?'红牌':'绿牌')+'</span>'
+            + '</div>';
+        } else {
+          stEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+            + '<div class="rem-ico slate" style="width:50px;height:50px;border-radius:16px"><svg class="ico"><use href="#i-shield"/></svg></div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:18px;font-weight:850;color:var(--ink);line-height:1.2">还没有狗证档案</div>'
+            +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">点右上角「编辑」录入养犬登记信息</div>'
+            + '</div>'
+            + '<span class="rem-tag slate">未登记</span>'
+            + '</div>';
+        }
+      }
+      // 登记信息
+      var infoEl = document.getElementById('dl-info');
+      if(infoEl){
+        if(d){
+          var rows = [
+            ['登记证号', d.no || '—'],
+            ['登记城市', d.city || '—'],
+            ['登记机关', d.agency || '—'],
+            ['登记日期', d.date || '—'],
+            ['有效期至', d.expire || '—'],
+            ['犬牌颜色', d.color==='red' ? '红牌（大型犬）' : '绿牌（小型犬）']
+          ];
+          infoEl.innerHTML = rows.map(function(r){
+            return '<div class="mr-row" style="padding:11px 0;border-bottom:1px solid var(--line);display:flex;align-items:center"><span style="flex:1;color:var(--muted);font-size:13px">'+r[0]+'</span><span style="font-size:14px;font-weight:700;color:var(--ink);max-width:60%;text-align:right;word-break:break-all">'+escHtml(r[1])+'</span></div>';
+          }).join('').replace(/<div class="mr-row"[^>]*>.*?<\/div>$/, function(s){ return s.replace(/border-bottom:[^;]*;?/, ''); });
+        } else {
+          infoEl.innerHTML = '<div class="rem-item"><div class="rem-ico slate"><svg class="ico"><use href="#i-memo"/></svg></div><div class="rem-body"><b>暂无登记信息</b><span>点右上角「编辑」开始录入</span></div></div>';
+        }
+      }
+      // 关联宠物卡
+      var petEl = document.getElementById('dl-pet-card');
+      if(petEl){
+        petEl.innerHTML = '<div style="display:flex;align-items:center;gap:12px">'
+          + '<div class="le-ico pets" style="width:42px;height:42px;border-radius:14px"><svg class="ico"><use href="#i-dog-face"/></svg></div>'
+          + '<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:850;color:var(--ink)">'+escHtml(p.name)+'</div><div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:2px">'+escHtml(p.breed||p.species)+' · '+(p.gender==='female'?'女孩':'男孩')+'</div></div>'
+          + '<span class="rem-tag slate">已关联</span>'
+          + '</div>';
+      }
+      // 表单：填充已有值（点击「编辑」时显示）
+      var formEl = document.getElementById('dl-form');
+      if(formEl){
+        var f = d || {};
+        var setVal = function(id, v){ var el = document.getElementById(id); if(el) el.value = v || ''; };
+        setVal('dl-f-name', d ? d.name : p.name);
+        setVal('dl-f-no', f.no);
+        setVal('dl-f-city', f.city);
+        setVal('dl-f-agency', f.agency);
+        setVal('dl-f-date', f.date);
+        setVal('dl-f-expire', f.expire);
+        var colorGrid = document.getElementById('dl-f-color');
+        if(colorGrid){
+          colorGrid.querySelectorAll('.cell').forEach(function(c){
+            c.classList.toggle('on', c.getAttribute('data-val') === (f.color || 'green'));
+          });
+        }
+      }
+    }
+    // 编辑按钮、保存按钮、犬牌颜色选择
+    (function(){
+      function toggleForm(show){
+        var form = document.getElementById('dl-form');
+        var btn = document.getElementById('dl-edit-btn');
+        if(!form || !btn) return;
+        form.style.display = show ? 'block' : 'none';
+        btn.textContent = show ? '取消' : '编辑';
+      }
+      var editBtn = document.getElementById('dl-edit-btn');
+      if(editBtn) editBtn.addEventListener('click', function(){
+        var form = document.getElementById('dl-form');
+        if(!form) return;
+        toggleForm(form.style.display === 'none' || form.style.display === '');
+      });
+      var saveBtn = document.getElementById('dl-save-btn');
+      if(saveBtn) saveBtn.addEventListener('click', function(){
+        var p = HOME_PETS[activeHomePet];
+        if(!p) return;
+        var petKey = p.__key || activeHomePet;
+        var data = {
+          name: (document.getElementById('dl-f-name').value || '').trim() || p.name,
+          no: (document.getElementById('dl-f-no').value || '').trim(),
+          city: (document.getElementById('dl-f-city').value || '').trim(),
+          agency: (document.getElementById('dl-f-agency').value || '').trim(),
+          date: document.getElementById('dl-f-date').value || '',
+          expire: document.getElementById('dl-f-expire').value || '',
+          color: dlGridVal() || 'green'
+        };
+        if(!data.no && !data.date && !data.city){ if(typeof showToast==='function') showToast('请至少填写证号、登记日期或城市'); return; }
+        DogLicenseStore.set(petKey, data);
+        toggleForm(false);
+        renderDogLicensePage();
+        // 同步刷新宠物档案健康卡（如果在档案页）
+        if(typeof renderPdHealth === 'function') renderPdHealth(p);
+        if(typeof showToast === 'function') showToast('狗证信息已保存 🐾');
+      });
+      var colorGrid = document.getElementById('dl-f-color');
+      if(colorGrid){
+        colorGrid.querySelectorAll('.cell').forEach(function(c){
+          c.addEventListener('click', function(){
+            colorGrid.querySelectorAll('.cell').forEach(function(x){ x.classList.remove('on'); });
+            c.classList.add('on');
+          });
+        });
+      }
+    })();
 
     // ================= AI 健康管家：会办事的统一助手 =================
     (function(){
@@ -10892,7 +11839,7 @@
     var obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
     function resetOnboarding(){
       obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
-      ['ob-name','ob-breed','ob-weight'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+      ['ob-name','ob-weight'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
       var bd=document.getElementById('ob-birth-date'); if(bd){ bd.value=''; bd.classList.add('empty'); }
       var ad=document.getElementById('ob-adopt'); if(ad){ ad.value=''; ad.classList.add('empty'); }
       if(obAvatar){
@@ -10900,7 +11847,7 @@
         var _obTip=document.getElementById('ob-avatar-tip');
         if(_obTip){ _obTip.style.display='none'; _obTip.querySelector('.ob-avatar-reset').style.display='none'; }
       }
-      if(obBreed) obBreed.placeholder='如：英国短毛猫（不清楚可以先不填）';
+      if(obBreed) fillBreedOptions(obBreed, 'cat', '');
       switchObBirthMode('date');
       // 重置各选择格子
       ['ob-species-grid','ob-gender-grid','ob-neutered-grid'].forEach(function(gid){
@@ -10990,7 +11937,11 @@
           var sp = cell.getAttribute('data-ob-species');
           obState.species = sp;
           if(obAvatar && !obState.customAvatar) obAvatar.src = SPECIES_DEFAULTS[sp].avatar;
-          if(obBreed && !obBreed.value) obBreed.placeholder = sp === 'dog' ? '如：威尔士柯基犬（不清楚可以先不填）' : '如：英国短毛猫（不清楚可以先不填）';
+          // 切换种类时刷新品种下拉；保留用户已选（如果新种类里也有）
+          if(obBreed){
+            var prev = obBreed.value;
+            fillBreedOptions(obBreed, sp, prev);
+          }
         });
       });
     }
@@ -11055,7 +12006,7 @@
         gender:genderCell?genderCell.getAttribute('data-val'):'male',
         birthISO:birthISO,
         birthApprox:birthApprox,
-        breed:(obBreed.value||'').trim(),
+        breed:(function(){ var v=(obBreed.value||'').trim(); return /其他|不清楚/.test(v) ? '' : v; })(),
         neutered:neuterCell?neuterCell.getAttribute('data-val'):'unknown',
         weight:isNaN(weight)?null:weight,
         adoptISO:obAdoptDate.value||'',

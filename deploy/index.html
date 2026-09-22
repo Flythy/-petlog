@@ -2,6 +2,9 @@
 <html lang="zh-CN"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#FFF6EF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -87,15 +90,47 @@
     .statusbar{padding-top:calc(8px + env(safe-area-inset-top));padding-left:calc(20px + env(safe-area-inset-left));padding-right:calc(20px + env(safe-area-inset-right))}
     .header{padding-left:calc(20px + env(safe-area-inset-left));padding-right:calc(20px + env(safe-area-inset-right))}
     .scroll{padding-left:calc(20px + env(safe-area-inset-left));padding-right:calc(20px + env(safe-area-inset-right))}
+    /* 首页顶部已移入滚动区：由 scroll 统一承担左右安全区，状态栏/header 不再单独加 */
+    .tab-screen[data-screen="home"] .scroll{padding-left:max(18px, env(safe-area-inset-left));padding-right:max(18px, env(safe-area-inset-right))}
+    .tab-screen[data-screen="home"] .scroll > .statusbar{padding-top:env(safe-area-inset-top)}
+    .tab-screen[data-screen="records"] .scroll,
+    .tab-screen[data-screen="mine"] .scroll{padding-left:max(20px, env(safe-area-inset-left));padding-right:max(20px, env(safe-area-inset-right))}
+    .tab-screen[data-screen="records"] .scroll > .statusbar,
+    .tab-screen[data-screen="mine"] .scroll > .statusbar{padding-top:env(safe-area-inset-top)}
     .tabbar{border-radius:0;padding-bottom:calc(8px + env(safe-area-inset-bottom));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
     /* 触摸优化：去除浏览器双击缩放延迟，滚动容器带回弹与滚动链控制 */
     .tab,.iconbtn,.btn,.chip,.cell,.backbtn,.seg div,.ht-check,.ht-post,.mchip{touch-action:manipulation}
     .scroll{-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;overflow-x:hidden}
     .viewport{overflow:hidden}
     /* iOS：输入框字号 ≥16px，防止聚焦时浏览器强制放大页面 */
-    .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,input[type="date"],input[type="text"],input[type="number"]{font-size:16px}
+    .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,.mr-row input,.mr-row textarea,input[type="date"],input[type="text"],input[type="number"],textarea{font-size:16px}
     /* 底部弹层：避开 home 指示条，滚动不穿透 */
     .sheet{padding-bottom:calc(22px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+    /* 授权页：内容可滚动，压缩各区块，确保勾选协议在所有手机可见 */
+    .authz-wrap{padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom));
+      overflow-y:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+    .authz-hero-img{height:148px}
+    .authz-badge{width:74px;height:74px;bottom:-32px;border-width:5px}
+    .authz-title{margin-top:40px;font-size:30px}
+    .authz-slogan{margin-top:6px;font-size:14px}
+    .authz-tags{margin-top:12px;gap:9px}
+    .authz-tag{padding:9px 16px;font-size:13px}
+    .authz-card{margin-top:8px;padding:12px 14px;gap:10px}
+    .authz-foot{margin-top:22px;padding-top:0;gap:8px}
+    .authz-go{padding:13px}
+    .wx-agree{margin-top:2px}
+    /* 超矮屏：隐藏装饰元素，极限压缩，让协议勾选无需滚动即可见 */
+    @media (max-height:700px){
+      .authz-hero-img{height:104px;border-radius:22px}
+      .authz-badge{width:60px;height:60px;bottom:-26px;border-width:4px}
+      .authz-title{margin-top:30px;font-size:25px}
+      .authz-slogan{display:none}
+      .authz-tags{display:none}
+      .authz-card{display:none}
+      .authz-foot{margin-top:14px;gap:7px}
+      .lg-btn{padding:12px !important;font-size:15px}
+      .wx-agree-txt{font-size:11px}
+    }
   }
   /* ===== 横屏紧凑模式：压扁状态栏与头部，保住内容高度 ===== */
   @media (orientation:landscape) and (max-height:500px){
@@ -206,8 +241,9 @@
   .hl-edit{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);background:rgba(255,255,255,.16);border-radius:99px;padding:3px 11px;cursor:pointer}
   .hl-ai{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;color:#8A4B12;background:linear-gradient(135deg,#FFF6E8,#FFE9C7);border-radius:99px;padding:3px 10px;cursor:pointer;box-shadow:0 2px 6px rgba(122,52,28,.18)}
   .hl-ai .ico{width:12px;height:12px}
-  .hl-row{display:flex;gap:8px}
-  .ql{flex:1;background:rgba(255,255,255,.92);border-radius:15px;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;position:relative;transition:transform .12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  .hl-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .hl-row::-webkit-scrollbar{display:none}
+  .ql{flex:1 1 0;background:rgba(255,255,255,.92);border-radius:15px;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;position:relative;transition:transform .12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;min-width:62px}
   .ql:active{transform:scale(.92)}
   .ql .ql-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center}
   .ql .ql-ic .ico{width:19px;height:19px}
@@ -247,6 +283,8 @@
   .ql-coach p b{color:#E8702A}
   .ql-coach .qlc-ok{margin-top:9px;width:100%;border:none;border-radius:11px;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;font-size:12.5px;font-weight:800;padding:9px 0;cursor:pointer;box-shadow:0 5px 12px rgba(255,116,72,.28)}
   .ql-coach .qlc-x{position:absolute;top:7px;right:9px;width:22px;height:22px;border:none;background:transparent;color:#C99A78;font-size:15px;font-weight:800;cursor:pointer;line-height:22px;padding:0}
+  .ql-longpress-hint{font-size:11px;font-weight:700;color:#B08D6B;text-align:center;margin-top:8px;padding:5px 10px;background:rgba(255,247,239,.6);border-radius:10px;transition:opacity .3s}
+  .ql-longpress-hint.hide{opacity:0;pointer-events:none;height:0;margin:0;padding:0;overflow:hidden}
   /* 一键记录：关闭后的轻量找回入口 */
   .hl-off{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);border:1px dashed rgba(255,255,255,.45);border-radius:15px;padding:11px 13px;margin-top:12px}
   .hl-off .hlo-ic{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
@@ -880,6 +918,32 @@
   .cal-legend i.pink{background:var(--pink)}
   .cal-legend i.green{background:var(--mint)}
 
+  /* ===== 专属记录录入表单（如记录驱虫：类型/药品/剂量/日期/下次/备注） ===== */
+  .rf-hero{text-align:center;padding:6px 4px 14px}
+  .rf-hero .rf-h-ic{width:58px;height:58px;border-radius:20px;margin:0 auto 11px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FFE2CE,#FFD0B4);color:#E0762E;box-shadow:0 10px 22px rgba(224,118,46,.18)}
+  .rf-hero .rf-h-ic .ico{width:29px;height:29px}
+  .rf-hero .rf-h-title{font-size:21px;font-weight:900;color:var(--ink);font-family:'YouYuan','Yuanti SC','PingFang SC','Microsoft YaHei',sans-serif;letter-spacing:.5px}
+  .rf-hero .rf-h-sub{font-size:12.5px;font-weight:650;color:var(--muted);margin-top:6px;line-height:1.55}
+  .rf-card{background:#fff;border:2px solid var(--line);border-radius:20px;padding:6px 16px;margin-bottom:14px;box-shadow:0 6px 16px rgba(255,138,92,.07)}
+  .rf-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1.5px solid #F4ECE2}
+  .rf-row:last-child{border-bottom:none}
+  .rf-row.stack{flex-direction:column;align-items:stretch;gap:9px}
+  .rf-row .rf-k{font-size:14.5px;font-weight:800;color:var(--ink);white-space:nowrap}
+  .rf-row .rf-k .rf-req{color:var(--primary-600);margin-left:3px}
+  .rf-row .rf-k .rf-hint{display:block;font-size:11px;font-weight:650;color:var(--muted);margin-top:3px}
+  .rf-row .rf-v{margin-left:auto;text-align:right;min-width:0}
+  .rf-row .rf-v input{width:100%;border:none;outline:none;background:transparent;text-align:right;font-size:14.5px;font-weight:700;color:var(--text);font-family:inherit}
+  .rf-row .rf-v input::placeholder{color:#CDBFAE;font-weight:600}
+  .rf-row .rf-ph{color:#CDBFAE;font-weight:600;font-size:14px}
+  .rf-seg{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .rf-seg .rf-opt{border:1.6px solid var(--line);background:#FBF8F5;color:var(--ink);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:750;cursor:pointer;touch-action:manipulation}
+  .rf-seg .rf-opt.on{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-600);box-shadow:0 3px 8px rgba(255,138,92,.18)}
+  .rf-area{width:100%;border:1.6px solid var(--line);border-radius:14px;background:#FBF8F5;padding:11px 13px;font-size:13.5px;font-weight:650;color:var(--text);font-family:inherit;min-height:74px;outline:none;resize:none;box-sizing:border-box}
+  .rf-area::placeholder{color:#CDBFAE;font-weight:600}
+  .rf-foot-tip{text-align:center;font-size:11.5px;font-weight:650;color:var(--muted);margin:1px 4px 0;line-height:1.5}
+  .rf-pet-line{display:flex;align-items:center;gap:9px;background:var(--primary-tint);border:1.5px solid var(--primary-soft);border-radius:15px;padding:9px 13px;margin-bottom:13px;font-size:12.5px;font-weight:750;color:var(--primary-600)}
+  .rf-pet-line .ico{width:18px;height:18px}
+
   /* 首页日历 · 手绘可爱风 */
   .home-cal{position:relative;background:#fff;border:2.5px solid var(--line);border-radius:28px 18px 30px 20px/20px 28px 18px 30px;padding:14px 14px 12px;box-shadow:0 6px 16px rgba(255,138,92,.10);overflow:hidden}
   .home-cal::before{content:'';position:absolute;top:-22px;right:-22px;width:78px;height:78px;border-radius:50%;background:var(--pink-soft);opacity:.75}
@@ -972,6 +1036,15 @@
   .field .mock .ph{color:var(--muted);font-weight:500}
   .field input{width:100%;border:none;outline:none;background:transparent;font-size:14.5px;font-weight:600;font-family:inherit;color:var(--text)}
   .field input::placeholder{color:#D6C9BC;font-weight:500}
+  .field select{
+    width:100%;border:none;outline:none;background:transparent;
+    font-size:14.5px;font-weight:600;font-family:inherit;color:var(--text);
+    appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23FF8A5C' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 4px center;
+    padding:0 20px 0 0;cursor:pointer;
+  }
+  .field select:disabled{color:var(--muted);cursor:not-allowed}
   /* 分段切换：知道生日 / 只知道年龄 */
   .mini-seg{display:flex;background:#F6E9DB;border-radius:12px;padding:3px;margin:0 0 10px}
   .mini-seg div{flex:1;text-align:center;padding:7px 4px;font-size:12px;font-weight:700;color:var(--muted);border-radius:9px;cursor:pointer;transition:.16s}
@@ -1002,6 +1075,27 @@
   .type-grid .cell .ic.slate{background:#F1F0F4;color:#9a94a8}
   .type-grid .cell .ic.coral{background:var(--primary-soft);color:var(--primary)}
   .type-grid .cell .ic.violet{background:var(--lav-soft);color:var(--lav)}
+
+  /* 档案选择器（种类/性别/绝育）：去掉框套框，扁平分段风格 */
+  .pick-flat{gap:0;background:#F6F1EA;border:2px solid #EFE6DB;border-radius:14px;padding:4px}
+  .pick-flat .cell{background:transparent;border:2px solid transparent;border-radius:10px;padding:10px 4px 9px;gap:6px;color:#9A8A78}
+  .pick-flat .cell.on{border-color:transparent;background:#fff;color:var(--primary);
+    box-shadow:0 2px 8px rgba(214,140,90,.18)}
+  .pick-flat .cell .ic{width:auto;height:auto;background:transparent !important;border-radius:0;font-size:20px}
+  .pick-flat .cell .ic .ico,.pick-flat .cell .ic svg{width:22px !important;height:22px !important}
+  .pick-flat .cell .ic.coral,.pick-flat .cell .ic.blue{color:#7FA8D6}
+  .pick-flat .cell.on .ic.coral{color:var(--primary)}
+  .pick-flat .cell.on .ic.blue{color:var(--sky)}
+  .pick-flat .cell .ic.sky,.pick-flat .cell .ic.pink{color:#B7A9C9}
+  .pick-flat .cell.on .ic.sky{color:var(--sky)}
+  .pick-flat .cell.on .ic.pink{color:var(--pink)}
+  .pick-flat .cell .ic.teal{color:#8ECEC2}
+  .pick-flat .cell.on .ic.teal{color:var(--mint)}
+  .pick-flat .cell .ic.amber{color:#E9BE7A}
+  .pick-flat .cell.on .ic.amber{color:var(--amber)}
+  .pick-flat .cell .ic.slate{color:#B4AEC0}
+  .pick-flat .cell.on .ic.slate{color:#8B849A}
+  .pick-flat .cell:active{transform:scale(.97)}
 
   /* 记录类型分组 */
   .type-group{margin-bottom:16px}
@@ -1379,6 +1473,77 @@
   .hc-ic.slate,.pb-ic.slate{background:#F1F0F4;color:#9a94a8}
   .hc-ic.violet,.pb-ic.violet{background:var(--lav-soft);color:var(--lav)}
 
+  /* ===== 病历夹 2.0：筛选 / 月份分组 / 病历卡 / 悬浮上传 ===== */
+  :root{--mr:#15C4B5;--mr-soft:#E2F8F5;--mr-grad:linear-gradient(135deg,#2DD4BF,#15C4B5)}
+  .mr-filters{display:flex;gap:10px;margin:2px 0 14px}
+  .mr-filter{flex:1;text-align:center;padding:10px 0;border-radius:99px;background:#fff;border:1.5px solid var(--line);font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:.15s}
+  .mr-filter.on{background:var(--mr-soft);border-color:var(--mr);color:var(--mr)}
+  .mr-month{display:flex;align-items:center;gap:8px;margin:6px 2px 10px;font-size:14px;font-weight:800;color:var(--ink)}
+  .mr-month::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--mr)}
+  .mr-card{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:15px 16px;margin-bottom:12px;cursor:pointer;transition:transform .12s}
+  .mr-card:active{transform:scale(.985)}
+  .mr-card-top{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+  .mr-card-type{font-size:16px;font-weight:850;color:var(--ink)}
+  .mr-badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:99px;line-height:1}
+  .mr-badge.pending{background:#FFF1E0;color:#F0981B}
+  .mr-badge.saved{background:var(--mr-soft);color:var(--mr)}
+  .mr-card-date{margin-left:auto;font-size:12px;font-weight:700;color:#B6A99C;white-space:nowrap}
+  .mr-card-mid{display:flex;gap:12px;align-items:center}
+  .mr-card-info{flex:1;min-width:0}
+  .mr-diag{font-size:17px;font-weight:850;color:var(--ink);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mr-diag.empty{color:#C9BDB0;font-weight:700}
+  .mr-hosp{font-size:12.5px;font-weight:650;color:#A8988A;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mr-thumb{width:58px;height:58px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#F3EFE9}
+  .mr-thumb-fake{width:58px;height:58px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,#EDE7DF,#DCD4C9);display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:9px;font-weight:800;color:#fff;background-color:#B7ACA0;letter-spacing:1px}
+  .mr-end{text-align:center;font-size:12.5px;color:#C0B4A6;font-weight:650;margin:18px 0 90px}
+  .mr-fab{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:6;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:14px 34px;border-radius:99px;font-size:15.5px;font-weight:850;color:#fff;background:var(--mr-grad);box-shadow:0 12px 28px rgba(21,196,181,.42);white-space:nowrap}
+  .mr-fab:active{transform:translateX(-50%) scale(.97)}
+  .mr-fab .ico{width:19px;height:19px}
+
+  /* ===== 上传选择弹层 ===== */
+  .mr-up-opt{display:flex;align-items:center;gap:14px;padding:16px 6px;border-bottom:2px solid var(--line2);cursor:pointer}
+  .mr-up-opt .u-ico{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mr-up-opt .u-ico .ico{width:21px;height:21px}
+  .mr-up-opt b{font-size:15px;font-weight:800;display:block}
+  .mr-up-opt span{font-size:11.5px;color:var(--muted);font-weight:650;margin-top:2px;display:block}
+
+  /* ===== 门诊病历：识别结果卡 + 基础信息表单 + 底部保存 ===== */
+  .mr-ai-card{display:flex;gap:14px;align-items:center;background:#fff;border-radius:20px;padding:15px 16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+  .mr-ai-thumb{width:66px;height:66px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;background:linear-gradient(135deg,#EDE7DF,#D6CEC4)}
+  .mr-ai-thumb img{width:100%;height:100%;object-fit:cover}
+  .mr-ai-thumb .tag{position:absolute;left:0;bottom:0;right:0;background:rgba(0,0,0,.45);color:#fff;font-size:9.5px;font-weight:700;text-align:center;padding:3px 0}
+  .mr-ai-body{flex:1;min-width:0}
+  .mr-ai-body b{font-size:16.5px;font-weight:850;color:var(--ink);display:block;line-height:1.3}
+  .mr-ai-safe{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:12px;font-weight:700;color:#9A8E84}
+  .mr-ai-safe .ico{width:15px;height:15px;color:var(--mr)}
+  .mr-sec-title{font-size:19px;font-weight:850;color:var(--ink);padding:4px 2px 4px}
+  .mr-sec{background:#fff;border-radius:20px;overflow:hidden;margin-bottom:14px}
+  .mr-row{display:flex;align-items:center;gap:12px;padding:17px 16px;border-bottom:1.5px solid var(--line2)}
+  .mr-row:last-child{border-bottom:none}
+  .mr-row .k{font-size:15.5px;font-weight:750;color:var(--ink);flex-shrink:0}
+  .mr-row .k .req{color:#F04438;margin-left:2px}
+  .mr-row .v{margin-left:auto;font-size:15px;font-weight:700;color:var(--ink);text-align:right;min-width:0}
+  .mr-row .v.ph{color:#CDC3B7;font-weight:600}
+  .mr-row input,.mr-row textarea{border:none;outline:none;background:transparent;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);text-align:right;min-width:0;flex:1}
+  .mr-row textarea{resize:none;text-align:left;font-weight:600;line-height:1.5}
+  .mr-row .chev{color:#D8CCC0;flex-shrink:0;width:18px;height:18px}
+  .mr-save-wrap{position:absolute;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,rgba(247,245,242,0));z-index:5}
+  .mr-save{border:none;width:100%;cursor:pointer;padding:16px;border-radius:99px;background:var(--mr-grad);color:#fff;font-size:16.5px;font-weight:850;box-shadow:0 12px 26px rgba(21,196,181,.38)}
+  .mr-save:active{transform:scale(.98)}
+  #pg-mr-clinic .scroll{padding-bottom:110px}
+
+  /* ===== AI 待办建议弹层 ===== */
+  .mr-todo-head{text-align:center;padding:4px 0 12px}
+  .mr-todo-head b{font-size:16.5px;font-weight:850;display:block}
+  .mr-todo-head span{font-size:12px;color:var(--muted);font-weight:650;margin-top:4px;display:block}
+  .mr-todo-item{display:flex;align-items:center;gap:12px;background:#F7F6F4;border-radius:16px;padding:13px 14px;margin-bottom:10px}
+  .mr-todo-box{width:22px;height:22px;border-radius:8px;border:2px solid var(--mr);background:var(--mr);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;cursor:pointer;transition:.15s}
+  .mr-todo-box.off{background:#fff;border-color:#D9D0C6;color:transparent}
+  .mr-todo-box .ico{width:13px;height:13px}
+  .mr-todo-info{flex:1;min-width:0}
+  .mr-todo-info b{font-size:14.5px;font-weight:800;display:block;line-height:1.25}
+  .mr-todo-info span{font-size:11.5px;color:var(--muted);font-weight:650;margin-top:3px;display:block}
+
   /* 首页宠物切换：紧凑分段胶囊（顶部） */
   .pet-seg{display:inline-flex;gap:2px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:3px;margin:0 0 10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
   .pet-seg .pseg{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:.15s;white-space:nowrap}
@@ -1406,6 +1571,13 @@
   /* 新建提醒：真实输入框 */
   .rem-input{width:100%;border:none;outline:none;background:transparent;font-size:15px;font-weight:800;font-family:inherit;color:var(--ink);padding:2px 0}
   .rem-input::placeholder{color:#D6C9BC;font-weight:600}
+  textarea.rem-input{resize:none;font-weight:600;line-height:1.5;padding:4px 0}
+  /* 是否重复下拉 */
+  .rem-select{width:100%;border:none;outline:none;background:transparent;font-size:16px;font-weight:700;
+    font-family:inherit;color:var(--ink);padding:4px 24px 4px 0;appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B8A491' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right center;background-size:14px;cursor:pointer}
+  .rem-select option{font-weight:700}
 
   /* BCS 体况评分标准面板 */
   .bcs-panel{margin-top:12px}
@@ -1937,6 +2109,23 @@
   .tab-screen[data-screen="home"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top));color:#fff}
   .tab-screen[data-screen="home"] .scroll > .header{padding-top:6px}
 
+  /* 记录页/我的页：statusbar+header+seg 移入滚动区，清除双重内边距 */
+  .tab-screen[data-screen="records"] .scroll,
+  .tab-screen[data-screen="mine"] .scroll{position:relative;z-index:1;padding:0 20px 100px}
+  .tab-screen[data-screen="records"] .scroll > .statusbar,
+  .tab-screen[data-screen="records"] .scroll > .header,
+  .tab-screen[data-screen="mine"] .scroll > .statusbar,
+  .tab-screen[data-screen="mine"] .scroll > .header{padding-left:0;padding-right:0}
+  .tab-screen[data-screen="records"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top))}
+  .tab-screen[data-screen="mine"] .scroll > .statusbar{padding-top:max(12px, env(safe-area-inset-top))}
+  /* seg/chiprow 清除自身水平 margin（scroll 已有 padding） */
+  .tab-screen[data-screen="records"] .seg{margin:0 0 14px}
+  .tab-screen[data-screen="records"] .chiprow{margin:0 0 12px}
+  /* pane 不再 flex 撑满，退化为普通 block */
+  .tab-screen[data-screen="records"] .pane{display:block;flex:none;min-height:auto;position:relative}
+  /* 成长相机按钮固定在右下角（随滚动内容不丢失） */
+  .tab-screen[data-screen="records"] .pane-bottom .fab{position:fixed;bottom:96px;right:18px;z-index:5}
+
   /* 顶部装饰 - 浮动的爪印和圆点，增加趣味 */
   .home-deco{position:absolute;pointer-events:none;z-index:0}
   .home-deco.d1{top:60px;right:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
@@ -2000,6 +2189,9 @@
 
   /* ===== 今日待办：标题在外、下方一张白卡（避免外层色块再套内卡） ===== */
   .tab-screen[data-screen="home"] .home-block.todo-block{
+    background:transparent;border:none;box-shadow:none;backdrop-filter:none;
+    border-radius:0;padding:0;margin-bottom:12px}
+  .tab-screen[data-screen="home"] .home-block.home-cal-block{
     background:transparent;border:none;box-shadow:none;backdrop-filter:none;
     border-radius:0;padding:0;margin-bottom:12px}
   .tab-screen[data-screen="home"] .home-block.todo-block .block-head{margin:0 4px 12px}
@@ -2115,10 +2307,10 @@
   .tab-screen[data-screen="home"] .ql-block{background:transparent;border:none;padding:0;margin-bottom:12px}
   .tab-screen[data-screen="home"] .ql-block .pbc-ql-head{display:none}
   .tab-screen[data-screen="home"] .ql-block .pbc-ql-wrap{background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
-  .tab-screen[data-screen="home"] .ql-block #hl-row{display:flex;gap:9px;background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
-  .tab-screen[data-screen="home"] .ql-block #hl-row .ql{flex:1 1 0;min-width:0;border:none;background:#FFFDFB;border-radius:18px;
+  .tab-screen[data-screen="home"] .ql-block #hl-row{display:flex;flex-wrap:wrap;gap:9px;background:transparent;border-radius:0;box-shadow:none;padding:0;margin:0}
+  .tab-screen[data-screen="home"] .ql-block #hl-row .ql{flex:0 0 calc(25% - 7px);min-width:0;border:none;background:#FFFDFB;border-radius:18px;
     padding:12px 2px 30px;display:flex;flex-direction:column;align-items:center;gap:6px;
-    box-shadow:0 8px 18px rgba(206,140,90,.11)}
+    box-shadow:0 8px 18px rgba(206,140,90,.11);position:relative}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-ic{width:40px;height:40px;border-radius:13px}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-ic .ico{width:22px;height:22px}
   .tab-screen[data-screen="home"] .ql-block #hl-row .ql .ql-lab{font-size:13.5px;font-weight:800;color:#4E3B30;letter-spacing:.3px}
@@ -2181,7 +2373,7 @@
   .authz-item-txt b{display:block;font-size:13px;color:#5E4233;font-weight:850}
   .authz-item-txt span{display:block;font-size:10.5px;color:#A78873;font-weight:650;margin-top:2px}
   .authz-foot{width:100%;margin-top:auto;padding-top:18px;display:flex;flex-direction:column;align-items:center;gap:6px}
-  .authz-foot .wx-agree{margin-top:auto;padding-top:14px}
+  .authz-foot .wx-agree{margin-top:4px;padding-top:0}
   .authz-go{width:100%;border:none;border-radius:99px;padding:15px;font-size:16px;font-weight:850;
     color:#fff;background:linear-gradient(135deg,#FF9A6E,#FF7043);
     box-shadow:0 12px 26px rgba(255,112,67,.38);cursor:pointer;letter-spacing:2px;
@@ -2283,26 +2475,44 @@
      三 · AI健康简报二级页：全展开 · 可视化
   ============================================================ */
   #pg-health-report{background:linear-gradient(180deg,#FFF0E1 0%,#FFF8F2 320px)}
-  .hrd-hero{position:relative;border-radius:26px;padding:19px 18px;color:#fff;overflow:hidden;
-    box-shadow:0 14px 30px rgba(255,125,80,.28);
-    background:linear-gradient(135deg,#FFA17E,#FF7A52)}
-  .hrd-hero.lv-danger{background:linear-gradient(135deg,#FF8775,#F0513C)}
-  .hrd-hero.lv-warn{background:linear-gradient(135deg,#FFC060,#F5941C)}
-  .hrd-hero.lv-good{background:linear-gradient(135deg,#FFB096,#FF8660)}
-  .hrd-hero::after{content:"";position:absolute;right:-16px;bottom:-28px;width:108px;height:108px;opacity:.14;transform:rotate(-14deg);
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23ffffff'%3E%3Cellipse cx='7.5' cy='8.5' rx='2' ry='2.6'/%3E%3Cellipse cx='12' cy='7' rx='2.1' ry='2.7'/%3E%3Cellipse cx='16.5' cy='8.5' rx='2' ry='2.6'/%3E%3Cellipse cx='5' cy='12.5' rx='1.7' ry='2.2'/%3E%3Cellipse cx='19' cy='12.5' rx='1.7' ry='2.2'/%3E%3Cpath d='M12 11.2c3.3 0 5.6 2.6 5.6 5.3a5.6 5.6 0 0 1-11.2 0c0-2.7 2.3-5.3 5.6-5.3z'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
-  .hrd-hero-top{display:flex;align-items:center;justify-content:center;gap:8px;font-size:10.5px;font-weight:800;opacity:.95;letter-spacing:.5px}
-  .hrd-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.22);border-radius:99px;padding:3px 10px}
-  .hrd-badge .ico{width:12px;height:12px}
-  .hrd-date-pill{background:rgba(255,255,255,.26);border-radius:99px;padding:3px 11px}
-  .hrd-hero h2{margin-top:10px;font-size:22px;font-weight:850;font-family:'YouYuan','Yuanti SC','PingFang SC',sans-serif;letter-spacing:.5px;text-align:center}
-  .hrd-hero-row{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:14px;position:relative;z-index:1;text-align:center}
-  .hrd-ring{position:relative;width:78px;height:78px;flex-shrink:0}
-  .hrd-ring svg{transform:rotate(-90deg)}
-  .hrd-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:850}
-  .hrd-ring-info{flex:1;min-width:0}
-  .hrd-ring-info b{font-size:14.5px;font-weight:850;display:block;line-height:1.4}
-  .hrd-ring-info span{font-size:11px;font-weight:700;opacity:.92;line-height:1.5;display:block;margin-top:3px}
+  /* 顶部健康概览：薄荷绿底 + 中央宠物图 + 四角维度小圈 */
+  .hrd-hero{position:relative;border-radius:26px;padding:20px 18px 16px;overflow:hidden;
+    box-shadow:0 12px 26px rgba(21,196,181,.18);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.55), transparent 55%),
+      linear-gradient(135deg,#D9F7EF 0%,#E4F8E6 100%);
+    color:#0E7C70}
+  .hrd-orbit{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;
+    align-items:center;justify-items:center;gap:14px 8px;position:relative;z-index:1}
+  /* 中央宠物图，跨两行居中 */
+  .hrd-pet{grid-column:2;grid-row:1/span 2;width:108px;height:108px;border-radius:50%;
+    background:#fff center/cover no-repeat;border:4px solid #fff;
+    box-shadow:0 8px 20px rgba(21,160,150,.25);position:relative}
+  .hrd-pet::after{content:"";position:absolute;inset:-7px;border-radius:50%;
+    border:1.5px dashed rgba(21,196,181,.45);pointer-events:none}
+  /* 四角维度小圈 */
+  .hrd-dim{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .hrd-dim:nth-child(1){grid-column:1;grid-row:1}
+  .hrd-dim:nth-child(2){grid-column:3;grid-row:1}
+  .hrd-dim:nth-child(4){grid-column:1;grid-row:2}
+  .hrd-dim:nth-child(5){grid-column:3;grid-row:2}
+  .hrd-mini-ring{position:relative;width:52px;height:52px}
+  .hrd-mini-ring svg{width:52px;height:52px;transform:rotate(-90deg)}
+  .hrd-mini-ring circle.tr{fill:none;stroke:rgba(21,124,112,.12);stroke-width:4}
+  .hrd-mini-ring circle.fg{fill:none;stroke:#15C4B5;stroke-width:4;stroke-linecap:round;
+    stroke-dasharray:116.2;stroke-dashoffset:116.2;transition:stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1)}
+  .hrd-dim.warn .hrd-mini-ring circle.fg{stroke:#F5941C}
+  .hrd-dim.bad  .hrd-mini-ring circle.fg{stroke:#F0513C}
+  .hrd-mini-ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:850;color:#0E7C70}
+  .hrd-dim .lab{font-size:12px;font-weight:800;color:#149184;letter-spacing:.5px}
+  /* 底部分数行 */
+  .hrd-score-line{position:relative;z-index:1;display:flex;align-items:baseline;justify-content:center;
+    gap:5px;margin-top:16px;color:#0E7C70}
+  .hrd-score-line .sc{font-size:30px;font-weight:900;line-height:1}
+  .hrd-score-line .unit{font-size:12.5px;font-weight:800;color:#3FA89C}
+  .hrd-score-line .dot{margin:0 3px;color:#7FC9BF}
+  .hrd-score-line .attn{font-size:13.5px;font-weight:800;color:#15A395}
   .hrd-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
   .hrd-card{background:rgba(255,255,255,.9);border:1.5px solid #F4E2CF;border-radius:22px;padding:12px 10px 11px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 16px rgba(220,150,90,.08)}
   .hrd-card.full{grid-column:1/-1}
@@ -2462,7 +2672,7 @@
             <div class="authz-foot">
               <button type="button" class="lg-btn lg-quick" id="authz-go">微信一键登录</button>
               <button type="button" class="lg-btn lg-guest" id="authz-no">先随便逛逛</button>
-              <label class="wx-agree" id="wx-agree"><input type="checkbox" id="wx-proto-check"><span class="wx-box"><svg class="ico"><use href="#i-check"/></svg></span><span class="wx-agree-txt">未注册的微信将自动创建账号，登录即代表同意 <a>《用户协议》</a> 与 <a>《隐私政策》</a></span></label>
+              <label class="wx-agree" id="wx-agree"><input type="checkbox" id="wx-proto-check"><span class="wx-box"><svg class="ico"><use href="#i-check"/></svg></span><span class="wx-agree-txt">登录即代表同意 <a>《用户协议》</a> 与 <a>《隐私政策》</a></span></label>
             </div>
           </div>
           <div class="authz-toast" id="authz-toast">请先阅读并勾选同意协议后再登录</div>
@@ -2561,6 +2771,7 @@
                 <span>快速记录 · 点一下就记好</span>
               </div>
               <div class="pbc-ql-row" id="hl-row"></div>
+              <div class="ql-longpress-hint" id="ql-longpress-hint">💡 长按图标可进入详细记录页</div>
               </div>
             </div><!-- /.ql-block -->
 
@@ -2591,6 +2802,26 @@
                   <span class="ab-mini-title" id="ab-mini-title">—</span>
                 </span>
                 <svg class="ico fq-go"><use href="#i-chev-r"/></svg>
+              </div>
+            </div>
+
+            <!-- 模块 5：本月日历（从记录页迁移到首页，点日期可看/补当天记录） -->
+            <div class="home-block home-cal-block">
+              <div class="home-cal" id="home-cal">
+                <div class="hcal-head">
+                  <div class="m"><b>9 月</b><span>2026</span></div>
+                  <span class="today-tag">今天 · 7 号</span>
+                  <div class="nav"><span title="上个月">‹</span><span title="下个月">›</span></div>
+                </div>
+                <div class="cal-grid">
+                  <div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div>
+                  <div class="d dim"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">31</span><span class="dd"></span></div><div class="d"><span class="dn">1</span><span class="dd"></span></div><div class="d dot"><span class="dn">2</span><span class="dd"></span></div><div class="d"><span class="dn">3</span><span class="dd"></span></div><div class="d dot"><span class="dn">4</span><span class="dd"></span></div><div class="d"><span class="dn">5</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">6</span><span class="dd"></span></div><div class="d today"><span class="dn">7</span><span class="dd"></span></div><div class="d"><span class="dn">8</span><span class="dd"></span></div><div class="d"><span class="dn">9</span><span class="dd"></span></div><div class="d dot"><span class="dn">10</span><span class="dd"></span></div><div class="d"><span class="dn">11</span><span class="dd"></span></div><div class="d"><span class="dn">12</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">13</span><span class="dd"></span></div><div class="d"><span class="dn">14</span><span class="dd"></span></div><div class="d"><span class="dn">15</span><span class="dd"></span></div><div class="d"><span class="dn">16</span><span class="dd"></span></div><div class="d"><span class="dn">17</span><span class="dd"></span></div><div class="d dot"><span class="dn">18</span><span class="dd"></span></div><div class="d dot pink"><span class="dn">19</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">20</span><span class="dd"></span></div><div class="d"><span class="dn">21</span><span class="dd"></span></div><div class="d dot"><span class="dn">22</span><span class="dd"></span></div><div class="d"><span class="dn">23</span><span class="dd"></span></div><div class="d"><span class="dn">24</span><span class="dd"></span></div><div class="d"><span class="dn">25</span><span class="dd"></span></div><div class="d"><span class="dn">26</span><span class="dd"></span></div>
+                  <div class="d"><span class="dn">27</span><span class="dd"></span></div><div class="d"><span class="dn">28</span><span class="dd"></span></div><div class="d"><span class="dn">29</span><span class="dd"></span></div><div class="d"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">1</span><span class="dd"></span></div><div class="d dim"><span class="dn">2</span><span class="dd"></span></div><div class="d dim"><span class="dn">3</span><span class="dd"></span></div>
+                </div>
+                <div class="cal-legend"><span><i></i>待办</span><span><i class="green"></i>记录</span><span><i class="pink"></i>纪念日</span></div>
               </div>
             </div>
             </div><!-- /.home-shell -->
@@ -2675,21 +2906,20 @@
 
         <!-- ============ 记录 ============ -->
         <div class="tab-screen" data-screen="records">
-          <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
-          <div class="header">
-            <div><div class="eyebrow">MEMO</div><div class="title">记录</div></div>
-            <div style="display:flex;align-items:center;gap:10px">
-              <div class="iconbtn" data-open="pg-new-record" title="文字录入"><svg class="ico"><use href="#i-edit"/></svg></div>
-              <div class="iconbtn" data-open="pg-search"><svg class="ico"><use href="#i-search"/></svg></div>
+          <div class="scroll">
+            <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
+            <div class="header">
+              <div><div class="eyebrow">MEMO</div><div class="title">记录</div></div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="iconbtn" data-open="pg-new-record" title="文字录入"><svg class="ico"><use href="#i-edit"/></svg></div>
+                <div class="iconbtn" data-open="pg-search"><svg class="ico"><use href="#i-search"/></svg></div>
+              </div>
             </div>
-          </div>
 
-          <div class="seg" id="rec-seg">
-            <div class="on" data-view="list">事项记录</div>
-            <div data-view="growth">成长记录</div>
-          </div>
-
-          <div class="split-panes">
+            <div class="seg" id="rec-seg">
+              <div class="on" data-view="list">事项记录</div>
+              <div data-view="growth">成长记录</div>
+            </div>
 
           <div class="pane pane-top" id="rec-list">
             <div class="chiprow" id="rec-chips">
@@ -2700,45 +2930,13 @@
               <div class="chip" data-cat="clean">打理清扫</div>
               <div class="chip" data-cat="other">其他</div>
             </div>
-            <div class="scroll">
-              <div class="rec-overview">
-              <div class="section-head"><b>体重变化</b><a data-open="pg-weight">详情 ›</a></div>
-              <div class="trend-card" data-open="pg-weight" style="cursor:pointer">
-                <div class="trend-head"><div class="range-chips" id="weight-range"><span class="chip on" data-range="3m">近3月</span><span class="chip" data-range="6m">近6月</span><span class="chip" data-range="1y">近1年</span></div></div>
-                <svg id="weight-trend-svg" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid meet"></svg>
-                <div class="weight-empty" id="weight-empty"></div>
-                <div class="trend-legend" id="trend-legend">🐾 体重稳步上升 · 健康在线</div>
-              </div>
-              </div>
 
-              <div class="rec-overview">
-              <div class="section-head"><b>本月日历</b></div>
-              <div class="home-cal" id="home-cal">
-                <div class="hcal-head">
-                  <div class="m"><b>9 月</b><span>2026</span></div>
-                  <span class="today-tag">今天 · 7 号</span>
-                  <div class="nav"><span title="上个月">‹</span><span title="下个月">›</span></div>
-                </div>
-                <div class="cal-grid">
-                  <div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div>
-                  <div class="d dim"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">31</span><span class="dd"></span></div><div class="d"><span class="dn">1</span><span class="dd"></span></div><div class="d dot"><span class="dn">2</span><span class="dd"></span></div><div class="d"><span class="dn">3</span><span class="dd"></span></div><div class="d dot"><span class="dn">4</span><span class="dd"></span></div><div class="d"><span class="dn">5</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">6</span><span class="dd"></span></div><div class="d today"><span class="dn">7</span><span class="dd"></span></div><div class="d"><span class="dn">8</span><span class="dd"></span></div><div class="d"><span class="dn">9</span><span class="dd"></span></div><div class="d dot"><span class="dn">10</span><span class="dd"></span></div><div class="d"><span class="dn">11</span><span class="dd"></span></div><div class="d"><span class="dn">12</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">13</span><span class="dd"></span></div><div class="d"><span class="dn">14</span><span class="dd"></span></div><div class="d"><span class="dn">15</span><span class="dd"></span></div><div class="d"><span class="dn">16</span><span class="dd"></span></div><div class="d"><span class="dn">17</span><span class="dd"></span></div><div class="d dot"><span class="dn">18</span><span class="dd"></span></div><div class="d dot pink"><span class="dn">19</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">20</span><span class="dd"></span></div><div class="d"><span class="dn">21</span><span class="dd"></span></div><div class="d dot"><span class="dn">22</span><span class="dd"></span></div><div class="d"><span class="dn">23</span><span class="dd"></span></div><div class="d"><span class="dn">24</span><span class="dd"></span></div><div class="d"><span class="dn">25</span><span class="dd"></span></div><div class="d"><span class="dn">26</span><span class="dd"></span></div>
-                  <div class="d"><span class="dn">27</span><span class="dd"></span></div><div class="d"><span class="dn">28</span><span class="dd"></span></div><div class="d"><span class="dn">29</span><span class="dd"></span></div><div class="d"><span class="dn">30</span><span class="dd"></span></div><div class="d dim"><span class="dn">1</span><span class="dd"></span></div><div class="d dim"><span class="dn">2</span><span class="dd"></span></div><div class="d dim"><span class="dn">3</span><span class="dd"></span></div>
-                </div>
-                <div class="cal-legend"><span><i></i>待办</span><span><i class="green"></i>记录</span><span><i class="pink"></i>纪念日</span></div>
-              </div>
-              </div>
-
-              <div class="section-head" style="margin-top:16px"><b>全部记录</b></div>
+              <div class="section-head" style="margin-top:4px"><b>全部记录</b></div>
               <div id="my-records-wrap"></div>
               <div style="height:40px"></div>
-            </div>
           </div>
 
           <div class="pane pane-bottom" id="rec-growth" style="display:none">
-            <div class="scroll">
               <div class="section-head"><b>纪念日</b><a data-open="pg-memo-add">+ 添加</a></div>
               <div class="card" style="padding:4px 14px;margin-bottom:4px">
                 <div class="rem-item"><div class="rem-ico pink"><svg class="ico"><use href="#i-cake"/></svg></div><div class="rem-body"><b>小白 · 生日 🎂</b><span>2024-03-15 · 每周年提醒</span></div><span class="switch on"></span></div>
@@ -2753,21 +2951,21 @@
                   <span class="we-sub">点右下角相机，拍一张或从相册选一张<br>就能记下 TA 的此刻啦</span>
                 </div>
               </div>
-            </div>
+              <div style="height:100px"></div>
             <div class="fab" id="growth-add-btn"><svg class="ico lg"><use href="#i-camera"/></svg></div>
           </div>
 
-          </div><!-- /.split-panes -->
+          </div><!-- /.scroll -->
         </div>
 
         <!-- ============ 我的 ============ -->
         <div class="tab-screen" data-screen="mine">
-          <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
-          <div class="header">
-            <div><div class="eyebrow">ME</div><div class="title">我的</div></div>
-            <div class="iconbtn" data-open="pg-settings"><svg class="ico"><use href="#i-gear"/></svg></div>
-          </div>
           <div class="scroll">
+            <div class="statusbar"><span>9:41</span><span class="s-ico">📶 🔋</span></div>
+            <div class="header">
+              <div><div class="eyebrow">ME</div><div class="title">我的</div></div>
+              <div class="iconbtn" data-open="pg-settings"><svg class="ico"><use href="#i-gear"/></svg></div>
+            </div>
             <div class="profile-card" id="profile-card">
               <span class="pc-deco"></span>
               <div class="pc-avatar" id="pc-avatar">🧑</div>
@@ -2799,6 +2997,7 @@
             <div class="menu">
               <div class="menu-item" data-open="pg-ai-center" data-as-intent="insight"><div class="m-ico" style="background:var(--lav-soft);color:var(--lav)"><svg class="ico"><use href="#i-sparkle"/></svg></div><div class="m-body">AI 健康管家</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-ocr"><div class="m-ico" style="background:var(--primary-soft);color:var(--primary-600)"><svg class="ico"><use href="#i-camera-ai"/></svg></div><div class="m-body">体检报告上传</div><span class="m-val">OCR 智能识别</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
+              <div class="menu-item" id="mine-dl-entry" data-open="pg-dog-license"><div class="m-ico" style="background:#FFF1DC;color:#E58A5C"><svg class="ico"><use href="#i-shield"/></svg></div><div class="m-body">狗证档案</div><span class="m-val">狗狗登记管理</span><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-help"><div class="m-ico"><svg class="ico"><use href="#i-info"/></svg></div><div class="m-body">帮助与反馈</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
               <div class="menu-item" data-open="pg-about"><div class="m-ico"><svg class="ico fill"><use href="#i-paw"/></svg></div><div class="m-body">关于</div><svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>
             </div>
@@ -2843,9 +3042,86 @@
               <div class="pd-grid" id="pd-health-grid"></div>
             </div>
 
-            <!-- 病历夹：病历/疫苗/体检记录列表（JS 渲染） -->
+            <!-- 病历夹：全部 / 门诊病历 / 报告单（JS 渲染） -->
             <div class="pd-pane" id="pd-pane-book">
-              <div class="pd-book" id="pd-book-list"></div>
+              <div class="mr-filters" id="mr-filters">
+                <div class="mr-filter on" data-mrfilter="all">全部</div>
+                <div class="mr-filter" data-mrfilter="clinic">门诊病历</div>
+                <div class="mr-filter" data-mrfilter="report">报告单</div>
+              </div>
+              <div id="pd-book-list"></div>
+            </div>
+          </div>
+          <!-- 病历夹悬浮上传按钮（仅病历夹 tab 显示） -->
+          <button type="button" class="mr-fab" id="mr-upload-fab" style="display:none"><svg class="ico"><use href="#i-plus"/></svg>上传记录</button>
+        </div>
+
+        <!-- 上传记录：选择类型弹层 -->
+        <div class="sheet-mask" id="mr-upload-sheet">
+          <div class="sheet">
+            <div class="stitle">上传医疗记录</div>
+            <div class="mr-up-opt" data-mrkind="clinic">
+              <span class="u-ico" style="background:var(--mr-soft);color:var(--mr)"><svg class="ico"><use href="#i-file"/></svg></span>
+              <span style="flex:1"><b>门诊病历</b><span>拍照或上传病历照片，AI 自动识别诊断与医嘱</span></span>
+              <svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg>
+            </div>
+            <div class="mr-up-opt" data-mrkind="report">
+              <span class="u-ico" style="background:var(--sky-soft);color:var(--sky)"><svg class="ico"><use href="#i-image"/></svg></span>
+              <span style="flex:1"><b>报告单</b><span>化验单、检查报告、影像报告等</span></span>
+              <svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg>
+            </div>
+            <div class="sheet-row cancel" id="mr-upload-cancel">取消</div>
+          </div>
+        </div>
+        <input type="file" id="mr-file" accept="image/*" style="display:none">
+
+        <!-- ============ 覆盖层：门诊病历（AI 识别确认） ============ -->
+        <div class="page" id="pg-mr-clinic">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">门诊病历</div><div class="pact"></div></div>
+          <div class="scroll">
+            <!-- AI 识别完成卡 -->
+            <div class="mr-ai-card">
+              <div class="mr-ai-thumb" id="mr-ai-thumb"><span class="tag">病历查看</span></div>
+              <div class="mr-ai-body">
+                <b>识别完成，请确认识别结果</b>
+                <div class="mr-ai-safe"><svg class="ico"><use href="#i-shield"/></svg>我们将严格保护您的隐私安全</div>
+              </div>
+            </div>
+            <!-- 基础信息 -->
+            <div class="mr-sec-title">基础信息</div>
+            <div class="mr-sec">
+              <div class="mr-row">
+                <span class="k">资料类型</span>
+                <span class="v">门诊病历</span>
+                <svg class="ico chev"><use href="#i-chev-r"/></svg>
+              </div>
+              <div class="mr-row">
+                <span class="k">医院信息<span class="req">*</span></span>
+                <input id="mr-hospital" type="text" placeholder="请填写医院信息">
+              </div>
+              <div class="mr-row">
+                <span class="k">就诊日期<span class="req">*</span></span>
+                <input id="mr-date" type="date">
+              </div>
+              <div class="mr-row">
+                <span class="k">临床诊断<span class="req">*</span></span>
+                <input id="mr-diagnosis" type="text" placeholder="请填写临床诊断">
+              </div>
+            </div>
+          </div>
+          <div class="mr-save-wrap">
+            <button type="button" class="mr-save" id="mr-save-btn">保存</button>
+          </div>
+          <!-- AI 识别医嘱 → 待办建议弹层（置于本页内以正确层叠） -->
+          <div class="sheet-mask" id="mr-todo-sheet">
+            <div class="sheet">
+              <div class="mr-todo-head">
+                <b>AI 识别到这些待办</b>
+                <span>勾选要加入提醒的事项，到点会自动提醒你</span>
+              </div>
+              <div id="mr-todo-list"></div>
+              <div class="btn btn-primary" id="mr-todo-add" style="margin:12px 4px 4px;background:var(--mr-grad);box-shadow:0 10px 22px rgba(21,196,181,.35)"><svg class="ico"><use href="#i-bell-heart"/></svg> 添加到提醒</div>
+              <div class="sheet-row cancel" id="mr-todo-skip">暂不添加</div>
             </div>
           </div>
         </div>
@@ -2860,13 +3136,13 @@
             </div>
             <div class="field"><label>TA 的名字</label><input type="text" id="ob-name" placeholder="给它取个可爱的名字"></div>
             <div class="field"><label>种类</label>
-              <div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="ob-species-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="ob-species-grid">
                 <div class="cell on def" data-ob-species="cat"><span class="ic coral"><svg class="ico" style="width:30px;height:30px"><use href="#i-cat-face"/></svg></span>猫咪</div>
                 <div class="cell" data-ob-species="dog"><span class="ic blue"><svg class="ico" style="width:30px;height:30px"><use href="#i-dog-face"/></svg></span>狗狗</div>
               </div>
             </div>
             <div class="field"><label>性别</label>
-              <div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="ob-gender-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="ob-gender-grid">
                 <div class="cell on def" data-val="male"><span class="ic sky" style="font-size:20px">♂</span>弟弟</div>
                 <div class="cell" data-val="female"><span class="ic pink" style="font-size:20px">♀</span>妹妹</div>
               </div>
@@ -2891,9 +3167,9 @@
             </div>
 
             <div class="ob-group-title">这些可以先跳过<span class="tag-opt">选填 · 之后随时补</span></div>
-            <div class="field"><label>品种</label><input type="text" id="ob-breed" placeholder="如：英国短毛猫（不清楚可以先不填）"></div>
+            <div class="field"><label>品种</label><select id="ob-breed"></select></div>
             <div class="field"><label>绝育情况</label>
-              <div class="type-grid" style="grid-template-columns:repeat(3,1fr)" id="ob-neutered-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(3,1fr)" id="ob-neutered-grid">
                 <div class="cell" data-val="yes"><span class="ic teal"><svg class="ico" style="width:20px;height:20px"><use href="#i-check"/></svg></span>已绝育</div>
                 <div class="cell on def" data-val="unknown"><span class="ic slate"><svg class="ico" style="width:20px;height:20px"><use href="#i-info"/></svg></span>不清楚</div>
                 <div class="cell" data-val="no"><span class="ic amber" style="font-size:18px">!</span>未绝育</div>
@@ -2915,7 +3191,7 @@
 
         <!-- ============ 覆盖层：AI 健康报告详情 ============ -->
         <div class="page" id="pg-health-report">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">AI健康简报</div></div>
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">AI健康简报</div><div style="width:40px;flex-shrink:0"></div></div>
           <div class="scroll" id="hrd-scroll">
 
             <!-- 空态：无任何数据时展示 -->
@@ -2927,26 +3203,31 @@
             </div>
 
             <div id="hrd-body">
-              <!-- 顶部：综合健康分 + 一句话结论 -->
+              <!-- 顶部：中央宠物图 + 四角维度小圈 -->
               <div class="hrd-hero" id="hrd-hero">
-                <div class="hrd-hero-top">
-                  <span class="hrd-badge"><svg class="ico"><use href="#i-sparkle"/></svg>AI 健康管家</span>
-                  <span class="hrd-date-pill" id="hrd-date"></span>
+                <div class="hrd-orbit">
+                  <div class="hrd-dim" id="hrd-dim-care">
+                    <div class="hrd-mini-ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18.5" class="tr"/><circle cx="22" cy="22" r="18.5" class="fg" id="hrd-ring-care"/></svg><b class="num" id="hrd-num-care">–</b></div>
+                    <span class="lab">护理</span>
+                  </div>
+                  <div class="hrd-dim" id="hrd-dim-meal">
+                    <div class="hrd-mini-ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18.5" class="tr"/><circle cx="22" cy="22" r="18.5" class="fg" id="hrd-ring-meal"/></svg><b class="num" id="hrd-num-meal">–</b></div>
+                    <span class="lab">吃饭</span>
+                  </div>
+                  <div class="hrd-pet" id="hrd-pet-photo"></div>
+                  <div class="hrd-dim" id="hrd-dim-water">
+                    <div class="hrd-mini-ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18.5" class="tr"/><circle cx="22" cy="22" r="18.5" class="fg" id="hrd-ring-water"/></svg><b class="num" id="hrd-num-water">–</b></div>
+                    <span class="lab">喝水</span>
+                  </div>
+                  <div class="hrd-dim" id="hrd-dim-weight">
+                    <div class="hrd-mini-ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18.5" class="tr"/><circle cx="22" cy="22" r="18.5" class="fg" id="hrd-ring-weight"/></svg><b class="num" id="hrd-num-weight">–</b></div>
+                    <span class="lab">体重</span>
+                  </div>
                 </div>
-                <h2 id="hrd-pet-name">小白 的今日健康状态</h2>
-                <div class="hrd-hero-row">
-                  <div class="hrd-ring">
-                    <svg width="78" height="78" viewBox="0 0 78 78">
-                      <circle cx="39" cy="39" r="34" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="7"/>
-                      <circle id="hrd-ring-fg" cx="39" cy="39" r="34" fill="none" stroke="#fff" stroke-width="7"
-                        stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
-                    </svg>
-                    <b id="hrd-score">0</b>
-                  </div>
-                  <div class="hrd-ring-info">
-                    <b id="hrd-level-lab">—</b>
-                    <span id="hrd-summary">—</span>
-                  </div>
+                <div class="hrd-score-line">
+                  <b class="sc" id="hrd-score">0</b><span class="unit">分</span>
+                  <span class="dot">·</span>
+                  <span class="attn" id="hrd-level-lab">—</span>
                 </div>
               </div>
 
@@ -3062,8 +3343,18 @@
             <div class="field"><label>标题</label><div class="mock" id="rec-title-mock" style="cursor:pointer">体内驱虫</div></div>
             <div class="field"><label>详情备注</label><div class="mock" id="rec-note-mock"><span class="ph">点我补充这次的情况（选填）…</span></div></div>
             <div class="field"><label>发生时间</label><div class="mock" id="rec-date-mock" style="cursor:pointer">今天 12:00</div></div>
+            <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <div><label style="display:block">首页快捷方式</label><span style="font-size:12px;color:var(--muted)">开启后首页显示吃饭/喝水等一键记录</span></div>
+              <div class="switch" id="rec-quicklog-sw"></div>
+            </div>
             <div class="btn btn-primary" id="rec-form-save" style="margin-top:18px">保存记录</div>
           </div>
+        </div>
+
+        <!-- ============ 覆盖层：专属记录录入（驱虫/疫苗/洗澡… 每个事项有自己的表单） ============ -->
+        <div class="page" id="pg-record-form">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle" id="rf-title">记录</div><div class="pact" id="rf-save-top">保存</div></div>
+          <div class="scroll" id="rf-scroll"></div>
         </div>
 
         <!-- ============ 覆盖层：新建分类 ============ -->
@@ -3131,40 +3422,23 @@
         <div class="page" id="pg-new-reminder">
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">新建提醒</div><div class="pact"></div></div>
           <div class="scroll">
-            <div class="field"><label>提醒事项</label>
+            <div class="field"><label>事项名称</label>
               <input class="rem-input" id="rem-title-input" type="text" placeholder="比如：体内驱虫、狂犬疫苗、洗澡…">
             </div>
-            <div class="field"><label>关联宠物</label>
-              <div class="pet-select" id="rem-pet-select">
-                <div class="pet-card on" data-pet="cat" data-name="小白"><img src="data:image/jpeg;base64,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" alt="小白" decoding="async"><div class="pc-body"><b>小白</b></div><div class="pc-check"><svg class="ico"><use href="#i-check"/></svg></div></div>
-                <div class="pet-card" data-pet="dog" data-name="豆豆"><img src="data:image/jpeg;base64,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" alt="豆豆" decoding="async"><div class="pc-body"><b>豆豆</b></div><div class="pc-check"><svg class="ico"><use href="#i-check"/></svg></div></div>
-              </div>
+            <div class="field"><label>事项描述</label>
+              <textarea class="rem-input" id="rem-desc-input" rows="2" placeholder="补充说明（可选）"></textarea>
             </div>
-            <div class="field"><label>日期</label>
-              <div class="opt-group" id="rem-date-group">
-                <span class="opt-chip on" data-val="今天">今天</span>
-                <span class="opt-chip" data-val="明天">明天</span>
-                <span class="opt-chip" data-val="3 天后">3 天后</span>
-                <span class="opt-chip" data-val="1 周后">1 周后</span>
-                <span class="opt-chip" data-val="自选日期">自选…</span>
-              </div>
+            <div class="field"><label>提醒时间</label>
+              <input class="rem-input" id="rem-date-input" type="date" style="font-weight:700">
             </div>
-            <div class="field"><label>重复</label>
-              <div class="opt-group" id="rem-repeat-group">
-                <span class="opt-chip" data-val="不重复">不重复</span>
-                <span class="opt-chip" data-val="每周">每周</span>
-                <span class="opt-chip" data-val="每月">每月</span>
-                <span class="opt-chip on" data-val="每 3 个月">每 3 个月</span>
-                <span class="opt-chip" data-val="每年">每年</span>
-              </div>
-            </div>
-            <div class="field"><label>提前提醒</label>
-              <div class="opt-group" id="rem-ahead-group">
-                <span class="opt-chip" data-val="当天">当天</span>
-                <span class="opt-chip on" data-val="提前 1 天">提前 1 天</span>
-                <span class="opt-chip" data-val="提前 3 天">提前 3 天</span>
-                <span class="opt-chip" data-val="提前 7 天">提前 7 天</span>
-              </div>
+            <div class="field"><label>是否重复</label>
+              <select class="rem-select" id="rem-repeat-select">
+                <option value="不重复">不重复</option>
+                <option value="每周">每周</option>
+                <option value="每月">每月</option>
+                <option value="每 3 个月" selected>每 3 个月</option>
+                <option value="每年">每年</option>
+              </select>
             </div>
             <div class="btn btn-primary" id="create-reminder-btn" style="margin-top:18px">创建提醒</div>
           </div>
@@ -3338,22 +3612,72 @@
           </div>
         </div>
 
-        <!-- ============ 覆盖层：体重记录 ============ -->
+                <!-- ============ 覆盖层：体重记录（从宠物档案进入，顶部折线图 + 动态历史列表）============ -->
         <div class="page" id="pg-weight">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">体重记录</div><div class="pact" data-open="pg-new-record">记一笔</div></div>
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">体重记录</div><div class="pact" id="weight-add-btn">记一笔</div></div>
           <div class="scroll">
-            <div class="mascot-hero card" style="margin-bottom:14px">
-              <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wgARCADcANwDASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAAAAEDBAUGAgf/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQMCBAX/2gAMAwEAAhADEAAAAd4BwegADQUBFAAAAABFAAAABAA0UAAAABCKDAAAAAivMooZW8WihOiADAAAAAAA4a7KWHSemEWVAFBABgAAAFBeUNpO010bzndhlK2vP6UZ+sjbaJj4Osb4xL49gmPnIss013ePL7q8/ZNv8jrpgBOgKAgAwAI9Rb09ovxuWbwXjpLc6VlrE3lyJNiId4eaBqXz20jfYtduxeubsb22D3kaAEbKgACoIAG1nLKu7eFBUtDnnoTRruMOTEm8g2vaIjvQZ+8cL0NcsyEY1tcLr+Ltlgc3UAAAAMP1VZQuX+e7z2G3shnSVexxo77R+R+jNW3PczGoCSWmomRlydZpdHgLda3/ADEmVly0/CT3RW2Xl+oqKiaKKHFNZZvr434bkno524s5mVfPYO2yxuu2NP6gZ50aVUK2OXvZTz4GxvMjecHW12wxuK5P5vzwHe4VMWes889D8/0VQIWFQCBVXld2ccfh8pJhXlHHsHbyWmX+epbKm2zxu3lRZJkrLMayMfV568oRJ43lpuRzvOc9NxG24u0Ah0AAuKm5rujnj89O354z1jY40jgS2gCAAYAAqAFVajWPNDS9EorEiBpSdXWWfD3ALjaCoAisazYO11jblEVMsUAQAaooCCoAKgAqAByiPR2OdVNUIs7KgAqABH4mX5p3PSLLTnMTG5xEcaeOO9JUVAUQBU54Q6RWM7lwuUntGX0Wq+6zOkqugJ0AhazFu6G47OGwAhQACPGsTG6tZzGNshznXSIDEAAAEFQETpAo5kCt6oboDn6lzuhob8zNlRz+rl1iwJ/LYATAABFAbcE47cxFqDxZJl1hZoOtLFUVvMmqWs7S2MDv5PQZuU1fH2xamdTdPJOTl2sntHltTGgBLYCACiEFBiKCQVBqigIKBXY7TY96Kqza6Yvb/wAy9P5+j//EACwQAAEEAQMDAwMEAwAAAAAAAAEAAgMEEgURIBATIRQiMDEyMwYjQEEVJWD/2gAIAQEAAQUC/wCZmnbCn6hKxV9Sr2Pkc9rBPqccKZrXuBDh8RPcmPlWqe6rajNWVa5FaHP6KS0rFtznxQBikZ3GaNNnX+F5xZD9vS5XBUTJSY7cwjfesEvke9gc4ppdlLPIxsF+xk+0ZTancTBE2LrpBxufDP8Ahi+woybo+erxs9vljG7mLybChHnoG4Jrwemmn/afDP8AhhP7b378ZY8kBsHeHxfSZuSY3Fv06kJj/dpPu1L4ZfxM3DeG+wjdknIjeRnhv9tf7zwkaSNFjDLXw2Zcjw2T27tg+4hY9P6jbk5bcJAWOq2BZi5zPwZituj3CNs+tkn/ADV1ppa1HYdiAeEj4q0c2vPJj1m5vT1KK5wqS+ktc53ZP63e7qFvS9IqXHavBXr3jsVpNk2qagqunUsLoXKcN1PV/wBRabRoNasDNXpz+pg6WB4oTd+vxcdmp82yJe8xR4qpHtrD3FqwTmL9PtIirVu+fDVLE2ZjmGN8xLbHly7a0aEti02PHTnROahK4IkSM0mTGbjYdjE+QvTYy5bBvSRrhJqGneoe6J4MFCed+n6QKsPiNgu9xQ2e6+au2YaxocjZDDI1VKU80j4gYvAW6fHkiCFp82NvjcBdE2IN4/3DWfOooWQjpJWihUNWGu7pLSa5SZNPAgOUbDHb4zNLmYr2rJZOK2kVeAyEDbhZkntyV7DbMfWeHuNc2Tc9wLIrJHBV4SbHGT3MWK3AWRUcD5CxmDfit1i9e5qyXtKmGzNNZlY5SMIdsmwOeo6pTWhg+SarknwuattlKfdQjwh5E4pmEg/gysjxdBGX+AOUzsRFWdW/gkholkJTu9Ssg7jlX/dmR3QkHzOlARcXdJIxKzTZHY8bDtm1G7RdHMDkcmITFd1qzbyyCMjUZkXl3G0709oHIcJHZOrfi4OiRaR13KyK3Pxan9mlzZw9bcvai+qqO9vIxtKMRRBHyam7zUsemtddQdlLE/xWkxl33+EsaV2QjCV23LErbht0tu7li0DjSm9RV6St7iG7HNdkKsoLPm2C2C2U33W5e1EQFbHjQJf2lZfhCx+YI3W2yrHGf+DKffZm70m6lOcmnP7GoK/+KH72HyvoeB+A/ThYO0PQNATjhaK//8QAJxEAAQMEAQIHAQEAAAAAAAAAAQACEQMQEiEgBEEUIjAxMlFhE0D/2gAIAQMBAT8B/wABIGyhVadcpX9m8n7cAnsDvdCo6mYKPVNXivxeKH0j1TY0hlVPmQaIhUvjxd80+r2CO0QhaECQqVXLRVH241nydcIUcOneCI4VnYts1spxA+KBm5KaA5FMdBQMib9S7cKEzRTqe0WQmUyfZVGQsE0YmeyKKoGW3rjzXbNmkg6R/bOFiFQEC9dvewbyIRCaJKYIF3xG0PRiOFV0nG0SsTwhYFBsWYe1nGBKaZNw9Bw55Q+3UHUIIccis1ms1OpTvtUzLZVc+azPRf8ASIlUT2X/xAAnEQABAwMCBgMBAQAAAAAAAAABAAIRAxAhEiAEIjEyQVETFDBAYf/aAAgBAgEBPwH+ACcBGk4b/hdup9CU1xanU2vyEOGcvrf6vrH2hwzpyjFMcqk9VV7trO1Np+10QKNyJVSnGQq3XbRZAzslTs4hhBnZSbqdZzoTAT3JwhExYBPlmfCCe2RCIgxfhxiVKqZCZVwvklPeqb0Hqo7UNI6oIKuIdeieW7yNkpjh4UoFVzJvRd4sX+twMIOBRMBPMm7ZnCP4g6jsYIbNpIWobJWtEzZ/uzRJhPHLctRad4bNO1AZlOCIjbpC0LQtC05hNxhPbDoVActqn40R5QKre1//xAA1EAABAgMGBQIEBAcAAAAAAAABAAIDESEQEiAxQVEiMDJhcQQTQFKRsSNCYoEUJDNDYKHB/9oACAEBAAY/Av8AGdzsp+yHN7GqleuO2dzJuMllNfiQS1u6BBmDy3P+ll9meyu9bNiuA1+U58mUP6q5D4n77KbuJ+6LSjDOcM/65Tj2we7D/cK9DmCNUA+6Xbo/iS8LqO+a6iuorhe4KRfe8rioF7UOflSmL2tsdm45T/FtCQp2lDwj2RKCnbw/VSnM2P8AB5T/ABZSeGYQCMrBJSUzbmQrsj5Tndncp3hSxVzGHthoZST6/lpyroyGKSNk9eSIrKEIP115Hc4C5xAAzJRb6WFf/U5f2j+yEOK32nnLYqcsJiPIa0L+XhADdyqyG/tJXeiJ8pwSPQ7keMDPRsoMyogeZwoRlcBlPuokP0rr0Md7Be62cJsnk3dSdZD9I+JcgtMie6hD01IhzbenSwx2UjQMyNQmv7WzQnmKHETZw1WqmSvUHUwhJFlQ+8Zmdsba8PspnoCkFdKuuzCjTz9x1vrPcHDckZqE00m1brdFOZo4TxFdlsFSxnqIdXspL5hsj6n0vFe6magqRY6e0kGiGZ7IMee57lUFBoF+HdI+quUvdlxZ7ox2C809UlVhQuQjTVwov4WGaO/qv/4pCymdkOe8sUhuq1wz1U3EhqkxoFoMNgZfdWSc6HDAc/qdqbb0Phcrr54aqGR84xUVSsp+VQC2bjNuG76SV2CZlx/M7ZXgJEUc06HB+rQqUx9VWdlWhahMlIi9iIsqVQfVZrJXRy77RVahVkVtZe+UYzLKzJV4fupDmzZQ7aFcTS37WU0V45vx3gr7ZH4LoCENranPsFTHIZlD2zMHqb8FOUzoEPUPdea+j+ymMZecm5WUVac+thY7Ip3p39UP7Yru684a2Z4s7KDEyMP3QIyOElDDRVwZrPlN8r2zmz7YO5pZLk5cxrVDn0v4TgDdGizseVks7MlljcRlkh5UOJqRXzad7JqRPFP4DKwI7mxqiQflN6xxsrY34IonQZLVSE9lDbo8XbB5sNg+CiHtbOS9O4Z3xZ//xAApEAEAAgIBAwMEAgMBAAAAAAABABEhMUFRYXEQIDCBkbHBoeFA0fBg/9oACAEBAAE/Iflr/wAYaCW6hPwxCEAfQfyVADvMYWdOYVRhx4+kMsCxOfiJZWQagApLldHu6pVJo59eGavneAfAoLWicZfdLR373IU3G1A5Brsx3+ieX/PxdpEwb9WV6CND0vzBexC9VFiDsm5loL0KlxmMA/dlQHdzxM3ZdjDEw7ZRPENSn+WHq8QOqP1eRCvD/fxY+RNXmYFwtg8RXtV/mdq9KD3g8iKgteg6wZm9JUuVyzQqLtRLN1KlTHdfiTclSd0yzaMy+ZxKvGnibzrhjs26SdrI0UHKMuhBASi2TgOst2+jOvEl+XraY6zqfERFaFSytvZ6VH0dzeogeRTOKT6zCgJEuLGXQx9Zm9vWpYkXRHNPG+3PxZ/63dnPo6xKvfosuUTS9JYQIlIY4TEDoZZUylSsei4q7gEo0HR+C4prATvjWOINVrRqYIDer7f7m5o6Tq7LLN+pYAC79alTOaZY1PMdfpNMfRRnNi3+qJ39K4Zlh0v6fgta1hGJcSZH/YzvMAUOU9Uw0H1U8lwhXPWLLtL+taft6XielTbKJeHhgTaG+bpb9eInrcNz1doC+8cmkP3Ux0zKGVKl56cR1+53Ygj1gqh5SkWvERfYkJky/wB9P4gtRgDbtUU7xECzMRXb70NpdnftAAAA0EZ/SejGxVCoHIvzEe1Xuzyiah/AFiWRWffMzZh2m5w7wdMNaY3+3A9xIcEc6dEzD5IEoVCC7lrrd/sRw/Nq8D9SiX1HcYseqfnoS6RWA2m1iPwHDKaRppg11N2uvPSBzAaGybDR6D1r8zjD1CyPdBXgSzsNZ89R3ddiKIIBgloOWH5RWkpiDedxz7uYjAl5P4jH0zP7HM8qi8zucLy+r9H4TQrzH2dZGXvGbKZfAdI0wu+kY6owdPYZQmaQ3fX3YgtGJNP0zGmn5Jhp/ScJfpO4nlqYrDpzKVFgcTFavPrg4pzguMuAdyHS9HxKy5zAehp3IJZRwD0D3x8kRyfGJgW/LkiSqZU49wewSlwblT8BmOi+covi1doLChysIqQPbqUF437PrPqO94iZgt18hK4H+REas30nbl0CvdRh549GSsHiCdB94rzX7+Urucyg5SP3UW6SO0sRjLm+nHvRg2m+50iIBPM1/ggdqvaCZ3qAABQYr3+FsneAl56n+DeGWAgOA+RxgEljkfctFuoKl6A7b/mIazTfy48yxi1GF5hqC2vR39zCN7eIRvKt9Sej1gfkgNBg27IJxgnU9lxDYguZ/aTdPtbF8V3HMJVYWe3+DZSr2JeGC5xmtevcZ3Es5RXr8NHqkW6Zq/T2a5z0/cKFnMJfS+7c7Y9ofVM2iPkt+vmVqX7+v59i/wBoJfTk4iDbWyAtXHwb9EPAicBGJQntS3R9lunpvkMJcTDFt/omH0Wi5RthN3NsUkABiEsyr7/NU7BO0lOhHg7S7DxEtFc94FAS9W6Xh9GMcuCF3IQoDACjBLT1a/wrOxEtXVF3mGe5FX768/8AHo8UqicJESZUGwbGbPZgfBj7Tg7tKjzFkC3bF0R+Ym0//9oADAMBAAIAAwAAABDWT6yT7xb8KxT9hJT/APjyq+GdcXzoyCgs02fwfJoX/jsi+9fUJWfiAc+S3ekjzMIPPvW52oQgD7qgeZr5Q0fVrPReCN4zrRLZ8bhkZEj7UCwFzUvE5FaiB/8AvrHrcZadaVF4/kttNPgF33XYVg+FDHcH8hfu3K7Vtw2mrptt5E4Y8cSQ9JjDnb9F1ZTTc9n2nvnieP/EACERAQACAgICAgMAAAAAAAAAAAEAESExEEEgUXGhMGGB/9oACAEDAQE/EPxX5Gwfo58kBbL2hl+P2CAVG8BA6tlevtDsjIBuZhYgKDEVgeseKofEviHJiwRFhDtjD9iZN/bxXJ19OCdx4EiS6bJ7h8NJt4u1McLruVIC4OKtQ1NMFNMY0hgOLmDAmMNdQOkLA3DIVU7lHIfMW6VT+3BeYKZ/M4qbLKlQe0CXBVLX7Sot5biSyXnOAMM6iO4HiCUxTgK2Xwg3SKzP4KuUOT5/XhWjqGIDTcSlJyJ0QTcLSJeJufXAsuoqr3yhuKmGV41+vik+0dMVl+ApqBQfqfGfGdyZ3FNF1YRYryM8ugjQmJj/xAAiEQEAAgICAgIDAQAAAAAAAAABABEhMRBBIHFRYTCBsaH/2gAIAQIBAT8Q5r8ruBdpjyBWiUlp5YfqRyyC6GL3RL9/4j1RhEVBWGYs2cwUk78Rb9zugTThUENy4GDF+JMSfR4pb24Z1CMoNQZV4Z8A+G00cEbZtFfUtQBbBvJGXPcVG38RWWQHUZF1zlQg1AuG4jtn+R2Opc5lOHUfS+oN1aT1XzFWIrmc+edWXLmlRcVcsQSmeoIiDCoRRKzmpXGjcIhb8XVk1HEXvJRNoacP4LqJgfX34Xz7xHMd3JBoI8oNxBqPtBpsguj3wpDuU0OuRdQUyeT1/vi9/CWFS5Xgg7i0p8z3ntC1EIAS6ii/ByPD4aL5BWaMw5I//8QAKBABAAIBAwMDBQEBAQAAAAAAAQARITFBURBhcYGRoSCxwdHw4fEw/9oACAEBAAE/ENOjKlQOldAlR6NoFRgxlSuldCayokqX0YFypUr6QmnR6XFl/wDgvQjUqDGE06VDEWH0vQldDTMel/Rp0vq4DPBrHK7ExyWUhO1iMZOuMTXgdH3voxIRj1qVKnkRjXwbzPjZTl6H5qXnfQjY5Vr6MDIR6wOidD6NetzVOdgmwYPj7ygAOzCGaZL5eY6myl1n3DxklopV/FO53JU06Mu9JTCPjAWq0EoUi0qx6H7jNzaV7itsexFzrLy6e1/eDANMnXYYmhpTqZA9GnV6VK+j+Rgll2qTVmJKBg8DwhjIUsrsweuUodmNLh8GIoCj0iNWhTLWUHjy40sHIHAyphZ0jUGLQrpyVBWOqtM895WUXSKe3s7ygh7Q5ex2lVzKccyuWhD3RPUPoejtDIF5rb7yjq6MtFwqgGmx8y8Gwpox5ShNDgNPSF6W4is8k9cwlJij4l11Dn7zAtMBPVa1KdlQ7rHLvzGtAXmneniVhEcS2oRG6YR/U1RQugX0r9fRf0PTM+bBUG3gyyoW6JeIqqt8o3FEeQ2uIhpYaOGBWO8VfeciAIaVXr3shlRhZXe2wl6TIE7vLAFAD3D9EUbLdZtiAJzN6uYCLG2I7TF3woEvo9LlRlQIQoFb4hV64hEOLjh3+8RVTCSyWYWXcdPZgeAwDSXDWE0vKL+IpARXOsu4tLwt/L7zYFAoOCU6aREmVaQAdFsWzYfFiqFw8BN+tSpfUm+RgSw0WOvMedI21G/EuMKe0Fbv4iFajE3ENm+bjOGW4laEq+01Qg2oLMRXCFisxFFrjxFuLrhljL3ZpW5AagabJv8A5Cu0Dbp19OOh0uXNOi7qSaneKLMr37xcFNLg1LHhuoAObiueUnnSseR4meAnJw8WN/MsQITLhC5Tw+83ahBrKPERiUxFBVQUOW93YDVeAh5Y0G9xRA92Z3XLjfam/hjiQ/J1rVW/jWZqt7GYl3+Y2ELHD4jUdVxg/YZY0iJz01lHUiGV4/nf5mWpMqUigtZw3G86VMGpfgfKTaQFgWK6uRz4mDMA4a8G4HeGaUNNxHbsr1YHyKL7jE5hlPiJZ4A47zG/ejo8jBcQOp7AGmFxoDe/mMZJN0DDvVfo8RGtBkRqoM6SSnUKN6vO9PMQnaHvo+ojLC5v8RsYZTxl2ezHLF3NrWj6lQldCVcyxVjMrT3WNrjdaf7PClMAie0pWtCnDLWyPkEFykSUureVt95ZWB8xUlDU3gXoAXws/ciO5OZq+H5h0GoGAlAtua88xL0YzwnJ2Zmqady/4qW/DurLDi741hJWTGP833mv6SFJZHwksnQzabPSM0+xq94veU7gxg/Zm/S+30BKiI2IL2lSHjG/mU3nWr4lQA+WKmChJZVz7ZwJyd5e2KmcoiyLus3ku4uE2kC3ioiLaVHr+Zl2JQcJUpS0Gh2NgmpmYGxxNXtNhJqKOsDpxXbV4a+qDij/ALmTtMac0VRK5qSqdrLzKfszU8JiJ8Fbg8rr4JgZaNBxY3oMO5lhhDANAMAQR5h7Vr9vKM3B/YjEHC2DZXzKety4YEQYuoKr+FFttBeZUAZpIVUFaKte6KHMFnx/cojHIGTlZcGV4pzwK4b4gCteYJfgxFGkARwiaxp45cD/AIg/hMKNP7IsKwKBgJW3pCr1jpbtvKnE+0eJGiumOsdWLCHQiIC4IQhu2b9T8ED4IPYfBfvLlNeD+pgyf+2ZnDeRjbi+IRDhi2IXdIO7mXAtifxMdPZMi8xxQ91H1X4dzoABU0lVKUDtmr0laYsgejxExZUkI+MSi4a31Jbr4Q/iKfVLfZLmVxcAvsy7dobpd5HJ7dahpMXkuco1QS4Aq2Irsx8r9RqrR3HtpA8DhgfERprYGIDg9YNe80zavfrcAFABwEEIAq1DL5+ik092Y4goYjg8+Zro7I1c0IfW9zMVWL/jvFNmlas9eJaLU5m7g+7A0YOOldGbQAVwdL5+Y2urs2qVSca5P93gh7qNnroekx3t1yrld5c1+quh0GpYiMitPG0UbGtegdpjm38y3gbx3j0Ya7VNf+n1lSuh0qbMPt94f20A0dhD+shQoA8TXrX/AKIJSCcMIcUBQ13jwWTK16vroee0EIYA2NiXL6GkJrFDK9ZrmNp62lC1fbub1HqdT6K+jfo4eg+ZZJQgNX67eZQssLxsB2NTw8wIBwGiOj9QMlAtXaZ8CoOzt+X1lStdR2dBHhJ4zpBBYidujr0Iy5fVmkXeXPo+hL8F24JlvL4lh27niKG5a8+K8fZOjDrSPv8AZ/qEjUN+PapcWWx7I/MpQg7mjMEJyYZpj0JoPuReiess5Om8Qbk0cest9b2I3F3hanrgwdGJNGV+hohe0H0lMAG5EshK6KBa0EVjRx2BpKga6r5/zrcIoCOzLFLcOkTyhzt0tN2VaF6z/qTWKesQaveLzL6VmNjNYkSDIPabI/qJZdJbqs+zJHpU2GH4d3t94xtZkMsZW0uq5+3Uj0QFIJ3lqg80WKxOMMapjuRKhpFjnqkdJUYkoMLBafb+5gIHMmganpT3Z56EyG9hbL8VMXrlccyg4yW2rP8Akqiu1PZlfVcQGQSK5B3MRh7xmB0L2lsWfE0Eekpch6SniJA7MQyo8kRBXAazZo0N6P3cQYhYTbETRWDd1+QH3lwmWgWy6K0PdACzZu8NOw6Xoy/oiHW2bmnS/pvrcuOZTgimvtSlx7EB09qBQ1ICgqX1pvL7TI1Xzg7wrS7W1/yWxwB7NPyfMuUkiG7rAF4Jn9ynF7kMmBoEFJos+pUfpHpt0qJUCV1ZUBS4wvioJBSsdA39dZoH3ojRCAvGP5hY6nrrSx9x7yogbRF+zGFcq/aIlYAkpTGwoCMMC7n0JVIEToGJUqBEpXiBjpUSokFF7lNJjhtARDujLK58Je//AGiyACuJ/9k=" alt="小白" decoding="async">
-              <b>4.2 kg</b><span>小白 · 较上月 +0.1 kg · 标准范围</span>
+            <!-- 当前体重概览 -->
+            <div class="card" id="weight-summary" style="padding:14px 16px;margin-bottom:14px"></div>
+
+            <!-- 趋势折线图 -->
+            <div class="section-head" style="margin-top:2px"><b>体重趋势</b></div>
+            <div class="card" style="padding:14px 12px 10px">
+              <div class="trend-head">
+                <div class="range-chips" id="weight-range">
+                  <div class="chip on" data-range="3m">近 3 月</div>
+                  <div class="chip" data-range="6m">近 6 月</div>
+                  <div class="chip" data-range="1y">近 1 年</div>
+                </div>
+              </div>
+              <svg id="weight-trend-svg" viewBox="0 0 320 118" preserveAspectRatio="xMidYMid meet"></svg>
+              <div class="trend-legend" id="trend-legend"></div>
+              <div class="weight-empty" id="weight-empty" style="display:none"></div>
             </div>
-            <div class="section-head"><b>历史记录</b></div>
-            <div class="card" style="padding:4px 14px">
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.2 kg</b><span>2026-09-06 · 稳定</span></div><span class="rem-tag slate">最新</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.1 kg</b><span>2026-08-02 · 稳定</span></div><span class="rem-tag slate">持平</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>4.0 kg</b><span>2026-07-05 · 正常</span></div><span class="rem-tag green">+0.1</span></div>
-              <div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>3.9 kg</b><span>2026-06-01 · 略轻</span></div><span class="rem-tag green">+0.1</span></div>
+
+            <!-- 历史记录（JS 动态渲染） -->
+            <div class="section-head" style="margin-top:6px"><b>历史记录</b></div>
+            <div class="card" id="weight-history-list" style="padding:4px 14px"></div>
+            <div class="ai-note" id="weight-breed-tip" style="display:none"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span></span></div>
+          </div>
+        </div>
+
+        <!-- ============ 覆盖层：狗证录入（仅狗狗）============ -->
+        <div class="page" id="pg-dog-license">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">狗证档案</div><div class="pact" id="dl-edit-btn">编辑</div></div>
+          <div class="scroll">
+            <!-- 状态卡 -->
+            <div class="card" id="dl-status" style="padding:16px;margin-bottom:14px"></div>
+
+            <!-- 登记信息 -->
+            <div class="section-head"><b>登记信息</b></div>
+            <div class="card" id="dl-info" style="padding:6px 14px;margin-bottom:14px"></div>
+
+            <!-- 关联宠物 -->
+            <div class="section-head"><b>关联宠物</b></div>
+            <div class="card" id="dl-pet-card" style="padding:14px 16px;margin-bottom:14px"></div>
+
+            <!-- 温馨提示 -->
+            <div class="ai-note"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span>依据《动物防疫法》与各地养犬管理条例，狗狗需办理养犬登记，按时年检。</span></div>
+
+            <!-- 编辑/录入表单（默认隐藏） -->
+            <div class="card" id="dl-form" style="display:none;padding:14px 16px;margin-top:14px">
+              <div class="section-head" style="margin-top:0"><b>登记信息填写</b></div>
+              <div class="field" style="margin-bottom:10px"><label>犬只名称</label><input type="text" id="dl-f-name" placeholder="请填写犬只名称"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记证号</label><input type="text" id="dl-f-no" placeholder="养犬登记证号 / 牌号"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记城市</label><input type="text" id="dl-f-city" placeholder="如：北京市朝阳区"></div>
+              <div class="field" style="margin-bottom:10px"><label>登记机关</label><input type="text" id="dl-f-agency" placeholder="如：xx 公安局养犬管理办公室"></div>
+              <div style="display:flex;gap:10px;margin-bottom:10px">
+                <div class="field" style="flex:1;margin:0"><label>登记日期</label><input type="date" id="dl-f-date"></div>
+                <div class="field" style="flex:1;margin:0"><label>有效期至</label><input type="date" id="dl-f-expire"></div>
+              </div>
+              <div class="field" style="margin-bottom:14px"><label>犬牌颜色</label>
+                <div class="type-grid" id="dl-f-color" style="margin-top:6px">
+                  <div class="cell" data-val="red"><span class="ic coral"><svg class="ico"><use href="#i-paw"/></svg></span>红牌 · 大型犬</div>
+                  <div class="cell on" data-val="green"><span class="ic mint"><svg class="ico"><use href="#i-paw"/></svg></span>绿牌 · 小型犬</div>
+                </div>
+              </div>
+              <div class="btn btn-primary" id="dl-save-btn">保存狗证信息</div>
             </div>
-            <div class="ai-note"><svg class="ico xs" style="color:var(--muted)"><use href="#i-info"/></svg><span>英短成年公猫健康体重区间 3.8–4.5 kg。</span></div>
           </div>
         </div>
 
@@ -3392,6 +3716,10 @@
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">今日待办</div><div class="pact" data-open="pg-new-reminder" style="cursor:pointer">新增</div></div>
           <div class="scroll">
             <div class="todo-pet-switch" id="todo-pet-switch"></div>
+            <div class="mr-filters" id="todo-filters">
+              <div class="mr-filter on" data-todofilter="today">今日</div>
+              <div class="mr-filter" data-todofilter="all">全部</div>
+            </div>
             <div id="todo-page-body"></div>
             <div style="text-align:center;font-size:11px;color:var(--muted);margin:6px 16px 16px;line-height:1.6">点左侧圆圈即可勾掉并自动记一笔；左滑不了的话点右侧图标可删除。新增的提醒也会同步到首页与日历。</div>
           </div>
@@ -4126,6 +4454,8 @@
       if(id === 'pg-family' && typeof renderFamily === 'function') renderFamily();
       if(id === 'pg-todo' && typeof renderTodoPage === 'function') renderTodoPage();
       if(id === 'pg-search' && typeof resetRecSearch === 'function') resetRecSearch();
+      if(id === 'pg-weight' && typeof renderWeightPage === 'function') renderWeightPage();
+      if(id === 'pg-dog-license' && typeof renderDogLicensePage === 'function') renderDogLicensePage();
     }
     document.querySelectorAll('[data-open]').forEach(function(el){
       el.addEventListener('click', function(e){
@@ -4160,8 +4490,8 @@
           recSeg.querySelectorAll('div').forEach(function(x){x.classList.remove('on')});
           d.classList.add('on');
           var isGrowth = d.getAttribute('data-view') === 'growth';
-          document.getElementById('rec-list').style.display = isGrowth ? 'none' : 'flex';
-          document.getElementById('rec-growth').style.display = isGrowth ? 'flex' : 'none';
+          document.getElementById('rec-list').style.display = isGrowth ? 'none' : 'block';
+          document.getElementById('rec-growth').style.display = isGrowth ? 'block' : 'none';
           var mf = document.getElementById('mic-fab');
           if(mf) mf.classList.toggle('hide', isGrowth);
         });
@@ -4891,6 +5221,15 @@
     recCells().forEach(function(cell){
       cell.addEventListener('click', function(){
         if(cell.hasAttribute('data-open')) return;
+        // 内置事项：直接进入该事项的专属录入表单（驱虫/疫苗/洗澡…各有各的字段）
+        var dk = cell.getAttribute('data-key');
+        if(dk && typeof REC_FORMS !== 'undefined' && REC_FORMS[dk] && cell.style.display !== 'none'){
+          if(openRecordFormRF(activeHomePet, dk, {})){
+            var pgn = document.getElementById('pg-new-record');
+            if(pgn) pgn.classList.remove('open');
+          }
+          return;
+        }
         selectRecCell(cell);
         if(recTitle){ recTitle.textContent = cell.textContent.trim(); }
       });
@@ -4965,9 +5304,450 @@
       // 关联宠物模块已移除：记录默认归属当前首页宠物，这里仅同步猫 / 狗专属分类的显隐
       syncRecordTypesByPet(petKey || activeHomePet);
     }
+    // ===== 专属记录录入：每个事项有自己的表单（如驱虫：类型/药品/剂量/日期/下次/备注） =====
+    var REC_META = {
+      deworm:{title:'记录驱虫', recTitle:'驱虫', ico:'i-droplet', icoCls:'amber', cat:'health', sub:'填写以下信息，保存后自动归档并更新提醒'},
+      vaccine:{title:'记录疫苗', recTitle:'疫苗', ico:'i-medical', icoCls:'teal', cat:'health', sub:'接种信息保存后自动归档，并生成下次接种提醒'},
+      checkup:{title:'记录体检', recTitle:'体检', ico:'i-clipcheck', icoCls:'blue', cat:'health', sub:'记录体检结果，健康时间线持续更新'},
+      medicine:{title:'记录用药', recTitle:'用药', ico:'i-capsule', icoCls:'pink', cat:'health', sub:'记下药名与剂量，用药周期不错过'},
+      weight:{title:'记录体重', recTitle:'体重记录', ico:'i-scale', icoCls:'slate', cat:'health', sub:'记一笔自动汇入体重趋势图'},
+      bath:{title:'记录洗澡', recTitle:'洗澡', ico:'i-bath', icoCls:'blue', cat:'groom', sub:'洗护记录自动归档到清洁时间线'},
+      nail:{title:'记录剪指甲', recTitle:'剪指甲', ico:'i-nail', icoCls:'pink', cat:'groom', sub:'记录修剪情况，到点提醒下一次'},
+      tooth:{title:'记录刷牙', recTitle:'刷牙', ico:'i-tooth', icoCls:'teal', cat:'groom', sub:'坚持刷牙，牙齿健康看得见'},
+      anal:{title:'记录挤肛门腺', recTitle:'挤肛门腺', ico:'i-anal', icoCls:'coral', cat:'groom', sub:'定期清理，减少体味与不适', dogOnly:true},
+      feed:{title:'记录喂食', recTitle:'喂食', ico:'i-food', icoCls:'coral', cat:'daily', sub:'记一餐，喂养规律一目了然'},
+      water:{title:'记录喝水', recTitle:'喝水', ico:'i-droplet', icoCls:'blue', cat:'daily', sub:'记下饮水量，关注 TA 的饮水健康'},
+      litter:{title:'记录铲屎', recTitle:'铲屎', ico:'i-litter', icoCls:'slate', cat:'daily', sub:'两便情况是健康的晴雨表', catOnly:true},
+      play:{title:'记录玩耍', recTitle:'玩耍', ico:'i-paw', icoCls:'pink', cat:'daily', sub:'记下开心时光，运动量也能追踪'},
+      walk:{title:'记录遛狗', recTitle:'遛狗', ico:'i-walk', icoCls:'teal', cat:'daily', sub:'遛狗时长与排便情况一起记', dogOnly:true},
+      poop:{title:'记录便便', recTitle:'便便', ico:'i-poop', icoCls:'amber', cat:'daily', sub:'便便性状直接反映肠胃状态'},
+      cage:{title:'记录洗笼子', recTitle:'洗笼子', ico:'i-cage', icoCls:'slate', cat:'clean', sub:'清洗消毒记录，居住环境更干净'},
+      bowl:{title:'记录洗餐具', recTitle:'洗餐具', ico:'i-bowl', icoCls:'amber', cat:'clean', sub:'饭碗水碗常洗，入口更安心'},
+      litterchg:{title:'记录换猫砂', recTitle:'换猫砂', ico:'i-litter', icoCls:'slate', cat:'clean', sub:'猫砂定期换，如厕更清爽', catOnly:true}
+    };
+    // field 类型：seg 单选 / text 文本 / num 数字 / date 日期 / dateNext 下次提醒 / area 备注
+    var REC_FORMS = {
+      deworm:[
+        {t:'seg', k:'type', label:'驱虫类型', req:true, opts:['体外','体内','体内外']},
+        {t:'text', k:'drug', label:'药品名', ph:'如：大宠爱'},
+        {t:'text', k:'dose', label:'剂量', ph:'如：0.75ml'},
+        {t:'date', k:'date', label:'驱虫日期', req:true},
+        {t:'dateNext', k:'next', label:'下次驱虫', hint:'根据驱虫日期自动推算，可修改', days:30},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      vaccine:[
+        {t:'seg', k:'type', label:'疫苗类型', req:true, opts:['猫三联','狂犬疫苗','多联疫苗','其他']},
+        {t:'text', k:'name', label:'疫苗名称', ph:'如：妙三多'},
+        {t:'seg', k:'shot', label:'针次', opts:['第 1 针','第 2 针','第 3 针','加强针']},
+        {t:'date', k:'date', label:'接种日期', req:true},
+        {t:'dateNext', k:'next', label:'下次接种', hint:'根据接种日期自动推算，可修改', days:365},
+        {t:'area', k:'note', label:'备注', ph:'接种反应、医院等（选填）'}
+      ],
+      checkup:[
+        {t:'text', k:'hospital', label:'医院 / 机构', ph:'如：伴侣宠物医院'},
+        {t:'seg', k:'type', label:'体检类型', opts:['年度体检','常规复查','术前检查']},
+        {t:'date', k:'date', label:'体检日期', req:true},
+        {t:'area', k:'result', label:'体检结论 / 异常发现', ph:'如：各项指标正常（选填）'},
+        {t:'text', k:'report', label:'报告附件', ph:'如：已归档 / 化验单编号'}
+      ],
+      medicine:[
+        {t:'text', k:'name', label:'药品名', ph:'如：阿莫西林'},
+        {t:'text', k:'dose', label:'剂量', ph:'如：50mg'},
+        {t:'seg', k:'way', label:'用药方式', opts:['口服','外用','注射']},
+        {t:'date', k:'date', label:'用药日期', req:true},
+        {t:'seg', k:'status', label:'用药状态', opts:['单次','持续中','疗程结束']},
+        {t:'area', k:'note', label:'备注', ph:'服药反应等（选填）'}
+      ],
+      weight:[
+        {t:'num', k:'kg', label:'本次体重', ph:'如：4.2', unit:'kg', step:'0.1', req:true},
+        {t:'date', k:'date', label:'称重日期', req:true},
+        {t:'seg', k:'bcs', label:'体况评级', opts:['偏瘦','标准','偏胖']},
+        {t:'text', k:'way', label:'测量方式', ph:'如：体重秤'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      bath:[
+        {t:'date', k:'date', label:'洗澡日期', req:true},
+        {t:'seg', k:'place', label:'洗澡方式', opts:['在家','宠物店']},
+        {t:'text', k:'supply', label:'用品', ph:'如：宠物香波'},
+        {t:'seg', k:'dry', label:'是否吹干', opts:['已吹干','自然干']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      nail:[
+        {t:'date', k:'date', label:'修剪日期', req:true},
+        {t:'seg', k:'range', label:'修剪范围', opts:['全部爪子','前爪','后爪']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      tooth:[
+        {t:'date', k:'date', label:'刷牙日期', req:true},
+        {t:'seg', k:'way', label:'刷牙方式', opts:['牙刷','洁牙零食','医院洗牙']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      anal:[
+        {t:'date', k:'date', label:'处理日期', req:true},
+        {t:'seg', k:'way', label:'处理方式', opts:['美容店处理','在家处理']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      feed:[
+        {t:'date', k:'date', label:'喂食时间', req:true},
+        {t:'seg', k:'meal', label:'餐次', opts:['早餐','午餐','晚餐','加餐']},
+        {t:'seg', k:'ftype', label:'食物类型', opts:['主食','零食','罐头','保健品']},
+        {t:'text', k:'name', label:'食物名称', ph:'如：主食罐'},
+        {t:'text', k:'amount', label:'分量', ph:'如：80g'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      water:[
+        {t:'date', k:'date', label:'喝水时间', req:true},
+        {t:'num', k:'ml', label:'饮水量', ph:'如：150', unit:'ml', step:'10'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      litter:[
+        {t:'date', k:'date', label:'铲屎时间', req:true},
+        {t:'seg', k:'poop', label:'便便状态', opts:['正常','偏软','腹泻','无']},
+        {t:'seg', k:'pee', label:'尿量', opts:['正常','偏多','偏少','无']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      play:[
+        {t:'date', k:'date', label:'玩耍时间', req:true},
+        {t:'num', k:'mins', label:'时长', ph:'如：20', unit:'分钟', step:'5'},
+        {t:'text', k:'content', label:'玩耍内容', ph:'如：逗猫棒'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      walk:[
+        {t:'date', k:'date', label:'遛狗时间', req:true},
+        {t:'num', k:'mins', label:'时长', ph:'如：30', unit:'分钟', step:'5'},
+        {t:'text', k:'route', label:'路线', ph:'常走路线（选填）'},
+        {t:'seg', k:'poop', label:'便便情况', opts:['正常','偏软','无']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      poop:[
+        {t:'date', k:'date', label:'便便时间', req:true},
+        {t:'seg', k:'shape', label:'性状', opts:['正常','偏软','腹泻']},
+        {t:'seg', k:'color', label:'颜色', opts:['正常','发黑','带血']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      cage:[
+        {t:'date', k:'date', label:'清洗日期', req:true},
+        {t:'seg', k:'way', label:'处理方式', opts:['清洗','清洗 + 消毒']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      bowl:[
+        {t:'date', k:'date', label:'清洗日期', req:true},
+        {t:'seg', k:'range', label:'清洗范围', opts:['水碗','饭盆','水碗 + 饭盆']},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      litterchg:[
+        {t:'date', k:'date', label:'更换日期', req:true},
+        {t:'seg', k:'way', label:'更换方式', opts:['整盆更换','局部添加']},
+        {t:'text', k:'kind', label:'猫砂种类', ph:'如：豆腐砂'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ]
+    };
+    var rfState = {key:null, petKey:null, mode:'create', editId:null, editPet:null, date:null, timeMin:12*60, fromDay:false, vals:{}, nextAuto:{}};
+    function rfFmtDate(d){ return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'; }
+    function rfISO(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+    function rfParseLooseDate(str, baseDate){
+      if(!str) return null;
+      var m = String(str).match(/(\d{4})[-年\/.](\d{1,2})[-月\/.](\d{1,2})/);
+      if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+      var m2 = String(str).match(/(\d{1,2})[-月\/.](\d{1,2})/);
+      if(m2 && baseDate) return new Date(baseDate.getFullYear(), +m2[1]-1, +m2[2]);
+      return null;
+    }
+    // 从一条已存在记录反推它属于哪个专属表单（编辑时用）
+    function recKeyOfRec(rec){
+      if(rec.key && REC_META[rec.key]) return rec.key;
+      var t = rec.title || '';
+      if(/换猫砂/.test(t)) return 'litterchg';
+      if(/驱虫/.test(t)) return 'deworm';
+      if(/疫苗|狂犬/.test(t)) return 'vaccine';
+      if(/体检|检查/.test(t)) return 'checkup';
+      if(/体重|称重/.test(t)) return 'weight';
+      if(/药/.test(t)) return 'medicine';
+      if(/肛门腺/.test(t)) return 'anal';
+      if(/洗澡|美容/.test(t)) return 'bath';
+      if(/指甲|剪爪/.test(t)) return 'nail';
+      if(/刷牙|牙齿/.test(t)) return 'tooth';
+      if(/喂|吃|食/.test(t)) return 'feed';
+      if(/水/.test(t)) return 'water';
+      if(/铲屎|猫砂/.test(t)) return 'litter';
+      if(/玩耍/.test(t)) return 'play';
+      if(/遛/.test(t)) return 'walk';
+      if(/便便|拉屎/.test(t)) return 'poop';
+      if(/笼子|猫窝|狗窝/.test(t)) return 'cage';
+      if(/餐具|洗碗|碗/.test(t)) return 'bowl';
+      var hit = null;
+      Object.keys(REC_META).forEach(function(k){ if(REC_META[k].ico === rec.ico) hit = k; });
+      return hit;
+    }
+    function rfFieldVal(rec, f){
+      var fmap = rec.fields || {};
+      var hit = null;
+      Object.keys(fmap).forEach(function(k){
+        if(hit == null && k.indexOf(f.label) >= 0) hit = fmap[k];
+      });
+      return hit;
+    }
+    function renderRecordForm(){
+      var meta = REC_META[rfState.key];
+      var fields = REC_FORMS[rfState.key] || [];
+      var pet = HOME_PETS[rfState.petKey] || HOME_PETS[activeHomePet] || {name:''};
+      var titleEl = document.getElementById('rf-title');
+      if(titleEl) titleEl.textContent = meta.title;
+      var scroll = document.getElementById('rf-scroll');
+      if(!scroll) return;
+      var isEdit = rfState.mode === 'edit';
+      var html = '';
+      html += '<div class="rf-pet-line"><svg class="ico"><use href="#i-paw"/></svg>正在为 <b>'+escHtml(pet.name)+'</b> 记录 · '+escHtml(meta.recTitle)+'</div>';
+      html += '<div class="rf-hero"><div class="rf-h-ic"><svg class="ico"><use href="#'+meta.ico+'"/></svg></div>'
+        + '<div class="rf-h-title">'+meta.title+'</div>'
+        + '<div class="rf-h-sub">'+meta.sub+'</div></div>';
+      html += '<div class="rf-card">';
+      fields.forEach(function(f){
+        if(f.t === 'seg'){
+          var curSeg = rfState.vals[f.k];
+          html += '<div class="rf-row stack"><div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')+'</div>'
+            + '<div class="rf-seg" data-rfk="'+f.k+'">'
+            + f.opts.map(function(o, i){ return '<div class="rf-opt'+((curSeg?o===curSeg:i===0)?' on':'')+'" data-val="'+escHtml(o)+'">'+escHtml(o)+'</div>'; }).join('')
+            + '</div></div>';
+        } else if(f.t === 'area'){
+          var v0 = rfState.vals[f.k] || '';
+          html += '<div class="rf-row stack"><div class="rf-k">'+f.label+'</div>'
+            + '<textarea class="rf-area" data-rfk="'+f.k+'" placeholder="'+escHtml(f.ph||'')+'">'+escHtml(v0)+'</textarea></div>';
+        } else if(f.t === 'date' || f.t === 'dateNext'){
+          var dv = f.t === 'date' ? rfState.date : rfState.vals[f.k];
+          var disp = dv ? rfFmtDate(dv) : (f.t==='dateNext' ? '自动推算' : '点击选择日期');
+          html += '<div class="rf-row'+(f.t==='dateNext'?' rf-next-row':'')+'" data-rfdate="'+f.k+'"'
+            + (f.t==='dateNext'?' data-days="'+(f.days||30)+'"':'') + ' style="cursor:pointer">'
+            + '<div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')
+            + (f.hint?'<span class="rf-hint">'+f.hint+'</span>':'')+'</div>'
+            + '<div class="rf-v '+(dv?'':'rf-ph')+'">'+escHtml(disp)+'</div></div>';
+        } else {
+          var tv = rfState.vals[f.k] || '';
+          html += '<div class="rf-row"><div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')+'</div>'
+            + '<div class="rf-v"><input type="'+(f.t==='num'?'number':'text')+'"'+(f.step?' step="'+f.step+'"':'')
+            + ' data-rfk="'+f.k+'" placeholder="'+escHtml(f.ph||'')+'" value="'+escHtml(tv)+'"></div>'
+            + (f.unit?'<span style="font-size:11px;color:var(--muted);font-weight:700;margin-left:-4px">'+f.unit+'</span>':'')+'</div>';
+        }
+      });
+      html += '</div>';
+      html += '<div class="btn btn-primary" id="rf-save">'+(isEdit?'保存修改':'保存记录')+'</div>';
+      html += '<div class="rf-foot-tip">保存后自动归档到健康时间线'+(/deworm|vaccine/.test(rfState.key)?'，并更新相关提醒':'')+'</div>';
+      html += '<div style="height:24px"></div>';
+      scroll.innerHTML = html;
+      bindRecordFormEvents(fields);
+      var saveTop = document.getElementById('rf-save-top');
+      if(saveTop) saveTop.onclick = saveRecordFormRF;
+    }
+    function rfPickDate(initDate, title, allowEmpty){
+      var iso = rfISO(initDate);
+      var nv = prompt(title+'（格式 YYYY-MM-DD）'+(allowEmpty?'，留空清除':''), iso);
+      if(nv === null) return null;
+      nv = nv.trim();
+      if(!nv && allowEmpty) return false;
+      var m = nv.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+      if(!m){ showToast('日期格式不对，示例：2026-09-08'); return null; }
+      return new Date(+m[1], +m[2]-1, +m[3]);
+    }
+    function bindRecordFormEvents(fields){
+      var scroll = document.getElementById('rf-scroll');
+      if(!scroll) return;
+      // 单选段
+      scroll.querySelectorAll('.rf-seg').forEach(function(seg){
+        var k = seg.getAttribute('data-rfk');
+        seg.querySelectorAll('.rf-opt').forEach(function(opt){
+          opt.addEventListener('click', function(){
+            seg.querySelectorAll('.rf-opt').forEach(function(x){ x.classList.remove('on'); });
+            opt.classList.add('on');
+            rfState.vals[k] = opt.getAttribute('data-val');
+          });
+        });
+      });
+      // 文本 / 数字 / 备注实时写入
+      scroll.querySelectorAll('[data-rfk]').forEach(function(inp){
+        if(inp.classList.contains('rf-area')){
+          inp.addEventListener('input', function(){ rfState.vals[inp.getAttribute('data-rfk')] = inp.value; });
+        } else {
+          inp.addEventListener('input', function(){ rfState.vals[inp.getAttribute('data-rfk')] = inp.value; });
+        }
+      });
+      // 日期选择（含时间）
+      scroll.querySelectorAll('[data-rfdate]').forEach(function(row){
+        row.addEventListener('click', function(){
+          var k = row.getAttribute('data-rfdate');
+          var isNext = row.classList.contains('rf-next-row');
+          var cur = rfState.vals[k] || rfState.date;
+          var nd = rfPickDate(cur || new Date(APP_TODAY), isNext ? '选择'+row.querySelector('.rf-k').childNodes[0].textContent : '选择日期', isNext);
+          if(nd === null) return;
+          if(nd === false){ rfState.vals[k] = null; rfState.nextAuto[k] = false; renderRecordForm(); return; }
+          if(!isNext){
+            rfState.date = dayStart(nd);
+            var tv = prompt('发生时间（24 小时制 HH:MM，留空=12:00）', ('0'+Math.floor(rfState.timeMin/60)).slice(-2)+':'+('0'+(rfState.timeMin%60)).slice(-2));
+            if(tv && tv.trim()){
+              var tm = tv.trim().match(/^(\d{1,2}):(\d{1,2})$/);
+              if(tm && +tm[1] <= 23 && +tm[2] <= 59) rfState.timeMin = +tm[1]*60 + +tm[2];
+            }
+            // 下次提醒日期：自动模式下跟随主日期重新推算
+            fields.forEach(function(f){
+              if(f.t === 'dateNext' && rfState.nextAuto[f.k] !== false){
+                rfState.vals[f.k] = new Date(rfState.date.getTime() + (f.days||30)*86400000);
+              }
+            });
+          } else {
+            rfState.nextAuto[k] = false;
+            rfState.vals[k] = dayStart(nd);
+          }
+          renderRecordForm();
+        });
+      });
+      var saveEl = document.getElementById('rf-save');
+      if(saveEl) saveEl.addEventListener('click', saveRecordFormRF);
+    }
+    function saveRecordFormRF(){
+      var meta = REC_META[rfState.key];
+      var fields = REC_FORMS[rfState.key] || [];
+      var vals = rfState.vals;
+      // 必填校验
+      for(var i=0;i<fields.length;i++){
+        var f = fields[i];
+        if(f.req){
+          if(f.t === 'date' && !rfState.date){ showToast('请选择'+f.label); return; }
+          if(f.t === 'seg' && !vals[f.k]){ showToast('请选择'+f.label); return; }
+          if((f.t === 'text' || f.t === 'num') && !String(vals[f.k]||'').trim()){ showToast('请填写'+f.label); return; }
+        }
+      }
+      var outFields = {};
+      var note = '';
+      fields.forEach(function(f){
+        if(f.t === 'date') return;
+        var v = vals[f.k];
+        if(f.t === 'area'){ note = (v||'').trim(); return; }
+        if(f.t === 'dateNext'){
+          if(v) outFields[f.label] = rfISO(v);
+          return;
+        }
+        if(f.t === 'seg'){
+          if(v) outFields[f.label] = v;
+          return;
+        }
+        var tv = String(v==null?'':v).trim();
+        if(!tv) return;
+        if(f.t === 'num'){
+          if(!isNaN(parseFloat(tv))) outFields[f.label] = tv + (f.unit==='kg'?' kg':(f.unit==='ml'?' ml':(f.unit==='分钟'?' 分钟':'')));
+          else outFields[f.label] = tv;
+        } else {
+          outFields[f.label] = tv;
+        }
+      });
+      var baseDate = rfState.date || dayStart(new Date(APP_TODAY));
+      var ts = baseDate.getTime() + (rfState.timeMin||12*60)*60000;
+      var payload = {
+        pet:rfState.petKey, cat:meta.cat, title:meta.recTitle, key:rfState.key,
+        ico:meta.ico, icoCls:meta.icoCls, source:'manual', note:note, ts:ts, fields:outFields
+      };
+      var petKey = rfState.petKey;
+      if(rfState.mode === 'edit' && rfState.editId){
+        var targetPet = rfState.editPet || petKey;
+        RecordStore.update(targetPet, rfState.editId, payload);
+        if(petKey !== targetPet){
+          var moved = RecordStore.get(targetPet, rfState.editId);
+          if(moved){ RecordStore.remove(targetPet, rfState.editId); RecordStore.add(petKey, moved); }
+        }
+      } else {
+        RecordStore.add(petKey, payload);
+        var fp = HOME_PETS[petKey];
+        if(dayStart(baseDate).getTime() === dayStart(new Date(APP_TODAY)).getTime() && fp) fp.logsToday = (fp.logsToday||0)+1;
+        activeHomePet = petKey;
+      }
+      // 下次提醒（驱虫 / 疫苗）自动写入提醒中心
+      var nf = null, nLabel = '';
+      fields.forEach(function(f){ if(f.t === 'dateNext' && vals[f.k]){ nf = vals[f.k]; nLabel = f.label; } });
+      if(nf && rfState.mode !== 'edit'){
+        try{
+          ReminderStore.add(petKey, {
+            title:'下次'+meta.recTitle,
+            petName:(HOME_PETS[petKey]||{}).name || '',
+            repeat:meta.recTitle==='疫苗'?'每年':'单次',
+            ahead:0,
+            tagCls:meta.icoCls,
+            tagText:'待处理',
+            due:dayStart(nf).getTime()+10*3600*1000
+          });
+        }catch(e){}
+      }
+      var pgRFEl = document.getElementById('pg-record-form');
+      if(pgRFEl) pgRFEl.classList.remove('open');
+      refreshAfterRecord(petKey);
+      if(rfState.fromDay && typeof openLastDay === 'function'){ openLastDay(); }
+      else { switchMainTab('records'); }
+      showToast('已保存「'+meta.recTitle+'」🐾');
+    }
+    function openRecordFormRF(petKey, key, opt){
+      opt = opt || {};
+      var meta0 = REC_META[key];
+      // 物种守卫：狗狗专属事项猫不能记，反之亦然
+      var petInfo0 = HOME_PETS[petKey] || {};
+      var species = petInfo0.speciesKey || (petKey === 'dog' ? 'dog' : 'cat');
+      if(meta0.dogOnly && species !== 'dog') return false;
+      if(meta0.catOnly && species !== 'cat') return false;
+      var meta = meta0;
+      rfState = {key:key, petKey:petKey, mode:'create', editId:null, editPet:null,
+        date:dayStart(new Date(APP_TODAY)), timeMin:12*60, fromDay:!!opt.fromDay, vals:{}, nextAuto:{}};
+      if(opt.date) rfState.date = dayStart(new Date(opt.date));
+      if(opt.editId){
+        var rec = RecordStore.get(petKey, opt.editId) || RecordStore.get(activeHomePet, opt.editId);
+        if(!rec){ showToast('找不到这条记录'); return false; }
+        rfState.petKey = rec.pet;
+        rfState.mode = 'edit';
+        rfState.editId = rec.id;
+        rfState.editPet = rec.pet;
+        var od = new Date(rec.ts);
+        rfState.date = dayStart(od);
+        rfState.timeMin = od.getHours()*60 + od.getMinutes();
+        (REC_FORMS[key]||[]).forEach(function(f){
+          if(f.t === 'date') return;
+          var v0 = rfFieldVal(rec, f);
+          if(v0 == null || v0 === '') return;
+          if(f.t === 'dateNext'){
+            var pd = rfParseLooseDate(v0, od);
+            if(pd){ rfState.vals[f.k] = pd; rfState.nextAuto[f.k] = false; }
+          } else if(f.t === 'num'){
+            var mm = String(v0).match(/(\d+(?:\.\d+)?)/);
+            if(mm) rfState.vals[f.k] = mm[1];
+          } else {
+            rfState.vals[f.k] = String(v0);
+          }
+        });
+        if(rec.note) rfState.vals.note = rec.note;
+      } else {
+        // 默认值：单选取第一项；下次提醒按默认周期自动推算
+        (REC_FORMS[key]||[]).forEach(function(f){
+          if(f.t === 'seg') rfState.vals[f.k] = f.opts[0];
+          if(f.t === 'dateNext'){
+            rfState.vals[f.k] = new Date(rfState.date.getTime() + (f.days||30)*86400000);
+            rfState.nextAuto[f.k] = true;
+          }
+        });
+        if(opt.presetNote) rfState.vals.note = opt.presetNote;
+      }
+      renderRecordForm();
+      openPage('pg-record-form');
+      return true;
+    }
+
     // 统一打开表单：opt={petKey,date,editId,fromDay}
     function openRecordForm(opt){
       opt = opt || {};
+      // 优先走专属表单：明确 presetKey，或编辑时能识别出事项类型；识别不出再回退通用「记一笔」
+      var specKey = null;
+      if(opt.editId){
+        var existRec = RecordStore.get(opt.petKey || activeHomePet, opt.editId) || RecordStore.get(activeHomePet, opt.editId);
+        if(existRec) specKey = recKeyOfRec(existRec);
+      } else if(opt.presetKey && REC_META[opt.presetKey]){
+        specKey = opt.presetKey;
+      }
+      if(specKey){
+        if(openRecordFormRF(opt.petKey || activeHomePet, specKey, opt)) return;
+      }
       var petKey = opt.petKey || activeHomePet;
       setRecPetSwitch(petKey);
       recFormState.fromDay = !!opt.fromDay;
@@ -5251,18 +6031,13 @@
       if(!p) return [];
       var byKey = {};
       quickCandidatesFor(petKey).forEach(function(c){ byKey[c.key] = c; });
-      // 保持用户配置的固定顺序（点击不重排），不再按使用频率排序
+      // 直接展示用户在管理面板里勾选的全部项（不再裁剪到 3 个或补默认项）
       var picked = (p.quickLogs || []).filter(function(q){ return byKey[q.key]; });
-      var chosenKeys = {};
-      picked.forEach(function(q){ chosenKeys[q.key] = true; });
-      var top = picked.slice(0,3);
-      if(top.length < 3){
-        quickCandidatesFor(petKey).forEach(function(c){
-          if(top.length >= 3) return;
-          if(!chosenKeys[c.key]){ chosenKeys[c.key] = true; top.push(c); }
-        });
+      // 兜底：用户从未配置过时，取默认前 3 项避免首页空白
+      if(picked.length === 0){
+        quickCandidatesFor(petKey).slice(0,3).forEach(function(c){ picked.push(c); });
       }
-      return top;
+      return picked;
     }
     function renderHeroStats(key){
       var p = HOME_PETS[key];
@@ -5296,6 +6071,13 @@
       if(offBox) offBox.style.display = 'none';
       row.style.display = 'flex';
       if(coach) coach.style.display = quickLogCoachSeen() ? 'none' : 'block';
+      // 长按引导：首次使用后隐藏
+      var lpHint = document.getElementById('ql-longpress-hint');
+      if(lpHint){
+        var lpSeen = false;
+        try{ lpSeen = JSON.parse(localStorage.getItem('petlog_set_longpressSeen')||'false'); }catch(e){}
+        lpHint.classList.toggle('hide', lpSeen);
+      }
       var init = p.quickInit || {};
       var displayLogs = topQuickLogs(key);
       row.innerHTML = displayLogs.map(function(q){
@@ -5382,8 +6164,12 @@
           clearTimeout(pressTimer);
           pressTimer = setTimeout(function(){
             longPressed = true;
+            try{ localStorage.setItem('petlog_set_longpressSeen','true'); }catch(e){}
+            var lpHint2 = document.getElementById('ql-longpress-hint');
+            if(lpHint2) lpHint2.classList.add('hide');
             var qk = el.getAttribute('data-key');
             if(qk === 'feed') openFeedSheet('food');
+            else if(typeof REC_FORMS !== 'undefined' && REC_FORMS[qk] && openRecordFormRF(key, qk, {})) { /* 专属表单已打开 */ }
             else openPage('pg-new-record');
           }, 500);
         }, {passive:true});
@@ -6915,6 +7701,20 @@
         showToast(on ? '已开启一键记录' : '已关闭一键记录，可用「记一笔」记录');
       });
     })();
+    // 记一笔页面内的快捷方式开关：关闭后可从这里重新打开
+    (function(){
+      var sw = document.getElementById('rec-quicklog-sw');
+      if(!sw) return;
+      sw.classList.toggle('on', quickLogEnabled());
+      sw.addEventListener('click', function(){
+        var on = !quickLogEnabled();
+        setQuickLogEnabled(on);
+        sw.classList.toggle('on', on);
+        renderHeroQuickLogs(activeHomePet);
+        syncQuickLogMasterUI();
+        showToast(on ? '已开启首页快捷方式' : '已关闭首页快捷方式');
+      });
+    })();
     // 首次引导：讲清四个按键用途，确认或关闭后不再弹出
     (function(){
       var coach = document.getElementById('ql-coach');
@@ -7480,8 +8280,8 @@
       var p = HOME_PETS[key];
       var pending = visibleTodayTodos(key);
       var doneMap = getTodoDone(key);
-      // 今日已完成项（排在卡片底部，弱化展示，对齐参考图「每日体重记录 · 已完成」）
-      var finished = getTodayTodos(key).filter(function(it){ return doneMap[it.uid]; });
+      // 首页只展示未完成待办，已完成项从首页消失（待办页仍可查看）
+      var finished = [];
       var hasDanger = pending.some(function(it){ return it.ico === 'danger'; });
       // 分层呼应：有逾期/紧急护理时，「今日待办」标题亮起风险脉冲点，与简报红色要闻呼应
       var pulse = document.getElementById('todo-pulse');
@@ -7606,6 +8406,7 @@
 
     // ===== 今日待办页：宠物切换 + 勾选完成/撤销 + 删除（跳过今日/删提醒），与首页同一份数据 =====
     var todoPetKey = null;
+    var todoListMode = 'today'; // 'today' | 'all'：全部视图含已完成的自定义提醒
     function todoItemRow(key, it, done){
       var tagHtml = '';
       if(!done){
@@ -7623,6 +8424,7 @@
     }
     function renderTodoPage(){
       var switchWrap = document.getElementById('todo-pet-switch');
+      var filterWrap = document.getElementById('todo-filters');
       var body = document.getElementById('todo-page-body');
       if(!body) return;
       var keys = Object.keys(HOME_PETS);
@@ -7637,16 +8439,39 @@
           c.addEventListener('click', function(){ todoPetKey = c.getAttribute('data-pet'); renderTodoPage(); });
         });
       }
+      if(filterWrap){
+        filterWrap.querySelectorAll('.mr-filter').forEach(function(c){
+          c.classList.toggle('on', c.getAttribute('data-todofilter') === todoListMode);
+          c.onclick = function(){ todoListMode = c.getAttribute('data-todofilter'); renderTodoPage(); };
+        });
+      }
       var doneMap = getTodoDone(key), skip = getTodoSkip(key);
-      var all = getTodayTodos(key);
+      var all;
+      if(todoListMode === 'all'){
+        // 全部视图：列出所有自定义提醒（含已完成）+ 周期 todos，按完成状态分组
+        all = p.todos.map(function(t){
+          return {src:'care', uid:t.uid, ico:t.ico, icon:t.icon, title:t.title, desc:t.desc,
+            type:t.type||t.title, meta:t.meta, next:t.next, tint:t.tint,
+            lastISO:t.lastISO, intervalDays:t.intervalDays, raw:t};
+        });
+        ReminderStore.list(key).forEach(function(r){
+          all.push({src:'rem', uid:'rem-'+r.id, ico:r.done?'teal':'amber', icon:r.icon||'i-bell-heart',
+            title:r.title, desc:p.name+' · '+(r.repeat||('今天'+(r.time?(' '+r.time):''))),
+            type:r.title, meta:r.note||r.repeat||'自定义提醒', next:r.repeat||'今天仅此一次',
+            tint:'blue', raw:r, __done:!!r.done});
+        });
+      } else {
+        all = getTodayTodos(key);
+      }
       var urgent = [], pending = [], finished = [];
       all.forEach(function(it){
-        if(skip[it.uid]) return;
-        if(doneMap[it.uid]) finished.push(it);
+        var isDone = (it.src === 'rem') ? !!it.__done : !!doneMap[it.uid];
+        if(todoListMode === 'today' && skip[it.uid]) return;
+        if(isDone) finished.push(it);
         else if(it.ico === 'danger') urgent.push(it);
         else pending.push(it);
       });
-      function card(title, list, tone){
+      function card(title, list){
         if(!list.length) return '';
         var head = '<div class="section-head"><b>'+title+'</b>'
           + '<span style="font-size:12px;color:var(--muted)">'+list.length+' 项</span></div>';
@@ -7654,16 +8479,30 @@
           + list.map(function(it){ return todoItemRow(key, it, false); }).join('') + '</div>';
       }
       var html = '';
-      html += card('已到期 / 需尽快处理', urgent, 'red');
-      html += card('今日待处理', pending, 'amber');
-      if(finished.length){
-        html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
-          + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
-          + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
-      }
-      if(!urgent.length && !pending.length && !finished.length){
-        html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
-          + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
+      if(todoListMode === 'all'){
+        // 全部视图：分「待处理 / 已完成」两段（已完成含历史自定义提醒，可撤销重新激活）
+        html += card('待处理提醒', pending.concat(urgent));
+        if(finished.length){
+          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
+            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
+            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
+        }
+        if(!pending.length && !urgent.length && !finished.length){
+          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
+            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 还没有任何提醒<br>点右上角「新增」排一个护理提醒</div></div>';
+        }
+      } else {
+        html += card('已到期 / 需尽快处理', urgent);
+        html += card('今日待处理', pending);
+        if(finished.length){
+          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
+            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
+            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
+        }
+        if(!urgent.length && !pending.length && !finished.length){
+          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
+            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
+        }
       }
       body.innerHTML = html;
 
@@ -7671,7 +8510,7 @@
         var uid = row.getAttribute('data-uid');
         var it = all.filter(function(x){return x.uid === uid;})[0];
         if(!it) return;
-        var isDone = !!doneMap[uid];
+        var isDone = (it.src === 'rem') ? !!it.__done : !!doneMap[uid];
         var toggle = row.querySelector('[data-act="toggle"]');
         if(toggle) toggle.addEventListener('click', function(e){
           e.stopPropagation();
@@ -7911,31 +8750,37 @@
       var weightS = Math.max(55, Math.round(100 - Math.abs(d.pct) * 6));
       var score = Math.round(careS*.30 + mealS*.28 + waterS*.22 + weightS*.20);
 
-      // —— 顶部 Hero ——
+      // —— 顶部 Hero（中央宠物图 + 四角维度小圈）——
       var hero = document.getElementById('hrd-hero');
       if(hero){
         hero.classList.remove('lv-danger','lv-warn','lv-good');
         hero.classList.add('lv-'+b.level);
       }
-      var now = new Date();
-      var week = ['周日','周一','周二','周三','周四','周五','周六'][now.getDay()];
-      var slot = now.getHours() < 11 ? '晨报' : (now.getHours() < 18 ? '午报' : '晚报');
-      var dateEl = document.getElementById('hrd-date');
-      if(dateEl) dateEl.textContent = (now.getMonth()+1)+'月'+now.getDate()+'日 '+week+' · '+slot;
-      var nameEl = document.getElementById('hrd-pet-name');
-      if(nameEl) nameEl.textContent = p.name + ' 的今日健康状态';
-      var CIRC = 213.6;
-      var ringFg = document.getElementById('hrd-ring-fg');
-      if(ringFg){
-        ringFg.style.transition = 'stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1)';
-        ringFg.setAttribute('stroke-dashoffset', String(CIRC*(1-score/100)));
+      // 中央宠物头像
+      var petPhoto = document.getElementById('hrd-pet-photo');
+      if(petPhoto && p.avatar){
+        petPhoto.style.backgroundImage = 'url("'+p.avatar+'")';
       }
       var scoreEl = document.getElementById('hrd-score');
       if(scoreEl) scoreEl.textContent = score;
+      // 需关注项数（与下方「需要关注」明细同口径）
+      var riskCount = b.news.filter(function(n){ return n.flagCls==='bad' || n.flagCls==='warn'; }).length;
       var levelLab = document.getElementById('hrd-level-lab');
-      if(levelLab) levelLab.textContent = b.level==='danger' ? '需要立即处理' : (b.level==='warn' ? '需要留意' : '状态很棒');
-      var summaryEl = document.getElementById('hrd-summary');
-      if(summaryEl) summaryEl.textContent = stripHtml(b.title);
+      if(levelLab) levelLab.textContent = riskCount ? ('需要关注 '+riskCount+' 项') : '状态很棒';
+      // 四角小圈：分数 + 按风险上色
+      var MINI_C = 116.2;
+      function paintMini(prefix, val, cls){
+        var dim = document.getElementById('hrd-dim-'+prefix);
+        var fg = document.getElementById('hrd-ring-'+prefix);
+        var num = document.getElementById('hrd-num-'+prefix);
+        if(dim){ dim.classList.remove('warn','bad'); if(cls) dim.classList.add(cls); }
+        if(fg) fg.setAttribute('stroke-dashoffset', String(MINI_C*(1-val/100)));
+        if(num) num.textContent = val;
+      }
+      paintMini('care', careS, careS<60?'bad':(careS<80?'warn':''));
+      paintMini('meal', mealS, (d.hasFood && (d.kcalRatio<0.7 || d.kcalRatio>1.2)) ? 'warn' : (mealS<70?'warn':''));
+      paintMini('water', waterS, (d.waterN===0 && d.hh>=9) ? 'bad' : (waterS<70?'warn':''));
+      paintMini('weight', weightS, ((d.pct>=4 || d.pct<=-3) || weightS<70) ? 'warn' : '');
 
       // —— 护理维度卡 ——
       var careChip = d.danger.length ? '<span class="hrd-chip bad">已逾期</span>'
@@ -8013,15 +8858,6 @@
             +'<div class="hrd-wline"><b>'+(d.wEnd||'--')+'</b><span>kg</span><span class="'+trendCls+'">'+trendTxt+'</span></div>'
             +bar(weightS<70?'warn':'', weightS)
             +'<div class="hrd-note">'+weightNote+'</div></div>';
-        // 分数口径说明：回答「这四个维度的分数怎么得出来的」
-        var rule = document.getElementById('hrd-score-rule');
-        if(!rule){
-          rule = document.createElement('div');
-          rule.id = 'hrd-score-rule';
-          rule.style.cssText = 'font-size:10.5px;color:#A89380;line-height:1.6;margin-top:10px;text-align:center;padding:0 4px';
-          grid.parentNode.insertBefore(rule, grid.nextSibling);
-        }
-        rule.innerHTML = '分数实时计算：综合分 = 护理×30% + 吃饭×28% + 喝水×22% + 体重×20%。护理 100 起扣（临期 −6/项、逾期 −18 起）；吃饭 = 餐次进度 55 + 热量命中 45；喝水每记一次 +10；体重按近 3 月波动每偏离 1% −6。每记一笔，分数都会即时更新。';
       }
 
       // —— 风险明细：只列出「紧急/注意」的要闻 ——
@@ -8268,6 +9104,35 @@
         ]
       }
     };
+    // 常见品种库（按种类联动下拉，含「其他/不清楚」兜底项）
+    var BREED_OPTIONS = {
+      cat:[
+        '中华田园猫','英国短毛猫','美国短毛猫','布偶猫','暹罗猫','波斯猫','缅因猫','孟加拉猫',
+        '苏格兰折耳猫','加菲猫（异短）','斯芬克斯猫','挪威森林猫','俄罗斯蓝猫','阿比西尼亚猫',
+        '金渐层','银渐层','狸花猫','橘猫','三花猫','玳瑁猫','其他 / 不清楚'
+      ],
+      dog:[
+        '中华田园犬','金毛寻回犬','拉布拉多','贵宾犬（泰迪）','比熊犬','柯基犬','柴犬','博美犬',
+        '边境牧羊犬','德国牧羊犬','哈士奇','阿拉斯加雪橇犬','萨摩耶','雪纳瑞','约克夏梗',
+        '马尔济斯','法国斗牛犬','英国斗牛犬','八哥犬','吉娃娃','罗威纳','杜宾犬','斑点犬',
+        '秋田犬','松狮','京巴','西施犬','其他 / 不清楚'
+      ]
+    };
+    // 按 species 填充品种下拉；currentValue 命中则选中，否则默认选「其他/不清楚」并返回空串
+    function fillBreedOptions(selectEl, speciesKey, currentValue){
+      if(!selectEl) return '';
+      var list = BREED_OPTIONS[speciesKey] || BREED_OPTIONS.cat;
+      var hit = (currentValue && list.indexOf(currentValue) > -1) ? currentValue : '';
+      var fallback = list[list.length-1]; // 「其他/不清楚」
+      var html = '<option value="">— 请选择品种 —</option>';
+      list.forEach(function(b){
+        var sel = (hit ? b === hit : b === fallback) ? ' selected' : '';
+        html += '<option value="'+escHtml(b)+'"'+sel+'>'+escHtml(b)+'</option>';
+      });
+      selectEl.innerHTML = html;
+      // 返回此次应使用的 value（hit 优先；否则空——代表未选/不清楚）
+      return hit || '';
+    }
     function breedShort(p){
       if(p.breed) return p.breed;
       return p.speciesKey === 'dog' ? '狗狗' : '猫咪';
@@ -8367,9 +9232,9 @@
       if(!HOME_PETS[k]) return;
       renderRecordSwitch(k);
     });
-    // 事件委托：提醒 / 纪念日表单内单选宠物
+    // 事件委托：纪念日表单内单选宠物
     document.addEventListener('click', function(e){
-      var card = e.target.closest('#rem-pet-select .pet-card, #memo-pet-select .pet-card');
+      var card = e.target.closest('#memo-pet-select .pet-card');
       if(!card) return;
       var box = card.closest('.pet-select');
       box.querySelectorAll('.pet-card').forEach(function(x){ x.classList.remove('on'); });
@@ -8378,7 +9243,6 @@
     function renderAllPetSwitchers(activeKey){
       renderHomeSwitch(activeKey);
       renderRecordSwitch(activeKey);
-      renderFormPetCards('rem-pet-select', activeKey);
       renderFormPetCards('memo-pet-select', activeKey);
       if(typeof renderPetsManage === 'function') renderPetsManage();
       if(typeof renderMinePetCount === 'function') renderMinePetCount();
@@ -8867,12 +9731,21 @@
         main: weightInfo
           ? escHtml(weightInfo.kg)
           : (p.weight!=null?escHtml(p.weight)+'<small>kg</small>':'—'),
-        sub: weightRec ? ('更新时间：'+fmtISODate(new Date(weightRec.ts))) : '还没有体重记录，点此记一笔',
-        action:function(){ openRecordForm({petKey:pdState.key, presetKey:'weight'}); }
+        sub: weightRec ? ('更新时间：'+fmtISODate(new Date(weightRec.ts))) : '还没有体重记录，点此查看趋势',
+        action:function(){ openPage('pg-weight'); }
       });
       cards.push({
         ico:'i-paw', cls:'teal', title:'BCS', bcs:true
       });
+      // 狗证（仅狗狗）：从宠物档案查看 / 录入
+      if(p.speciesKey === 'dog'){
+        cards.push({
+          ico:'i-shield', cls:'amber', title:'狗证',
+          main:null,
+          desc: dogLicenseDesc(p),
+          action:function(){ openPage('pg-dog-license'); }
+        });
+      }
       cards.push({
         ico:'i-droplet', cls:'amber', title:'驱虫',
         main:null,
@@ -9090,32 +9963,356 @@
       return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
     }
 
-    /* ===== 病历夹列表 ===== */
+    /* ===== 病历夹 2.0：门诊病历 / 报告单（独立存储，AI 识别医嘱→待办提醒） ===== */
+    var PETLOG_MR_KEY = 'petlog_medical_v1';
+    var MedRecordStore = {
+      _cache:null,
+      _read:function(){
+        if(this._cache) return this._cache;
+        try{ this._cache = JSON.parse(localStorage.getItem(PETLOG_MR_KEY)||'{}') || {}; }
+        catch(e){ this._cache = {}; }
+        this._ensureSeed();
+        return this._cache;
+      },
+      _ensureSeed:function(){
+        var done = false;
+        try{ done = localStorage.getItem('petlog_seeded_medical_v1') === '1'; }catch(e){}
+        if(done) return;
+        var all = this._cache || (this._cache = {});
+        if(!all.cat) all.cat = [];
+        var have = {};
+        all.cat.forEach(function(r){ have[r.id] = true; });
+        if(!have['seed-mr-1']){
+          all.cat.push({
+            id:'seed-mr-1', pet:'cat', kind:'clinic',
+            hospital:'', diagnosis:'', desc:'', thumb:'',
+            date:dayStart(new Date(APP_TODAY)).getTime(),
+            status:'pending', ts:Date.now()
+          });
+        }
+        this._write();
+        try{ localStorage.setItem('petlog_seeded_medical_v1','1'); }catch(e){}
+      },
+      _write:function(){ try{ localStorage.setItem(PETLOG_MR_KEY, JSON.stringify(this._read())); }catch(e){} },
+      list:function(petKey){
+        var all = this._read();
+        return (all[petKey]||[]).slice().sort(function(a,b){ return b.date - a.date; });
+      },
+      get:function(petKey, id){
+        return this.list(petKey).filter(function(r){ return r.id===id; })[0] || null;
+      },
+      add:function(petKey, rec){
+        var all = this._read();
+        if(!all[petKey]) all[petKey] = [];
+        rec.id = rec.id || ('mr'+Date.now()+Math.floor(Math.random()*1000));
+        rec.pet = petKey;
+        rec.ts = Date.now();
+        all[petKey].push(rec);
+        this._write();
+        return rec;
+      },
+      update:function(petKey, id, patch){
+        var all = this._read();
+        if(!all[petKey]) return null;
+        var hit = null;
+        all[petKey].forEach(function(r){ if(r.id===id){ Object.keys(patch).forEach(function(k){ r[k]=patch[k]; }); hit=r; } });
+        if(hit) this._write();
+        return hit;
+      },
+      remove:function(petKey, id){
+        var all = this._read();
+        if(!all[petKey]) return;
+        all[petKey] = all[petKey].filter(function(r){ return r.id!==id; });
+        this._write();
+      }
+    };
+
+    var mrFilter = 'all';       // all | clinic | report
+    var mrEditingId = null;     // 门诊病历页正在编辑的记录 id（null=新建）
+    var mrPendingThumb = '';    // 本次上传选择的照片
+    var mrSuggestions = [];     // AI 识别出的待办建议
+
+    function fmtDotDate(d){ return d.getFullYear()+'.'+pad2(d.getMonth()+1)+'.'+pad2(d.getDate()); }
+    function mrTypeLabel(kind){ return kind==='report' ? '报告单' : '门诊病历'; }
+
     function renderPdBook(p){
       var box = document.getElementById('pd-book-list');
       if(!box) return;
-      var recs = RecordStore.list(pdState.key)
-        .filter(function(r){ return r.cat==='health'; })
-        .sort(function(a,b){return b.ts-a.ts;});
+      var recs = MedRecordStore.list(pdState.key)
+        .filter(function(r){ return mrFilter==='all' ? true : r.kind===mrFilter; })
+        .sort(function(a,b){ return b.date - a.date; });
+
       if(!recs.length){
-        box.innerHTML = '<div class="pb-empty">还没有病历记录<br>疫苗、驱虫、体检、就诊都会归档到这里</div>'
-          + '<div class="btn btn-primary pd-book-add" id="pd-book-ocr"><svg class="ico sm"><use href="#i-camera-ai"/></svg> 拍照识别病历 / 疫苗本</div>';
-      }else{
-        box.innerHTML = recs.map(function(r){
-          return '<div class="pb-item" data-pbrec="'+escHtml(r.id)+'">'
-            + '<span class="pb-ic '+escHtml(r.icoCls||'slate')+'"><svg class="ico"><use href="#'+escHtml(r.ico||'i-file')+'"/></svg></span>'
-            + '<span class="pb-body"><b>'+escHtml(r.title)+'</b><span>'+fmtISODate(new Date(r.ts))+(r.note?' · '+escHtml(r.note):'')+'</span></span>'
-            + '<svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>';
-        }).join('')
-          + '<div class="btn btn-primary pd-book-add" id="pd-book-ocr"><svg class="ico sm"><use href="#i-camera-ai"/></svg> 拍照识别病历 / 疫苗本</div>';
+        box.innerHTML = '<div class="mr-end" style="margin-top:60px">还没有'+(mrFilter==='all'?'病历':mrFilter==='clinic'?'门诊病历':'报告单')+'<br>点下方按钮上传，AI 帮你识别归档</div>';
+        bindMrCards(box);
+        return;
       }
-      box.querySelectorAll('[data-pbrec]').forEach(function(el){
-        el.addEventListener('click', function(){
-          openRecordDetail(pdState.key, el.getAttribute('data-pbrec'));
+
+      // 按年月分组
+      var groups = {};
+      var order = [];
+      recs.forEach(function(r){
+        var d = new Date(r.date), gk = d.getFullYear()+'-'+d.getMonth();
+        if(!groups[gk]){ groups[gk] = {y:d.getFullYear(), m:d.getMonth()+1, items:[]}; order.push(gk); }
+        groups[gk].items.push(r);
+      });
+
+      var html = '';
+      order.forEach(function(gk){
+        var g = groups[gk];
+        html += '<div class="mr-month">'+g.y+'年'+pad2(g.m)+'月</div>';
+        g.items.forEach(function(r){
+          var diag = r.kind==='report' ? (r.diagnosis || '检查报告单') : (r.diagnosis || '未填写');
+          var hosp = r.kind==='report' ? (r.hospital ? '机构：'+escHtml(r.hospital) : '检查报告') : ('医院：'+escHtml(r.hospital || '未填写'));
+          var thumb = r.thumb
+            ? '<img class="mr-thumb" src="'+r.thumb+'" alt="">'
+            : '<div class="mr-thumb-fake">'+(r.kind==='report'?'报告单':'病历查看')+'</div>';
+          html += '<div class="mr-card" data-mrid="'+escHtml(r.id)+'">'
+            + '<div class="mr-card-top">'
+            +   '<span class="mr-card-type">'+mrTypeLabel(r.kind)+'</span>'
+            +   (r.status==='pending' ? '<span class="mr-badge pending">待确认</span>' : '<span class="mr-badge saved">已归档</span>')
+            +   '<span class="mr-card-date">就诊日期：'+fmtDotDate(new Date(r.date))+'</span>'
+            + '</div>'
+            + '<div class="mr-card-mid">'
+            +   '<div class="mr-card-info"><div class="mr-diag'+(r.diagnosis?'':' empty')+'">'+escHtml(diag)+'</div>'
+            +   '<div class="mr-hosp">'+hosp+'</div></div>'
+            +   thumb
+            + '</div></div>';
         });
       });
-      var ocr = document.getElementById('pd-book-ocr');
-      if(ocr) ocr.addEventListener('click', function(){ if(typeof openPage==='function') openPage('pg-ocr'); });
+      html += '<div class="mr-end">没有更多病历了</div>';
+      box.innerHTML = html;
+      bindMrCards(box);
+    }
+
+    function bindMrCards(box){
+      box.querySelectorAll('[data-mrid]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var id = el.getAttribute('data-mrid');
+          var rec = MedRecordStore.get(pdState.key, id);
+          if(!rec) return;
+          if(rec.kind === 'clinic') openMrClinic(rec);
+          else openMrReportView(rec);
+        });
+      });
+    }
+
+    /* 筛选切换 */
+    document.querySelectorAll('#mr-filters .mr-filter').forEach(function(f){
+      f.addEventListener('click', function(){
+        document.querySelectorAll('#mr-filters .mr-filter').forEach(function(x){ x.classList.remove('on'); });
+        f.classList.add('on');
+        mrFilter = f.getAttribute('data-mrfilter');
+        renderPdBook(HOME_PETS[pdState.key]);
+      });
+    });
+
+    /* 悬浮「上传记录」→ 类型选择弹层 */
+    (function(){
+      var fab = document.getElementById('mr-upload-fab');
+      var sheet = document.getElementById('mr-upload-sheet');
+      if(fab) fab.addEventListener('click', function(){ sheet.classList.add('show'); });
+      var close = function(){ sheet.classList.remove('show'); };
+      document.getElementById('mr-upload-cancel').addEventListener('click', close);
+      sheet.addEventListener('click', function(e){ if(e.target === sheet) close(); });
+      sheet.querySelectorAll('.mr-up-opt').forEach(function(opt){
+        opt.addEventListener('click', function(){
+          var kind = opt.getAttribute('data-mrkind');
+          close();
+          startMrUpload(kind);
+        });
+      });
+    })();
+
+    var mrUploadKind = 'clinic';
+    function startMrUpload(kind){
+      mrUploadKind = kind;
+      mrPendingThumb = '';
+      var inp = document.getElementById('mr-file');
+      inp.value = '';
+      inp.click();
+    }
+    document.getElementById('mr-file').addEventListener('change', function(e){
+      var file = e.target.files && e.target.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        mrPendingThumb = ev.target.result;
+        if(mrUploadKind === 'clinic'){
+          showToast('AI 正在识别病历…');
+          setTimeout(function(){ openMrClinic(null); }, 900);
+        }else{
+          // 报告单：识别后直接归档
+          showToast('AI 正在识别报告单…');
+          setTimeout(function(){
+            MedRecordStore.add(pdState.key, {
+              kind:'report', hospital:'', diagnosis:'检查报告单',
+              desc:'', thumb:mrPendingThumb,
+              date:dayStart(new Date(APP_TODAY)).getTime(), status:'saved'
+            });
+            renderPdBook(HOME_PETS[pdState.key]);
+            showToast('报告单已识别归档 🐾');
+          }, 900);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    /* 门诊病历页：rec 为 null=新建；有值=查看/补全 */
+    function isoToday(){
+      var d = dayStart(new Date(APP_TODAY));
+      return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+    }
+    function openMrClinic(rec){
+      mrEditingId = rec ? rec.id : null;
+      var h = document.getElementById('mr-hospital');
+      var dt = document.getElementById('mr-date');
+      var dg = document.getElementById('mr-diagnosis');
+      h.value = rec ? (rec.hospital||'') : '';
+      dt.value = rec ? fmtISODate(new Date(rec.date)) : isoToday();
+      dg.value = rec ? (rec.diagnosis||'') : '';
+      var thumb = document.getElementById('mr-ai-thumb');
+      var imgSrc = rec ? rec.thumb : mrPendingThumb;
+      thumb.innerHTML = (imgSrc ? '<img src="'+imgSrc+'" alt="">' : '') + '<span class="tag">病历查看</span>';
+      var aiTitle = document.querySelector('#pg-mr-clinic .mr-ai-body b');
+      if(aiTitle) aiTitle.textContent = (rec && rec.status==='saved') ? '门诊病历' : '识别完成，请确认识别结果';
+      openPage('pg-mr-clinic');
+    }
+
+    /* 保存门诊病历 → AI 医嘱待办建议 */
+    document.getElementById('mr-save-btn').addEventListener('click', function(){
+      var hospital = document.getElementById('mr-hospital').value.trim();
+      var iso = document.getElementById('mr-date').value;
+      var diagnosis = document.getElementById('mr-diagnosis').value.trim();
+      if(!hospital){ showToast('请填写医院信息'); return; }
+      if(!iso){ showToast('请选择就诊日期'); return; }
+      if(!diagnosis){ showToast('请填写临床诊断'); return; }
+      var parts = iso.split('-');
+      var dateMs = new Date(+parts[0], +parts[1]-1, +parts[2], 12).getTime();
+      var thumb = mrEditingId ? (MedRecordStore.get(pdState.key, mrEditingId)||{}).thumb : mrPendingThumb;
+
+      if(mrEditingId){
+        MedRecordStore.update(pdState.key, mrEditingId, {hospital:hospital, diagnosis:diagnosis, date:dateMs, status:'saved'});
+      }else{
+        MedRecordStore.add(pdState.key, {
+          kind:'clinic', hospital:hospital, diagnosis:diagnosis, desc:'',
+          thumb:mrPendingThumb, date:dateMs, status:'saved'
+        });
+      }
+      mrSuggestions = mrBuildSuggestions(diagnosis);
+      renderMrTodoSheet();
+      renderPdBook(HOME_PETS[pdState.key]);
+    });
+
+    /* AI 根据诊断内容模拟总结医嘱待办 */
+    function mrBuildSuggestions(diag){
+      var text = diag || '';
+      var list = [];
+      if(/皮肤|真菌|猫癣|皮炎|湿疹/.test(text)){
+        list.push({title:'外用抗真菌药膏，每日 2 次', desc:'按医嘱涂抹患处，连用 7 天', offset:1, repeat:'不重复'});
+        list.push({title:'佩戴伊丽莎白圈，防止舔舐', desc:'用药期间持续佩戴', offset:0, repeat:'不重复'});
+      }
+      if(/肠胃|腹泻|呕吐|软便|肠炎/.test(text)){
+        list.push({title:'喂益生菌调理肠胃', desc:'每日 1 次，随餐服用，连用 5 天', offset:0, repeat:'不重复'});
+        list.push({title:'少量多餐，清淡饮食', desc:'观察排便情况', offset:0, repeat:'不重复'});
+      }
+      if(/感冒|咳嗽|喷嚏|呼吸道|鼻支/.test(text)){
+        list.push({title:'按时服用消炎药', desc:'每日 2 次，连用 5 天', offset:1, repeat:'不重复'});
+        list.push({title:'注意保暖，避免吹风', desc:'恢复期持续护理', offset:0, repeat:'不重复'});
+      }
+      if(/耳螨|耳朵/.test(text)){
+        list.push({title:'滴耳药并清洁耳道', desc:'每日 1 次，连用 7 天', offset:1, repeat:'不重复'});
+      }
+      if(/结[石扎]|泌尿|尿闭|膀胱/.test(text)){
+        list.push({title:'增加饮水，换处方粮', desc:'每日观察排尿情况', offset:0, repeat:'不重复'});
+        list.push({title:'2 周后复查尿常规', desc:'复诊评估恢复情况', offset:14, repeat:'不重复'});
+      }
+      // 通用建议：复查
+      list.push({title:'7 天后回院复查', desc:'复诊评估恢复情况', offset:7, repeat:'不重复'});
+      // 去重（按标题），最多 3 条
+      var seen = {};
+      return list.filter(function(x){ if(seen[x.title]) return false; seen[x.title]=true; return true; }).slice(0,3);
+    }
+
+    function renderMrTodoSheet(){
+      var box = document.getElementById('mr-todo-list');
+      if(!mrSuggestions.length){
+        finishMrSave('病历已保存');
+        return;
+      }
+      box.innerHTML = mrSuggestions.map(function(s, i){
+        return '<div class="mr-todo-item" data-idx="'+i+'">'
+          + '<div class="mr-todo-box"><svg class="ico"><use href="#i-check"/></svg></div>'
+          + '<div class="mr-todo-info"><b>'+escHtml(s.title)+'</b><span>'+escHtml(s.desc)+' · '+(s.offset===0?'今天':s.offset+' 天后')+'提醒</span></div>'
+          + '</div>';
+      }).join('');
+      box.querySelectorAll('.mr-todo-item').forEach(function(el){
+        el.addEventListener('click', function(){
+          el.querySelector('.mr-todo-box').classList.toggle('off');
+        });
+      });
+      document.getElementById('mr-todo-sheet').classList.add('show');
+    }
+
+    function finishMrSave(msg){
+      var ts = document.getElementById('mr-todo-sheet');
+      if(ts) ts.classList.remove('show');
+      var cp = document.getElementById('pg-mr-clinic');
+      if(cp) cp.classList.remove('open');
+      // 回到病历夹 tab 并刷新
+      switchPdTab('book');
+      renderPdBook(HOME_PETS[pdState.key]);
+      showToast(msg + ' 🐾');
+    }
+
+    document.getElementById('mr-todo-add').addEventListener('click', function(){
+      var n = 0;
+      document.querySelectorAll('#mr-todo-list .mr-todo-item').forEach(function(el){
+        if(el.querySelector('.mr-todo-box').classList.contains('off')) return;
+        var s = mrSuggestions[+el.getAttribute('data-idx')];
+        var due = new Date(dayStart(new Date(APP_TODAY)).getTime() + s.offset*86400000 + 9*3600000);
+        ReminderStore.add(pdState.key, {
+          title:s.title, petName:(HOME_PETS[pdState.key]||{}).name||'小白',
+          due:due.getTime(), repeat:s.repeat || '不重复', ahead:'当天提醒',
+          tagCls:s.offset<=1 ? 'amber' : 'blue', tagText:s.offset<=1 ? '近期' : '待办',
+          done:false, source:'medical-ai'
+        });
+        n++;
+      });
+      if(typeof window.refreshHomeCal === 'function') window.refreshHomeCal();
+      if(typeof window.renderOpenDay === 'function') window.renderOpenDay();
+      if(typeof renderHomeTodos === 'function') renderHomeTodos(pdState.key);
+      finishMrSave(n ? ('已保存病历，'+n+' 项医嘱已加入提醒') : '病历已保存');
+    });
+    document.getElementById('mr-todo-skip').addEventListener('click', function(){ finishMrSave('病历已保存'); });
+
+    /* 报告单查看弹层（轻量动态视图） */
+    var mrReportSheet = null;
+    function openMrReportView(rec){
+      if(!mrReportSheet){
+        mrReportSheet = document.createElement('div');
+        mrReportSheet.className = 'sheet-mask';
+        mrReportSheet.innerHTML = '<div class="sheet"><div class="stitle">报告单</div><div id="mrv-body"></div>'
+          + '<div class="btn btn-primary" id="mrv-del" style="margin:14px 4px 4px;background:#F04438;box-shadow:0 10px 22px rgba(240,68,56,.3)">删除这份报告单</div>'
+          + '<div class="sheet-row cancel" id="mrv-close">关闭</div></div>';
+        (document.querySelector('.viewport') || document.body).appendChild(mrReportSheet);
+        mrReportSheet.addEventListener('click', function(e){ if(e.target===mrReportSheet) mrReportSheet.classList.remove('show'); });
+        mrReportSheet.querySelector('#mrv-close').addEventListener('click', function(){ mrReportSheet.classList.remove('show'); });
+        mrReportSheet.querySelector('#mrv-del').addEventListener('click', function(){
+          if(mrReportSheet._rec){
+            MedRecordStore.remove(pdState.key, mrReportSheet._rec.id);
+            renderPdBook(HOME_PETS[pdState.key]);
+            showToast('报告单已删除');
+          }
+          mrReportSheet.classList.remove('show');
+        });
+      }
+      mrReportSheet._rec = rec;
+      var thumb = rec.thumb ? '<img src="'+rec.thumb+'" style="width:100%;border-radius:16px;display:block;margin-bottom:12px">' : '<div class="mr-thumb-fake" style="width:100%;height:180px;border-radius:16px">报告单</div>';
+      mrReportSheet.querySelector('#mrv-body').innerHTML = thumb
+        + '<div class="mr-row" style="background:#F7F6F4;border-radius:14px;margin-bottom:8px"><span class="k">就诊日期</span><span class="v">'+fmtDotDate(new Date(rec.date))+'</span></div>'
+        + '<div class="mr-row" style="background:#F7F6F4;border-radius:14px"><span class="k">机构</span><span class="v'+(rec.hospital?'':' ph')+'">'+escHtml(rec.hospital||'未填写')+'</span></div>';
+      mrReportSheet.classList.add('show');
     }
 
     /* ===== 健康卡详情弹层：驱虫 / 疫苗 ===== */
@@ -9279,6 +10476,8 @@
       });
       document.getElementById('pd-pane-health').classList.toggle('on', tab==='health');
       document.getElementById('pd-pane-book').classList.toggle('on', tab==='book');
+      var fab = document.getElementById('mr-upload-fab');
+      if(fab) fab.style.display = tab==='book' ? 'inline-flex' : 'none';
     }
     document.querySelectorAll('#pg-pet-detail .pd-seg .pds').forEach(function(d){
       d.addEventListener('click', function(){ switchPdTab(d.getAttribute('data-pdtab')); });
@@ -9323,13 +10522,13 @@
         body:'<div class="stitle">修改档案</div><div id="pd-edit-body">'
           + '<div class="field" style="margin-bottom:10px"><label>TA 的名字</label><input type="text" id="pd-f-name" value="'+escHtml(p.name)+'"></div>'
           + '<div class="field" style="margin-bottom:10px"><label>种类</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="pd-f-species">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="pd-f-species">'
           +     '<div class="cell'+(p.speciesKey==='cat'?' on':'')+'" data-val="cat"><span class="ic coral"><svg class="ico" style="width:26px;height:26px"><use href="#i-cat-face"/></svg></span>猫咪</div>'
           +     '<div class="cell'+(p.speciesKey==='dog'?' on':'')+'" data-val="dog"><span class="ic blue"><svg class="ico" style="width:26px;height:26px"><use href="#i-dog-face"/></svg></span>狗狗</div>'
           +   '</div></div>'
-          + '<div class="field" style="margin-bottom:10px"><label>品种</label><input type="text" id="pd-f-breed" value="'+escHtml(p.breed||'')+'" placeholder="不清楚可以先不填"></div>'
+          + '<div class="field" style="margin-bottom:10px"><label>品种</label><select id="pd-f-breed"></select></div>'
           + '<div class="field" style="margin-bottom:10px"><label>性别</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="pd-f-gender">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="pd-f-gender">'
           +     '<div class="cell'+(p.gender!=='female'?' on':'')+'" data-val="male"><span class="ic sky" style="font-size:18px">♂</span>弟弟</div>'
           +     '<div class="cell'+(p.gender==='female'?' on':'')+'" data-val="female"><span class="ic pink" style="font-size:18px">♀</span>妹妹</div>'
           +   '</div></div>'
@@ -9341,7 +10540,7 @@
           +     '<div class="age-box"><select id="pd-f-agem">'+monthSel(age0?age0.months:0)+'</select><span>个月</span></div>'
           +   '</div><div class="ob-hint">按年龄反推的是估算生日</div></div></div>'
           + '<div class="field" style="margin-bottom:10px"><label>绝育情况</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(3,1fr)" id="pd-f-neutered">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(3,1fr)" id="pd-f-neutered">'
           +     '<div class="cell'+(p.neutered==='yes'?' on':'')+'" data-val="yes"><span class="ic teal"><svg class="ico" style="width:18px;height:18px"><use href="#i-check"/></svg></span>已绝育</div>'
           +     '<div class="cell'+((!p.neutered||p.neutered==='unknown')?' on':'')+'" data-val="unknown"><span class="ic slate"><svg class="ico" style="width:18px;height:18px"><use href="#i-info"/></svg></span>不清楚</div>'
           +     '<div class="cell'+(p.neutered==='no'?' on':'')+'" data-val="no"><span class="ic amber" style="font-size:16px">!</span>未绝育</div>'
@@ -9379,6 +10578,21 @@
     }
     function bindPetEditSheet(s, p){
       bindGrid('pd-f-species'); bindGrid('pd-f-gender'); bindGrid('pd-f-neutered');
+      // 品种下拉：按当前种类填充；种类切换时联动刷新
+      var breedSel = s.mask.querySelector('#pd-f-breed');
+      fillBreedOptions(breedSel, p.speciesKey, p.breed);
+      var speciesGrid = s.mask.querySelector('#pd-f-species');
+      if(speciesGrid){
+        speciesGrid.querySelectorAll('.cell').forEach(function(c){
+          c.addEventListener('click', function(){
+            var sp = c.getAttribute('data-val') || p.speciesKey;
+            if(breedSel){
+              var prev = breedSel.value;
+              fillBreedOptions(breedSel, sp, prev);
+            }
+          });
+        });
+      }
       var mode = p.birthApprox ? 'age' : 'date';
       function setBirthMode(m){
         mode = m;
@@ -9422,7 +10636,7 @@
         p.species = sp==='dog'?'狗狗':'猫咪';
         p.gender = pdGridVal('pd-f-gender') || 'male';
         p.neutered = pdGridVal('pd-f-neutered') || 'unknown';
-        p.breed = (s.mask.querySelector('#pd-f-breed').value||'').trim();
+        p.breed = (function(){ var v=(s.mask.querySelector('#pd-f-breed').value||'').trim(); return /其他|不清楚/.test(v) ? '' : v; })();
         p.birthISO = birthInput.value || p.birthISO;
         p.birthApprox = mode==='age';
         var wv = parseFloat((s.mask.querySelector('#pd-f-weight').value||'').replace(/[^\d.]/g,''));
@@ -9745,6 +10959,309 @@
         });
       });
     }
+    // 「记一笔」按钮：直接进入新建记录表单（预填体重）
+    var wAddBtn = document.getElementById('weight-add-btn');
+    if(wAddBtn){
+      wAddBtn.addEventListener('click', function(){
+        if(typeof openRecordForm === 'function') openRecordForm({petKey:activeHomePet, presetKey:'weight'});
+      });
+    }
+
+    /* ===== 体重记录页：当前概览 + 趋势图 + 历史列表（数据源：weightSeries + 记一笔中的体重记录） ===== */
+    function weightTrendRecords(p){
+      // 合并 weightSeries（内置示例）与「记一笔」中真实落库的体重记录
+      var merged = {};
+      (p.weightSeries && p.weightSeries['1y'] || []).forEach(function(pt){
+        merged[pt.m] = pt.v;
+      });
+      try {
+        var recs = (typeof RecordStore !== 'undefined' && RecordStore.list(p.__key || activeHomePet)) || [];
+        recs.forEach(function(r){
+          if(r.title !== '体重记录' && r.ico !== 'i-scale') return;
+          var raw = (r.fields && r.fields['体重']) || r.note || '';
+          var m = String(raw).match(/(\d+(?:\.\d+)?)/);
+          if(!m) return;
+          var d = new Date(r.ts);
+          var k = (d.getMonth()+1) + '月';
+          merged[k] = parseFloat(m[1]);
+        });
+      } catch(e){}
+      // 按月份顺序输出（以最近 12 个月为准）
+      var out = [];
+      var now = new Date(APP_TODAY);
+      for(var i=11;i>=0;i--){
+        var dd = new Date(now.getFullYear(), now.getMonth()-i, 1);
+        var k = (dd.getMonth()+1) + '月';
+        if(merged[k] != null) out.push({m:k, v:merged[k]});
+      }
+      return out;
+    }
+    function sliceRange(data, range){
+      if(range === '3m') return data.slice(-3);
+      if(range === '6m') return data.slice(-6);
+      return data;
+    }
+    function renderWeightPage(){
+      var p = HOME_PETS[activeHomePet] || HOME_PETS[pdState.key];
+      if(!p) return;
+      var allData = weightTrendRecords(p);
+      // 顶部概览
+      var sumEl = document.getElementById('weight-summary');
+      if(sumEl){
+        var latest = allData[allData.length-1] || null;
+        var prev = allData.length >= 2 ? allData[allData.length-2] : null;
+        var delta = (latest && prev) ? (latest.v - prev.v) : null;
+        var deltaTxt = delta == null ? '暂无对比' : (delta >= 0 ? '+' : '') + delta.toFixed(1) + ' kg';
+        var deltaCls = delta == null ? 'slate' : (delta > 0.2 ? 'amber' : (delta < -0.2 ? 'amber' : 'green'));
+        var breedTipTxt = p.breed ? (p.speciesKey==='dog' ? (escHtml(p.breed)+' 成犬健康体重参考') : (escHtml(p.breed)+' 健康体重参考')) : (p.species+'健康体重参考');
+        sumEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+          + '<div class="rem-ico blue" style="width:48px;height:48px;border-radius:16px"><svg class="ico"><use href="#i-scale"/></svg></div>'
+          + '<div style="flex:1;min-width:0">'
+          +   '<div style="font-size:30px;font-weight:850;color:var(--ink);line-height:1.1">'+(latest?latest.v+'<span style="font-size:14px;color:var(--muted);font-weight:700;margin-left:3px">kg</span>':'—')+'</div>'
+          +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">'+escHtml(p.name)+' · '+(latest?'较上次 '+deltaTxt:'还没有体重记录')+'</div>'
+          + '</div>'
+          + '<span class="rem-tag '+deltaCls+'">'+(latest?(delta==null?'持平':(delta>0?'↑':'↓')):'—')+'</span>'
+          + '</div>';
+      }
+      // 趋势图：临时把 p.weightSeries 切到合并数据，渲染完恢复
+      var origSeries = p.weightSeries;
+      p.weightSeries = {
+        '3m': sliceRange(allData, '3m'),
+        '6m': sliceRange(allData, '6m'),
+        '1y': allData
+      };
+      try { renderWeightTrend(); } finally { p.weightSeries = origSeries; }
+      // 历史列表：按时间倒序
+      var listEl = document.getElementById('weight-history-list');
+      if(listEl){
+        if(!allData.length){
+          listEl.innerHTML = '<div class="rem-item"><div class="rem-ico slate"><svg class="ico"><use href="#i-memo"/></svg></div><div class="rem-body"><b>暂无体重记录</b><span>点右上角「记一笔」补记</span></div></div>';
+        } else {
+          var rows = allData.slice().reverse();
+          listEl.innerHTML = rows.map(function(d, i){
+            var prev = i < rows.length-1 ? rows[i+1] : null;
+            var diff = prev ? (d.v - prev.v) : null;
+            var diffTxt = diff == null ? '首次' : (diff === 0 ? '持平' : (diff > 0 ? '+'+diff.toFixed(1)+' kg' : diff.toFixed(1)+' kg'));
+            var diffCls = diff == null ? 'slate' : (diff === 0 ? 'slate' : (diff > 0.2 ? 'amber' : (diff < -0.2 ? 'amber' : 'green')));
+            var tagTxt = i === 0 ? '最新' : diffTxt;
+            return '<div class="rem-item"><div class="rem-ico blue"><svg class="ico"><use href="#i-scale"/></svg></div><div class="rem-body"><b>'+d.v+' kg</b><span>'+escHtml(d.m)+' 记录</span></div><span class="rem-tag '+diffCls+'">'+tagTxt+'</span></div>';
+          }).join('');
+        }
+      }
+      // 品种健康体重提示
+      var tipEl = document.getElementById('weight-breed-tip');
+      if(tipEl){
+        var tip = breedWeightTip(p);
+        if(tip){
+          tipEl.style.display = 'flex';
+          tipEl.querySelector('span').textContent = tip;
+        } else {
+          tipEl.style.display = 'none';
+        }
+      }
+    }
+    function breedWeightTip(p){
+      if(!p) return '';
+      if(p.speciesKey === 'dog'){
+        var map = {'中华田园犬':'12–25 kg','金毛寻回犬':'25–34 kg','拉布拉多':'25–36 kg','贵宾犬（泰迪）':'3–6 kg','比熊犬':'4–6 kg','柯基犬':'10–14 kg','柴犬':'8–11 kg','博美犬':'1.8–3.5 kg','边境牧羊犬':'14–22 kg','德国牧羊犬':'22–40 kg','哈士奇':'16–27 kg','阿拉斯加雪橇犬':'34–50 kg','萨摩耶':'20–30 kg','雪纳瑞':'5–9 kg','法国斗牛犬':'8–14 kg','吉娃娃':'1.5–3 kg'};
+        if(p.breed && map[p.breed]) return p.breed+' 健康体重参考：'+map[p.breed];
+        return '狗狗健康体重因品种差异较大，请咨询兽医';
+      }
+      var map = {'英国短毛猫':'4–8 kg','美国短毛猫':'3.5–7 kg','布偶猫':'4–9 kg','暹罗猫':'3–5 kg','波斯猫':'3–5.5 kg','缅因猫':'4–8 kg','中华田园猫':'3–5 kg','金渐层':'4–6 kg','银渐层':'3–5.5 kg','狸花猫':'3.5–6 kg','橘猫':'4–6 kg','三花猫':'3–5 kg'};
+      if(p.breed && map[p.breed]) return p.breed+' 健康体重参考：'+map[p.breed];
+      return '猫咪健康体重一般在 3–6 kg 区间';
+    }
+
+    /* ===== 狗证档案存储 + 渲染（仅狗狗） ===== */
+    var PETLOG_DOG_LICENSE_KEY = 'petlog_dog_license_v1';
+    var DogLicenseStore = {
+      _cache:null,
+      _read:function(){
+        if(this._cache) return this._cache;
+        try{ this._cache = JSON.parse(localStorage.getItem(PETLOG_DOG_LICENSE_KEY)||'{}') || {}; }
+        catch(e){ this._cache = {}; }
+        this._ensureSeed();
+        return this._cache;
+      },
+      _ensureSeed:function(){
+        var done = false;
+        try{ done = localStorage.getItem('petlog_dog_license_seeded') === '1'; }catch(e){}
+        if(done) return;
+        // 给 demo 狗狗「豆豆」种一条示例狗证
+        if(HOME_PETS.dog && !this._cache.dog){
+          this._cache.dog = {
+            name:'豆豆', no:'京朝犬字第 2025-04-001234 号',
+            city:'北京市朝阳区', agency:'北京市公安局朝阳分局养犬管理办公室',
+            date:'2025-04-12', expire:'2026-11-11', color:'green'
+          };
+          try{ localStorage.setItem(PETLOG_DOG_LICENSE_KEY, JSON.stringify(this._cache)); }catch(e){}
+        }
+        try{ localStorage.setItem('petlog_dog_license_seeded','1'); }catch(e){}
+      },
+      get:function(petKey){
+        var all = this._read();
+        return all[petKey] || null;
+      },
+      set:function(petKey, data){
+        var all = this._read();
+        all[petKey] = data;
+        try{ localStorage.setItem(PETLOG_DOG_LICENSE_KEY, JSON.stringify(all)); }catch(e){}
+      }
+    };
+    // 狗证卡片简短描述（宠物档案健康卡用）
+    function dogLicenseDesc(p){
+      var d = DogLicenseStore.get(p.__key || activeHomePet);
+      if(!d) return '还没登记狗证，点击录入养犬登记信息';
+      var txt = '证号 '+(d.no || '—')+' · '+(d.city || '未填城市');
+      if(d.expire){
+        var days = Math.ceil((new Date(d.expire).getTime() - new Date(APP_TODAY).getTime()) / 86400000);
+        if(days < 0) txt += ' · 已过期';
+        else if(days < 30) txt += ' · 还剩 '+days+' 天到期';
+        else txt += ' · '+(d.expire||'').slice(0,7)+' 到期';
+      } else {
+        txt += ' · 未填有效期';
+      }
+      return txt;
+    }
+    // 选中的犬牌颜色
+    function dlGridVal(){
+      var sel = document.querySelector('#dl-f-color .cell.on');
+      return sel ? sel.getAttribute('data-val') : 'green';
+    }
+    function renderDogLicensePage(){
+      var p = HOME_PETS[activeHomePet] || HOME_PETS[pdState.key];
+      if(!p) return;
+      // 如果当前宠物不是狗，自动切到第一只狗
+      if(p.speciesKey !== 'dog'){
+        var dk = null;
+        Object.keys(HOME_PETS).forEach(function(k){ if(HOME_PETS[k].speciesKey==='dog' && !dk) dk = k; });
+        if(dk){ activeHomePet = dk; pdState.key = dk; if(typeof applyHomePet === 'function') applyHomePet(dk); p = HOME_PETS[dk]; }
+      }
+      var petKey = p.__key || activeHomePet;
+      var d = DogLicenseStore.get(petKey);
+      // 状态卡
+      var stEl = document.getElementById('dl-status');
+      if(stEl){
+        if(d){
+          var days = d.expire ? Math.ceil((new Date(d.expire).getTime() - new Date(APP_TODAY).getTime())/86400000) : null;
+          var stTxt = '已登记', stCls = 'green';
+          if(days == null){ stTxt = '未填有效期'; stCls = 'amber'; }
+          else if(days < 0){ stTxt = '已过期，请尽快续期'; stCls = 'amber'; }
+          else if(days < 30){ stTxt = '还有 '+days+' 天到期'; stCls = 'amber'; }
+          else { stTxt = '有效期内 · '+(d.expire||'').slice(0,10)+' 到期'; stCls = 'green'; }
+          stEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+            + '<div class="rem-ico '+(stCls==='green'?'mint':'amber')+'" style="width:50px;height:50px;border-radius:16px"><svg class="ico"><use href="#i-shield"/></svg></div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:18px;font-weight:850;color:var(--ink);line-height:1.2">'+(d.name||p.name)+' 的狗证</div>'
+            +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">'+stTxt+'</div>'
+            + '</div>'
+            + '<span class="rem-tag '+(stCls==='green'?'green':'amber')+'">'+(d.color==='red'?'红牌':'绿牌')+'</span>'
+            + '</div>';
+        } else {
+          stEl.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+            + '<div class="rem-ico slate" style="width:50px;height:50px;border-radius:16px"><svg class="ico"><use href="#i-shield"/></svg></div>'
+            + '<div style="flex:1;min-width:0">'
+            +   '<div style="font-size:18px;font-weight:850;color:var(--ink);line-height:1.2">还没有狗证档案</div>'
+            +   '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:3px">点右上角「编辑」录入养犬登记信息</div>'
+            + '</div>'
+            + '<span class="rem-tag slate">未登记</span>'
+            + '</div>';
+        }
+      }
+      // 登记信息
+      var infoEl = document.getElementById('dl-info');
+      if(infoEl){
+        if(d){
+          var rows = [
+            ['登记证号', d.no || '—'],
+            ['登记城市', d.city || '—'],
+            ['登记机关', d.agency || '—'],
+            ['登记日期', d.date || '—'],
+            ['有效期至', d.expire || '—'],
+            ['犬牌颜色', d.color==='red' ? '红牌（大型犬）' : '绿牌（小型犬）']
+          ];
+          infoEl.innerHTML = rows.map(function(r){
+            return '<div class="mr-row" style="padding:11px 0;border-bottom:1px solid var(--line);display:flex;align-items:center"><span style="flex:1;color:var(--muted);font-size:13px">'+r[0]+'</span><span style="font-size:14px;font-weight:700;color:var(--ink);max-width:60%;text-align:right;word-break:break-all">'+escHtml(r[1])+'</span></div>';
+          }).join('').replace(/<div class="mr-row"[^>]*>.*?<\/div>$/, function(s){ return s.replace(/border-bottom:[^;]*;?/, ''); });
+        } else {
+          infoEl.innerHTML = '<div class="rem-item"><div class="rem-ico slate"><svg class="ico"><use href="#i-memo"/></svg></div><div class="rem-body"><b>暂无登记信息</b><span>点右上角「编辑」开始录入</span></div></div>';
+        }
+      }
+      // 关联宠物卡
+      var petEl = document.getElementById('dl-pet-card');
+      if(petEl){
+        petEl.innerHTML = '<div style="display:flex;align-items:center;gap:12px">'
+          + '<div class="le-ico pets" style="width:42px;height:42px;border-radius:14px"><svg class="ico"><use href="#i-dog-face"/></svg></div>'
+          + '<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:850;color:var(--ink)">'+escHtml(p.name)+'</div><div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:2px">'+escHtml(p.breed||p.species)+' · '+(p.gender==='female'?'女孩':'男孩')+'</div></div>'
+          + '<span class="rem-tag slate">已关联</span>'
+          + '</div>';
+      }
+      // 表单：填充已有值（点击「编辑」时显示）
+      var formEl = document.getElementById('dl-form');
+      if(formEl){
+        var f = d || {};
+        var setVal = function(id, v){ var el = document.getElementById(id); if(el) el.value = v || ''; };
+        setVal('dl-f-name', d ? d.name : p.name);
+        setVal('dl-f-no', f.no);
+        setVal('dl-f-city', f.city);
+        setVal('dl-f-agency', f.agency);
+        setVal('dl-f-date', f.date);
+        setVal('dl-f-expire', f.expire);
+        var colorGrid = document.getElementById('dl-f-color');
+        if(colorGrid){
+          colorGrid.querySelectorAll('.cell').forEach(function(c){
+            c.classList.toggle('on', c.getAttribute('data-val') === (f.color || 'green'));
+          });
+        }
+      }
+    }
+    // 编辑按钮、保存按钮、犬牌颜色选择
+    (function(){
+      function toggleForm(show){
+        var form = document.getElementById('dl-form');
+        var btn = document.getElementById('dl-edit-btn');
+        if(!form || !btn) return;
+        form.style.display = show ? 'block' : 'none';
+        btn.textContent = show ? '取消' : '编辑';
+      }
+      var editBtn = document.getElementById('dl-edit-btn');
+      if(editBtn) editBtn.addEventListener('click', function(){
+        var form = document.getElementById('dl-form');
+        if(!form) return;
+        toggleForm(form.style.display === 'none' || form.style.display === '');
+      });
+      var saveBtn = document.getElementById('dl-save-btn');
+      if(saveBtn) saveBtn.addEventListener('click', function(){
+        var p = HOME_PETS[activeHomePet];
+        if(!p) return;
+        var petKey = p.__key || activeHomePet;
+        var data = {
+          name: (document.getElementById('dl-f-name').value || '').trim() || p.name,
+          no: (document.getElementById('dl-f-no').value || '').trim(),
+          city: (document.getElementById('dl-f-city').value || '').trim(),
+          agency: (document.getElementById('dl-f-agency').value || '').trim(),
+          date: document.getElementById('dl-f-date').value || '',
+          expire: document.getElementById('dl-f-expire').value || '',
+          color: dlGridVal() || 'green'
+        };
+        if(!data.no && !data.date && !data.city){ if(typeof showToast==='function') showToast('请至少填写证号、登记日期或城市'); return; }
+        DogLicenseStore.set(petKey, data);
+        toggleForm(false);
+        renderDogLicensePage();
+        // 同步刷新宠物档案健康卡（如果在档案页）
+        if(typeof renderPdHealth === 'function') renderPdHealth(p);
+        if(typeof showToast === 'function') showToast('狗证信息已保存 🐾');
+      });
+      var colorGrid = document.getElementById('dl-f-color');
+      if(colorGrid){
+        colorGrid.querySelectorAll('.cell').forEach(function(c){
+          c.addEventListener('click', function(){
+            colorGrid.querySelectorAll('.cell').forEach(function(x){ x.classList.remove('on'); });
+            c.classList.add('on');
+          });
+        });
+      }
+    })();
 
     // ================= AI 健康管家：会办事的统一助手 =================
     (function(){
@@ -10322,7 +11839,7 @@
     var obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
     function resetOnboarding(){
       obState = {species:'cat', gender:'male', birthMode:'date', neutered:'unknown', customAvatar:null};
-      ['ob-name','ob-breed','ob-weight'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+      ['ob-name','ob-weight'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
       var bd=document.getElementById('ob-birth-date'); if(bd){ bd.value=''; bd.classList.add('empty'); }
       var ad=document.getElementById('ob-adopt'); if(ad){ ad.value=''; ad.classList.add('empty'); }
       if(obAvatar){
@@ -10330,7 +11847,7 @@
         var _obTip=document.getElementById('ob-avatar-tip');
         if(_obTip){ _obTip.style.display='none'; _obTip.querySelector('.ob-avatar-reset').style.display='none'; }
       }
-      if(obBreed) obBreed.placeholder='如：英国短毛猫（不清楚可以先不填）';
+      if(obBreed) fillBreedOptions(obBreed, 'cat', '');
       switchObBirthMode('date');
       // 重置各选择格子
       ['ob-species-grid','ob-gender-grid','ob-neutered-grid'].forEach(function(gid){
@@ -10420,7 +11937,11 @@
           var sp = cell.getAttribute('data-ob-species');
           obState.species = sp;
           if(obAvatar && !obState.customAvatar) obAvatar.src = SPECIES_DEFAULTS[sp].avatar;
-          if(obBreed && !obBreed.value) obBreed.placeholder = sp === 'dog' ? '如：威尔士柯基犬（不清楚可以先不填）' : '如：英国短毛猫（不清楚可以先不填）';
+          // 切换种类时刷新品种下拉；保留用户已选（如果新种类里也有）
+          if(obBreed){
+            var prev = obBreed.value;
+            fillBreedOptions(obBreed, sp, prev);
+          }
         });
       });
     }
@@ -10485,7 +12006,7 @@
         gender:genderCell?genderCell.getAttribute('data-val'):'male',
         birthISO:birthISO,
         birthApprox:birthApprox,
-        breed:(obBreed.value||'').trim(),
+        breed:(function(){ var v=(obBreed.value||'').trim(); return /其他|不清楚/.test(v) ? '' : v; })(),
         neutered:neuterCell?neuterCell.getAttribute('data-val'):'unknown',
         weight:isNaN(weight)?null:weight,
         adoptISO:obAdoptDate.value||'',
@@ -10682,16 +12203,7 @@
       });
     }
 
-    // ===== 新建提醒：宠物胶囊 + 选项芯片 + 创建并加入列表 =====
-    var remPetSelect = document.getElementById('rem-pet-select');
-    if(remPetSelect){
-      remPetSelect.querySelectorAll('.pet-card').forEach(function(card){
-        card.addEventListener('click', function(){
-          remPetSelect.querySelectorAll('.pet-card').forEach(function(x){x.classList.remove('on')});
-          card.classList.add('on');
-        });
-      });
-    }
+    // ===== 新建提醒：选项芯片 + 创建并加入列表 =====
     // 选项芯片组：组内单选
     document.querySelectorAll('#pg-new-reminder .opt-group').forEach(function(group){
       group.querySelectorAll('.opt-chip').forEach(function(chip){
@@ -10707,47 +12219,29 @@
       var on = g.querySelector('.opt-chip.on');
       return on ? on.getAttribute('data-val') : '';
     }
-    // 自定义提醒日期：选「自选…」时弹日期输入，解析为绝对日期
-    var remCustomDate = null;
+    // 提醒时间：日历选择器（默认今天）
+    var remDateInput = document.getElementById('rem-date-input');
     (function(){
-      var g = document.getElementById('rem-date-group');
-      if(!g) return;
-      g.querySelectorAll('.opt-chip').forEach(function(chip){
-        chip.addEventListener('click', function(){
-          if(chip.getAttribute('data-val') !== '自选日期'){ remCustomDate = null; return; }
-          var t = dayStart(new Date(APP_TODAY));
-          var iso = t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);
-          var nv = prompt('选择提醒日期（'+t.getFullYear()+'-MM-DD）', iso);
-          if(nv === null){
-            var first = g.querySelector('.opt-chip:not([data-val="自选日期"])');
-            if(first){ g.querySelectorAll('.opt-chip').forEach(function(x){x.classList.remove('on');}); first.classList.add('on'); }
-            remCustomDate = null;
-            return;
-          }
-          var m = (nv.trim()).match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
-          var d = null;
-          if(m){ var dd = new Date(+m[1], +m[2]-1, +m[3]); if(!isNaN(dd)) d = dd; }
-          if(!d){ showToast('日期格式不对，示例：'+iso); var f0=g.querySelector('.opt-chip:not([data-val="自选日期"])'); if(f0){g.querySelectorAll('.opt-chip').forEach(function(x){x.classList.remove('on');});f0.classList.add('on');} remCustomDate=null; return; }
-          remCustomDate = dayStart(d);
-          chip.textContent = (d.getMonth()+1)+'月'+d.getDate()+'日';
-        });
-      });
+      if(!remDateInput) return;
+      var t = dayStart(new Date(APP_TODAY));
+      var iso = t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);
+      remDateInput.value = iso;
+      remDateInput.min = iso;
     })();
-    // 提醒日期选项 → 绝对日期（以 APP_TODAY 为锚点）
+    // 日历日期 → 绝对日期
     function reminderDueDate(){
-      if(remCustomDate) return new Date(remCustomDate.getTime());
-      var v = chipVal('rem-date-group') || '今天';
-      var base = dayStart(new Date(APP_TODAY));
-      var offMap = {'今天':0, '明天':1, '3 天后':3, '1 周后':7};
-      var off = offMap[v];
-      if(off == null) off = 0;
-      return new Date(base.getTime() + off*86400000);
+      var v = remDateInput ? remDateInput.value : '';
+      var m = v && v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if(m) return dayStart(new Date(+m[1], +m[2]-1, +m[3]));
+      return dayStart(new Date(APP_TODAY));
     }
-    // 日期选项 → 状态标签
-    function tagForDate(dateVal){
-      if(dateVal === '今天') return {cls:'amber', text:'今天'};
-      if(dateVal === '明天') return {cls:'amber', text:'明天'};
-      if(dateVal === '3 天后') return {cls:'amber', text:'3 天后'};
+    // 相对今天 → 状态标签
+    function tagForDate(dueD){
+      var today = dayStart(new Date(APP_TODAY)).getTime();
+      var diff = Math.round((dayStart(dueD).getTime() - today)/86400000);
+      if(diff === 0) return {cls:'amber', text:'今天'};
+      if(diff === 1) return {cls:'amber', text:'明天'};
+      if(diff > 1 && diff <= 3) return {cls:'amber', text:diff+' 天后'};
       return {cls:'blue', text:'已计划'};
     }
     var createReminderBtn = document.getElementById('create-reminder-btn');
@@ -10760,33 +12254,35 @@
           if(input) input.focus();
           return;
         }
-        var petCard = remPetSelect ? remPetSelect.querySelector('.pet-card.on') : null;
-        var petName = petCard ? petCard.getAttribute('data-name') : '小白';
-        var petKey = petCard ? petCard.getAttribute('data-pet') : activeHomePet;
-        var dateVal = chipVal('rem-date-group') || '今天';
-        var repeatVal = chipVal('rem-repeat-group') || '不重复';
-        var aheadVal = chipVal('rem-ahead-group') || '提前 1 天';
-        var tag = tagForDate(dateVal);
+        var descInput = document.getElementById('rem-desc-input');
+        var desc = descInput ? descInput.value.trim() : '';
+        var petKey = activeHomePet;
+        var petName = (HOME_PETS[petKey] && HOME_PETS[petKey].name) || '小白';
+        var repeatSel = document.getElementById('rem-repeat-select');
+        var repeatVal = repeatSel ? repeatSel.value : '不重复';
+        var aheadVal = '当天提醒';
         var dueD = reminderDueDate();
+        var tag = tagForDate(dueD);
         var key = 'new-' + Date.now();
 
         // 写入持久化提醒层：驱动首页日历灰点 + 当日页待办（刷新不丢）
         var saved = ReminderStore.add(petKey, {
           title:title, petName:petName,
           due:dueD.getTime(), repeat:repeatVal,
-          ahead:aheadVal === '当天' ? '当天提醒' : aheadVal,
+          ahead:aheadVal,
           tagCls:tag.cls, tagText:tag.text, done:false
         });
 
         // 写入详情数据源
         REM_INFO[key] = {
           title: title,
+          desc: desc,
           sub: petName + ' · ' + repeatVal,
           status: tag.text,
           statusCls: tag.cls,
           next: ((dueD.getMonth()+1)+'-'+dueD.getDate()) + '（' + repeatVal + '）',
           repeat: repeatVal,
-          ahead: aheadVal === '当天' ? '当天提醒' : aheadVal
+          ahead: aheadVal
         };
 
         // 插入提醒列表（清掉空态）
@@ -10803,7 +12299,7 @@
             '<div class="rem-body"><b></b><span></span></div>' +
             '<span class="rem-tag ' + tag.cls + '">' + tag.text + '</span>';
           item.querySelector('.rem-body b').textContent = title;
-          item.querySelector('.rem-body span').textContent = petName + ' · ' + repeatVal;
+          item.querySelector('.rem-body span').textContent = desc ? (petName + ' · ' + repeatVal + ' · ' + desc) : (petName + ' · ' + repeatVal);
           item.addEventListener('click', function(){
             currentRem = key;
             populateReminderDetail(key);
@@ -10825,9 +12321,12 @@
         if(page) page.classList.remove('open');
         // 重置表单
         if(input) input.value = '';
-        remCustomDate = null;
-        var customChip = document.querySelector('#rem-date-group .opt-chip[data-val="自选日期"]');
-        if(customChip) customChip.textContent = '自选…';
+        if(descInput) descInput.value = '';
+        if(remDateInput){
+          var t0 = dayStart(new Date(APP_TODAY));
+          remDateInput.value = t0.getFullYear()+'-'+('0'+(t0.getMonth()+1)).slice(-2)+'-'+('0'+t0.getDate()).slice(-2);
+        }
+        if(repeatSel) repeatSel.value = '每 3 个月';
         showToast('「' + title + '」提醒已创建，日历已标记 🐾');
       });
     }
