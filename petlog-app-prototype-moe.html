@@ -161,6 +161,9 @@
   .header .eyebrow{font-size:10.5px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase;font-weight:700}
   .header .title{font-size:22px;font-weight:800;margin-top:4px;letter-spacing:.2px}
   .iconbtn{width:40px;height:40px;border-radius:14px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--text);position:relative;cursor:pointer;transition:transform .12s ease}
+  /* 记录页头部「记一笔」主按钮 */
+  .rec-add-pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 15px;border-radius:14px;background:var(--primary);color:#fff;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(255,138,92,.28);border:none}
+  .rec-add-pill .ico{width:16px;height:16px}
   .iconbtn:active{transform:scale(.92)}
   .dot-red{position:absolute;top:9px;right:11px;width:8px;height:8px;border-radius:50%;background:var(--danger);border:1.5px solid #fff}
   .scroll{flex:1;overflow-y:auto;padding:0 20px 100px;scrollbar-width:none}
@@ -1704,6 +1707,28 @@
   .sheet-row.dl .s-ico{background:var(--primary-tint);color:var(--primary-600)}
   .sheet-row.up .s-ico{background:var(--mint-soft);color:var(--mint)}
   .sheet-row.cancel{justify-content:center;color:var(--muted);font-weight:600;margin-top:8px;background:var(--bg);border-radius:16px;border-top:none}
+  /* 记一笔统一 sheet：态2 表单头部（返回 / 标题 / 保存） */
+  .nr-head{display:flex;align-items:center;gap:10px;padding:2px 0 10px}
+  .nr-head .backbtn{width:34px;height:34px;border-radius:12px}
+  .nr-head .backbtn .ico{width:18px;height:18px}
+  .nr-title{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--text)}
+  .nr-save{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;padding:8px 6px;flex-shrink:0}
+  .nr-body{padding:0 2px 6px}
+  /* 记一笔 · 纯选择面板：分组 + 圆形图标（参考事项选择样式） */
+  .nr-scroll{padding:2px 0 4px}
+  .np-group{margin-top:16px}
+  .np-group:first-child{margin-top:6px}
+  .np-glabel{font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px}
+  .np-grid{display:grid;grid-template-columns:repeat(4,1fr);row-gap:20px}
+  .np-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .np-item:active .np-ic{transform:scale(.92)}
+  .np-ic{width:52px;height:52px;border-radius:50%;background:#FFF6E8;display:flex;align-items:center;justify-content:center;color:#C99A5B;transition:transform .12s ease}
+  .np-ic .ico{width:26px;height:26px}
+  .np-item span:last-child{font-size:12.5px;font-weight:600;color:#6B5D50}
+  .np-quick{display:flex;gap:10px;margin-top:20px;padding-top:14px;border-top:2px dashed var(--line)}
+  .np-qbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border-radius:14px;background:var(--primary-tint);color:var(--primary);font-size:13px;font-weight:700;cursor:pointer}
+  .np-qbtn .ico{width:17px;height:17px}
+  .np-qbtn.ghost{background:#F3F0EC;color:#9A8A78}
 
   /* 今天：待办完成卡（底部预填面板，一键闭环） */
   .done-sheet{padding:10px 20px 26px}
@@ -2914,10 +2939,13 @@
             <div class="header">
               <div><div class="eyebrow">MEMO</div><div class="title">记录</div></div>
               <div style="display:flex;align-items:center;gap:10px">
-                <div class="iconbtn" data-open="pg-new-record" title="文字录入"><svg class="ico"><use href="#i-edit"/></svg></div>
+                <div class="rec-add-pill" data-open="pg-new-record"><svg class="ico"><use href="#i-plus"/></svg>记一笔</div>
                 <div class="iconbtn" data-open="pg-search"><svg class="ico"><use href="#i-search"/></svg></div>
               </div>
             </div>
+
+            <!-- 记录页宠物切换：一眼看清当前在看谁的记录 -->
+            <div class="pet-seg" id="rec-page-pet-switch" style="margin:0 0 10px"></div>
 
             <div class="seg" id="rec-seg">
               <div class="on" data-view="list">事项记录</div>
@@ -3283,83 +3311,85 @@
         </div>
 
         <!-- ============ 覆盖层：新建记录 ============ -->
-        <div class="page" id="pg-new-record">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle" id="rec-form-title">记一笔</div><div class="pact" id="rec-form-save-top">保存</div></div>
-          <div class="scroll">
-            <!-- 速记：以文字录入为主，语音 / 拍照只做输入框旁的辅助小图标 -->
-            <div class="ai-capture">
-              <div class="ac-cap"><svg class="ico"><use href="#i-edit"/></svg>打几个字就行，我帮你整理成规范档案</div>
-              <div class="ac-quick">
-                <div class="ac-input" id="ac-text"><svg class="ico"><use href="#i-edit"/></svg><span>比如「刚给小白喂了半罐主食罐」…</span></div>
-                <span class="ac-mini" id="ac-voice" title="说一句"><svg class="ico"><use href="#i-mic"/></svg></span>
-                <span class="ac-mini cam" id="ac-photo" title="拍药板/病历"><svg class="ico"><use href="#i-camera-ai"/></svg></span>
-              </div>
-              <div class="ac-hint"><svg class="ico" style="color:var(--muted)"><use href="#i-info"/></svg><span>文字优先，说一句/拍照是辅助；识别后自动填好分类、时间，确认即可存档。<span class="ac-link" id="ac-bcs">拍照估体况</span></span></div>
-            </div>
-
-            <div class="field"><label>记录分类</label>
-              <div class="type-group">
-                <div class="tg-label">基础健康<span class="n">驱虫 · 疫苗 · 体检 · 用药 · 体重</span></div>
-                <div class="type-grid">
-                  <div class="cell on" data-key="deworm"><span class="ic amber"><svg class="ico"><use href="#i-droplet"/></svg></span>驱虫</div>
-                  <div class="cell" data-key="vaccine"><span class="ic teal"><svg class="ico"><use href="#i-medical"/></svg></span>疫苗</div>
-                  <div class="cell" data-key="checkup"><span class="ic blue"><svg class="ico"><use href="#i-clipcheck"/></svg></span>体检</div>
-                  <div class="cell" data-key="medicine"><span class="ic pink"><svg class="ico"><use href="#i-capsule"/></svg></span>用药</div>
-                  <div class="cell" data-key="weight"><span class="ic slate"><svg class="ico"><use href="#i-scale"/></svg></span>体重</div>
-                </div>
-              </div>
-              <div class="type-group">
-                <div class="tg-label">日常<span class="n">喂食 · 喝水 · 铲屎 · 玩耍 · 遛弯 · 便便</span></div>
-                <div class="type-grid">
-                  <div class="cell" data-key="feed"><span class="ic coral"><svg class="ico"><use href="#i-food"/></svg></span>喂食</div>
-                  <div class="cell" data-key="water"><span class="ic blue"><svg class="ico"><use href="#i-droplet"/></svg></span>喝水</div>
-                  <div class="cell litter-only" data-key="litter"><span class="ic slate"><svg class="ico"><use href="#i-litter"/></svg></span>铲屎</div>
-                  <div class="cell" data-key="play"><span class="ic pink"><svg class="ico"><use href="#i-paw"/></svg></span>玩耍</div>
-                  <div class="cell walk-only" data-key="walk"><span class="ic teal"><svg class="ico"><use href="#i-walk"/></svg></span>遛狗</div>
-                  <div class="cell" data-key="poop"><span class="ic amber"><svg class="ico"><use href="#i-poop"/></svg></span>便便</div>
-                </div>
-              </div>
-              <div class="type-group">
-                <div class="tg-label">清洁洗护<span class="n">根据宠物种类变化</span></div>
-                <div class="type-grid" id="groom-grid">
-                  <div class="cell" data-key="bath"><span class="ic blue"><svg class="ico"><use href="#i-bath"/></svg></span>洗澡</div>
-                  <div class="cell" data-key="nail"><span class="ic pink"><svg class="ico"><use href="#i-nail"/></svg></span>剪指甲</div>
-                  <div class="cell" data-key="tooth"><span class="ic teal"><svg class="ico"><use href="#i-tooth"/></svg></span>刷牙</div>
-                  <div class="cell anal-only" data-key="anal"><span class="ic coral"><svg class="ico"><use href="#i-anal"/></svg></span>挤肛门腺</div>
-                </div>
-              </div>
-              <div class="type-group">
-                <div class="tg-label">打理清扫</div>
-                <div class="type-grid">
-                  <div class="cell" data-key="cage"><span class="ic slate"><svg class="ico"><use href="#i-cage"/></svg></span>洗笼子</div>
-                  <div class="cell" data-key="bowl"><span class="ic amber"><svg class="ico"><use href="#i-bowl"/></svg></span>洗餐具</div>
-                  <div class="cell litter-only" data-key="litterchg"><span class="ic slate"><svg class="ico"><use href="#i-litter"/></svg></span>换猫砂</div>
-                </div>
-              </div>
-              <div class="type-group">
-                <div class="tg-label">其他<span class="n">自定义</span></div>
-                <div class="type-grid">
-                  <div class="cell" id="new-cat-cell" data-open="pg-new-category"><span class="ic violet"><svg class="ico"><use href="#i-plus"/></svg></span>新建分类</div>
-                </div>
-              </div>
-            </div>
-            <div class="field"><label>标题</label><div class="mock" id="rec-title-mock" style="cursor:pointer">体内驱虫</div></div>
-            <div class="field"><label>详情备注</label><div class="mock" id="rec-note-mock"><span class="ph">点我补充这次的情况（选填）…</span></div></div>
-            <div class="field"><label>发生时间</label><div class="mock" id="rec-date-mock" style="cursor:pointer">今天 12:00</div></div>
-            <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-              <div><label style="display:block">首页快捷方式</label><span style="font-size:12px;color:var(--muted)">开启后首页显示吃饭/喝水等一键记录</span></div>
-              <div class="switch" id="rec-quicklog-sw"></div>
-            </div>
-            <div class="btn btn-primary" id="rec-form-save" style="margin-top:18px">保存记录</div>
-          </div>
-        </div>
-
-        <!-- ============ 覆盖层：专属记录录入（驱虫/疫苗/洗澡… 每个事项有自己的表单） ============ -->
-        <div class="sheet-mask" id="pg-record-form">
+        <!-- ============ 记一笔：统一底部 sheet（先选分类 → 同一 sheet 内切换表单，不再页面套弹窗） ============ -->
+        <div class="sheet-mask" id="pg-new-record">
           <div class="sheet">
-            <div class="stitle" id="rf-title">记录</div>
-            <div class="scroll" id="rf-scroll"></div>
-            <div class="sheet-row cancel" id="rf-cancel">取消</div>
+            <!-- 态 1：纯选择面板（点一项 → 进入该项的录入表单，本面板不做任何编辑） -->
+            <div id="nr-picker">
+              <div class="stitle">记一笔</div>
+              <div class="nr-scroll">
+              <div class="np-group">
+                <div class="np-glabel">日常事项</div>
+                <div class="np-grid">
+                  <div class="np-item" data-key="weight"><span class="np-ic"><svg class="ico"><use href="#i-scale"/></svg></span>称体重</div>
+                  <div class="np-item" data-key="feed"><span class="np-ic"><svg class="ico"><use href="#i-food"/></svg></span>喂食</div>
+                  <div class="np-item" data-key="water"><span class="np-ic"><svg class="ico"><use href="#i-droplet"/></svg></span>喂水</div>
+                  <div class="np-item litter-only" data-key="litter"><span class="np-ic"><svg class="ico"><use href="#i-litter"/></svg></span>铲屎</div>
+                  <div class="np-item" data-key="play"><span class="np-ic"><svg class="ico"><use href="#i-paw"/></svg></span>玩耍</div>
+                  <div class="np-item walk-only" data-key="walk"><span class="np-ic"><svg class="ico"><use href="#i-walk"/></svg></span>遛狗</div>
+                  <div class="np-item" data-key="poop"><span class="np-ic"><svg class="ico"><use href="#i-poop"/></svg></span>便便</div>
+                </div>
+              </div>
+              <div class="np-group">
+                <div class="np-glabel">健康事项</div>
+                <div class="np-grid">
+                  <div class="np-item" data-key="deworm"><span class="np-ic"><svg class="ico"><use href="#i-droplet"/></svg></span>驱虫</div>
+                  <div class="np-item" data-key="vaccine"><span class="np-ic"><svg class="ico"><use href="#i-medical"/></svg></span>疫苗</div>
+                  <div class="np-item" data-key="checkup"><span class="np-ic"><svg class="ico"><use href="#i-clipcheck"/></svg></span>体检</div>
+                  <div class="np-item" data-key="medicine"><span class="np-ic"><svg class="ico"><use href="#i-capsule"/></svg></span>用药</div>
+                  <div class="np-item" data-key="period"><span class="np-ic"><svg class="ico"><use href="#i-heart"/></svg></span>生理期</div>
+                </div>
+              </div>
+              <div class="np-group">
+                <div class="np-glabel">洗护事项</div>
+                <div class="np-grid" id="groom-grid">
+                  <div class="np-item" data-key="bath"><span class="np-ic"><svg class="ico"><use href="#i-bath"/></svg></span>洗澡</div>
+                  <div class="np-item" data-key="nail"><span class="np-ic"><svg class="ico"><use href="#i-nail"/></svg></span>剪指甲</div>
+                  <div class="np-item" data-key="tooth"><span class="np-ic"><svg class="ico"><use href="#i-tooth"/></svg></span>刷牙</div>
+                  <div class="np-item anal-only" data-key="anal"><span class="np-ic"><svg class="ico"><use href="#i-anal"/></svg></span>挤肛门腺</div>
+                </div>
+              </div>
+              <div class="np-group">
+                <div class="np-glabel">清洁事项</div>
+                <div class="np-grid">
+                  <div class="np-item" data-key="cage"><span class="np-ic"><svg class="ico"><use href="#i-cage"/></svg></span>洗笼子</div>
+                  <div class="np-item" data-key="bowl"><span class="np-ic"><svg class="ico"><use href="#i-bowl"/></svg></span>洗食盆</div>
+                  <div class="np-item litter-only" data-key="litterchg"><span class="np-ic"><svg class="ico"><use href="#i-litter"/></svg></span>换猫砂</div>
+                  <div class="np-item" id="new-cat-cell" data-open="pg-new-category"><span class="np-ic"><svg class="ico"><use href="#i-plus"/></svg></span>新建分类</div>
+                </div>
+              </div>
+              </div><!-- /nr-scroll -->
+              <!-- 辅助录入：说一句/拍照，识别后直接进对应表单（不在选择面板里占编辑位） -->
+              <div class="np-quick">
+                <span class="np-qbtn" id="ac-voice"><svg class="ico"><use href="#i-mic"/></svg>说一句</span>
+                <span class="np-qbtn" id="ac-photo"><svg class="ico"><use href="#i-camera-ai"/></svg>拍药板</span>
+                <span class="np-qbtn ghost" id="ac-bcs">拍照估体况</span>
+              </div>
+            </div><!-- /nr-picker -->
+            <!-- 态 2：表单（专属表单 / 自定义编辑共用一个头部） -->
+            <div id="nr-form" style="display:none">
+              <div class="nr-head">
+                <div class="backbtn" id="nr-back"><svg class="ico"><use href="#i-chev-l"/></svg></div>
+                <div class="nr-title" id="nr-title">记一笔</div>
+                <div class="nr-save" id="nr-save-top">保存</div>
+              </div>
+              <div class="nr-body">
+                <!-- 自定义分类 / 旧记录：通用编辑 -->
+                <div id="nr-generic" style="display:none">
+                  <div class="field"><label>标题</label><div class="mock" id="rec-title-mock" style="cursor:pointer">体内驱虫</div></div>
+                  <div class="field"><label>详情备注</label><div class="mock" id="rec-note-mock"><span class="ph">点我补充这次的情况（选填）…</span></div></div>
+                  <div class="field"><label>发生时间</label><div class="mock" id="rec-date-mock" style="cursor:pointer">今天 12:00</div></div>
+                  <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                    <div><label style="display:block">首页快捷方式</label><span style="font-size:12px;color:var(--muted)">开启后首页显示吃饭/喝水等一键记录</span></div>
+                    <div class="switch" id="rec-quicklog-sw"></div>
+                  </div>
+                  <div class="btn btn-primary" id="rec-form-save" style="margin-top:18px">保存记录</div>
+                </div>
+                <!-- 专属表单（驱虫/疫苗/生理期/洗澡… 动态渲染） -->
+                <div id="rf-scroll"></div>
+              </div>
+            </div><!-- /nr-form -->
+            <div class="sheet-row cancel" id="nr-cancel">取消</div>
           </div>
         </div>
 
@@ -4477,6 +4507,10 @@
           else openRecordForm({petKey:activeHomePet});
           return;
         }
+        // 从记一笔 sheet 里打开的覆盖页（如新建分类）在 sheet 之下，先收起 sheet 再进页面
+        if(el.closest && el.closest('#pg-new-record') && typeof nrCloseSheet === 'function'){
+          nrCloseSheet();
+        }
         openPage(target);
       });
     });
@@ -4939,6 +4973,7 @@
     function renderMyRecords(){
       var wrap = document.getElementById('my-records-wrap');
       if(!wrap) return;
+      if(typeof renderRecPageSwitch === 'function') renderRecPageSwitch(activeHomePet);
       var recs = RecordStore.list(activeHomePet);
       if(!recs.length){ wrap.innerHTML = ''; applyRecFilter(currentRecCat); return; }
       var anchor = new Date(APP_TODAY);
@@ -5220,17 +5255,6 @@
         if(!isDog) el.classList.remove('on');
       });
     }
-    var petSwitch = document.getElementById('rec-pet-switch');
-    if(petSwitch){
-      petSwitch.querySelectorAll('.ps').forEach(function(ps){
-        ps.addEventListener('click', function(){
-          petSwitch.querySelectorAll('.ps').forEach(function(x){x.classList.remove('on')});
-          ps.classList.add('on');
-          syncRecordTypesByPet(ps.getAttribute('data-pet'));
-        });
-      });
-      syncRecordTypesByPet('cat');
-    }
 
     // 开关（纪念日提醒开关，含「添加纪念日」联动）
     document.querySelectorAll('.switch').forEach(function(sw){
@@ -5276,12 +5300,15 @@
     var recTitle = document.getElementById('rec-title-mock');
     var recNote = document.getElementById('rec-note-mock');
     var recDateMock = document.getElementById('rec-date-mock');
-    var recFormTitle = document.getElementById('rec-form-title');
+    var recFormTitle = document.getElementById('nr-title');
     var recFormSaveBtn = document.getElementById('rec-form-save');
-    var selectedRecCell = document.querySelector('#pg-new-record .type-grid .cell.on:not([data-open])');
+    var selectedRecCell = null;
     var recFormState = {mode:'create', editId:null, editPet:null, date:dayStart(new Date(APP_TODAY)), timeMin:12*60, fromDay:false};
+    // 记一笔统一 sheet 的两态：picker（选分类）/ 表单；nrPending 挂起补记上下文（宠物/日期/来源）
+    var nrPending = {petKey:null, date:null, fromDay:false};
+    var nrCtx = {view:'picker', edit:false};
 
-    function recCells(){ return document.querySelectorAll('#pg-new-record .type-grid .cell'); }
+    function recCells(){ return document.querySelectorAll('#pg-new-record .np-item'); }
     function selectRecCell(cell){
       recCells().forEach(function(x){ if(!x.hasAttribute('data-open')) x.classList.remove('on'); });
       if(cell){ cell.classList.add('on'); selectedRecCell = cell; }
@@ -5292,32 +5319,24 @@
       recCells().forEach(function(c){ if(!c.hasAttribute('data-open')){ var u=c.querySelector('use'); if(u && u.getAttribute('href')==='#'+ico) hit = c; } });
       return hit;
     }
+    // 纯选择面板：点任一事项 → 直接进入该事项的专属录入表单（本面板无编辑态）
+    function openPickItem(cell){
+      if(!cell || cell.style.display === 'none') return;
+      var dk = cell.getAttribute('data-key');
+      if(!dk) return;
+      if(dk === 'feed' && typeof openFeedSheet === 'function'){
+        nrCloseSheet();
+        openFeedSheet('food');
+        return;
+      }
+      if(typeof REC_FORMS !== 'undefined' && REC_FORMS[dk]){
+        openRecordFormRF(nrPending.petKey || activeHomePet, dk, {date:nrPending.date, fromDay:!!nrPending.fromDay});
+      }
+    }
     recCells().forEach(function(cell){
-      cell.addEventListener('click', function(){
-        if(cell.hasAttribute('data-open')) return;
-        // 内置事项：直接进入该事项的专属录入表单（驱虫/疫苗/洗澡…各有各的字段）
-        var dk = cell.getAttribute('data-key');
-        if(dk && cell.style.display !== 'none'){
-          // 喂食走食物详改面板（与首页长按一致），其他走专属表单
-          if(dk === 'feed' && typeof openFeedSheet === 'function'){
-            openFeedSheet('food');
-            var pgn = document.getElementById('pg-new-record');
-            if(pgn) pgn.classList.remove('open');
-            return;
-          }
-          if(typeof REC_FORMS !== 'undefined' && REC_FORMS[dk]){
-            if(openRecordFormRF(activeHomePet, dk, {})){
-              var pgn2 = document.getElementById('pg-new-record');
-              if(pgn2) pgn2.classList.remove('open');
-            }
-            return;
-          }
-        }
-        selectRecCell(cell);
-        if(recTitle){ recTitle.textContent = cell.textContent.trim(); }
-      });
+      cell.addEventListener('click', function(){ openPickItem(cell); });
     });
-    // 标题也可手动改成任意名称（兼容自定义分类 / 编辑旧记录）
+    // 兼容自定义分类 / 编辑旧记录：通用表单标题仍可改名
     if(recTitle){
       recTitle.addEventListener('click', function(){
         var nv = prompt('这条记录叫什么？', recTitle.textContent.trim());
@@ -5394,6 +5413,7 @@
       checkup:{title:'记录体检', recTitle:'体检', ico:'i-clipcheck', icoCls:'blue', cat:'health', sub:'记录体检结果，健康时间线持续更新'},
       medicine:{title:'记录用药', recTitle:'用药', ico:'i-capsule', icoCls:'pink', cat:'health', sub:'记下药名与剂量，用药周期不错过'},
       weight:{title:'记录体重', recTitle:'体重', ico:'i-scale', icoCls:'slate', cat:'health', sub:'记一笔自动汇入体重趋势图'},
+      period:{title:'记录生理期', recTitle:'生理期', ico:'i-heart', icoCls:'pink', cat:'health', sub:'记录本次生理期，自动推算下次提醒'},
       bath:{title:'记录洗澡', recTitle:'洗澡', ico:'i-bath', icoCls:'blue', cat:'groom', sub:'洗护记录自动归档到清洁时间线'},
       nail:{title:'记录剪指甲', recTitle:'剪指甲', ico:'i-nail', icoCls:'pink', cat:'groom', sub:'记录修剪情况，到点提醒下一次'},
       tooth:{title:'记录刷牙', recTitle:'刷牙', ico:'i-tooth', icoCls:'teal', cat:'groom', sub:'坚持刷牙，牙齿健康看得见'},
@@ -5419,7 +5439,7 @@
         {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
       ],
       vaccine:[
-        {t:'seg', k:'type', label:'疫苗类型', req:true, opts:['猫三联','狂犬疫苗','多联疫苗','其他']},
+        {t:'seg', k:'type', label:'疫苗类型', req:true, opts:['多联疫苗','其他'], optsCat:['猫三联','多联疫苗','其他'], optsDog:['狂犬疫苗','多联疫苗','其他']},
         {t:'text', k:'name', label:'疫苗名称', ph:'如：妙三多'},
         {t:'seg', k:'shot', label:'针次', opts:['第 1 针','第 2 针','第 3 针','加强针']},
         {t:'date', k:'date', label:'接种日期', req:true},
@@ -5446,6 +5466,13 @@
         {t:'date', k:'date', label:'称重日期', req:true},
         {t:'seg', k:'bcs', label:'体况评级', opts:['偏瘦','标准','偏胖']},
         {t:'text', k:'way', label:'测量方式', ph:'如：体重秤'},
+        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
+      ],
+      period:[
+        {t:'date', k:'date', label:'开始日期', req:true},
+        {t:'seg', k:'flow', label:'出血量', opts:['少量','正常','偏多']},
+        {t:'seg', k:'mood', label:'精神状态', opts:['正常','烦躁','嗜睡']},
+        {t:'dateNext', k:'next', label:'下次生理期', hint:'按约半年周期自动推算，可修改', days:180},
         {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
       ],
       bath:[
@@ -5562,16 +5589,28 @@
       });
       return hit;
     }
+    // 当前表单归属宠物的物种（猫/狗），决定物种差异选项（如疫苗类型）
+    function rfSpeciesOf(petKey){
+      var p = HOME_PETS[petKey] || {};
+      return p.speciesKey || (petKey === 'dog' ? 'dog' : 'cat');
+    }
+    // 单选段选项：优先取物种专属选项（optsCat / optsDog），没有则用通用 opts
+    function rfSegOpts(f){
+      if(f.optsCat || f.optsDog){
+        return rfSpeciesOf(rfState.petKey) === 'dog' ? (f.optsDog || f.opts) : (f.optsCat || f.opts);
+      }
+      return f.opts;
+    }
     function renderRecordForm(){
       var meta = REC_META[rfState.key];
       var fields = REC_FORMS[rfState.key] || [];
       var pet = HOME_PETS[rfState.petKey] || HOME_PETS[activeHomePet] || {name:''};
-      var titleEl = document.getElementById('rf-title');
+      var titleEl = document.getElementById('nr-title');
       var scroll = document.getElementById('rf-scroll');
       if(!scroll) return;
       var isEdit = rfState.mode === 'edit';
-      // 顶部小标题带宠物名；主体用一行紧凑头部（小图标 + 记录名），去掉大 hero 省空间
-      if(titleEl) titleEl.textContent = (pet.name ? pet.name + ' · ' : '') + (isEdit ? '编辑记录' : '记一笔');
+      // 顶部小标题带宠物名 + 当前事项名；主体用一行紧凑头部（小图标 + 记录名），去掉大 hero 省空间
+      if(titleEl) titleEl.textContent = (pet.name ? pet.name + ' · ' : '') + (isEdit ? '编辑「'+meta.recTitle+'」' : meta.title.replace(/^记录/, ''));
       var html = '';
       html += '<div class="rf-head"><div class="rf-head-ic"><svg class="ico"><use href="#'+meta.ico+'"/></svg></div>'
         + '<div class="rf-head-t">'+escHtml(meta.recTitle)+'</div>'
@@ -5581,9 +5620,11 @@
       fields.forEach(function(f){
         if(f.t === 'seg'){
           var curSeg = rfState.vals[f.k];
+          var segOpts = rfSegOpts(f);
+          var curIn = curSeg ? segOpts.indexOf(curSeg) >= 0 : false;
           html += '<div class="rf-row stack"><div class="rf-k">'+f.label+(f.req?'<span class="rf-req">*</span>':'')+'</div>'
             + '<div class="rf-seg" data-rfk="'+f.k+'">'
-            + f.opts.map(function(o, i){ return '<div class="rf-opt'+((curSeg?o===curSeg:i===0)?' on':'')+'" data-val="'+escHtml(o)+'">'+escHtml(o)+'</div>'; }).join('')
+            + segOpts.map(function(o, i){ return '<div class="rf-opt'+((curSeg ? (curIn && o === curSeg) : i===0)?' on':'')+'" data-val="'+escHtml(o)+'">'+escHtml(o)+'</div>'; }).join('')
             + '</div></div>';
         } else if(f.t === 'area'){
           var v0 = rfState.vals[f.k] || '';
@@ -5614,15 +5655,12 @@
       html += '<div style="height:24px"></div>';
       scroll.innerHTML = html;
       bindRecordFormEvents(fields);
-      var saveTop = document.getElementById('rf-save-top');
-      if(saveTop) saveTop.onclick = saveRecordFormRF;
       var delBtn = document.getElementById('rf-delete');
       if(delBtn) delBtn.onclick = function(){
         if(!rfState.editId) return;
         var targetPet = rfState.editPet || rfState.petKey;
         RecordStore.remove(targetPet, rfState.editId);
-        var pgRFEl = document.getElementById('pg-record-form');
-        if(pgRFEl) pgRFEl.classList.remove('show');
+        nrCloseSheet();
         refreshAfterRecord(rfState.petKey);
         switchMainTab('records');
         showToast('已删除「'+meta.recTitle+'」');
@@ -5764,8 +5802,7 @@
           });
         }catch(e){}
       }
-      var pgRFEl = document.getElementById('pg-record-form');
-      if(pgRFEl) pgRFEl.classList.remove('show');
+      nrCloseSheet();
       refreshAfterRecord(petKey);
       if(rfState.fromDay && typeof openLastDay === 'function'){ openLastDay(); }
       else { switchMainTab('records'); }
@@ -5816,7 +5853,7 @@
       } else {
         // 默认值：单选取第一项；下次提醒按默认周期自动推算
         (REC_FORMS[key]||[]).forEach(function(f){
-          if(f.t === 'seg') rfState.vals[f.k] = f.opts[0];
+          if(f.t === 'seg') rfState.vals[f.k] = rfSegOpts(f)[0];
           if(f.t === 'dateNext'){
             rfState.vals[f.k] = new Date(rfState.date.getTime() + (f.days||30)*86400000);
             rfState.nextAuto[f.k] = true;
@@ -5825,19 +5862,56 @@
         if(opt.presetNote) rfState.vals.note = opt.presetNote;
       }
       renderRecordForm();
-      var pgRFEl = document.getElementById('pg-record-form');
-      if(pgRFEl) pgRFEl.classList.add('show');
-      // 半屏 sheet 遮罩点击关闭
-      if(!pgRFEl.__rfBound){
-        pgRFEl.__rfBound = true;
-        pgRFEl.addEventListener('click', function(e){
-          if(e.target === pgRFEl){ pgRFEl.classList.remove('show'); }
-        });
-        var rfCancel = document.getElementById('rf-cancel');
-        if(rfCancel) rfCancel.addEventListener('click', function(){ pgRFEl.classList.remove('show'); });
-      }
+      nrShowForm('rf');
       return true;
     }
+
+    // ===== 记一笔统一 sheet：态1 选分类 / 态2 表单，同一面板内切换，不再「页面套弹窗」 =====
+    function nrCloseSheet(){
+      var s = document.getElementById('pg-new-record');
+      if(s) s.classList.remove('show');
+    }
+    function showNRPicker(){
+      var s = document.getElementById('pg-new-record');
+      if(!s) return;
+      nrCtx = {view:'picker', edit:false};
+      var pv = document.getElementById('nr-picker'), fm = document.getElementById('nr-form');
+      if(pv) pv.style.display = '';
+      if(fm) fm.style.display = 'none';
+      syncRecordTypesByPet(nrPending.petKey || activeHomePet);
+      s.classList.add('show');
+    }
+    function nrShowForm(view){
+      var s = document.getElementById('pg-new-record');
+      if(!s) return;
+      nrCtx = {view:view, edit:(view === 'rf' ? rfState.mode === 'edit' : recFormState.mode === 'edit')};
+      var pv = document.getElementById('nr-picker'), fm = document.getElementById('nr-form');
+      var gen = document.getElementById('nr-generic'), rfs = document.getElementById('rf-scroll');
+      if(pv) pv.style.display = 'none';
+      if(fm) fm.style.display = '';
+      if(gen) gen.style.display = view === 'generic' ? '' : 'none';
+      if(rfs) rfs.style.display = view === 'rf' ? '' : 'none';
+      s.classList.add('show');
+    }
+    function nrBack(){
+      if(nrCtx.edit) nrCloseSheet();
+      else showNRPicker();
+    }
+    (function(){
+      var s = document.getElementById('pg-new-record');
+      if(!s || s.__nrBound) return;
+      s.__nrBound = true;
+      s.addEventListener('click', function(e){ if(e.target === s) nrCloseSheet(); });
+      var cancel = document.getElementById('nr-cancel');
+      if(cancel) cancel.addEventListener('click', nrCloseSheet);
+      var back = document.getElementById('nr-back');
+      if(back) back.addEventListener('click', nrBack);
+      var saveTop = document.getElementById('nr-save-top');
+      if(saveTop) saveTop.addEventListener('click', function(){
+        if(nrCtx.view === 'rf' && typeof saveRecordFormRF === 'function') saveRecordFormRF();
+        else if(typeof saveRecordForm === 'function') saveRecordForm();
+      });
+    })();
 
     // 统一打开表单：opt={petKey,date,editId,fromDay}
     function openRecordForm(opt){
@@ -5874,30 +5948,30 @@
         if(recTitle) recTitle.textContent = rec.title || (cell ? cell.textContent.trim() : '记录');
         setRecNote(rec.note || '');
       } else {
-        recFormState.mode = 'create';
-        recFormState.editId = null;
-        recFormState.editPet = null;
-        recFormState.date = opt.date ? dayStart(new Date(opt.date)) : dayStart(new Date(APP_TODAY));
-        recFormState.timeMin = 12*60;
-        if(recFormTitle) recFormTitle.textContent = '记一笔';
-        if(recFormSaveBtn) recFormSaveBtn.textContent = '保存记录';
-        // 支持外部带参预填（如 AI 简报「记一笔」）：先按 key 精确选中分类，再回填标题；
-        // 选中仅作为默认值，用户进入后可自行改分类 / 改标题 / 手动补充
-        var presetCell = opt.presetKey
-          ? document.querySelector('#pg-new-record .type-grid .cell[data-key="'+opt.presetKey+'"]:not([data-open])')
-          : null;
-        if(presetCell && presetCell.style.display !== 'none'){
-          selectRecCell(presetCell);
-          if(recTitle) recTitle.textContent = opt.presetTitle || presetCell.textContent.trim();
-        }else{
-          var firstCell = document.querySelector('#pg-new-record .type-grid .cell:not([data-open])');
-          selectRecCell(firstCell);
-          if(recTitle && firstCell) recTitle.textContent = firstCell.textContent.trim();
+        // 没指定具体事项：默认弹分类选择，选中后在同一 sheet 内进入对应表单；
+        // 补记日期 / 来源等上下文先挂到 nrPending，选中分类时一并带入
+        nrPending = {petKey:petKey, date:opt.date ? dayStart(new Date(opt.date)) : null, fromDay:!!opt.fromDay};
+        // 带预设内容（如语音识别没匹配到分类）：直接进通用表单，标题/备注已填好
+        if(opt.presetTitle || opt.presetNote){
+          recFormState.mode = 'create';
+          recFormState.editId = null;
+          recFormState.editPet = null;
+          recFormState.date = opt.date ? dayStart(new Date(opt.date)) : dayStart(new Date(APP_TODAY));
+          recFormState.timeMin = 12*60;
+          if(recFormTitle) recFormTitle.textContent = '记一笔';
+          if(recFormSaveBtn) recFormSaveBtn.textContent = '保存记录';
+          selectRecCell(null);
+          if(recTitle) recTitle.textContent = opt.presetTitle || '日常记录';
+          setRecNote(opt.presetNote || '');
+          refreshRecDateLabel();
+          nrShowForm('generic');
+          return;
         }
-        setRecNote(opt.presetNote || '');
+        showNRPicker();
+        return;
       }
       refreshRecDateLabel();
-      openPage('pg-new-record');
+      nrShowForm('generic');
     }
     function refreshAfterRecord(petKey){
       if(typeof renderMyRecords === 'function') renderMyRecords();
@@ -5912,19 +5986,18 @@
     function saveRecordForm(){
       var page = document.getElementById('pg-new-record');
       if(!page) return;
-      var petEl = document.querySelector('#rec-pet-switch .ps.on');
-      var petKey = petEl ? petEl.getAttribute('data-pet') : activeHomePet;
-      var cell = selectedRecCell || page.querySelector('.type-grid .cell.on:not([data-open])');
+      var petKey = activeHomePet;
+      var cell = selectedRecCell || page.querySelector('.np-item.on:not([data-open])');
       var title = recTitle ? recTitle.textContent.trim() : '';
       var note = (recNote && recNote.classList.contains('filled')) ? recNote.textContent.trim() : '';
-      var group = cell ? (cell.closest('.type-group') ? cell.closest('.type-group').querySelector('.tg-label').textContent.trim() : '') : '';
-      var groupCatMap = {'基础健康':'health','日常':'daily','清洁洗护':'groom','打理清扫':'clean','其他':'other'};
+      var group = cell ? (cell.closest('.np-group') ? cell.closest('.np-group').querySelector('.np-glabel').textContent.trim() : '') : '';
+      var groupCatMap = {'健康事项':'health','日常事项':'daily','洗护事项':'groom','清洁事项':'clean','其他':'other'};
       var cat = 'health';
       Object.keys(groupCatMap).forEach(function(g){ if(group.indexOf(g) === 0) cat = groupCatMap[g]; });
-      var icEl = cell ? cell.querySelector('.ic') : null;
-      var icoCls = icEl ? (icEl.className.split(/\s+/).filter(function(c){return c !== 'ic';})[0] || 'amber') : 'amber';
       var useEl = cell ? cell.querySelector('use') : null;
       var ico = useEl ? useEl.getAttribute('href').replace('#','') : 'i-droplet';
+      var metaIcon = REC_META[cell ? cell.getAttribute('data-key') : ''] || {};
+      var icoCls = metaIcon.icoCls || 'amber';
       if(!title){ showToast('先选一个记录分类或填写标题哦'); return; }
       var baseDate = recFormState.date || dayStart(new Date(APP_TODAY));
       var keepMin = (typeof recFormState.timeMin === 'number') ? recFormState.timeMin : 12*60;
@@ -5937,7 +6010,7 @@
           var moved = RecordStore.get(targetPet, recFormState.editId);
           if(moved){ RecordStore.remove(targetPet, recFormState.editId); RecordStore.add(petKey, moved); }
         }
-        page.classList.remove('open');
+        page.classList.remove('show');
         refreshAfterRecord(petKey);
         if(!recFormState.fromDay) switchMainTab('records');
         showToast('已更新「'+title+'」');
@@ -5950,7 +6023,7 @@
       activeHomePet = petKey;
       var hps = document.getElementById('home-pet-switch');
       if(hps) hps.querySelectorAll('.pseg').forEach(function(h){ h.classList.toggle('on', h.getAttribute('data-pet') === petKey); });
-      page.classList.remove('open');
+      page.classList.remove('show');
       refreshAfterRecord(petKey);
       if(recFormState.fromDay){
         if(typeof openLastDay === 'function') openLastDay();
@@ -5960,8 +6033,6 @@
       showToast('已保存「'+title+'」🐾');
     }
     if(recFormSaveBtn) recFormSaveBtn.addEventListener('click', saveRecordForm);
-    var recFormSaveTop = document.getElementById('rec-form-save-top');
-    if(recFormSaveTop) recFormSaveTop.addEventListener('click', saveRecordForm);
     function switchMainTab(tab){
       var t = document.querySelector('.tab[data-tab="'+tab+'"]');
       if(t) t.click();
@@ -6275,7 +6346,7 @@
             var qk = el.getAttribute('data-key');
             if(qk === 'feed') openFeedSheet('food');
             else if(typeof REC_FORMS !== 'undefined' && REC_FORMS[qk] && openRecordFormRF(key, qk, {})) { /* 专属表单已打开 */ }
-            else openPage('pg-new-record');
+            else showNRPicker();
           }, 500);
         }, {passive:true});
         el.addEventListener('touchmove', function(e){
@@ -9138,7 +9209,7 @@
       else openPage('pg-ai-center');
     });
     var abEmptyBtn = document.getElementById('hrd-empty-btn');
-    if(abEmptyBtn) bindTap(abEmptyBtn, function(){ openPage('pg-new-record'); });
+    if(abEmptyBtn) bindTap(abEmptyBtn, function(){ showNRPicker(); });
     // 一键生成待办
     var genTodoBtn = document.getElementById('hrd-gen-todo');
     var aiTodoItems = [];
@@ -9411,21 +9482,18 @@
           + (p.isExample?'<span class="pseg-ex">（示例）</span>':'') + '</div>';
       }).join('');
     }
-    // 2) 记一笔表单顶部切换器（决定新建记录归属，不切换全局当前宠物）
-    function renderRecordSwitch(activeKey){
-      var row = document.getElementById('rec-pet-switch');
+    // 1.5) 记录页宠物切换条：一眼看清当前在看谁的记录（切换全局当前宠物）
+    function renderRecPageSwitch(activeKey){
+      var row = document.getElementById('rec-page-pet-switch');
       if(!row) return;
       row.innerHTML = petKeysOrdered().map(function(k){
         var p = HOME_PETS[k];
-        var sub = p.breed ? (p.breed + ' · ' + p.species) : p.species;
-        return '<div class="ps'+(k===activeKey?' on':'')+'" data-pet="'+k+'">'
-          + '<img src="'+(p.avatar||p.mascot)+'" alt="'+escHtml(p.name)+'">'
-          + '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+escHtml(p.name)+(p.isExample?'<span class="ex-chip">（示例）</span>':'')+'</div>'
-          + '<span class="sp" style="display:block">'+escHtml(sub)+'</span></div></div>';
+        return '<div class="pseg'+(k===activeKey?' on':'')+'" data-pet="'+k+'">'
+          + '<img src="'+(p.avatar||p.mascot)+'" alt="'+escHtml(p.name)+'"><span>'+escHtml(p.name)+'</span>'
+          + (p.isExample?'<span class="pseg-ex">（示例）</span>':'') + '</div>';
       }).join('');
-      syncRecordTypesByPet(activeKey);
     }
-    // 3) 提醒 / 纪念日表单的关联宠物卡片（data-name 保持真实名，仅视觉加示例标）
+    // 2) 提醒 / 纪念日表单的关联宠物卡片（data-name 保持真实名，仅视觉加示例标）
     function renderFormPetCards(containerId, activeKey){
       var box = document.getElementById(containerId);
       if(!box) return;
@@ -9445,15 +9513,21 @@
       if(!HOME_PETS[k]) return;
       activeHomePet = k;
       renderHomeSwitch(k);
+      renderRecPageSwitch(k);
       applyHomePet(k);
     });
-    // 事件委托：记一笔表单切换
+    // 事件委托：记录页宠物切换（切全局当前宠物，列表随之刷新）
     document.addEventListener('click', function(e){
-      var ps = e.target.closest('#rec-pet-switch .ps');
-      if(!ps) return;
-      var k = ps.getAttribute('data-pet');
-      if(!HOME_PETS[k]) return;
-      renderRecordSwitch(k);
+      var seg = e.target.closest('#rec-page-pet-switch .pseg');
+      if(!seg) return;
+      var k = seg.getAttribute('data-pet');
+      if(!HOME_PETS[k] || k === activeHomePet) return;
+      activeHomePet = k;
+      renderHomeSwitch(k);
+      renderRecPageSwitch(k);
+      renderMyRecords();
+      applyHomePet(k);
+      showToast('已切换到 ' + petDisplayName(HOME_PETS[k]) + ' 的记录');
     });
     // 事件委托：纪念日表单内单选宠物
     document.addEventListener('click', function(e){
@@ -9465,7 +9539,7 @@
     });
     function renderAllPetSwitchers(activeKey){
       renderHomeSwitch(activeKey);
-      renderRecordSwitch(activeKey);
+      renderRecPageSwitch(activeKey);
       renderFormPetCards('memo-pet-select', activeKey);
       if(typeof renderPetsManage === 'function') renderPetsManage();
       if(typeof renderMinePetCount === 'function') renderMinePetCount();
@@ -11581,7 +11655,7 @@
             if(s.length < 2){
               return {text:p.name+' 现在还没有足够的体重和记录数据，我先不下健康结论，避免误判。先记一笔吃饭、喝水或体重，攒几天我就能帮你解读趋势了。', action:{
                 icon:'i-sparkle', title:'数据还不足，先记一笔', meta:'吃饭 / 喝水 / 体重，记一点就够开始',
-                go:{label:'去记一笔', run:function(){ closePage(); openPage('pg-new-record'); }}
+                go:{label:'去记一笔', run:function(){ closePage(); showNRPicker(); }}
               }};
             }
             var first = s[0].v, last = s[s.length-1].v;
@@ -11595,7 +11669,7 @@
           case 'capture':
             return {text:'好，我帮你打开速记，说一句或拍一下，我来整理成规范记录。', action:{
               icon:'i-sparkle', title:'AI 速记', meta:'语音 / 拍照 / 文字，自动归类预填',
-              go:{label:'去记一笔', run:function(){ closePage(); openPage('pg-new-record'); }}
+              go:{label:'去记一笔', run:function(){ closePage(); showNRPicker(); }}
             }};
           default:
             return {text:'收到～我可以直接帮你：安排护理提醒、识别病历、估体况、判断能不能吃，或解读'+p.name+'最近的健康状态。你也可以点下面的快捷指令。', action:null};
@@ -11834,10 +11908,10 @@
     // ===== 记一笔：AI 多模态速记入口（语音/拍照/估体况，统一为录入方式） =====
     (function(){
       function bind(id, fn){ var el = document.getElementById(id); if(el) el.addEventListener('click', fn); }
-      bind('ac-voice', function(){ openPage('pg-voice'); });
-      bind('ac-photo', function(){ openPage('pg-ocr'); });
-      bind('ac-bcs', function(){ openPage('pg-photo-bcs'); });
-      bind('ac-text', function(){ showToast('对它说一句或直接输入，AI 会自动归类预填（演示）'); });
+      function openAux(page){ if(typeof nrCloseSheet === 'function') nrCloseSheet(); openPage(page); }
+      bind('ac-voice', function(){ openAux('pg-voice'); });
+      bind('ac-photo', function(){ openAux('pg-ocr'); });
+      bind('ac-bcs', function(){ openAux('pg-photo-bcs'); });
     })();
 
     // 初始化：所有宠物选择器由 HOME_PETS 数据驱动渲染（之后新建宠物会自动并入）
@@ -13094,7 +13168,7 @@
       {match:['体内驱虫','内驱'], title:'体内驱虫', cat:'健康护理', ico:'i-droplet', cls:'primary', detail:'海乐妙 · 体内驱虫药', next:'3 个月后（12 月 16 日）', repeat:'每 3 个月'},
       {match:['狂犬','疫苗','三联','打针'], title:'疫苗接种', cat:'医疗健康', ico:'i-medical', cls:'blue', detail:'狂犬疫苗 · 已接种', next:'1 年后（2027 年 9 月）', repeat:'每 1 年'},
       {match:['洗澡','香波'], title:'洗澡美容', cat:'美容清洁', ico:'i-bath', cls:'blue', detail:'宠物香波 · 已吹干', next:'2 周后（9 月 30 日）', repeat:'每 2 周'},
-      {match:['生理期','发情','来例假'], title:'生理期记录', cat:'健康护理', ico:'i-heart', cls:'pink', detail:'生理期第一天 · 需多观察', next:'约 6 个月后提醒', repeat:'每半年'},
+      {match:['生理期','发情','来例假'], title:'生理期', cat:'健康护理', ico:'i-heart', cls:'pink', detail:'生理期第一天 · 需多观察', next:'约 6 个月后提醒', repeat:'每半年'},
       {match:['剪指甲','指甲'], title:'剪指甲', cat:'美容清洁', ico:'i-nail', cls:'pink', detail:'全爪修剪', next:'2 周后', repeat:'每 2 周'},
       {match:['刷牙','牙齿'], title:'刷牙', cat:'美容清洁', ico:'i-tooth', cls:'teal', detail:'宠物牙膏 · 已清洁', next:'3 天后', repeat:'每 3 天'}
     ];
@@ -13237,6 +13311,8 @@
       if(/疫苗|接种|针/.test(t)) return 'vaccine';
       if(/体检/.test(t)) return 'checkup';
       if(/药/.test(t)) return 'medicine';
+      if(/体重|称重|称体重/.test(t)) return 'weight';
+      if(/生理期|发情|例假/.test(t)) return 'period';
       if(/洗澡|美容/.test(t)) return 'bath';
       if(/指甲/.test(t)) return 'nail';
       if(/刷牙|牙齿/.test(t)) return 'tooth';
@@ -13249,13 +13325,10 @@
       var vs = parseVoice('体内驱虫 海乐妙');
       var key = voiceSceneToRecKey(vs);
       var pgv = document.getElementById('pg-voice');
-      openRecordForm(key ? {presetKey:key, presetTitle:vs.title, presetNote:vs.detail || ''} : {});
-      // 无匹配分类时：取消默认选中，事项用识别出的标题
-      if(!key){
-        selectRecCell(null);
-        if(recTitle) recTitle.textContent = vs.title || '日常记录';
-        setRecNote(vs.detail || '');
-      }
+      // 匹配到分类 → 直接进对应专属表单；没匹配 → 进通用表单并预填识别出的标题/备注
+      openRecordForm(key
+        ? {presetKey:key, presetTitle:vs.title, presetNote:vs.detail || ''}
+        : {presetTitle:vs.title || '日常记录', presetNote:vs.detail || ''});
       // 根据口述里的时间段粗略回填发生时间
       var said = (vs.detail || '') + vs.title;
       if(/早上|早晨|上午/.test(said)) recFormState.timeMin = 8*60;
