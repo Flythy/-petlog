@@ -96,7 +96,7 @@
     .scroll{-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;overflow-x:hidden}
     .viewport{overflow:hidden}
     /* iOS：输入框字号 ≥16px，防止聚焦时浏览器强制放大页面 */
-    .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,input[type="date"],input[type="text"],input[type="number"]{font-size:16px}
+    .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,.mr-row input,.mr-row textarea,input[type="date"],input[type="text"],input[type="number"],textarea{font-size:16px}
     /* 底部弹层：避开 home 指示条，滚动不穿透 */
     .sheet{padding-bottom:calc(22px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
     /* 授权页：缩小顶部图片与间距，确保隐私政策在手机可见 */
@@ -1386,6 +1386,77 @@
   .hc-ic.coral,.pb-ic.coral{background:var(--primary-soft);color:var(--primary)}
   .hc-ic.slate,.pb-ic.slate{background:#F1F0F4;color:#9a94a8}
   .hc-ic.violet,.pb-ic.violet{background:var(--lav-soft);color:var(--lav)}
+
+  /* ===== 病历夹 2.0：筛选 / 月份分组 / 病历卡 / 悬浮上传 ===== */
+  :root{--mr:#15C4B5;--mr-soft:#E2F8F5;--mr-grad:linear-gradient(135deg,#2DD4BF,#15C4B5)}
+  .mr-filters{display:flex;gap:10px;margin:2px 0 14px}
+  .mr-filter{flex:1;text-align:center;padding:10px 0;border-radius:99px;background:#fff;border:1.5px solid var(--line);font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:.15s}
+  .mr-filter.on{background:var(--mr-soft);border-color:var(--mr);color:var(--mr)}
+  .mr-month{display:flex;align-items:center;gap:8px;margin:6px 2px 10px;font-size:14px;font-weight:800;color:var(--ink)}
+  .mr-month::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--mr)}
+  .mr-card{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:15px 16px;margin-bottom:12px;cursor:pointer;transition:transform .12s}
+  .mr-card:active{transform:scale(.985)}
+  .mr-card-top{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+  .mr-card-type{font-size:16px;font-weight:850;color:var(--ink)}
+  .mr-badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:99px;line-height:1}
+  .mr-badge.pending{background:#FFF1E0;color:#F0981B}
+  .mr-badge.saved{background:var(--mr-soft);color:var(--mr)}
+  .mr-card-date{margin-left:auto;font-size:12px;font-weight:700;color:#B6A99C;white-space:nowrap}
+  .mr-card-mid{display:flex;gap:12px;align-items:center}
+  .mr-card-info{flex:1;min-width:0}
+  .mr-diag{font-size:17px;font-weight:850;color:var(--ink);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mr-diag.empty{color:#C9BDB0;font-weight:700}
+  .mr-hosp{font-size:12.5px;font-weight:650;color:#A8988A;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mr-thumb{width:58px;height:58px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#F3EFE9}
+  .mr-thumb-fake{width:58px;height:58px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,#EDE7DF,#DCD4C9);display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:9px;font-weight:800;color:#fff;background-color:#B7ACA0;letter-spacing:1px}
+  .mr-end{text-align:center;font-size:12.5px;color:#C0B4A6;font-weight:650;margin:18px 0 90px}
+  .mr-fab{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:6;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:14px 34px;border-radius:99px;font-size:15.5px;font-weight:850;color:#fff;background:var(--mr-grad);box-shadow:0 12px 28px rgba(21,196,181,.42);white-space:nowrap}
+  .mr-fab:active{transform:translateX(-50%) scale(.97)}
+  .mr-fab .ico{width:19px;height:19px}
+
+  /* ===== 上传选择弹层 ===== */
+  .mr-up-opt{display:flex;align-items:center;gap:14px;padding:16px 6px;border-bottom:2px solid var(--line2);cursor:pointer}
+  .mr-up-opt .u-ico{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mr-up-opt .u-ico .ico{width:21px;height:21px}
+  .mr-up-opt b{font-size:15px;font-weight:800;display:block}
+  .mr-up-opt span{font-size:11.5px;color:var(--muted);font-weight:650;margin-top:2px;display:block}
+
+  /* ===== 门诊病历：识别结果卡 + 基础信息表单 + 底部保存 ===== */
+  .mr-ai-card{display:flex;gap:14px;align-items:center;background:#fff;border-radius:20px;padding:15px 16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+  .mr-ai-thumb{width:66px;height:66px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;background:linear-gradient(135deg,#EDE7DF,#D6CEC4)}
+  .mr-ai-thumb img{width:100%;height:100%;object-fit:cover}
+  .mr-ai-thumb .tag{position:absolute;left:0;bottom:0;right:0;background:rgba(0,0,0,.45);color:#fff;font-size:9.5px;font-weight:700;text-align:center;padding:3px 0}
+  .mr-ai-body{flex:1;min-width:0}
+  .mr-ai-body b{font-size:16.5px;font-weight:850;color:var(--ink);display:block;line-height:1.3}
+  .mr-ai-safe{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:12px;font-weight:700;color:#9A8E84}
+  .mr-ai-safe .ico{width:15px;height:15px;color:var(--mr)}
+  .mr-sec-title{font-size:19px;font-weight:850;color:var(--ink);padding:4px 2px 4px}
+  .mr-sec{background:#fff;border-radius:20px;overflow:hidden;margin-bottom:14px}
+  .mr-row{display:flex;align-items:center;gap:12px;padding:17px 16px;border-bottom:1.5px solid var(--line2)}
+  .mr-row:last-child{border-bottom:none}
+  .mr-row .k{font-size:15.5px;font-weight:750;color:var(--ink);flex-shrink:0}
+  .mr-row .k .req{color:#F04438;margin-left:2px}
+  .mr-row .v{margin-left:auto;font-size:15px;font-weight:700;color:var(--ink);text-align:right;min-width:0}
+  .mr-row .v.ph{color:#CDC3B7;font-weight:600}
+  .mr-row input,.mr-row textarea{border:none;outline:none;background:transparent;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);text-align:right;min-width:0;flex:1}
+  .mr-row textarea{resize:none;text-align:left;font-weight:600;line-height:1.5}
+  .mr-row .chev{color:#D8CCC0;flex-shrink:0;width:18px;height:18px}
+  .mr-save-wrap{position:absolute;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,rgba(247,245,242,0));z-index:5}
+  .mr-save{border:none;width:100%;cursor:pointer;padding:16px;border-radius:99px;background:var(--mr-grad);color:#fff;font-size:16.5px;font-weight:850;box-shadow:0 12px 26px rgba(21,196,181,.38)}
+  .mr-save:active{transform:scale(.98)}
+  #pg-mr-clinic .scroll{padding-bottom:110px}
+
+  /* ===== AI 待办建议弹层 ===== */
+  .mr-todo-head{text-align:center;padding:4px 0 12px}
+  .mr-todo-head b{font-size:16.5px;font-weight:850;display:block}
+  .mr-todo-head span{font-size:12px;color:var(--muted);font-weight:650;margin-top:4px;display:block}
+  .mr-todo-item{display:flex;align-items:center;gap:12px;background:#F7F6F4;border-radius:16px;padding:13px 14px;margin-bottom:10px}
+  .mr-todo-box{width:22px;height:22px;border-radius:8px;border:2px solid var(--mr);background:var(--mr);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;cursor:pointer;transition:.15s}
+  .mr-todo-box.off{background:#fff;border-color:#D9D0C6;color:transparent}
+  .mr-todo-box .ico{width:13px;height:13px}
+  .mr-todo-info{flex:1;min-width:0}
+  .mr-todo-info b{font-size:14.5px;font-weight:800;display:block;line-height:1.25}
+  .mr-todo-info span{font-size:11.5px;color:var(--muted);font-weight:650;margin-top:3px;display:block}
 
   /* 首页宠物切换：紧凑分段胶囊（顶部） */
   .pet-seg{display:inline-flex;gap:2px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:3px;margin:0 0 10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
@@ -2852,9 +2923,86 @@
               <div class="pd-grid" id="pd-health-grid"></div>
             </div>
 
-            <!-- 病历夹：病历/疫苗/体检记录列表（JS 渲染） -->
+            <!-- 病历夹：全部 / 门诊病历 / 报告单（JS 渲染） -->
             <div class="pd-pane" id="pd-pane-book">
-              <div class="pd-book" id="pd-book-list"></div>
+              <div class="mr-filters" id="mr-filters">
+                <div class="mr-filter on" data-mrfilter="all">全部</div>
+                <div class="mr-filter" data-mrfilter="clinic">门诊病历</div>
+                <div class="mr-filter" data-mrfilter="report">报告单</div>
+              </div>
+              <div id="pd-book-list"></div>
+            </div>
+          </div>
+          <!-- 病历夹悬浮上传按钮（仅病历夹 tab 显示） -->
+          <button type="button" class="mr-fab" id="mr-upload-fab" style="display:none"><svg class="ico"><use href="#i-plus"/></svg>上传记录</button>
+        </div>
+
+        <!-- 上传记录：选择类型弹层 -->
+        <div class="sheet-mask" id="mr-upload-sheet">
+          <div class="sheet">
+            <div class="stitle">上传医疗记录</div>
+            <div class="mr-up-opt" data-mrkind="clinic">
+              <span class="u-ico" style="background:var(--mr-soft);color:var(--mr)"><svg class="ico"><use href="#i-file"/></svg></span>
+              <span style="flex:1"><b>门诊病历</b><span>拍照或上传病历照片，AI 自动识别诊断与医嘱</span></span>
+              <svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg>
+            </div>
+            <div class="mr-up-opt" data-mrkind="report">
+              <span class="u-ico" style="background:var(--sky-soft);color:var(--sky)"><svg class="ico"><use href="#i-image"/></svg></span>
+              <span style="flex:1"><b>报告单</b><span>化验单、检查报告、影像报告等</span></span>
+              <svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg>
+            </div>
+            <div class="sheet-row cancel" id="mr-upload-cancel">取消</div>
+          </div>
+        </div>
+        <input type="file" id="mr-file" accept="image/*" style="display:none">
+
+        <!-- ============ 覆盖层：门诊病历（AI 识别确认） ============ -->
+        <div class="page" id="pg-mr-clinic">
+          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">门诊病历</div><div class="pact"></div></div>
+          <div class="scroll">
+            <!-- AI 识别完成卡 -->
+            <div class="mr-ai-card">
+              <div class="mr-ai-thumb" id="mr-ai-thumb"><span class="tag">病历查看</span></div>
+              <div class="mr-ai-body">
+                <b>识别完成，请确认识别结果</b>
+                <div class="mr-ai-safe"><svg class="ico"><use href="#i-shield"/></svg>我们将严格保护您的隐私安全</div>
+              </div>
+            </div>
+            <!-- 基础信息 -->
+            <div class="mr-sec-title">基础信息</div>
+            <div class="mr-sec">
+              <div class="mr-row">
+                <span class="k">资料类型</span>
+                <span class="v">门诊病历</span>
+                <svg class="ico chev"><use href="#i-chev-r"/></svg>
+              </div>
+              <div class="mr-row">
+                <span class="k">医院信息<span class="req">*</span></span>
+                <input id="mr-hospital" type="text" placeholder="请填写医院信息">
+              </div>
+              <div class="mr-row">
+                <span class="k">就诊日期<span class="req">*</span></span>
+                <input id="mr-date" type="date">
+              </div>
+              <div class="mr-row">
+                <span class="k">临床诊断<span class="req">*</span></span>
+                <input id="mr-diagnosis" type="text" placeholder="请填写临床诊断">
+              </div>
+            </div>
+          </div>
+          <div class="mr-save-wrap">
+            <button type="button" class="mr-save" id="mr-save-btn">保存</button>
+          </div>
+          <!-- AI 识别医嘱 → 待办建议弹层（置于本页内以正确层叠） -->
+          <div class="sheet-mask" id="mr-todo-sheet">
+            <div class="sheet">
+              <div class="mr-todo-head">
+                <b>AI 识别到这些待办</b>
+                <span>勾选要加入提醒的事项，到点会自动提醒你</span>
+              </div>
+              <div id="mr-todo-list"></div>
+              <div class="btn btn-primary" id="mr-todo-add" style="margin:12px 4px 4px;background:var(--mr-grad);box-shadow:0 10px 22px rgba(21,196,181,.35)"><svg class="ico"><use href="#i-bell-heart"/></svg> 添加到提醒</div>
+              <div class="sheet-row cancel" id="mr-todo-skip">暂不添加</div>
             </div>
           </div>
         </div>
@@ -9113,32 +9261,356 @@
       return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
     }
 
-    /* ===== 病历夹列表 ===== */
+    /* ===== 病历夹 2.0：门诊病历 / 报告单（独立存储，AI 识别医嘱→待办提醒） ===== */
+    var PETLOG_MR_KEY = 'petlog_medical_v1';
+    var MedRecordStore = {
+      _cache:null,
+      _read:function(){
+        if(this._cache) return this._cache;
+        try{ this._cache = JSON.parse(localStorage.getItem(PETLOG_MR_KEY)||'{}') || {}; }
+        catch(e){ this._cache = {}; }
+        this._ensureSeed();
+        return this._cache;
+      },
+      _ensureSeed:function(){
+        var done = false;
+        try{ done = localStorage.getItem('petlog_seeded_medical_v1') === '1'; }catch(e){}
+        if(done) return;
+        var all = this._cache || (this._cache = {});
+        if(!all.cat) all.cat = [];
+        var have = {};
+        all.cat.forEach(function(r){ have[r.id] = true; });
+        if(!have['seed-mr-1']){
+          all.cat.push({
+            id:'seed-mr-1', pet:'cat', kind:'clinic',
+            hospital:'', diagnosis:'', desc:'', thumb:'',
+            date:dayStart(new Date(APP_TODAY)).getTime(),
+            status:'pending', ts:Date.now()
+          });
+        }
+        this._write();
+        try{ localStorage.setItem('petlog_seeded_medical_v1','1'); }catch(e){}
+      },
+      _write:function(){ try{ localStorage.setItem(PETLOG_MR_KEY, JSON.stringify(this._read())); }catch(e){} },
+      list:function(petKey){
+        var all = this._read();
+        return (all[petKey]||[]).slice().sort(function(a,b){ return b.date - a.date; });
+      },
+      get:function(petKey, id){
+        return this.list(petKey).filter(function(r){ return r.id===id; })[0] || null;
+      },
+      add:function(petKey, rec){
+        var all = this._read();
+        if(!all[petKey]) all[petKey] = [];
+        rec.id = rec.id || ('mr'+Date.now()+Math.floor(Math.random()*1000));
+        rec.pet = petKey;
+        rec.ts = Date.now();
+        all[petKey].push(rec);
+        this._write();
+        return rec;
+      },
+      update:function(petKey, id, patch){
+        var all = this._read();
+        if(!all[petKey]) return null;
+        var hit = null;
+        all[petKey].forEach(function(r){ if(r.id===id){ Object.keys(patch).forEach(function(k){ r[k]=patch[k]; }); hit=r; } });
+        if(hit) this._write();
+        return hit;
+      },
+      remove:function(petKey, id){
+        var all = this._read();
+        if(!all[petKey]) return;
+        all[petKey] = all[petKey].filter(function(r){ return r.id!==id; });
+        this._write();
+      }
+    };
+
+    var mrFilter = 'all';       // all | clinic | report
+    var mrEditingId = null;     // 门诊病历页正在编辑的记录 id（null=新建）
+    var mrPendingThumb = '';    // 本次上传选择的照片
+    var mrSuggestions = [];     // AI 识别出的待办建议
+
+    function fmtDotDate(d){ return d.getFullYear()+'.'+pad2(d.getMonth()+1)+'.'+pad2(d.getDate()); }
+    function mrTypeLabel(kind){ return kind==='report' ? '报告单' : '门诊病历'; }
+
     function renderPdBook(p){
       var box = document.getElementById('pd-book-list');
       if(!box) return;
-      var recs = RecordStore.list(pdState.key)
-        .filter(function(r){ return r.cat==='health'; })
-        .sort(function(a,b){return b.ts-a.ts;});
+      var recs = MedRecordStore.list(pdState.key)
+        .filter(function(r){ return mrFilter==='all' ? true : r.kind===mrFilter; })
+        .sort(function(a,b){ return b.date - a.date; });
+
       if(!recs.length){
-        box.innerHTML = '<div class="pb-empty">还没有病历记录<br>疫苗、驱虫、体检、就诊都会归档到这里</div>'
-          + '<div class="btn btn-primary pd-book-add" id="pd-book-ocr"><svg class="ico sm"><use href="#i-camera-ai"/></svg> 拍照识别病历 / 疫苗本</div>';
-      }else{
-        box.innerHTML = recs.map(function(r){
-          return '<div class="pb-item" data-pbrec="'+escHtml(r.id)+'">'
-            + '<span class="pb-ic '+escHtml(r.icoCls||'slate')+'"><svg class="ico"><use href="#'+escHtml(r.ico||'i-file')+'"/></svg></span>'
-            + '<span class="pb-body"><b>'+escHtml(r.title)+'</b><span>'+fmtISODate(new Date(r.ts))+(r.note?' · '+escHtml(r.note):'')+'</span></span>'
-            + '<svg class="ico sm" style="color:#D8CCC0"><use href="#i-chev-r"/></svg></div>';
-        }).join('')
-          + '<div class="btn btn-primary pd-book-add" id="pd-book-ocr"><svg class="ico sm"><use href="#i-camera-ai"/></svg> 拍照识别病历 / 疫苗本</div>';
+        box.innerHTML = '<div class="mr-end" style="margin-top:60px">还没有'+(mrFilter==='all'?'病历':mrFilter==='clinic'?'门诊病历':'报告单')+'<br>点下方按钮上传，AI 帮你识别归档</div>';
+        bindMrCards(box);
+        return;
       }
-      box.querySelectorAll('[data-pbrec]').forEach(function(el){
-        el.addEventListener('click', function(){
-          openRecordDetail(pdState.key, el.getAttribute('data-pbrec'));
+
+      // 按年月分组
+      var groups = {};
+      var order = [];
+      recs.forEach(function(r){
+        var d = new Date(r.date), gk = d.getFullYear()+'-'+d.getMonth();
+        if(!groups[gk]){ groups[gk] = {y:d.getFullYear(), m:d.getMonth()+1, items:[]}; order.push(gk); }
+        groups[gk].items.push(r);
+      });
+
+      var html = '';
+      order.forEach(function(gk){
+        var g = groups[gk];
+        html += '<div class="mr-month">'+g.y+'年'+pad2(g.m)+'月</div>';
+        g.items.forEach(function(r){
+          var diag = r.kind==='report' ? (r.diagnosis || '检查报告单') : (r.diagnosis || '未填写');
+          var hosp = r.kind==='report' ? (r.hospital ? '机构：'+escHtml(r.hospital) : '检查报告') : ('医院：'+escHtml(r.hospital || '未填写'));
+          var thumb = r.thumb
+            ? '<img class="mr-thumb" src="'+r.thumb+'" alt="">'
+            : '<div class="mr-thumb-fake">'+(r.kind==='report'?'报告单':'病历查看')+'</div>';
+          html += '<div class="mr-card" data-mrid="'+escHtml(r.id)+'">'
+            + '<div class="mr-card-top">'
+            +   '<span class="mr-card-type">'+mrTypeLabel(r.kind)+'</span>'
+            +   (r.status==='pending' ? '<span class="mr-badge pending">待确认</span>' : '<span class="mr-badge saved">已归档</span>')
+            +   '<span class="mr-card-date">就诊日期：'+fmtDotDate(new Date(r.date))+'</span>'
+            + '</div>'
+            + '<div class="mr-card-mid">'
+            +   '<div class="mr-card-info"><div class="mr-diag'+(r.diagnosis?'':' empty')+'">'+escHtml(diag)+'</div>'
+            +   '<div class="mr-hosp">'+hosp+'</div></div>'
+            +   thumb
+            + '</div></div>';
         });
       });
-      var ocr = document.getElementById('pd-book-ocr');
-      if(ocr) ocr.addEventListener('click', function(){ if(typeof openPage==='function') openPage('pg-ocr'); });
+      html += '<div class="mr-end">没有更多病历了</div>';
+      box.innerHTML = html;
+      bindMrCards(box);
+    }
+
+    function bindMrCards(box){
+      box.querySelectorAll('[data-mrid]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var id = el.getAttribute('data-mrid');
+          var rec = MedRecordStore.get(pdState.key, id);
+          if(!rec) return;
+          if(rec.kind === 'clinic') openMrClinic(rec);
+          else openMrReportView(rec);
+        });
+      });
+    }
+
+    /* 筛选切换 */
+    document.querySelectorAll('#mr-filters .mr-filter').forEach(function(f){
+      f.addEventListener('click', function(){
+        document.querySelectorAll('#mr-filters .mr-filter').forEach(function(x){ x.classList.remove('on'); });
+        f.classList.add('on');
+        mrFilter = f.getAttribute('data-mrfilter');
+        renderPdBook(HOME_PETS[pdState.key]);
+      });
+    });
+
+    /* 悬浮「上传记录」→ 类型选择弹层 */
+    (function(){
+      var fab = document.getElementById('mr-upload-fab');
+      var sheet = document.getElementById('mr-upload-sheet');
+      if(fab) fab.addEventListener('click', function(){ sheet.classList.add('show'); });
+      var close = function(){ sheet.classList.remove('show'); };
+      document.getElementById('mr-upload-cancel').addEventListener('click', close);
+      sheet.addEventListener('click', function(e){ if(e.target === sheet) close(); });
+      sheet.querySelectorAll('.mr-up-opt').forEach(function(opt){
+        opt.addEventListener('click', function(){
+          var kind = opt.getAttribute('data-mrkind');
+          close();
+          startMrUpload(kind);
+        });
+      });
+    })();
+
+    var mrUploadKind = 'clinic';
+    function startMrUpload(kind){
+      mrUploadKind = kind;
+      mrPendingThumb = '';
+      var inp = document.getElementById('mr-file');
+      inp.value = '';
+      inp.click();
+    }
+    document.getElementById('mr-file').addEventListener('change', function(e){
+      var file = e.target.files && e.target.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        mrPendingThumb = ev.target.result;
+        if(mrUploadKind === 'clinic'){
+          showToast('AI 正在识别病历…');
+          setTimeout(function(){ openMrClinic(null); }, 900);
+        }else{
+          // 报告单：识别后直接归档
+          showToast('AI 正在识别报告单…');
+          setTimeout(function(){
+            MedRecordStore.add(pdState.key, {
+              kind:'report', hospital:'', diagnosis:'检查报告单',
+              desc:'', thumb:mrPendingThumb,
+              date:dayStart(new Date(APP_TODAY)).getTime(), status:'saved'
+            });
+            renderPdBook(HOME_PETS[pdState.key]);
+            showToast('报告单已识别归档 🐾');
+          }, 900);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    /* 门诊病历页：rec 为 null=新建；有值=查看/补全 */
+    function isoToday(){
+      var d = dayStart(new Date(APP_TODAY));
+      return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+    }
+    function openMrClinic(rec){
+      mrEditingId = rec ? rec.id : null;
+      var h = document.getElementById('mr-hospital');
+      var dt = document.getElementById('mr-date');
+      var dg = document.getElementById('mr-diagnosis');
+      h.value = rec ? (rec.hospital||'') : '';
+      dt.value = rec ? fmtISODate(new Date(rec.date)) : isoToday();
+      dg.value = rec ? (rec.diagnosis||'') : '';
+      var thumb = document.getElementById('mr-ai-thumb');
+      var imgSrc = rec ? rec.thumb : mrPendingThumb;
+      thumb.innerHTML = (imgSrc ? '<img src="'+imgSrc+'" alt="">' : '') + '<span class="tag">病历查看</span>';
+      var aiTitle = document.querySelector('#pg-mr-clinic .mr-ai-body b');
+      if(aiTitle) aiTitle.textContent = (rec && rec.status==='saved') ? '门诊病历' : '识别完成，请确认识别结果';
+      openPage('pg-mr-clinic');
+    }
+
+    /* 保存门诊病历 → AI 医嘱待办建议 */
+    document.getElementById('mr-save-btn').addEventListener('click', function(){
+      var hospital = document.getElementById('mr-hospital').value.trim();
+      var iso = document.getElementById('mr-date').value;
+      var diagnosis = document.getElementById('mr-diagnosis').value.trim();
+      if(!hospital){ showToast('请填写医院信息'); return; }
+      if(!iso){ showToast('请选择就诊日期'); return; }
+      if(!diagnosis){ showToast('请填写临床诊断'); return; }
+      var parts = iso.split('-');
+      var dateMs = new Date(+parts[0], +parts[1]-1, +parts[2], 12).getTime();
+      var thumb = mrEditingId ? (MedRecordStore.get(pdState.key, mrEditingId)||{}).thumb : mrPendingThumb;
+
+      if(mrEditingId){
+        MedRecordStore.update(pdState.key, mrEditingId, {hospital:hospital, diagnosis:diagnosis, date:dateMs, status:'saved'});
+      }else{
+        MedRecordStore.add(pdState.key, {
+          kind:'clinic', hospital:hospital, diagnosis:diagnosis, desc:'',
+          thumb:mrPendingThumb, date:dateMs, status:'saved'
+        });
+      }
+      mrSuggestions = mrBuildSuggestions(diagnosis);
+      renderMrTodoSheet();
+      renderPdBook(HOME_PETS[pdState.key]);
+    });
+
+    /* AI 根据诊断内容模拟总结医嘱待办 */
+    function mrBuildSuggestions(diag){
+      var text = diag || '';
+      var list = [];
+      if(/皮肤|真菌|猫癣|皮炎|湿疹/.test(text)){
+        list.push({title:'外用抗真菌药膏，每日 2 次', desc:'按医嘱涂抹患处，连用 7 天', offset:1, repeat:'不重复'});
+        list.push({title:'佩戴伊丽莎白圈，防止舔舐', desc:'用药期间持续佩戴', offset:0, repeat:'不重复'});
+      }
+      if(/肠胃|腹泻|呕吐|软便|肠炎/.test(text)){
+        list.push({title:'喂益生菌调理肠胃', desc:'每日 1 次，随餐服用，连用 5 天', offset:0, repeat:'不重复'});
+        list.push({title:'少量多餐，清淡饮食', desc:'观察排便情况', offset:0, repeat:'不重复'});
+      }
+      if(/感冒|咳嗽|喷嚏|呼吸道|鼻支/.test(text)){
+        list.push({title:'按时服用消炎药', desc:'每日 2 次，连用 5 天', offset:1, repeat:'不重复'});
+        list.push({title:'注意保暖，避免吹风', desc:'恢复期持续护理', offset:0, repeat:'不重复'});
+      }
+      if(/耳螨|耳朵/.test(text)){
+        list.push({title:'滴耳药并清洁耳道', desc:'每日 1 次，连用 7 天', offset:1, repeat:'不重复'});
+      }
+      if(/结[石扎]|泌尿|尿闭|膀胱/.test(text)){
+        list.push({title:'增加饮水，换处方粮', desc:'每日观察排尿情况', offset:0, repeat:'不重复'});
+        list.push({title:'2 周后复查尿常规', desc:'复诊评估恢复情况', offset:14, repeat:'不重复'});
+      }
+      // 通用建议：复查
+      list.push({title:'7 天后回院复查', desc:'复诊评估恢复情况', offset:7, repeat:'不重复'});
+      // 去重（按标题），最多 3 条
+      var seen = {};
+      return list.filter(function(x){ if(seen[x.title]) return false; seen[x.title]=true; return true; }).slice(0,3);
+    }
+
+    function renderMrTodoSheet(){
+      var box = document.getElementById('mr-todo-list');
+      if(!mrSuggestions.length){
+        finishMrSave('病历已保存');
+        return;
+      }
+      box.innerHTML = mrSuggestions.map(function(s, i){
+        return '<div class="mr-todo-item" data-idx="'+i+'">'
+          + '<div class="mr-todo-box"><svg class="ico"><use href="#i-check"/></svg></div>'
+          + '<div class="mr-todo-info"><b>'+escHtml(s.title)+'</b><span>'+escHtml(s.desc)+' · '+(s.offset===0?'今天':s.offset+' 天后')+'提醒</span></div>'
+          + '</div>';
+      }).join('');
+      box.querySelectorAll('.mr-todo-item').forEach(function(el){
+        el.addEventListener('click', function(){
+          el.querySelector('.mr-todo-box').classList.toggle('off');
+        });
+      });
+      document.getElementById('mr-todo-sheet').classList.add('show');
+    }
+
+    function finishMrSave(msg){
+      var ts = document.getElementById('mr-todo-sheet');
+      if(ts) ts.classList.remove('show');
+      var cp = document.getElementById('pg-mr-clinic');
+      if(cp) cp.classList.remove('open');
+      // 回到病历夹 tab 并刷新
+      switchPdTab('book');
+      renderPdBook(HOME_PETS[pdState.key]);
+      showToast(msg + ' 🐾');
+    }
+
+    document.getElementById('mr-todo-add').addEventListener('click', function(){
+      var n = 0;
+      document.querySelectorAll('#mr-todo-list .mr-todo-item').forEach(function(el){
+        if(el.querySelector('.mr-todo-box').classList.contains('off')) return;
+        var s = mrSuggestions[+el.getAttribute('data-idx')];
+        var due = new Date(dayStart(new Date(APP_TODAY)).getTime() + s.offset*86400000 + 9*3600000);
+        ReminderStore.add(pdState.key, {
+          title:s.title, petName:(HOME_PETS[pdState.key]||{}).name||'小白',
+          due:due.getTime(), repeat:s.repeat || '不重复', ahead:'当天提醒',
+          tagCls:s.offset<=1 ? 'amber' : 'blue', tagText:s.offset<=1 ? '近期' : '待办',
+          done:false, source:'medical-ai'
+        });
+        n++;
+      });
+      if(typeof window.refreshHomeCal === 'function') window.refreshHomeCal();
+      if(typeof window.renderOpenDay === 'function') window.renderOpenDay();
+      if(typeof renderHomeTodos === 'function') renderHomeTodos(pdState.key);
+      finishMrSave(n ? ('已保存病历，'+n+' 项医嘱已加入提醒') : '病历已保存');
+    });
+    document.getElementById('mr-todo-skip').addEventListener('click', function(){ finishMrSave('病历已保存'); });
+
+    /* 报告单查看弹层（轻量动态视图） */
+    var mrReportSheet = null;
+    function openMrReportView(rec){
+      if(!mrReportSheet){
+        mrReportSheet = document.createElement('div');
+        mrReportSheet.className = 'sheet-mask';
+        mrReportSheet.innerHTML = '<div class="sheet"><div class="stitle">报告单</div><div id="mrv-body"></div>'
+          + '<div class="btn btn-primary" id="mrv-del" style="margin:14px 4px 4px;background:#F04438;box-shadow:0 10px 22px rgba(240,68,56,.3)">删除这份报告单</div>'
+          + '<div class="sheet-row cancel" id="mrv-close">关闭</div></div>';
+        (document.querySelector('.viewport') || document.body).appendChild(mrReportSheet);
+        mrReportSheet.addEventListener('click', function(e){ if(e.target===mrReportSheet) mrReportSheet.classList.remove('show'); });
+        mrReportSheet.querySelector('#mrv-close').addEventListener('click', function(){ mrReportSheet.classList.remove('show'); });
+        mrReportSheet.querySelector('#mrv-del').addEventListener('click', function(){
+          if(mrReportSheet._rec){
+            MedRecordStore.remove(pdState.key, mrReportSheet._rec.id);
+            renderPdBook(HOME_PETS[pdState.key]);
+            showToast('报告单已删除');
+          }
+          mrReportSheet.classList.remove('show');
+        });
+      }
+      mrReportSheet._rec = rec;
+      var thumb = rec.thumb ? '<img src="'+rec.thumb+'" style="width:100%;border-radius:16px;display:block;margin-bottom:12px">' : '<div class="mr-thumb-fake" style="width:100%;height:180px;border-radius:16px">报告单</div>';
+      mrReportSheet.querySelector('#mrv-body').innerHTML = thumb
+        + '<div class="mr-row" style="background:#F7F6F4;border-radius:14px;margin-bottom:8px"><span class="k">就诊日期</span><span class="v">'+fmtDotDate(new Date(rec.date))+'</span></div>'
+        + '<div class="mr-row" style="background:#F7F6F4;border-radius:14px"><span class="k">机构</span><span class="v'+(rec.hospital?'':' ph')+'">'+escHtml(rec.hospital||'未填写')+'</span></div>';
+      mrReportSheet.classList.add('show');
     }
 
     /* ===== 健康卡详情弹层：驱虫 / 疫苗 ===== */
@@ -9302,6 +9774,8 @@
       });
       document.getElementById('pd-pane-health').classList.toggle('on', tab==='health');
       document.getElementById('pd-pane-book').classList.toggle('on', tab==='book');
+      var fab = document.getElementById('mr-upload-fab');
+      if(fab) fab.style.display = tab==='book' ? 'inline-flex' : 'none';
     }
     document.querySelectorAll('#pg-pet-detail .pd-seg .pds').forEach(function(d){
       d.addEventListener('click', function(){ switchPdTab(d.getAttribute('data-pdtab')); });
