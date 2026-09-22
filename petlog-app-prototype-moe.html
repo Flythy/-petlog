@@ -99,11 +99,31 @@
     .field input,.rec-search-bar input,.rem-input,.rd-field.rem-input,.food-input input,.fd-name-custom .rem-input,.fde-custom .rem-input,.mr-row input,.mr-row textarea,input[type="date"],input[type="text"],input[type="number"],textarea{font-size:16px}
     /* 底部弹层：避开 home 指示条，滚动不穿透 */
     .sheet{padding-bottom:calc(22px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-    /* 授权页：缩小顶部图片与间距，确保隐私政策在手机可见 */
-    .authz-wrap{padding-top:calc(40px + env(safe-area-inset-top))}
-    .authz-hero-img{height:160px}
-    .authz-title{margin-top:36px}
-    .authz-tags{margin-top:14px}
+    /* 授权页：内容可滚动，压缩各区块，确保勾选协议在所有手机可见 */
+    .authz-wrap{padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom));
+      overflow-y:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+    .authz-hero-img{height:148px}
+    .authz-badge{width:74px;height:74px;bottom:-32px;border-width:5px}
+    .authz-title{margin-top:40px;font-size:30px}
+    .authz-slogan{margin-top:6px;font-size:14px}
+    .authz-tags{margin-top:12px;gap:9px}
+    .authz-tag{padding:9px 16px;font-size:13px}
+    .authz-card{margin-top:8px;padding:12px 14px;gap:10px}
+    .authz-foot{margin-top:22px;padding-top:0;gap:8px}
+    .authz-go{padding:13px}
+    .wx-agree{margin-top:2px}
+    /* 超矮屏：隐藏装饰元素，极限压缩，让协议勾选无需滚动即可见 */
+    @media (max-height:700px){
+      .authz-hero-img{height:104px;border-radius:22px}
+      .authz-badge{width:60px;height:60px;bottom:-26px;border-width:4px}
+      .authz-title{margin-top:30px;font-size:25px}
+      .authz-slogan{display:none}
+      .authz-tags{display:none}
+      .authz-card{display:none}
+      .authz-foot{margin-top:14px;gap:7px}
+      .lg-btn{padding:12px !important;font-size:15px}
+      .wx-agree-txt{font-size:11px}
+    }
   }
   /* ===== 横屏紧凑模式：压扁状态栏与头部，保住内容高度 ===== */
   @media (orientation:landscape) and (max-height:500px){
@@ -1011,6 +1031,27 @@
   .type-grid .cell .ic.coral{background:var(--primary-soft);color:var(--primary)}
   .type-grid .cell .ic.violet{background:var(--lav-soft);color:var(--lav)}
 
+  /* 档案选择器（种类/性别/绝育）：去掉框套框，扁平分段风格 */
+  .pick-flat{gap:0;background:#F6F1EA;border:2px solid #EFE6DB;border-radius:14px;padding:4px}
+  .pick-flat .cell{background:transparent;border:2px solid transparent;border-radius:10px;padding:10px 4px 9px;gap:6px;color:#9A8A78}
+  .pick-flat .cell.on{border-color:transparent;background:#fff;color:var(--primary);
+    box-shadow:0 2px 8px rgba(214,140,90,.18)}
+  .pick-flat .cell .ic{width:auto;height:auto;background:transparent !important;border-radius:0;font-size:20px}
+  .pick-flat .cell .ic .ico,.pick-flat .cell .ic svg{width:22px !important;height:22px !important}
+  .pick-flat .cell .ic.coral,.pick-flat .cell .ic.blue{color:#7FA8D6}
+  .pick-flat .cell.on .ic.coral{color:var(--primary)}
+  .pick-flat .cell.on .ic.blue{color:var(--sky)}
+  .pick-flat .cell .ic.sky,.pick-flat .cell .ic.pink{color:#B7A9C9}
+  .pick-flat .cell.on .ic.sky{color:var(--sky)}
+  .pick-flat .cell.on .ic.pink{color:var(--pink)}
+  .pick-flat .cell .ic.teal{color:#8ECEC2}
+  .pick-flat .cell.on .ic.teal{color:var(--mint)}
+  .pick-flat .cell .ic.amber{color:#E9BE7A}
+  .pick-flat .cell.on .ic.amber{color:var(--amber)}
+  .pick-flat .cell .ic.slate{color:#B4AEC0}
+  .pick-flat .cell.on .ic.slate{color:#8B849A}
+  .pick-flat .cell:active{transform:scale(.97)}
+
   /* 记录类型分组 */
   .type-group{margin-bottom:16px}
   .tg-label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;color:var(--ink);margin:2px 0 9px}
@@ -1486,6 +1527,12 @@
   .rem-input{width:100%;border:none;outline:none;background:transparent;font-size:15px;font-weight:800;font-family:inherit;color:var(--ink);padding:2px 0}
   .rem-input::placeholder{color:#D6C9BC;font-weight:600}
   textarea.rem-input{resize:none;font-weight:600;line-height:1.5;padding:4px 0}
+  /* 是否重复下拉 */
+  .rem-select{width:100%;border:none;outline:none;background:transparent;font-size:16px;font-weight:700;
+    font-family:inherit;color:var(--ink);padding:4px 24px 4px 0;appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B8A491' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right center;background-size:14px;cursor:pointer}
+  .rem-select option{font-weight:700}
 
   /* BCS 体况评分标准面板 */
   .bcs-panel{margin-top:12px}
@@ -2542,7 +2589,7 @@
             <div class="authz-foot">
               <button type="button" class="lg-btn lg-quick" id="authz-go">微信一键登录</button>
               <button type="button" class="lg-btn lg-guest" id="authz-no">先随便逛逛</button>
-              <label class="wx-agree" id="wx-agree"><input type="checkbox" id="wx-proto-check"><span class="wx-box"><svg class="ico"><use href="#i-check"/></svg></span><span class="wx-agree-txt">未注册的微信将自动创建账号，登录即代表同意 <a>《用户协议》</a> 与 <a>《隐私政策》</a></span></label>
+              <label class="wx-agree" id="wx-agree"><input type="checkbox" id="wx-proto-check"><span class="wx-box"><svg class="ico"><use href="#i-check"/></svg></span><span class="wx-agree-txt">登录即代表同意 <a>《用户协议》</a> 与 <a>《隐私政策》</a></span></label>
             </div>
           </div>
           <div class="authz-toast" id="authz-toast">请先阅读并勾选同意协议后再登录</div>
@@ -3017,13 +3064,13 @@
             </div>
             <div class="field"><label>TA 的名字</label><input type="text" id="ob-name" placeholder="给它取个可爱的名字"></div>
             <div class="field"><label>种类</label>
-              <div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="ob-species-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="ob-species-grid">
                 <div class="cell on def" data-ob-species="cat"><span class="ic coral"><svg class="ico" style="width:30px;height:30px"><use href="#i-cat-face"/></svg></span>猫咪</div>
                 <div class="cell" data-ob-species="dog"><span class="ic blue"><svg class="ico" style="width:30px;height:30px"><use href="#i-dog-face"/></svg></span>狗狗</div>
               </div>
             </div>
             <div class="field"><label>性别</label>
-              <div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="ob-gender-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="ob-gender-grid">
                 <div class="cell on def" data-val="male"><span class="ic sky" style="font-size:20px">♂</span>弟弟</div>
                 <div class="cell" data-val="female"><span class="ic pink" style="font-size:20px">♀</span>妹妹</div>
               </div>
@@ -3050,7 +3097,7 @@
             <div class="ob-group-title">这些可以先跳过<span class="tag-opt">选填 · 之后随时补</span></div>
             <div class="field"><label>品种</label><input type="text" id="ob-breed" placeholder="如：英国短毛猫（不清楚可以先不填）"></div>
             <div class="field"><label>绝育情况</label>
-              <div class="type-grid" style="grid-template-columns:repeat(3,1fr)" id="ob-neutered-grid">
+              <div class="type-grid pick-flat" style="grid-template-columns:repeat(3,1fr)" id="ob-neutered-grid">
                 <div class="cell" data-val="yes"><span class="ic teal"><svg class="ico" style="width:20px;height:20px"><use href="#i-check"/></svg></span>已绝育</div>
                 <div class="cell on def" data-val="unknown"><span class="ic slate"><svg class="ico" style="width:20px;height:20px"><use href="#i-info"/></svg></span>不清楚</div>
                 <div class="cell" data-val="no"><span class="ic amber" style="font-size:18px">!</span>未绝育</div>
@@ -3292,37 +3339,23 @@
         <div class="page" id="pg-new-reminder">
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">新建提醒</div><div class="pact"></div></div>
           <div class="scroll">
-            <div class="field"><label>提醒事项</label>
+            <div class="field"><label>事项名称</label>
               <input class="rem-input" id="rem-title-input" type="text" placeholder="比如：体内驱虫、狂犬疫苗、洗澡…">
             </div>
-            <div class="field"><label>描述</label>
+            <div class="field"><label>事项描述</label>
               <textarea class="rem-input" id="rem-desc-input" rows="2" placeholder="补充说明（可选）"></textarea>
             </div>
-            <div class="field"><label>日期</label>
-              <div class="opt-group" id="rem-date-group">
-                <span class="opt-chip on" data-val="今天">今天</span>
-                <span class="opt-chip" data-val="明天">明天</span>
-                <span class="opt-chip" data-val="3 天后">3 天后</span>
-                <span class="opt-chip" data-val="1 周后">1 周后</span>
-                <span class="opt-chip" data-val="自选日期">自选…</span>
-              </div>
+            <div class="field"><label>提醒时间</label>
+              <input class="rem-input" id="rem-date-input" type="date" style="font-weight:700">
             </div>
-            <div class="field"><label>重复</label>
-              <div class="opt-group" id="rem-repeat-group">
-                <span class="opt-chip" data-val="不重复">不重复</span>
-                <span class="opt-chip" data-val="每周">每周</span>
-                <span class="opt-chip" data-val="每月">每月</span>
-                <span class="opt-chip on" data-val="每 3 个月">每 3 个月</span>
-                <span class="opt-chip" data-val="每年">每年</span>
-              </div>
-            </div>
-            <div class="field"><label>提前提醒</label>
-              <div class="opt-group" id="rem-ahead-group">
-                <span class="opt-chip" data-val="当天">当天</span>
-                <span class="opt-chip on" data-val="提前 1 天">提前 1 天</span>
-                <span class="opt-chip" data-val="提前 3 天">提前 3 天</span>
-                <span class="opt-chip" data-val="提前 7 天">提前 7 天</span>
-              </div>
+            <div class="field"><label>是否重复</label>
+              <select class="rem-select" id="rem-repeat-select">
+                <option value="不重复">不重复</option>
+                <option value="每周">每周</option>
+                <option value="每月">每月</option>
+                <option value="每 3 个月" selected>每 3 个月</option>
+                <option value="每年">每年</option>
+              </select>
             </div>
             <div class="btn btn-primary" id="create-reminder-btn" style="margin-top:18px">创建提醒</div>
           </div>
@@ -9820,13 +9853,13 @@
         body:'<div class="stitle">修改档案</div><div id="pd-edit-body">'
           + '<div class="field" style="margin-bottom:10px"><label>TA 的名字</label><input type="text" id="pd-f-name" value="'+escHtml(p.name)+'"></div>'
           + '<div class="field" style="margin-bottom:10px"><label>种类</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="pd-f-species">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="pd-f-species">'
           +     '<div class="cell'+(p.speciesKey==='cat'?' on':'')+'" data-val="cat"><span class="ic coral"><svg class="ico" style="width:26px;height:26px"><use href="#i-cat-face"/></svg></span>猫咪</div>'
           +     '<div class="cell'+(p.speciesKey==='dog'?' on':'')+'" data-val="dog"><span class="ic blue"><svg class="ico" style="width:26px;height:26px"><use href="#i-dog-face"/></svg></span>狗狗</div>'
           +   '</div></div>'
           + '<div class="field" style="margin-bottom:10px"><label>品种</label><input type="text" id="pd-f-breed" value="'+escHtml(p.breed||'')+'" placeholder="不清楚可以先不填"></div>'
           + '<div class="field" style="margin-bottom:10px"><label>性别</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(2,1fr)" id="pd-f-gender">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(2,1fr)" id="pd-f-gender">'
           +     '<div class="cell'+(p.gender!=='female'?' on':'')+'" data-val="male"><span class="ic sky" style="font-size:18px">♂</span>弟弟</div>'
           +     '<div class="cell'+(p.gender==='female'?' on':'')+'" data-val="female"><span class="ic pink" style="font-size:18px">♀</span>妹妹</div>'
           +   '</div></div>'
@@ -9838,7 +9871,7 @@
           +     '<div class="age-box"><select id="pd-f-agem">'+monthSel(age0?age0.months:0)+'</select><span>个月</span></div>'
           +   '</div><div class="ob-hint">按年龄反推的是估算生日</div></div></div>'
           + '<div class="field" style="margin-bottom:10px"><label>绝育情况</label>'
-          +   '<div class="type-grid" style="grid-template-columns:repeat(3,1fr)" id="pd-f-neutered">'
+          +   '<div class="type-grid pick-flat" style="grid-template-columns:repeat(3,1fr)" id="pd-f-neutered">'
           +     '<div class="cell'+(p.neutered==='yes'?' on':'')+'" data-val="yes"><span class="ic teal"><svg class="ico" style="width:18px;height:18px"><use href="#i-check"/></svg></span>已绝育</div>'
           +     '<div class="cell'+((!p.neutered||p.neutered==='unknown')?' on':'')+'" data-val="unknown"><span class="ic slate"><svg class="ico" style="width:18px;height:18px"><use href="#i-info"/></svg></span>不清楚</div>'
           +     '<div class="cell'+(p.neutered==='no'?' on':'')+'" data-val="no"><span class="ic amber" style="font-size:16px">!</span>未绝育</div>'
@@ -11195,47 +11228,29 @@
       var on = g.querySelector('.opt-chip.on');
       return on ? on.getAttribute('data-val') : '';
     }
-    // 自定义提醒日期：选「自选…」时弹日期输入，解析为绝对日期
-    var remCustomDate = null;
+    // 提醒时间：日历选择器（默认今天）
+    var remDateInput = document.getElementById('rem-date-input');
     (function(){
-      var g = document.getElementById('rem-date-group');
-      if(!g) return;
-      g.querySelectorAll('.opt-chip').forEach(function(chip){
-        chip.addEventListener('click', function(){
-          if(chip.getAttribute('data-val') !== '自选日期'){ remCustomDate = null; return; }
-          var t = dayStart(new Date(APP_TODAY));
-          var iso = t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);
-          var nv = prompt('选择提醒日期（'+t.getFullYear()+'-MM-DD）', iso);
-          if(nv === null){
-            var first = g.querySelector('.opt-chip:not([data-val="自选日期"])');
-            if(first){ g.querySelectorAll('.opt-chip').forEach(function(x){x.classList.remove('on');}); first.classList.add('on'); }
-            remCustomDate = null;
-            return;
-          }
-          var m = (nv.trim()).match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
-          var d = null;
-          if(m){ var dd = new Date(+m[1], +m[2]-1, +m[3]); if(!isNaN(dd)) d = dd; }
-          if(!d){ showToast('日期格式不对，示例：'+iso); var f0=g.querySelector('.opt-chip:not([data-val="自选日期"])'); if(f0){g.querySelectorAll('.opt-chip').forEach(function(x){x.classList.remove('on');});f0.classList.add('on');} remCustomDate=null; return; }
-          remCustomDate = dayStart(d);
-          chip.textContent = (d.getMonth()+1)+'月'+d.getDate()+'日';
-        });
-      });
+      if(!remDateInput) return;
+      var t = dayStart(new Date(APP_TODAY));
+      var iso = t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);
+      remDateInput.value = iso;
+      remDateInput.min = iso;
     })();
-    // 提醒日期选项 → 绝对日期（以 APP_TODAY 为锚点）
+    // 日历日期 → 绝对日期
     function reminderDueDate(){
-      if(remCustomDate) return new Date(remCustomDate.getTime());
-      var v = chipVal('rem-date-group') || '今天';
-      var base = dayStart(new Date(APP_TODAY));
-      var offMap = {'今天':0, '明天':1, '3 天后':3, '1 周后':7};
-      var off = offMap[v];
-      if(off == null) off = 0;
-      return new Date(base.getTime() + off*86400000);
+      var v = remDateInput ? remDateInput.value : '';
+      var m = v && v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if(m) return dayStart(new Date(+m[1], +m[2]-1, +m[3]));
+      return dayStart(new Date(APP_TODAY));
     }
-    // 日期选项 → 状态标签
-    function tagForDate(dateVal){
-      if(dateVal === '今天') return {cls:'amber', text:'今天'};
-      if(dateVal === '明天') return {cls:'amber', text:'明天'};
-      if(dateVal === '3 天后') return {cls:'amber', text:'3 天后'};
+    // 相对今天 → 状态标签
+    function tagForDate(dueD){
+      var today = dayStart(new Date(APP_TODAY)).getTime();
+      var diff = Math.round((dayStart(dueD).getTime() - today)/86400000);
+      if(diff === 0) return {cls:'amber', text:'今天'};
+      if(diff === 1) return {cls:'amber', text:'明天'};
+      if(diff > 1 && diff <= 3) return {cls:'amber', text:diff+' 天后'};
       return {cls:'blue', text:'已计划'};
     }
     var createReminderBtn = document.getElementById('create-reminder-btn');
@@ -11252,18 +11267,18 @@
         var desc = descInput ? descInput.value.trim() : '';
         var petKey = activeHomePet;
         var petName = (HOME_PETS[petKey] && HOME_PETS[petKey].name) || '小白';
-        var dateVal = chipVal('rem-date-group') || '今天';
-        var repeatVal = chipVal('rem-repeat-group') || '不重复';
-        var aheadVal = chipVal('rem-ahead-group') || '提前 1 天';
-        var tag = tagForDate(dateVal);
+        var repeatSel = document.getElementById('rem-repeat-select');
+        var repeatVal = repeatSel ? repeatSel.value : '不重复';
+        var aheadVal = '当天提醒';
         var dueD = reminderDueDate();
+        var tag = tagForDate(dueD);
         var key = 'new-' + Date.now();
 
         // 写入持久化提醒层：驱动首页日历灰点 + 当日页待办（刷新不丢）
         var saved = ReminderStore.add(petKey, {
           title:title, petName:petName,
           due:dueD.getTime(), repeat:repeatVal,
-          ahead:aheadVal === '当天' ? '当天提醒' : aheadVal,
+          ahead:aheadVal,
           tagCls:tag.cls, tagText:tag.text, done:false
         });
 
@@ -11276,7 +11291,7 @@
           statusCls: tag.cls,
           next: ((dueD.getMonth()+1)+'-'+dueD.getDate()) + '（' + repeatVal + '）',
           repeat: repeatVal,
-          ahead: aheadVal === '当天' ? '当天提醒' : aheadVal
+          ahead: aheadVal
         };
 
         // 插入提醒列表（清掉空态）
@@ -11316,9 +11331,11 @@
         // 重置表单
         if(input) input.value = '';
         if(descInput) descInput.value = '';
-        remCustomDate = null;
-        var customChip = document.querySelector('#rem-date-group .opt-chip[data-val="自选日期"]');
-        if(customChip) customChip.textContent = '自选…';
+        if(remDateInput){
+          var t0 = dayStart(new Date(APP_TODAY));
+          remDateInput.value = t0.getFullYear()+'-'+('0'+(t0.getMonth()+1)).slice(-2)+'-'+('0'+t0.getDate()).slice(-2);
+        }
+        if(repeatSel) repeatSel.value = '每 3 个月';
         showToast('「' + title + '」提醒已创建，日历已标记 🐾');
       });
     }
