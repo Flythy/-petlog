@@ -865,6 +865,11 @@
   .my-rec-group::after{content:"";flex:1;height:2px;border-radius:2px;background:var(--lav-soft)}
   .my-rec{background:linear-gradient(180deg,#fff,#FBFAFF)}
   .my-rec-src{flex-shrink:0;font-size:10px;font-weight:800;color:var(--lav);background:var(--lav-soft);border-radius:99px;padding:3px 9px}
+  /* 记录列表左滑删除 */
+  .my-rec-swipe{position:relative;overflow:hidden;margin-bottom:0}
+  .my-rec-swipe .swipe-del{position:absolute;right:0;top:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:center;background:#E0523E;color:#fff;font-size:12px;font-weight:800;cursor:pointer;border-radius:0}
+  .my-rec-swipe .t-entry{position:relative;z-index:1;transition:transform .2s ease;background:inherit}
+  .my-rec-swipe.swipe-open .t-entry{transform:translateX(-72px)}
 
   .fab{position:absolute;right:20px;bottom:88px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#FF9A6B,#FF7448);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(255,116,72,.32),inset 0 -3px 0 rgba(0,0,0,.08);cursor:pointer;z-index:5;transition:transform .12s ease}
   .fab:active{transform:scale(.92)}
@@ -919,11 +924,11 @@
   .cal-legend i.green{background:var(--mint)}
 
   /* ===== 专属记录录入表单（如记录驱虫：类型/药品/剂量/日期/下次/备注） ===== */
-  .rf-hero{text-align:center;padding:6px 4px 14px}
-  .rf-hero .rf-h-ic{width:58px;height:58px;border-radius:20px;margin:0 auto 11px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FFE2CE,#FFD0B4);color:#E0762E;box-shadow:0 10px 22px rgba(224,118,46,.18)}
-  .rf-hero .rf-h-ic .ico{width:29px;height:29px}
-  .rf-hero .rf-h-title{font-size:21px;font-weight:900;color:var(--ink);font-family:'YouYuan','Yuanti SC','PingFang SC','Microsoft YaHei',sans-serif;letter-spacing:.5px}
-  .rf-hero .rf-h-sub{font-size:12.5px;font-weight:650;color:var(--muted);margin-top:6px;line-height:1.55}
+  .rf-head{display:flex;align-items:center;gap:10px;padding:2px 2px 12px}
+  .rf-head .rf-head-ic{width:36px;height:36px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FFE2CE,#FFD0B4);color:#E0762E}
+  .rf-head .rf-head-ic .ico{width:19px;height:19px}
+  .rf-head .rf-head-t{font-size:16.5px;font-weight:900;color:var(--ink);letter-spacing:.3px}
+  .rf-head .rf-head-tag{margin-left:auto;font-size:11px;font-weight:750;color:var(--primary-600);background:var(--primary-tint);border-radius:9px;padding:4px 10px}
   .rf-card{background:#fff;border:2px solid var(--line);border-radius:20px;padding:6px 16px;margin-bottom:14px;box-shadow:0 6px 16px rgba(255,138,92,.07)}
   .rf-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1.5px solid #F4ECE2}
   .rf-row:last-child{border-bottom:none}
@@ -941,8 +946,6 @@
   .rf-area{width:100%;border:1.6px solid var(--line);border-radius:14px;background:#FBF8F5;padding:11px 13px;font-size:13.5px;font-weight:650;color:var(--text);font-family:inherit;min-height:74px;outline:none;resize:none;box-sizing:border-box}
   .rf-area::placeholder{color:#CDBFAE;font-weight:600}
   .rf-foot-tip{text-align:center;font-size:11.5px;font-weight:650;color:var(--muted);margin:1px 4px 0;line-height:1.5}
-  .rf-pet-line{display:flex;align-items:center;gap:9px;background:var(--primary-tint);border:1.5px solid var(--primary-soft);border-radius:15px;padding:9px 13px;margin-bottom:13px;font-size:12.5px;font-weight:750;color:var(--primary-600)}
-  .rf-pet-line .ico{width:18px;height:18px}
 
   /* 首页日历 · 手绘可爱风 */
   .home-cal{position:relative;background:#fff;border:2.5px solid var(--line);border-radius:28px 18px 30px 20px/20px 28px 18px 30px;padding:14px 14px 12px;box-shadow:0 6px 16px rgba(255,138,92,.10);overflow:hidden}
@@ -3352,9 +3355,12 @@
         </div>
 
         <!-- ============ 覆盖层：专属记录录入（驱虫/疫苗/洗澡… 每个事项有自己的表单） ============ -->
-        <div class="page" id="pg-record-form">
-          <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle" id="rf-title">记录</div><div class="pact" id="rf-save-top">保存</div></div>
-          <div class="scroll" id="rf-scroll"></div>
+        <div class="sheet-mask" id="pg-record-form">
+          <div class="sheet">
+            <div class="stitle" id="rf-title">记录</div>
+            <div class="scroll" id="rf-scroll"></div>
+            <div class="sheet-row cancel" id="rf-cancel">取消</div>
+          </div>
         </div>
 
         <!-- ============ 覆盖层：新建分类 ============ -->
@@ -4341,6 +4347,8 @@
               </div>
             </div>
 
+            <div class="fd-sec" style="margin-top:14px"><span class="fd-sec-t">备注<em>（可选）</em></span></div>
+            <div class="fd-note-wrap"><input class="rem-input" id="fd-note" type="text" placeholder="比如：今天胃口不错、剩了一半…"></div>
             <div class="btn btn-primary" id="fd-save" style="margin:16px 4px 4px"><svg class="ico"><use href="#i-check"/></svg> <span id="fd-save-label">保存这一餐</span></div>
             <div class="sheet-row cancel" id="fd-cancel">取消</div>
           </div>
@@ -4505,8 +4513,10 @@
       document.querySelectorAll('#rec-list .rec-overview').forEach(function(o){
         o.style.display = cat === 'all' ? 'block' : 'none';
       });
-      document.querySelectorAll('#rec-list .t-entry').forEach(function(e){
-        e.style.display = (cat === 'all' || e.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      document.querySelectorAll('#my-records-wrap .my-rec-swipe').forEach(function(sw){
+        var e = sw.querySelector('.t-entry');
+        var show = (cat === 'all' || (e && e.getAttribute('data-cat') === cat));
+        sw.style.display = show ? 'block' : 'none';
       });
       // 动态分组标题：非「全部」时隐藏，避免出现空组标题
       document.querySelectorAll('#my-records-wrap .my-rec-group').forEach(function(g){
@@ -4605,29 +4615,29 @@
         {id:'seed-c-11', cat:'clean', title:'洗碗', ico:'i-bowl', icoCls:'amber', source:'manual', ts:demoTs(-3,19,0), note:'水碗饭盆', fields:{'范围':'水碗 + 饭盆','状态':'完成'}},
         {id:'seed-c-12', cat:'clean', title:'洗猫窝', ico:'i-cage', icoCls:'coral', source:'manual', ts:demoTs(-5,12,0), note:'已烘干消毒', fields:{'处理':'清洗 + 烘干 + 消毒','状态':'完成'}},
         {id:'seed-c-13', cat:'other', title:'宠物美容院预约', ico:'i-memo', icoCls:'violet', source:'manual', ts:demoTs(5,14,0), note:'自定义 · 下周 14:00', fields:{'类型':'到店美容','预约时间':'下周六 14:00','状态':'已预约'}},
-        {id:'seed-cm-01', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,8,30), gram:32, amount:32, unit:'g', note:'', food:'渴望 主粮', kind:'主粮', brand:'渴望', density:3.9, kcal:125},
-        {id:'seed-cm-02', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,12,15), gram:35, amount:35, unit:'g', note:'', food:'希宝 罐头', kind:'罐头', brand:'希宝', density:0.85, kcal:30},
-        {id:'seed-cs-01', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'保健品 · 布拉迪酵母益生菌', ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,9,10), gram:null, amount:1, unit:'粒', note:'', food:'布拉迪酵母益生菌', cycle:'daily'},
-        {id:'seed-cs-02', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'保健品 · 绿十字化毛膏', ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,10,0), gram:null, amount:3, unit:'cm', note:'', food:'绿十字化毛膏', cycle:'w3'},
-        {id:'seed-cm-61', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-62', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,12,40), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-63', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-51', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-52', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,12,30), gram:60, amount:60, unit:'g', note:'', food:'罐头', kind:'罐头', brand:'', density:1, kcal:60},
-        {id:'seed-cm-53', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-41', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-42', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-31', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,8,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-32', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,12,30), gram:10, amount:10, unit:'g', note:'', food:'冻干', kind:'冻干', brand:'', density:4.8, kcal:48},
-        {id:'seed-cm-33', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-34', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'加餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,16,0), gram:10, amount:10, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:36},
-        {id:'seed-cm-21', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,8,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-22', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,12,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-23', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'加餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,15,30), gram:20, amount:20, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:72},
-        {id:'seed-cm-24', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
-        {id:'seed-cm-11', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'早餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-12', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'午餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,12,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
-        {id:'seed-cm-13', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'晚餐喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,18,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80}
+        {id:'seed-cm-01', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,8,30), gram:32, amount:32, unit:'g', note:'', food:'渴望 主粮', kind:'主粮', brand:'渴望', density:3.9, kcal:125},
+        {id:'seed-cm-02', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(0,12,15), gram:35, amount:35, unit:'g', note:'', food:'希宝 罐头', kind:'罐头', brand:'希宝', density:0.85, kcal:30},
+        {id:'seed-cs-01', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'喂食',ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,9,10), gram:null, amount:1, unit:'粒', note:'', food:'布拉迪酵母益生菌', cycle:'daily'},
+        {id:'seed-cs-02', key:'feed', ftype:'supp', cat:'daily', meal:'snack', title:'喂食', ico:'i-capsule', icoCls:'pink', source:'manual', ts:demoTs(0,10,0), gram:null, amount:3, unit:'cm', note:'', food:'绿十字化毛膏', cycle:'w3'},
+        {id:'seed-cm-61', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-62', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,12,40), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-63', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-1,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-51', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-52', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,12,30), gram:60, amount:60, unit:'g', note:'', food:'罐头', kind:'罐头', brand:'', density:1, kcal:60},
+        {id:'seed-cm-53', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-2,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-41', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,8,30), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-42', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-3,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-31', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,8,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-32', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,12,30), gram:10, amount:10, unit:'g', note:'', food:'冻干', kind:'冻干', brand:'', density:4.8, kcal:48},
+        {id:'seed-cm-33', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,18,20), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-34', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-4,16,0), gram:10, amount:10, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:36},
+        {id:'seed-cm-21', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,8,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-22', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,12,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-23', key:'feed', ftype:'food', cat:'daily', meal:'snack', title:'喂食', ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,15,30), gram:20, amount:20, unit:'g', note:'', food:'零食', kind:'零食', brand:'', density:3.6, kcal:72},
+        {id:'seed-cm-24', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-5,18,30), gram:25, amount:25, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:100},
+        {id:'seed-cm-11', key:'feed', ftype:'food', cat:'daily', meal:'breakfast', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,8,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-12', key:'feed', ftype:'food', cat:'daily', meal:'lunch', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,12,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80},
+        {id:'seed-cm-13', key:'feed', ftype:'food', cat:'daily', meal:'dinner', title:'喂食',ico:'i-food', icoCls:'coral', source:'manual', ts:demoTs(-6,18,20), gram:20, amount:20, unit:'g', note:'', food:'主粮', kind:'主粮', brand:'', density:4, kcal:80}
       ],
       dog:[
         {id:'seed-d-1', cat:'groom', title:'挤肛门腺', ico:'i-anal', icoCls:'coral', source:'manual', ts:demoTs(0,15,40), note:'豆豆 · 狗狗', fields:{'方式':'美容店处理','状态':'完成'}}
@@ -4641,7 +4651,23 @@
         catch(e){ this._cache = {}; }
         this._ensureSeeds();
         this._ensureNutritionSeeds();
+        this._migrateFeedTitles();
         return this._cache;
+      },
+      // 数据迁移：喂食记录主标题统一为「喂食」（食物/保健品/营养液详情放副标题），修正历史旧数据
+      _migrateFeedTitles:function(){
+        var all = this._cache || {};
+        var changed = false;
+        Object.keys(all).forEach(function(pk){
+          (all[pk]||[]).forEach(function(r){
+            if(r && r.key === 'feed' && r.title && r.title !== '喂食'){
+              r.title = '喂食'; changed = true;
+            }
+          });
+        });
+        if(changed){
+          try{ localStorage.setItem(PETLOG_STORE_KEY, JSON.stringify(all)); }catch(e){}
+        }
       },
       _ensureSeeds:function(){
         var seeded = false;
@@ -4901,12 +4927,14 @@
       var petName = (HOME_PETS[r.pet] && HOME_PETS[r.pet].name) || '';
       var detail = (r.key === 'feed') ? feedRecSub(r) : '';
       var sub = r.note || (detail ? (detail + ' · ' + fmtHM(r.ts)) : (petName ? petName + ' · ' + fmtHM(r.ts) : fmtHM(r.ts)));
-      return '<div class="t-entry my-rec" data-cat="'+r.cat+'" data-id="'+r.id+'" data-pet="'+r.pet+'" style="cursor:pointer">'
+      return '<div class="my-rec-swipe" data-id="'+r.id+'" data-pet="'+r.pet+'">'
+        + '<div class="swipe-del">删除</div>'
+        + '<div class="t-entry my-rec" data-cat="'+r.cat+'" data-id="'+r.id+'" data-pet="'+r.pet+'" style="cursor:pointer">'
         + '<div class="t-ico '+r.icoCls+'"><svg class="ico"><use href="#'+r.ico+'"/></svg></div>'
         + '<div class="t-body"><b>'+escHtml(r.title)+'</b><span>'+escHtml(sub)+'</span></div>'
         + '<span class="my-rec-src">'+(REC_SOURCE_TAG[r.source]||'')+'</span>'
         + '<svg class="ico sm chev"><use href="#i-chev-r"/></svg>'
-        + '</div>';
+        + '</div></div>';
     }
     function renderMyRecords(){
       var wrap = document.getElementById('my-records-wrap');
@@ -4930,25 +4958,63 @@
         });
       }
       wrap.innerHTML = html;
-      wrap.querySelectorAll('.my-rec').forEach(function(el){
-        var pressTimer = null, longPressed = false;
-        el.addEventListener('click', function(){
-          if(longPressed){ longPressed = false; return; }
-          openRecordDetail(el.getAttribute('data-pet'), el.getAttribute('data-id'));
-        });
-        var doDelete = function(){
-          if(confirm('删除这条「'+el.querySelector('.t-body b').textContent+'」记录？删除后日历对应标记也会更新。')){
-            var pk = el.getAttribute('data-pet'), rid = el.getAttribute('data-id');
-            RecordStore.remove(pk, rid);
-            renderMyRecords();
-            refreshAfterRecord(pk);
+      wrap.querySelectorAll('.my-rec-swipe').forEach(function(sw){
+        var entry = sw.querySelector('.t-entry');
+        var delBtn = sw.querySelector('.swipe-del');
+        var pk = sw.getAttribute('data-pet'), rid = sw.getAttribute('data-id');
+        var startX = 0, currentX = 0, dragging = false, opened = false;
+        // 点击：直接进入编辑（未左滑时）
+        entry.addEventListener('click', function(e){
+          if(dragging) { e.preventDefault(); return; }
+          if(sw.classList.contains('swipe-open')){ sw.classList.remove('swipe-open'); opened = false; return; }
+          var rec = RecordStore.get(pk, rid);
+          if(!rec) return;
+          if(rec.key === 'feed' && typeof openFeedSheet === 'function'){
+            openFeedSheet(null, null, {petKey:pk, editId:rid});
+            return;
           }
-        };
-        el.addEventListener('touchstart', function(){
-          longPressed = false;
-          pressTimer = setTimeout(function(){ longPressed = true; doDelete(); }, 550);
+          var specKey = recKeyOfRec(rec);
+          if(specKey && typeof openRecordFormRF === 'function'){
+            if(openRecordFormRF(pk, specKey, {editId:rid})) return;
+          }
+          openRecordForm({petKey:pk, editId:rid});
+        });
+        // 左滑删除：点红色按钮直接删除
+        if(delBtn) delBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          var title = entry.querySelector('.t-body b') ? entry.querySelector('.t-body b').textContent : '记录';
+          RecordStore.remove(pk, rid);
+          renderMyRecords();
+          refreshAfterRecord(pk);
+          showToast('已删除「'+title+'」');
+        });
+        // 触摸左滑
+        entry.addEventListener('touchstart', function(e){
+          var t = e.touches[0] || {};
+          startX = t.clientX || 0;
+          dragging = false;
         }, {passive:true});
-        el.addEventListener('touchend', function(){ clearTimeout(pressTimer); });
+        entry.addEventListener('touchmove', function(e){
+          var t = e.touches[0] || {};
+          currentX = (t.clientX || 0) - startX;
+          if(Math.abs(currentX) > 10) dragging = true;
+          if(currentX < 0){
+            entry.style.transform = 'translateX('+Math.max(currentX, -72)+'px)';
+          } else if(opened){
+            entry.style.transform = 'translateX('+Math.max(-72+currentX, -72)+'px)';
+          }
+        }, {passive:true});
+        entry.addEventListener('touchend', function(){
+          var threshold = -36;
+          var finalX = opened ? -72 + currentX : currentX;
+          if(finalX < threshold){
+            sw.classList.add('swipe-open'); opened = true;
+          } else {
+            sw.classList.remove('swipe-open'); opened = false;
+          }
+          entry.style.transform = '';
+          setTimeout(function(){ dragging = false; }, 50);
+        }, {passive:true});
       });
       applyRecFilter(currentRecCat);
     }
@@ -5098,9 +5164,17 @@
           html += recEntryHtml(r);
         });
         resWrap.innerHTML = html;
-        resWrap.querySelectorAll('.my-rec').forEach(function(el){
-          el.addEventListener('click', function(){
-            openRecordDetail(el.getAttribute('data-pet'), el.getAttribute('data-id'));
+        resWrap.querySelectorAll('.my-rec-swipe').forEach(function(sw){
+          var entry = sw.querySelector('.t-entry');
+          var pk = sw.getAttribute('data-pet'), rid = sw.getAttribute('data-id');
+          if(entry) entry.addEventListener('click', function(){
+            var rec = RecordStore.get(pk, rid);
+            if(!rec) return;
+            var specKey = recKeyOfRec(rec);
+            if(specKey && typeof openRecordFormRF === 'function'){
+              if(openRecordFormRF(pk, specKey, {editId:rid})) return;
+            }
+            openRecordForm({petKey:pk, editId:rid});
           });
         });
       }
@@ -5223,12 +5297,21 @@
         if(cell.hasAttribute('data-open')) return;
         // 内置事项：直接进入该事项的专属录入表单（驱虫/疫苗/洗澡…各有各的字段）
         var dk = cell.getAttribute('data-key');
-        if(dk && typeof REC_FORMS !== 'undefined' && REC_FORMS[dk] && cell.style.display !== 'none'){
-          if(openRecordFormRF(activeHomePet, dk, {})){
+        if(dk && cell.style.display !== 'none'){
+          // 喂食走食物详改面板（与首页长按一致），其他走专属表单
+          if(dk === 'feed' && typeof openFeedSheet === 'function'){
+            openFeedSheet('food');
             var pgn = document.getElementById('pg-new-record');
             if(pgn) pgn.classList.remove('open');
+            return;
           }
-          return;
+          if(typeof REC_FORMS !== 'undefined' && REC_FORMS[dk]){
+            if(openRecordFormRF(activeHomePet, dk, {})){
+              var pgn2 = document.getElementById('pg-new-record');
+              if(pgn2) pgn2.classList.remove('open');
+            }
+            return;
+          }
         }
         selectRecCell(cell);
         if(recTitle){ recTitle.textContent = cell.textContent.trim(); }
@@ -5310,7 +5393,7 @@
       vaccine:{title:'记录疫苗', recTitle:'疫苗', ico:'i-medical', icoCls:'teal', cat:'health', sub:'接种信息保存后自动归档，并生成下次接种提醒'},
       checkup:{title:'记录体检', recTitle:'体检', ico:'i-clipcheck', icoCls:'blue', cat:'health', sub:'记录体检结果，健康时间线持续更新'},
       medicine:{title:'记录用药', recTitle:'用药', ico:'i-capsule', icoCls:'pink', cat:'health', sub:'记下药名与剂量，用药周期不错过'},
-      weight:{title:'记录体重', recTitle:'体重记录', ico:'i-scale', icoCls:'slate', cat:'health', sub:'记一笔自动汇入体重趋势图'},
+      weight:{title:'记录体重', recTitle:'体重', ico:'i-scale', icoCls:'slate', cat:'health', sub:'记一笔自动汇入体重趋势图'},
       bath:{title:'记录洗澡', recTitle:'洗澡', ico:'i-bath', icoCls:'blue', cat:'groom', sub:'洗护记录自动归档到清洁时间线'},
       nail:{title:'记录剪指甲', recTitle:'剪指甲', ico:'i-nail', icoCls:'pink', cat:'groom', sub:'记录修剪情况，到点提醒下一次'},
       tooth:{title:'记录刷牙', recTitle:'刷牙', ico:'i-tooth', icoCls:'teal', cat:'groom', sub:'坚持刷牙，牙齿健康看得见'},
@@ -5385,14 +5468,6 @@
       anal:[
         {t:'date', k:'date', label:'处理日期', req:true},
         {t:'seg', k:'way', label:'处理方式', opts:['美容店处理','在家处理']},
-        {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
-      ],
-      feed:[
-        {t:'date', k:'date', label:'喂食时间', req:true},
-        {t:'seg', k:'meal', label:'餐次', opts:['早餐','午餐','晚餐','加餐']},
-        {t:'seg', k:'ftype', label:'食物类型', opts:['主食','零食','罐头','保健品']},
-        {t:'text', k:'name', label:'食物名称', ph:'如：主食罐'},
-        {t:'text', k:'amount', label:'分量', ph:'如：80g'},
         {t:'area', k:'note', label:'备注', ph:'补充说明（选填）'}
       ],
       water:[
@@ -5492,15 +5567,16 @@
       var fields = REC_FORMS[rfState.key] || [];
       var pet = HOME_PETS[rfState.petKey] || HOME_PETS[activeHomePet] || {name:''};
       var titleEl = document.getElementById('rf-title');
-      if(titleEl) titleEl.textContent = meta.title;
       var scroll = document.getElementById('rf-scroll');
       if(!scroll) return;
       var isEdit = rfState.mode === 'edit';
+      // 顶部小标题带宠物名；主体用一行紧凑头部（小图标 + 记录名），去掉大 hero 省空间
+      if(titleEl) titleEl.textContent = (pet.name ? pet.name + ' · ' : '') + (isEdit ? '编辑记录' : '记一笔');
       var html = '';
-      html += '<div class="rf-pet-line"><svg class="ico"><use href="#i-paw"/></svg>正在为 <b>'+escHtml(pet.name)+'</b> 记录 · '+escHtml(meta.recTitle)+'</div>';
-      html += '<div class="rf-hero"><div class="rf-h-ic"><svg class="ico"><use href="#'+meta.ico+'"/></svg></div>'
-        + '<div class="rf-h-title">'+meta.title+'</div>'
-        + '<div class="rf-h-sub">'+meta.sub+'</div></div>';
+      html += '<div class="rf-head"><div class="rf-head-ic"><svg class="ico"><use href="#'+meta.ico+'"/></svg></div>'
+        + '<div class="rf-head-t">'+escHtml(meta.recTitle)+'</div>'
+        + (isEdit ? '<span class="rf-head-tag">编辑中</span>' : '')
+        + '</div>';
       html += '<div class="rf-card">';
       fields.forEach(function(f){
         if(f.t === 'seg'){
@@ -5531,12 +5607,26 @@
       });
       html += '</div>';
       html += '<div class="btn btn-primary" id="rf-save">'+(isEdit?'保存修改':'保存记录')+'</div>';
+      if(isEdit){
+        html += '<div class="btn btn-line" id="rf-delete" style="color:var(--danger);margin-top:8px">删除这条记录</div>';
+      }
       html += '<div class="rf-foot-tip">保存后自动归档到健康时间线'+(/deworm|vaccine/.test(rfState.key)?'，并更新相关提醒':'')+'</div>';
       html += '<div style="height:24px"></div>';
       scroll.innerHTML = html;
       bindRecordFormEvents(fields);
       var saveTop = document.getElementById('rf-save-top');
       if(saveTop) saveTop.onclick = saveRecordFormRF;
+      var delBtn = document.getElementById('rf-delete');
+      if(delBtn) delBtn.onclick = function(){
+        if(!rfState.editId) return;
+        var targetPet = rfState.editPet || rfState.petKey;
+        RecordStore.remove(targetPet, rfState.editId);
+        var pgRFEl = document.getElementById('pg-record-form');
+        if(pgRFEl) pgRFEl.classList.remove('show');
+        refreshAfterRecord(rfState.petKey);
+        switchMainTab('records');
+        showToast('已删除「'+meta.recTitle+'」');
+      };
     }
     function rfPickDate(initDate, title, allowEmpty){
       var iso = rfISO(initDate);
@@ -5675,7 +5765,7 @@
         }catch(e){}
       }
       var pgRFEl = document.getElementById('pg-record-form');
-      if(pgRFEl) pgRFEl.classList.remove('open');
+      if(pgRFEl) pgRFEl.classList.remove('show');
       refreshAfterRecord(petKey);
       if(rfState.fromDay && typeof openLastDay === 'function'){ openLastDay(); }
       else { switchMainTab('records'); }
@@ -5683,6 +5773,11 @@
     }
     function openRecordFormRF(petKey, key, opt){
       opt = opt || {};
+      // 喂食已并入统一详改面板（食物/保健品/营养液三 tab），所有入口不再走专属表单
+      if(key === 'feed' && typeof openFeedSheet === 'function'){
+        openFeedSheet(null, null, {petKey:petKey, editId:opt.editId || null});
+        return true;
+      }
       var meta0 = REC_META[key];
       // 物种守卫：狗狗专属事项猫不能记，反之亦然
       var petInfo0 = HOME_PETS[petKey] || {};
@@ -5730,7 +5825,17 @@
         if(opt.presetNote) rfState.vals.note = opt.presetNote;
       }
       renderRecordForm();
-      openPage('pg-record-form');
+      var pgRFEl = document.getElementById('pg-record-form');
+      if(pgRFEl) pgRFEl.classList.add('show');
+      // 半屏 sheet 遮罩点击关闭
+      if(!pgRFEl.__rfBound){
+        pgRFEl.__rfBound = true;
+        pgRFEl.addEventListener('click', function(e){
+          if(e.target === pgRFEl){ pgRFEl.classList.remove('show'); }
+        });
+        var rfCancel = document.getElementById('rf-cancel');
+        if(rfCancel) rfCancel.addEventListener('click', function(){ pgRFEl.classList.remove('show'); });
+      }
       return true;
     }
 
@@ -6084,7 +6189,7 @@
         var base = (init[q.key] && init[q.key].count) || 0;
         var s = {count: base + RecordStore.todayCountByKey(key, q.key)};
         var done = s.count > 0;
-        var label = q.key === 'feed' ? '吃饭' : q.label;
+        var label = q.label;
         // 吃饭/喝水始终展示「上次量」，标题不因今日完成而弱化；其余项完成才弱化
         var cardCls = (done && q.key !== 'feed' && q.key !== 'water') ? ' done' : '';
         if(done) cardCls += ' has-count';
@@ -7006,21 +7111,22 @@
       }
     }
     // 保健品 / 营养液：不是「三餐」，归入加餐时间线，可带周期提醒
-    function addSupplementRec(key, ftype, name, amount, unit, cycle){
+    function addSupplementRec(key, ftype, name, amount, unit, cycle, opts){
+      opts = opts || {};
       var meta = FEED_TYPE_META[ftype];
       var realName = name || (ftype==='supp'?'保健品':'营养液');
-      var title = meta.label + ' · ' + realName;
+      var title = '喂食';
       RecordStore.add(key, {pet:key, key:'feed', meal:'snack', ftype:ftype, cat:'daily',
         title:title, ico:meta.ico, icoCls:meta.icoCls, source:'manual',
         food:name||'', gram:null, amount:Number(amount)||0, unit:unit||meta.unit,
-        cycle:(cycle && cycle!=='none') ? cycle : 'none', note:''});
+        cycle:(cycle && cycle!=='none') ? cycle : 'none', note:opts.note||''});
       HOME_PETS[key].logsToday = (HOME_PETS[key].logsToday || 0) + 1;
       if(cycle && cycle !== 'none'){
         upsertSuppPlan(key, ftype, name||'', amount, unit||meta.unit, cycle);
         addSupplementTodo(key, ftype, name, amount, unit, cycle);
       }
       afterHomeLog(key);
-      showToast('已记录'+HOME_PETS[key].name+'的「'+title+'」'+(cycle&&cycle!=='none'?'，并排好周期提醒 🔔':' 🐾'));
+      showToast('已记录'+HOME_PETS[key].name+'的「'+meta.label+(realName?(' · '+realName):'')+'」'+(cycle&&cycle!=='none'?'，并排好周期提醒 🔔':' 🐾'));
     }
     // 复用待办体系：为保健品建一条周期护理待办
     function addSupplementTodo(key, ftype, name, amount, unit, cycle){
@@ -7093,7 +7199,8 @@
       ftype:'food',
       food:{name:'主粮', brand:'', brandCustom:false, customDensity:null, gram:20, meal:'breakfast'},
       supp:{name:'化毛膏', brand:'', brandCustom:false, amount:1, unit:'粒', cycle:'none'},
-      liq:{name:'综合营养液', brand:'', brandCustom:false, amount:10, unit:'ml', cycle:'none'}
+      liq:{name:'综合营养液', brand:'', brandCustom:false, amount:10, unit:'ml', cycle:'none'},
+      note:'', editId:null, editPet:null
     };
     function num(v, d){ var n = parseFloat(v); return isNaN(n) ? d : n; }
     function setPickOn(containerId, value, attr){
@@ -7341,9 +7448,65 @@
       fdEl('fd-title').textContent = FD_TITLES[t];
       fdEl('fd-save-label').textContent = FD_SAVE_LABEL[t];
     }
-    function openFeedSheet(mode, presetMeal){
-      var t = mode || 'food';
-      var key = activeHomePet;
+    function openFeedSheet(mode, presetMeal, opt){
+      opt = opt || {};
+      var t = opt.editId ? null : (mode || 'food'); // 编辑模式下 t 由 rec.ftype 决定
+      var key = opt.petKey || activeHomePet;
+      // 进入表单前先清空编辑态
+      feedForm.editId = null; feedForm.editPet = null; feedForm.note = '';
+      var noteEl = fdEl('fd-note'); if(noteEl) noteEl.value = '';
+      // 编辑模式：拉取已有记录并按其 ftype 回填
+      if(opt.editId){
+        var rec = RecordStore.get(key, opt.editId) || RecordStore.get(activeHomePet, opt.editId);
+        if(rec){
+          feedForm.editId = rec.id; feedForm.editPet = rec.pet; key = rec.pet;
+          feedForm.note = rec.note || '';
+          if(noteEl) noteEl.value = feedForm.note;
+          t = rec.ftype || 'food';
+          if(t === 'food'){
+            feedForm.food.meal = rec.meal || 'snack';
+            feedForm.food.name = rec.kind || splitBrandName('food', rec.food || '').name || '主粮';
+            feedForm.food.brand = rec.brand != null ? rec.brand : '';
+            feedForm.food.brandCustom = false;
+            feedForm.food.customDensity = (rec.density != null && rec.density > 0) ? Math.round(rec.density*100) : null;
+            feedForm.food.gram = rec.gram != null ? rec.gram : 20;
+            var di2 = document.getElementById('fd-density-input');
+            if(di2) di2.value = feedForm.food.customDensity ? Math.round(feedForm.food.customDensity) : '';
+          } else if(t === 'supp'){
+            feedForm.supp.name = rec.food || '';
+            feedForm.supp.brand = '';
+            feedForm.supp.brandCustom = false;
+            feedForm.supp.amount = rec.amount != null ? rec.amount : 1;
+            feedForm.supp.unit = rec.unit || '粒';
+            feedForm.supp.cycle = rec.cycle && rec.cycle !== 'none' ? rec.cycle : 'none';
+            var si2 = document.getElementById('fd-supp-brand-input'); if(si2) si2.value = '';
+          } else if(t === 'liq'){
+            feedForm.liq.name = rec.food || '';
+            feedForm.liq.brand = '';
+            feedForm.liq.brandCustom = false;
+            feedForm.liq.amount = rec.amount != null ? rec.amount : 10;
+            feedForm.liq.unit = rec.unit || 'ml';
+            feedForm.liq.cycle = rec.cycle && rec.cycle !== 'none' ? rec.cycle : 'none';
+            var li2 = document.getElementById('fd-liq-brand-input'); if(li2) li2.value = '';
+          }
+          // 非 food 类型也补全 food 默认值（防止切到 food 时残留）
+          if(t !== 'food'){
+            var def0 = feedDefault(key);
+            var parsed0 = splitBrandName('food', def0.food || '');
+            feedForm.food.meal = expectedMealByHour(new Date().getHours()) || 'breakfast';
+            feedForm.food.name = def0.kind || parsed0.name || '主粮';
+            feedForm.food.brand = def0.brand != null ? def0.brand : (parsed0.brand || '');
+            feedForm.food.brandCustom = false;
+            feedForm.food.customDensity = null;
+            feedForm.food.gram = (def0.gram != null) ? def0.gram : 20;
+            var di3 = document.getElementById('fd-density-input'); if(di3) di3.value = '';
+          }
+          syncFoodPane(key); syncSuppPane(); syncLiqPane(); showFeedPane(t);
+          if(feedSheet) feedSheet.classList.add('show');
+          return;
+        }
+      }
+      // 新增模式
       var def = feedDefault(key);
       // 食物：带入该宠物的默认食物（品类/品牌/密度）与克重，餐次按当前时段（或传入）；兼容旧的「品牌 种类」串
       if(!presetMeal){ presetMeal = expectedMealByHour(new Date().getHours()) || 'breakfast'; }
@@ -7526,10 +7689,70 @@
           setCycleOn('fd-cycle-seg-liq', feedForm.liq.cycle);
         });
       });
+      // —— 备注输入：实时同步到 feedForm.note ——
+      var noteInput = fdEl('fd-note');
+      if(noteInput){
+        noteInput.addEventListener('input', function(){ feedForm.note = this.value; });
+      }
       // —— 保存（三类各自读取、校验、落库）——
       fdEl('fd-save').addEventListener('click', function(){
         var key = activeHomePet;
         var t = feedForm.ftype;
+        var note = feedForm.note || '';
+        // 编辑模式：构造 rec 字段并 RecordStore.update，保持原 ts 不变
+        if(feedForm.editId){
+          var editPet = feedForm.editPet || key;
+          var exist = RecordStore.get(editPet, feedForm.editId);
+          if(!exist){ showToast('找不到这条记录'); closeFeedSheet(); return; }
+          var patch = { pet:editPet, key:'feed', cat:'daily', title:'喂食', note:note };
+          if(t === 'food'){
+            var f = feedForm.food;
+            var gram = Math.round(num(fdEl('fd-food-gram').value, 0));
+            var baseName = (fdEl('fd-food-name').value || '').trim() || '主粮';
+            f.name = baseName;
+            var brand = (f.brand || '').trim();
+            var foodName = composeName('food');
+            var density = currentFoodDensity();
+            if(!gram || gram <= 0){ showToast('先选一下本次克数哦'); return; }
+            patch.ftype = 'food'; patch.meal = f.meal;
+            patch.ico = FEED_TYPE_META.food.ico; patch.icoCls = FEED_TYPE_META.food.icoCls;
+            patch.food = foodName; patch.kind = baseName; patch.brand = brand;
+            patch.density = Math.round(density*100)/100; patch.gram = gram;
+            patch.amount = gram; patch.unit = 'g'; patch.kcal = Math.max(0, Math.round(gram * density));
+          } else if(t === 'supp'){
+            var s = feedForm.supp;
+            s.name = (fdEl('fd-supp-name').value || '').trim();
+            s.brand = (fdEl('fd-supp-brand-input').value || '').trim() || s.brand || '';
+            var sName = composeName('supp');
+            var sAmt = num(fdEl('fd-supp-amount').value, 0);
+            if(!s.name){ showToast('先选/填一下保健品名称哦'); return; }
+            if(sAmt <= 0){ showToast('剂量要大于 0 哦'); return; }
+            patch.ftype = 'supp'; patch.meal = 'snack';
+            patch.ico = FEED_TYPE_META.supp.ico; patch.icoCls = FEED_TYPE_META.supp.icoCls;
+            patch.food = sName; patch.gram = null;
+            patch.amount = sAmt; patch.unit = s.unit;
+            patch.cycle = (s.cycle && s.cycle !== 'none') ? s.cycle : 'none';
+          } else {
+            var l = feedForm.liq;
+            l.name = (fdEl('fd-liq-name').value || '').trim();
+            l.brand = (fdEl('fd-liq-brand-input').value || '').trim() || l.brand || '';
+            var lName = composeName('liq');
+            var lAmt = num(fdEl('fd-liq-amount').value, 0);
+            if(!l.name){ showToast('先选/填一下营养液名称哦'); return; }
+            if(lAmt <= 0){ showToast('容量要大于 0 哦'); return; }
+            patch.ftype = 'liq'; patch.meal = 'snack';
+            patch.ico = FEED_TYPE_META.liq.ico; patch.icoCls = FEED_TYPE_META.liq.icoCls;
+            patch.food = lName; patch.gram = null;
+            patch.amount = lAmt; patch.unit = l.unit;
+            patch.cycle = (l.cycle && l.cycle !== 'none') ? l.cycle : 'none';
+          }
+          RecordStore.update(editPet, feedForm.editId, patch);
+          closeFeedSheet();
+          refreshAfterRecord(editPet);
+          showToast('已更新这条喂食记录');
+          return;
+        }
+        // 新增模式
         if(t === 'food'){
           var f = feedForm.food;
           var gram = Math.round(num(fdEl('fd-food-gram').value, 0));
@@ -7542,7 +7765,7 @@
           if(fdEl('fd-make-default').checked){
             HOME_PETS[key].feedDefault = {food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g'};
           }
-          addMealRec(key, f.meal, {ftype:'food', food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g', source:'manual'});
+          addMealRec(key, f.meal, {ftype:'food', food:foodName, kind:baseName, brand:brand, density:density, gram:gram, unit:'g', source:'manual', note:note});
           // 喂过的具体食物（带品牌）自动沉淀进「常喂食物库」，下次一键带入
           if(brand) upsertFoodLib(key, {kind:baseName, brand:brand, customDensity:(f.customDensity>0?f.customDensity:null)});
         } else if(t === 'supp'){
@@ -7553,7 +7776,7 @@
           var sAmt = num(fdEl('fd-supp-amount').value, 0);
           if(!s.name){ showToast('先选/填一下保健品名称哦'); return; }
           if(sAmt <= 0){ showToast('剂量要大于 0 哦'); return; }
-          addSupplementRec(key, 'supp', sName, sAmt, s.unit, s.cycle);
+          addSupplementRec(key, 'supp', sName, sAmt, s.unit, s.cycle, {note:note});
           if(typeof renderHomeTodos === 'function') renderHomeTodos(key);
         } else {
           var l = feedForm.liq;
@@ -7563,7 +7786,7 @@
           var lAmt = num(fdEl('fd-liq-amount').value, 0);
           if(!l.name){ showToast('先选/填一下营养液名称哦'); return; }
           if(lAmt <= 0){ showToast('容量要大于 0 哦'); return; }
-          addSupplementRec(key, 'liq', lName, lAmt, l.unit, l.cycle);
+          addSupplementRec(key, 'liq', lName, lAmt, l.unit, l.cycle, {note:note});
           if(typeof renderHomeTodos === 'function') renderHomeTodos(key);
         }
         closeFeedSheet();
