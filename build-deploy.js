@@ -30,7 +30,9 @@ catch (e) { console.error('缺少 terser，先执行: npm install terser'); proc
     return '<style' + attrs + '>' + c + '</style>';
   });
   fs.writeFileSync(__dirname + '/deploy/index.html', html);
-  console.log('源:', (src.length/1024).toFixed(0)+'KB', '→ 部署:', (html.length/1024).toFixed(0)+'KB');
+  // GitHub Pages 部署源 = main 分支根目录（/index.html），必须同步最新产物，否则线上停在旧版
+  fs.writeFileSync(__dirname + '/index.html', html);
+  console.log('源:', (src.length/1024).toFixed(0)+'KB', '→ 部署: deploy/index.html + index.html', (html.length/1024).toFixed(0)+'KB');
   // 校验：关键函数还在
   ['openFeedSheet','_migrateFeedTitles','renderHeroQuickLogs','REC_META'].forEach(k => {
     if (!html.includes(k)) { console.error('MISSING:', k); process.exit(1); }
