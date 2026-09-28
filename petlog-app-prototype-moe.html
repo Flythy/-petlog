@@ -765,11 +765,7 @@
   .fam-seg .fc2{font-size:12.5px;font-weight:800;color:var(--text);background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:8px 15px;cursor:pointer}
   .fam-seg .fc2.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-600)}
 
-  /* ===== 今日待办页：宠物切换 + 可勾选/删除列表 ===== */
-  .todo-pet-switch{display:flex;gap:8px;padding:2px 18px 2px;margin:0 -18px 4px}
-  .todo-pet-switch .tps{display:flex;align-items:center;gap:6px;background:#fff;border:1.6px solid var(--line);border-radius:99px;padding:5px 13px 5px 6px;font-size:12.5px;font-weight:800;color:var(--text);cursor:pointer}
-  .todo-pet-switch .tps img{width:26px;height:26px;border-radius:50%;object-fit:cover}
-  .todo-pet-switch .tps.on{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-600)}
+  /* ===== 今日待办页：可勾选/删除列表（跟随全局当前宠物，无切换/筛选） ===== */
   .td-item{display:flex;align-items:center;gap:11px;padding:12px 2px;border-bottom:2px solid var(--line2)}
   .td-item:last-child{border-bottom:none}
   .td-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent;cursor:pointer;transition:.14s}
@@ -2770,7 +2766,7 @@
 
             <!-- 模块 2：今日待办（独立色块，勾选完成 / 推迟顺延） -->
             <div class="home-block todo-block">
-              <div class="block-head"><b><span class="ab-pulse" id="todo-pulse" style="display:none"></span>今日待办</b><a data-open="pg-todo">全部 ›</a></div>
+              <div class="block-head"><b><span class="ab-pulse" id="todo-pulse" style="display:none"></span>今日待办</b><a data-open="pg-todo">待办 ›</a></div>
               <div id="home-todo-list"></div>
             </div>
 
@@ -3715,11 +3711,6 @@
         <div class="page" id="pg-todo">
           <div class="pheader"><div class="backbtn" data-back><svg class="ico"><use href="#i-chev-l"/></svg></div><div class="ptitle">今日待办</div><div class="pact" data-open="pg-new-reminder" style="cursor:pointer">新增</div></div>
           <div class="scroll">
-            <div class="todo-pet-switch" id="todo-pet-switch"></div>
-            <div class="mr-filters" id="todo-filters">
-              <div class="mr-filter on" data-todofilter="today">今日</div>
-              <div class="mr-filter" data-todofilter="all">全部</div>
-            </div>
             <div id="todo-page-body"></div>
             <div style="text-align:center;font-size:11px;color:var(--muted);margin:6px 16px 16px;line-height:1.6">点左侧圆圈即可勾掉并自动记一笔；左滑不了的话点右侧图标可删除。新增的提醒也会同步到首页与日历。</div>
           </div>
@@ -8781,9 +8772,7 @@
       return hit;
     }
 
-    // ===== 今日待办页：宠物切换 + 勾选完成/撤销 + 删除（跳过今日/删提醒），与首页同一份数据 =====
-    var todoPetKey = null;
-    var todoListMode = 'today'; // 'today' | 'all'：全部视图含已完成的自定义提醒
+    // ===== 今日待办页：跟随全局当前宠物（唯一切换入口在首页宠物切换条）+ 勾选完成/撤销 + 删除（跳过今日/删提醒），与首页同一份数据 =====
     function todoItemRow(key, it, done){
       var tagHtml = '';
       if(!done){
@@ -8800,50 +8789,15 @@
         + tagHtml + delBtn + '</div>';
     }
     function renderTodoPage(){
-      var switchWrap = document.getElementById('todo-pet-switch');
-      var filterWrap = document.getElementById('todo-filters');
       var body = document.getElementById('todo-page-body');
       if(!body) return;
-      var keys = Object.keys(HOME_PETS);
-      if(!todoPetKey || keys.indexOf(todoPetKey) === -1) todoPetKey = activeHomePet;
-      var key = todoPetKey, p = HOME_PETS[key];
-      if(switchWrap){
-        switchWrap.innerHTML = keys.map(function(k){
-          var hp = HOME_PETS[k];
-          return '<div class="tps'+(k===key?' on':'')+'" data-pet="'+k+'"><img src="'+hp.avatar+'" alt=""><span>'+escHtml(hp.name)+'</span></div>';
-        }).join('');
-        switchWrap.querySelectorAll('.tps').forEach(function(c){
-          c.addEventListener('click', function(){ todoPetKey = c.getAttribute('data-pet'); renderTodoPage(); });
-        });
-      }
-      if(filterWrap){
-        filterWrap.querySelectorAll('.mr-filter').forEach(function(c){
-          c.classList.toggle('on', c.getAttribute('data-todofilter') === todoListMode);
-          c.onclick = function(){ todoListMode = c.getAttribute('data-todofilter'); renderTodoPage(); };
-        });
-      }
+      var key = activeHomePet, p = HOME_PETS[key];  // 跟随全局当前宠物，无本页切换（Spec 5.3）
       var doneMap = getTodoDone(key), skip = getTodoSkip(key);
-      var all;
-      if(todoListMode === 'all'){
-        // 全部视图：列出所有自定义提醒（含已完成）+ 周期 todos，按完成状态分组
-        all = p.todos.map(function(t){
-          return {src:'care', uid:t.uid, ico:t.ico, icon:t.icon, title:t.title, desc:t.desc,
-            type:t.type||t.title, meta:t.meta, next:t.next, tint:t.tint,
-            lastISO:t.lastISO, intervalDays:t.intervalDays, raw:t};
-        });
-        ReminderStore.list(key).forEach(function(r){
-          all.push({src:'rem', uid:'rem-'+r.id, ico:r.done?'teal':'amber', icon:r.icon||'i-bell-heart',
-            title:r.title, desc:p.name+' · '+(r.repeat||('今天'+(r.time?(' '+r.time):''))),
-            type:r.title, meta:r.note||r.repeat||'自定义提醒', next:r.repeat||'今天仅此一次',
-            tint:'blue', raw:r, __done:!!r.done});
-        });
-      } else {
-        all = getTodayTodos(key);
-      }
+      var all = getTodayTodos(key);                // 固定今日视图，无「今日/全部」筛选（Spec 5.7.1）
       var urgent = [], pending = [], finished = [];
       all.forEach(function(it){
         var isDone = (it.src === 'rem') ? !!it.__done : !!doneMap[it.uid];
-        if(todoListMode === 'today' && skip[it.uid]) return;
+        if(skip[it.uid]) return;
         if(isDone) finished.push(it);
         else if(it.ico === 'danger') urgent.push(it);
         else pending.push(it);
@@ -8856,30 +8810,16 @@
           + list.map(function(it){ return todoItemRow(key, it, false); }).join('') + '</div>';
       }
       var html = '';
-      if(todoListMode === 'all'){
-        // 全部视图：分「待处理 / 已完成」两段（已完成含历史自定义提醒，可撤销重新激活）
-        html += card('待处理提醒', pending.concat(urgent));
-        if(finished.length){
-          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
-            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
-            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
-        }
-        if(!pending.length && !urgent.length && !finished.length){
-          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
-            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 还没有任何提醒<br>点右上角「新增」排一个护理提醒</div></div>';
-        }
-      } else {
-        html += card('已到期 / 需尽快处理', urgent);
-        html += card('今日待处理', pending);
-        if(finished.length){
-          html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
-            + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
-            + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
-        }
-        if(!urgent.length && !pending.length && !finished.length){
-          html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
-            + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
-        }
+      html += card('已到期 / 需尽快处理', urgent);
+      html += card('今日待处理', pending);
+      if(finished.length){
+        html += '<div class="section-head"><b>已完成</b><span style="font-size:12px;color:var(--muted)">'+finished.length+' 项 · 点勾可撤销</span></div>'
+          + '<div class="card" style="padding:6px 14px;margin-bottom:12px">'
+          + finished.map(function(it){ return todoItemRow(key, it, true); }).join('') + '</div>';
+      }
+      if(!urgent.length && !pending.length && !finished.length){
+        html = '<div class="card" style="margin-top:6px"><div class="todo-group-empty">'
+          + '<span class="te-paw"><svg class="ico"><use href="#i-paw"/></svg></span>'+p.name+' 今天还没有待办<br>点右上角「新增」排一个护理提醒，或回首页记一笔</div></div>';
       }
       body.innerHTML = html;
 
