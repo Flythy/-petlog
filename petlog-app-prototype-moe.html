@@ -1763,6 +1763,10 @@
   .mic-fab{position:absolute;right:18px;bottom:96px;width:60px;height:60px;border:none;outline:none;border-radius:50%;background:linear-gradient(135deg,#8B7CF6,#6B5BF0);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(107,91,240,.4);cursor:pointer;z-index:7;transition:transform .12s ease}
   .mic-fab:active{transform:scale(.9)}
   .mic-fab .ico{width:27px;height:27px}
+  /* v2.38：麦克风常驻提示气泡「点我说话，记一笔」，随 FAB 同步显隐，不拦截点击 */
+  .mic-fab .fab-tip{position:absolute;bottom:calc(100% + 12px);right:2px;white-space:nowrap;background:#fff;color:var(--ink);font-size:12px;font-weight:800;padding:7px 12px;border-radius:999px;box-shadow:0 8px 20px rgba(74,59,50,.16);pointer-events:none;animation:fabTipFloat 2.6s ease-in-out infinite}
+  .mic-fab .fab-tip::after{content:'';position:absolute;right:18px;bottom:-4px;width:9px;height:9px;background:#fff;transform:rotate(45deg);border-radius:2px}
+  @keyframes fabTipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
   @keyframes micpulse{0%{transform:scale(.9);opacity:.8}70%{transform:scale(1.35);opacity:0}100%{opacity:0}}
   .mic-fab.hide{display:none}
 
@@ -4149,7 +4153,7 @@
         </div>
 
         <!-- ============ Tab 栏 ============ -->
-        <button type="button" class="mic-fab" id="mic-fab" aria-label="说一句话记录"><svg class="ico"><use href="#i-mic"/></svg></button>
+        <button type="button" class="mic-fab" id="mic-fab" aria-label="说一句话记录"><span class="fab-tip">点我说话，记一笔</span><svg class="ico"><use href="#i-mic"/></svg></button>
 
         <div class="tabbar">
           <div class="tab on" data-tab="home"><span class="tab-ic"><svg class="ico"><use href="#i-home"/></svg></span>宠物页</div>
