@@ -3883,7 +3883,11 @@
               <span class="fc2" data-duty="清洁洗护">清洁洗护</span>
               <span class="fc2" data-duty="就医体检">就医体检</span>
             </div>
-            <div class="fd-sec"><span class="fd-sec-t">权限设置</span></div>
+            <div class="fd-sec"><span class="fd-sec-t">成员权限（可查看 / 可编辑）</span></div>
+            <div class="fam-seg" id="fam-perm-role" style="margin:0 4px 6px">
+              <span class="fc2" data-role="view">可查看</span>
+              <span class="fc2" data-role="edit">可编辑</span>
+            </div>
             <div class="card" style="padding:4px 14px;margin:0 4px 2px">
               <div class="rem-item" style="cursor:default">
                 <div class="rem-ico blue"><svg class="ico"><use href="#i-list"/></svg></div>
@@ -3891,27 +3895,16 @@
                 <span class="switch on" style="opacity:.45;pointer-events:none"></span>
               </div>
               <div class="rem-item" style="cursor:default">
-                <div class="rem-ico green"><svg class="ico"><use href="#i-plus"/></svg></div>
-                <div class="rem-body"><b>记一笔 / 完成待办</b><span>关闭后 TA 变只读成员</span></div>
-                <span class="switch" id="fam-perm-record"></span>
-              </div>
-              <div class="rem-item" style="cursor:default">
                 <div class="rem-ico amber"><svg class="ico"><use href="#i-edit"/></svg></div>
-                <div class="rem-body"><b>编辑宠物档案</b><span>体重 / 品种 / 头像等资料</span></div>
-                <span class="switch" id="fam-perm-editpet"></span>
+                <div class="rem-body"><b id="fam-perm-role-title">可编辑 · 参与记录</b><span id="fam-perm-role-desc">记一笔 / 完成待办 / 编辑宠物档案 / 管理提醒计划</span></div>
               </div>
               <div class="rem-item" style="cursor:default">
                 <div class="rem-ico pink"><svg class="ico"><use href="#i-send"/></svg></div>
-                <div class="rem-body"><b>邀请 / 撤回 / 移除成员</b><span>可发链接邀请并管理成员</span></div>
+                <div class="rem-body"><b>邀请 / 撤回 / 移除成员</b><span>家庭管理权限，独立开关</span></div>
                 <span class="switch" id="fam-perm-invite"></span>
               </div>
-              <div class="rem-item" style="cursor:default">
-                <div class="rem-ico slate"><svg class="ico"><use href="#i-bell"/></svg></div>
-                <div class="rem-body"><b>管理提醒计划</b><span>驱虫 / 疫苗等周期计划与纪念日</span></div>
-                <span class="switch" id="fam-perm-plan"></span>
-              </div>
             </div>
-            <div class="qlm-hint" style="margin:2px 6px 0">管理员拥有全部权限且不可被移除；家人权限由 TA 逐项设置，保存后即时生效。</div>
+            <div class="qlm-hint" style="margin:2px 6px 0">管理员拥有全部权限且不可被移除；「可查看」= 只读成员，仅浏览记录与档案；保存后即时生效。</div>
             <div style="display:flex;gap:10px;margin-top:14px">
               <div class="btn btn-line" style="flex:1" id="fam-perm-cancel">取消</div>
               <div class="btn btn-primary" style="flex:1" id="fam-perm-save">保存</div>
@@ -8253,6 +8246,13 @@
     // 权限面板：开关态读取 / 设置
     function famSwOn(id){ var el = document.getElementById(id); return !!(el && el.classList.contains('on')); }
     function famSetSw(id, on){ var el = document.getElementById(id); if(el) el.classList.toggle('on', !!on); }
+    // v2.35：二元权限说明行（可查看=只读 / 可编辑=参与记录）
+    function famPermRoleDesc(isEdit){
+      var t = document.getElementById('fam-perm-role-title');
+      var d = document.getElementById('fam-perm-role-desc');
+      if(t) t.textContent = isEdit ? '可编辑 · 参与记录' : '可查看 · 只读成员';
+      if(d) d.textContent = isEdit ? '记一笔 / 完成待办 / 编辑宠物档案 / 管理提醒计划' : '仅浏览记录与档案，不能记一笔 / 编辑 / 管理提醒';
+    }
     // 管理员点成员行 → 打开「成员权限」面板
     function openFamPermSheet(id){
       var m = null;
@@ -8272,11 +8272,13 @@
       document.querySelectorAll('#fam-perm-duty .fc2').forEach(function(c){
         c.classList.toggle('on', c.getAttribute('data-duty') === (m.duty||'日常喂养'));
       });
-      var p = m.perms || {record:true, editPet:false, invite:false, plan:false};
-      famSetSw('fam-perm-record', p.record);
-      famSetSw('fam-perm-editpet', p.editPet);
+      var p = m.perms || {};
+      var isEdit = p.record !== false;   // v2.35：二元权限——record=false 为「可查看」只读成员，否则「可编辑」
+      document.querySelectorAll('#fam-perm-role .fc2').forEach(function(c){
+        c.classList.toggle('on', c.getAttribute('data-role') === (isEdit ? 'edit' : 'view'));
+      });
+      famPermRoleDesc(isEdit);
       famSetSw('fam-perm-invite', p.invite);
-      famSetSw('fam-perm-plan', p.plan);
       sheet.setAttribute('data-editing', id);
       sheet.classList.add('show');
     }
@@ -8397,19 +8399,27 @@
             c.classList.add('on');
           });
         });
+        // v2.35：成员权限 seg（可查看 / 可编辑）——点击切换说明行
+        document.querySelectorAll('#fam-perm-role .fc2').forEach(function(c){
+          c.addEventListener('click', function(){
+            document.querySelectorAll('#fam-perm-role .fc2').forEach(function(x){ x.classList.remove('on'); });
+            c.classList.add('on');
+            famPermRoleDesc(c.getAttribute('data-role') === 'edit');
+          });
+        });
         var permCancel = document.getElementById('fam-perm-cancel');
         if(permCancel) permCancel.addEventListener('click', function(){ permSheet.classList.remove('show'); });
         var permSave = document.getElementById('fam-perm-save');
         if(permSave) permSave.addEventListener('click', function(){
           var id = permSheet.getAttribute('data-editing');
           var on = document.querySelector('#fam-perm-duty .fc2.on');
+          var roleEl = document.querySelector('#fam-perm-role .fc2.on');
+          var isEdit = roleEl ? roleEl.getAttribute('data-role') === 'edit' : true;   // v2.35：二元权限（可查看/可编辑）
           FamilyStore.update(id, {
             duty: on ? on.getAttribute('data-duty') : '日常喂养',
             perms: {
-              record: famSwOn('fam-perm-record'),
-              editPet: famSwOn('fam-perm-editpet'),
-              invite: famSwOn('fam-perm-invite'),
-              plan: famSwOn('fam-perm-plan')
+              record: isEdit, editPet: isEdit, plan: isEdit,   // 可编辑=记一笔+完成待办+编辑档案+管理提醒；可查看=全关只读
+              invite: famSwOn('fam-perm-invite')
             }
           });
           renderFamily();
@@ -12229,10 +12239,7 @@
       if(goBtn) goBtn.addEventListener('click', function(){ guide.style.display = 'none'; startOnboarding(); });
     })();
     var obSkip = document.getElementById('ob-skip');
-    if(obSkip) obSkip.addEventListener('click', function(){
-      if(!profileReady()){ showToast('建好档案就能开始啦，只需 4 项 🐾'); return; }  // v2.34：未建档不可跳过
-      var p = document.getElementById('pg-onboarding'); if(p) p.classList.remove('open');
-    });
+    if(obSkip) obSkip.addEventListener('click', function(){ var p = document.getElementById('pg-onboarding'); if(p) p.classList.remove('open'); });  // v2.35：恢复可跳过——未建档时下次点任意模块会再次弹出建档引导
     var obSpeciesGrid = document.getElementById('ob-species-grid');
     var obAvatar = document.getElementById('ob-avatar');
     var obBreed = document.getElementById('ob-breed');
